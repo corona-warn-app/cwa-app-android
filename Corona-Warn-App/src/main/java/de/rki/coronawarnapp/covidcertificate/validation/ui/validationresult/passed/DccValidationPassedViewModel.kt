@@ -14,9 +14,9 @@ import kotlinx.coroutines.flow.flow
 import timber.log.Timber
 
 class DccValidationPassedViewModel @AssistedInject constructor(
+    dispatcherProvider: DispatcherProvider,
     @Assisted private val validation: DccValidation,
-    val itemCreator: ValidationResultItemCreator,
-    dispatcherProvider: DispatcherProvider
+    private val itemCreator: ValidationResultItemCreator
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     val items: LiveData<List<ValidationResultItem>> = flow {

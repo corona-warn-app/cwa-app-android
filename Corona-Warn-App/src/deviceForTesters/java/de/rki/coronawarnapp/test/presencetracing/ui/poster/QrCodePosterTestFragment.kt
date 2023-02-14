@@ -18,6 +18,7 @@ import androidx.core.widget.TextViewCompat
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestQrCodePosterBinding
 import de.rki.coronawarnapp.exception.ExceptionCategory
@@ -28,21 +29,18 @@ import de.rki.coronawarnapp.ui.print.PrintingAdapter
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
+import de.rki.coronawarnapp.util.viewmodel.assistedViewModel
 import timber.log.Timber
 import java.io.File
+import javax.inject.Inject
 
 @SuppressLint("SetTextI18n")
-class QrCodePosterTestFragment : Fragment(R.layout.fragment_test_qr_code_poster), AutoInject {
+@AndroidEntryPoint
+class QrCodePosterTestFragment : Fragment(R.layout.fragment_test_qr_code_poster) {
 
+    @Inject lateinit var factory: QrCodePosterTestViewModel.Factory
     private val args by navArgs<QrCodePosterTestFragmentArgs>()
-    private val viewModel: QrCodePosterTestViewModel by cwaViewModelsAssisted(
-        factoryProducer = { viewModelFactory },
-        constructorCall = { factory, _ ->
-            factory as QrCodePosterTestViewModel.Factory
-            factory.create(args.traceLocationId)
-        }
-    )
+    private val viewModel: QrCodePosterTestViewModel by assistedViewModel { factory.create(args.traceLocationId) }
 
     private var itemId = -1
 

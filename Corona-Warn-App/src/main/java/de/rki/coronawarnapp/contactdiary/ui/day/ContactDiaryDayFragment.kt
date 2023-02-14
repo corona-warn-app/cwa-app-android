@@ -9,6 +9,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.transition.Hold
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.ui.day.tabs.ContactDiaryDayFragmentsAdapter
 import de.rki.coronawarnapp.contactdiary.ui.day.tabs.ContactDiaryDayTab
@@ -17,23 +18,18 @@ import de.rki.coronawarnapp.contactdiary.ui.person.ContactDiaryAddPersonFragment
 import de.rki.coronawarnapp.contactdiary.util.hideKeyboard
 import de.rki.coronawarnapp.contactdiary.util.registerOnPageChangeCallback
 import de.rki.coronawarnapp.databinding.ContactDiaryDayFragmentBinding
-import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
+import de.rki.coronawarnapp.util.viewmodel.assistedViewModel
+import javax.inject.Inject
 
-class ContactDiaryDayFragment : Fragment(R.layout.contact_diary_day_fragment), AutoInject {
+@AndroidEntryPoint
+class ContactDiaryDayFragment : Fragment(R.layout.contact_diary_day_fragment) {
+
+    @Inject lateinit var factory: ContactDiaryDayViewModel.Factory
     private val binding: ContactDiaryDayFragmentBinding by viewBinding()
-
     private val navArgs by navArgs<ContactDiaryDayFragmentArgs>()
-
-    private val viewModel: ContactDiaryDayViewModel by cwaViewModelsAssisted(
-        factoryProducer = { viewModelFactory },
-        constructorCall = { factory, _ ->
-            factory as ContactDiaryDayViewModel.Factory
-            factory.create(navArgs.selectedDay)
-        }
-    )
+    private val viewModel: ContactDiaryDayViewModel by assistedViewModel { factory.create(navArgs.selectedDay) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,9 +40,7 @@ class ContactDiaryDayFragment : Fragment(R.layout.contact_diary_day_fragment), A
         super.onViewCreated(view, savedInstanceState)
 
         val contactDiaryTabs = listOf(ContactDiaryDayTab.PersonTab, ContactDiaryDayTab.LocationTab)
-
         val adapter = ContactDiaryDayFragmentsAdapter(this, contactDiaryTabs, navArgs.selectedDay)
-
         binding.contactDiaryDayViewPager.adapter = adapter
 
         TabLayoutMediator(binding.contactDiaryDayTabLayout, binding.contactDiaryDayViewPager) { tab, position ->

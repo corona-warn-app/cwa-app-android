@@ -7,28 +7,26 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.transition.MaterialSharedAxis
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentDccReissuanceConsentBinding
 import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
+import de.rki.coronawarnapp.util.viewmodel.assistedViewModel
 import setTextWithUrl
+import javax.inject.Inject
 
-class DccReissuanceConsentFragment : Fragment(R.layout.fragment_dcc_reissuance_consent), AutoInject {
+@AndroidEntryPoint
+class DccReissuanceConsentFragment : Fragment(R.layout.fragment_dcc_reissuance_consent) {
 
+    @Inject lateinit var factory: DccReissuanceConsentViewModel.Factory
     private val binding: FragmentDccReissuanceConsentBinding by viewBinding()
     private val args by navArgs<DccReissuanceConsentFragmentArgs>()
-    private val viewModel: DccReissuanceConsentViewModel by cwaViewModelsAssisted(
-        factoryProducer = { viewModelFactory },
-        constructorCall = { factory, _ ->
-            factory as DccReissuanceConsentViewModel.Factory
-            factory.create(
-                groupKey = args.groupKey,
-            )
-        }
-    )
+    private val viewModel: DccReissuanceConsentViewModel by assistedViewModel {
+        factory.create(groupKey = args.groupKey)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -83,6 +81,7 @@ class DccReissuanceConsentFragment : Fragment(R.layout.fragment_dcc_reissuance_c
                             agreeButton.isLoading = false
                             displayDialog { setError(event.error) }
                         }
+
                         DccReissuanceConsentViewModel.ReissuanceInProgress -> agreeButton.isLoading = true
                         DccReissuanceConsentViewModel.ReissuanceSuccess -> {
                             agreeButton.isLoading = false
@@ -90,10 +89,12 @@ class DccReissuanceConsentFragment : Fragment(R.layout.fragment_dcc_reissuance_c
                                 R.id.action_dccReissuanceConsentFragment_to_dccReissuanceSuccessFragment
                             )
                         }
+
                         DccReissuanceConsentViewModel.Back -> popBackStack()
                         DccReissuanceConsentViewModel.OpenPrivacyScreen -> findNavController().navigate(
                             R.id.informationPrivacyFragment
                         )
+
                         DccReissuanceConsentViewModel.OpenAccompanyingCertificatesScreen ->
                             findNavController().navigate(
                                 DccReissuanceConsentFragmentDirections

@@ -12,23 +12,24 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import coil.loadAny
 import com.google.android.material.transition.MaterialContainerTransform
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentQrCodeFullScreenBinding
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
+import de.rki.coronawarnapp.util.viewmodel.assistedViewModel
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
+import javax.inject.Inject
 
-class QrCodeFullScreenFragment : Fragment(R.layout.fragment_qr_code_full_screen), AutoInject {
+@AndroidEntryPoint
+class QrCodeFullScreenFragment : Fragment(R.layout.fragment_qr_code_full_screen) {
 
+    @Inject lateinit var factory: QrCodeFullScreenViewModel.Factory
     private val binding by viewBinding<FragmentQrCodeFullScreenBinding>()
     private val args by navArgs<QrCodeFullScreenFragmentArgs>()
-    private val viewModel by cwaViewModelsAssisted<QrCodeFullScreenViewModel>(
-        factoryProducer = { viewModelFactory },
-        constructorCall = { factory, _ ->
-            factory as QrCodeFullScreenViewModel.Factory
-            factory.create(qrCode = args.qrCode)
-        }
-    )
+    private val viewModel by assistedViewModel {
+        factory.create(qrCode = args.qrCode)
+    }
 
     private val insetsController by lazy { insetsController() }
 

@@ -8,33 +8,29 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultPositiveKeysSharedBinding
 import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.reyclebin.ui.dialog.recycleTestDialog
-import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
+import de.rki.coronawarnapp.util.viewmodel.assistedViewModel
+import javax.inject.Inject
 
 /**
  * [SubmissionTestResultKeysSharedFragment], the test result screen that is shown to the user if they have provided
  * consent.
  */
-class SubmissionTestResultKeysSharedFragment :
-    Fragment(R.layout.fragment_submission_test_result_positive_keys_shared),
-    AutoInject {
+@AndroidEntryPoint
+class SubmissionTestResultKeysSharedFragment : Fragment(R.layout.fragment_submission_test_result_positive_keys_shared) {
 
+    @Inject lateinit var factory: SubmissionTestResultKeysSharedViewModel.Factory
     private val navArgs by navArgs<SubmissionTestResultKeysSharedFragmentArgs>()
-
-    private val viewModel: SubmissionTestResultKeysSharedViewModel by cwaViewModelsAssisted(
-        factoryProducer = { viewModelFactory },
-        constructorCall = { factory, _ ->
-            factory as SubmissionTestResultKeysSharedViewModel.Factory
-            factory.create(navArgs.testIdentifier)
-        }
-    )
+    private val viewModel: SubmissionTestResultKeysSharedViewModel by assistedViewModel {
+        factory.create(navArgs.testIdentifier)
+    }
 
     private val binding: FragmentSubmissionTestResultPositiveKeysSharedBinding by viewBinding()
 

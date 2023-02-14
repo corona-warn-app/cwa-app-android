@@ -5,27 +5,26 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.transition.MaterialSharedAxis
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentDccReissuanceAccCertsBinding
 import de.rki.coronawarnapp.dccreissuance.ui.consent.DccReissuanceAdapter
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
+import de.rki.coronawarnapp.util.viewmodel.assistedViewModel
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
+import javax.inject.Inject
 
-class DccReissuanceAccCertsFragment : Fragment(R.layout.fragment_dcc_reissuance_acc_certs), AutoInject {
+@AndroidEntryPoint
+class DccReissuanceAccCertsFragment : Fragment(R.layout.fragment_dcc_reissuance_acc_certs) {
 
+    @Inject lateinit var factory: DccReissuanceAccCertsViewModel.Factory
     private val binding: FragmentDccReissuanceAccCertsBinding by viewBinding()
     private val args by navArgs<DccReissuanceAccCertsFragmentArgs>()
-    private val viewModel: DccReissuanceAccCertsViewModel by cwaViewModelsAssisted(
-        factoryProducer = { viewModelFactory },
-        constructorCall = { factory, _ ->
-            factory as DccReissuanceAccCertsViewModel.Factory
-            factory.create(
-                groupKey = args.groupKey,
-            )
-        }
-    )
+    private val viewModel: DccReissuanceAccCertsViewModel by assistedViewModel {
+        factory.create(groupKey = args.groupKey)
+    }
 
     private val dccReissuanceAdapter = DccReissuanceAdapter()
 

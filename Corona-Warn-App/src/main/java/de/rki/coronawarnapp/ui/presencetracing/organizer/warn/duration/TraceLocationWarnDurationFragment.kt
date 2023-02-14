@@ -13,6 +13,7 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import com.google.android.material.transition.MaterialSharedAxis
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.util.hideKeyboard
 import de.rki.coronawarnapp.databinding.TraceLocationOrganizerWarnDurationFragmentBinding
@@ -22,6 +23,7 @@ import de.rki.coronawarnapp.util.toLocalDateTimeUserTz
 import de.rki.coronawarnapp.util.ui.addTitleId
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
+import de.rki.coronawarnapp.util.viewmodel.assistedViewModel
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import java.time.Instant
 import java.time.LocalDate
@@ -29,20 +31,17 @@ import java.time.LocalTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
+import javax.inject.Inject
 
-class TraceLocationWarnDurationFragment :
-    Fragment(R.layout.trace_location_organizer_warn_duration_fragment),
-    AutoInject {
+@AndroidEntryPoint
+class TraceLocationWarnDurationFragment : Fragment(R.layout.trace_location_organizer_warn_duration_fragment) {
 
-    private val binding: TraceLocationOrganizerWarnDurationFragmentBinding by viewBinding()
+    @Inject lateinit var factory: TraceLocationWarnDurationViewModel.Factory
+    val binding: TraceLocationOrganizerWarnDurationFragmentBinding by viewBinding()
     private val navArgs by navArgs<TraceLocationWarnDurationFragmentArgs>()
-    private val viewModel: TraceLocationWarnDurationViewModel by cwaViewModelsAssisted(
-        factoryProducer = { viewModelFactory },
-        constructorCall = { factory, _ ->
-            factory as TraceLocationWarnDurationViewModel.Factory
-            factory.create(navArgs.traceLocation)
-        }
-    )
+    private val viewModel: TraceLocationWarnDurationViewModel by assistedViewModel {
+        factory.create(navArgs.traceLocation)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

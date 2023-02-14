@@ -8,6 +8,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultAvailableBinding
 import de.rki.coronawarnapp.tracing.ui.tracingConsentDialog
@@ -16,7 +17,7 @@ import de.rki.coronawarnapp.ui.submission.SubmissionBlockingDialog
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
+import de.rki.coronawarnapp.util.viewmodel.assistedViewModel
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -24,22 +25,20 @@ import javax.inject.Inject
  * The [SubmissionTestResultAvailableFragment] appears when the user's test result is available,
  * providing the option to navigate to the consent screen where they can provide or revoke consent
  */
-class SubmissionTestResultAvailableFragment : Fragment(R.layout.fragment_submission_test_result_available), AutoInject {
+
+@AndroidEntryPoint
+class SubmissionTestResultAvailableFragment : Fragment(R.layout.fragment_submission_test_result_available) {
 
     @Inject lateinit var appShortcutsHelper: AppShortcutsHelper
+    @Inject lateinit var factory: SubmissionTestResultAvailableViewModel.Factory
 
-    private val binding: FragmentSubmissionTestResultAvailableBinding by viewBinding()
     private lateinit var keyRetrievalProgress: SubmissionBlockingDialog
 
+    private val binding: FragmentSubmissionTestResultAvailableBinding by viewBinding()
     private val navArgs by navArgs<SubmissionTestResultAvailableFragmentArgs>()
-
-    private val viewModel: SubmissionTestResultAvailableViewModel by cwaViewModelsAssisted(
-        factoryProducer = { viewModelFactory },
-        constructorCall = { factory, _ ->
-            factory as SubmissionTestResultAvailableViewModel.Factory
-            factory.create(navArgs.testIdentifier, navArgs.comesFromDispatcherFragment)
-        }
-    )
+    private val viewModel: SubmissionTestResultAvailableViewModel by assistedViewModel {
+        factory.create(navArgs.testIdentifier, navArgs.comesFromDispatcherFragment)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

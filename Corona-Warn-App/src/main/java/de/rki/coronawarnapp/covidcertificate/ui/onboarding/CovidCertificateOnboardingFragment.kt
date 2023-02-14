@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.navGraphViewModels
 import com.google.android.material.transition.MaterialSharedAxis
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
@@ -23,24 +24,24 @@ import de.rki.coronawarnapp.qrcode.ui.QrcodeSharedViewModel
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
+import de.rki.coronawarnapp.util.viewmodel.assistedViewModel
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import java.net.URLEncoder
+import javax.inject.Inject
 
-class CovidCertificateOnboardingFragment : Fragment(R.layout.covid_certificate_onboarding_fragment), AutoInject {
+@AndroidEntryPoint
+class CovidCertificateOnboardingFragment : Fragment(R.layout.covid_certificate_onboarding_fragment) {
 
+    @Inject lateinit var factory: CovidCertificateOnboardingViewModel.Factory
     private val binding: CovidCertificateOnboardingFragmentBinding by viewBinding()
     private val args by navArgs<CovidCertificateOnboardingFragmentArgs>()
     private val qrcodeSharedViewModel: QrcodeSharedViewModel by navGraphViewModels(R.id.nav_graph)
-    private val viewModel: CovidCertificateOnboardingViewModel by cwaViewModelsAssisted(
-        factoryProducer = { viewModelFactory },
-        constructorCall = { factory, _ ->
-            factory as CovidCertificateOnboardingViewModel.Factory
-            factory.create(
-                certIdentifier = args.certIdentifier,
-                qrcodeSharedViewModel
-            )
-        }
-    )
+    private val viewModel: CovidCertificateOnboardingViewModel by assistedViewModel {
+        factory.create(
+            certIdentifier = args.certIdentifier,
+            qrcodeSharedViewModel = qrcodeSharedViewModel
+        )
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

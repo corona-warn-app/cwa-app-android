@@ -13,6 +13,7 @@ import androidx.core.widget.TextViewCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.transition.MaterialSharedAxis
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.QrCodePosterFragmentBinding
 import de.rki.coronawarnapp.exception.ExceptionCategory
@@ -23,20 +24,18 @@ import de.rki.coronawarnapp.ui.print.PrintingAdapter
 import de.rki.coronawarnapp.util.files.FileSharing
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
+import de.rki.coronawarnapp.util.viewmodel.assistedViewModel
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import timber.log.Timber
 import java.io.File
+import javax.inject.Inject
 
-class QrCodePosterFragment : Fragment(R.layout.qr_code_poster_fragment), AutoInject {
+@AndroidEntryPoint
+class QrCodePosterFragment : Fragment(R.layout.qr_code_poster_fragment) {
 
+    @Inject lateinit var factory: QrCodePosterViewModel.Factory
     private val args by navArgs<QrCodePosterFragmentArgs>()
-    private val viewModel: QrCodePosterViewModel by cwaViewModelsAssisted(
-        factoryProducer = { viewModelFactory },
-        constructorCall = { factory, _ ->
-            factory as QrCodePosterViewModel.Factory
-            factory.create(args.traceLocationId)
-        }
-    )
+    private val viewModel: QrCodePosterViewModel by assistedViewModel { factory.create(args.traceLocationId) }
 
     private val binding: QrCodePosterFragmentBinding by viewBinding()
 

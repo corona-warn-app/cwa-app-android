@@ -7,6 +7,7 @@ import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.util.hideKeyboard
 import de.rki.coronawarnapp.databinding.TraceLocationOrganizerWarnTanFragmentBinding
@@ -15,18 +16,18 @@ import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.util.ui.addTitleId
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
+import de.rki.coronawarnapp.util.viewmodel.assistedViewModel
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
+import javax.inject.Inject
 
-class TraceLocationWarnTanFragment : Fragment(R.layout.trace_location_organizer_warn_tan_fragment), AutoInject {
+@AndroidEntryPoint
+class TraceLocationWarnTanFragment : Fragment(R.layout.trace_location_organizer_warn_tan_fragment) {
 
+    @Inject lateinit var factory: TraceLocationWarnTanViewModel.Factory
     private val navArgs by navArgs<TraceLocationWarnTanFragmentArgs>()
-    private val viewModel: TraceLocationWarnTanViewModel by cwaViewModelsAssisted(
-        factoryProducer = { viewModelFactory },
-        constructorCall = { factory, _ ->
-            factory as TraceLocationWarnTanViewModel.Factory
-            factory.create(navArgs.traceLocationWarnDuration)
-        }
-    )
+    private val viewModel: TraceLocationWarnTanViewModel by assistedViewModel {
+        factory.create(navArgs.traceLocationWarnDuration)
+    }
 
     private val binding: TraceLocationOrganizerWarnTanFragmentBinding by viewBinding()
 

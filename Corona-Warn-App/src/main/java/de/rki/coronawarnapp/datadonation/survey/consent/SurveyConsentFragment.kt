@@ -5,27 +5,25 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.SurveyConsentFragmentBinding
 import de.rki.coronawarnapp.ui.dialog.CwaDialogFragment
 import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
-import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
+import de.rki.coronawarnapp.util.viewmodel.assistedViewModel
+import javax.inject.Inject
 
-class SurveyConsentFragment : Fragment(R.layout.survey_consent_fragment), AutoInject {
+@AndroidEntryPoint
+class SurveyConsentFragment : Fragment(R.layout.survey_consent_fragment) {
 
+    @Inject lateinit var factory: SurveyConsentViewModel.Factory
     private val navArgs by navArgs<SurveyConsentFragmentArgs>()
-
-    private val vm: SurveyConsentViewModel by cwaViewModelsAssisted(
-        factoryProducer = { viewModelFactory },
-        constructorCall = { factory, _ ->
-            factory as SurveyConsentViewModel.Factory
-            factory.create(navArgs.SurveyType)
-        }
-    )
+    private val vm: SurveyConsentViewModel by assistedViewModel {
+        factory.create(navArgs.SurveyType)
+    }
 
     private val binding: SurveyConsentFragmentBinding by viewBinding()
 
@@ -47,6 +45,7 @@ class SurveyConsentFragment : Fragment(R.layout.survey_consent_fragment), AutoIn
                     openUrl(event.url)
                     popBackStack()
                 }
+
                 is SurveyConsentNavigationEvents.NavigateToMoreInformationScreen -> {
                     findNavController().navigate(
                         SurveyConsentFragmentDirections.actionSurveyConsentFragmentToSurveyConsentDetailFragment()

@@ -6,28 +6,27 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.navGraphViewModels
 import com.google.android.material.transition.MaterialContainerTransform
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentAdmissionScenariosBinding
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
+import de.rki.coronawarnapp.util.viewmodel.assistedViewModel
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
+import javax.inject.Inject
 
-class AdmissionScenariosFragment : Fragment(R.layout.fragment_admission_scenarios), AutoInject {
+@AndroidEntryPoint
+class AdmissionScenariosFragment : Fragment(R.layout.fragment_admission_scenarios) {
 
     private val admissionScenariosSharedViewModel by navGraphViewModels<AdmissionScenariosSharedViewModel>(
         R.id.covid_certificates_graph
     )
 
-    private val viewModel: AdmissionScenariosViewModel by cwaViewModelsAssisted(
-        factoryProducer = { viewModelFactory },
-        constructorCall = { factory, _ ->
-            factory as AdmissionScenariosViewModel.Factory
-            factory.create(
-                admissionScenariosSharedViewModel = admissionScenariosSharedViewModel
-            )
-        }
-    )
+    @Inject lateinit var factory: AdmissionScenariosViewModel.Factory
+    private val viewModel: AdmissionScenariosViewModel by assistedViewModel {
+        factory.create(admissionScenariosSharedViewModel)
+    }
 
     private val binding by viewBinding<FragmentAdmissionScenariosBinding>()
     private val blockingDialog by lazy { AdmissionBlockingDialog(requireContext()) }

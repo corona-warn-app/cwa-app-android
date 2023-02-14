@@ -5,8 +5,10 @@ import android.view.View
 import android.view.inputmethod.EditorInfo.IME_ACTION_DONE
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentFactory
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.transition.MaterialContainerTransform
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.util.focusAndShowKeyboard
 import de.rki.coronawarnapp.contactdiary.util.hideKeyboard
@@ -15,21 +17,16 @@ import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.setTextOnTextInput
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
+import de.rki.coronawarnapp.util.viewmodel.assistedViewModel
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
+import javax.inject.Inject
 
-class ContactDiaryAddPersonFragment :
-    Fragment(R.layout.contact_diary_add_person_fragment),
-    AutoInject {
+@AndroidEntryPoint
+class ContactDiaryAddPersonFragment : Fragment(R.layout.contact_diary_add_person_fragment) {
 
-    private val binding: ContactDiaryAddPersonFragmentBinding by viewBinding()
-
-    private val viewModel: ContactDiaryAddPersonViewModel by cwaViewModelsAssisted(
-        factoryProducer = { viewModelFactory },
-        constructorCall = { factory, _ ->
-            factory as ContactDiaryAddPersonViewModel.Factory
-            factory.create(navArgs.addedAt)
-        }
-    )
+    @Inject lateinit var factory: ContactDiaryAddPersonViewModel.Factory
+    val binding: ContactDiaryAddPersonFragmentBinding by viewBinding()
+    private val viewModel: ContactDiaryAddPersonViewModel by assistedViewModel { factory.create(navArgs.addedAt) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -89,6 +86,7 @@ class ContactDiaryAddPersonFragment :
                         }
                         false
                     }
+
                     else -> true
                 }
             }

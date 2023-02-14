@@ -7,28 +7,25 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionResultReadyBinding
 import de.rki.coronawarnapp.ui.submission.SubmissionBlockingDialog
 import de.rki.coronawarnapp.ui.submission.submissionCancelDialog
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
-import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
+import de.rki.coronawarnapp.util.viewmodel.assistedViewModel
+import javax.inject.Inject
 
 /**
  * The [SubmissionResultReadyFragment] displays information to a user if no consent is given
  */
-class SubmissionResultReadyFragment : Fragment(R.layout.fragment_submission_result_ready), AutoInject {
+@AndroidEntryPoint
+class SubmissionResultReadyFragment : Fragment(R.layout.fragment_submission_result_ready) {
 
-    private val viewModel: SubmissionResultReadyViewModel by cwaViewModelsAssisted(
-        factoryProducer = { viewModelFactory },
-        constructorCall = { factory, _ ->
-            factory as SubmissionResultReadyViewModel.Factory
-            factory.create(navArgs.testType)
-        }
-    )
+    @Inject lateinit var factory: SubmissionResultReadyViewModel.Factory
+    private val viewModel: SubmissionResultReadyViewModel by assistedViewModel { factory.create(navArgs.testType) }
     private val binding: FragmentSubmissionResultReadyBinding by viewBinding()
     private val navArgs by navArgs<SubmissionResultReadyFragmentArgs>()
     private lateinit var uploadDialog: SubmissionBlockingDialog

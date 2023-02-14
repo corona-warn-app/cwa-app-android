@@ -15,6 +15,7 @@ import de.rki.coronawarnapp.bugreporting.loghistory.LogHistoryTree
 import de.rki.coronawarnapp.exception.reporting.ErrorReportReceiver
 import de.rki.coronawarnapp.exception.reporting.ReportingConstants.ERROR_REPORT_LOCAL_BROADCAST_CHANNEL
 import de.rki.coronawarnapp.initializer.Initializer
+import de.rki.coronawarnapp.util.BuildVersionWrap
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.device.ForegroundState
@@ -37,18 +38,13 @@ open class CoronaWarnApplication : Application() {
     override fun onCreate() {
         instance = this
         super.onCreate()
-        CWADebug.init(this)
-
-//        AppInjector.init(this).let { compPreview ->
-//            if (BuildVersionWrap.hasAPILevel(23)) {
-//                Timber.v("Calling EncryptedPreferencesMigration.doMigration()")
-//                compPreview.encryptedMigration.get().doMigration()
-//            }
-//            CWADebug.initAfterInjection(compPreview)
+//        CWADebug.init(this)
 //
-//            Timber.v("Completing application injection")
-//            compPreview.inject(this)
+//        if (BuildVersionWrap.hasAPILevel(23)) {
+//            Timber.v("Calling EncryptedPreferencesMigration.doMigration()")
+//            compPreview.encryptedMigration.get().doMigration()
 //        }
+//        CWADebug.initAfterInjection(compPreview)
 
         initializers.get().forEach { initializer ->
             Timber.d("initialize => %s", initializer::class.simpleName)

@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentFactory
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.CheckInsConsentFragmentBinding
 import de.rki.coronawarnapp.srs.ui.dialogs.showCloseDialog
@@ -14,25 +16,23 @@ import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.consent.CheckIn
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.consent.SelectableCheckInVH
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.viewBinding
+import de.rki.coronawarnapp.util.viewmodel.assistedViewModel
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import timber.log.Timber
+import javax.inject.Inject
 
-class SrsCheckinsFragment : Fragment(R.layout.check_ins_consent_fragment), AutoInject {
+@AndroidEntryPoint
+class SrsCheckinsFragment : Fragment(R.layout.check_ins_consent_fragment) {
 
-    private val binding: CheckInsConsentFragmentBinding by viewBinding()
-
+    @Inject lateinit var factory: SrsCheckinsFragmentViewModel.Factory
+    val binding: CheckInsConsentFragmentBinding by viewBinding()
     private val navArgs by navArgs<SrsCheckinsFragmentArgs>()
-
-    private val viewModel: SrsCheckinsFragmentViewModel by cwaViewModelsAssisted(
-        factoryProducer = { viewModelFactory },
-        constructorCall = { factory, savedState ->
-            factory as SrsCheckinsFragmentViewModel.Factory
-            factory.create(
-                savedState = savedState,
-                submissionType = navArgs.submissionType
-            )
-        }
-    )
+    private val viewModel: SrsCheckinsFragmentViewModel by assistedViewModel { savedState ->
+        factory.create(
+            savedState = savedState,
+            submissionType = navArgs.submissionType
+        )
+    }
 
     private val adapter = CheckInsConsentAdapter()
 

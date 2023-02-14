@@ -5,30 +5,27 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FederalStateSelectionFragmentBinding
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
-import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
+import de.rki.coronawarnapp.util.viewmodel.assistedViewModel
+import javax.inject.Inject
 
-class FederalStateSelectionFragment : Fragment(R.layout.federal_state_selection_fragment), AutoInject {
+@AndroidEntryPoint
+class FederalStateSelectionFragment : Fragment(R.layout.federal_state_selection_fragment) {
 
+    @Inject lateinit var factory: FederalStateSelectionViewModel.Factory
     private val navArgs by navArgs<FederalStateSelectionFragmentArgs>()
-
-    private val viewModel: FederalStateSelectionViewModel by cwaViewModelsAssisted(
-        factoryProducer = { viewModelFactory },
-        constructorCall = { factory, _ ->
-            factory as FederalStateSelectionViewModel.Factory
-
-            val mappedFederalState = PpaData.PPAFederalState.forNumber(navArgs.selectedFederalState)
-            factory.create(mappedFederalState)
-        }
-    )
+    private val viewModel: FederalStateSelectionViewModel by assistedViewModel {
+        factory.create(
+            PpaData.PPAFederalState.forNumber(navArgs.selectedFederalState)
+        )
+    }
 
     private val binding: FederalStateSelectionFragmentBinding by viewBinding()
-
     private val itemAdapter = FederalStateAdapter { viewModel.selectUserInfoItem(it) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -57,6 +54,7 @@ class FederalStateSelectionFragment : Fragment(R.layout.federal_state_selection_
                         R.id.mainFragment,
                         false
                     )
+
                     is FederalStateSelectionViewModel.Events.OpenDistricts -> findNavController().navigate(
                         FederalStateSelectionFragmentDirections
                             .actionFederalStateSelectionFragmentToFederalStateSelectionFragment(

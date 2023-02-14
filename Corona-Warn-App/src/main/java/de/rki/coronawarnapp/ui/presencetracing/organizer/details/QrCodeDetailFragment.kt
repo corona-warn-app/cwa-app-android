@@ -8,6 +8,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.isGone
 import androidx.core.view.isInvisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentFactory
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -15,6 +16,7 @@ import coil.loadAny
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.transition.MaterialContainerTransform
 import com.google.android.material.transition.MaterialSharedAxis
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TraceLocationOrganizerQrCodeDetailFragmentBinding
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
@@ -24,20 +26,17 @@ import de.rki.coronawarnapp.util.coil.loadingView
 import de.rki.coronawarnapp.util.toLocalDateTimeUserTz
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
+import de.rki.coronawarnapp.util.viewmodel.assistedViewModel
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import java.time.format.DateTimeFormatter
+import javax.inject.Inject
 
-class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_detail_fragment), AutoInject {
+@AndroidEntryPoint
+class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_detail_fragment) {
 
-    private val navArgs by navArgs<QrCodeDetailFragmentArgs>()
-
-    private val viewModel: QrCodeDetailViewModel by cwaViewModelsAssisted(
-        factoryProducer = { viewModelFactory },
-        constructorCall = { factory, _ ->
-            factory as QrCodeDetailViewModel.Factory
-            factory.create(navArgs.traceLocationId)
-        }
-    )
+    @Inject lateinit var factory: QrCodeDetailViewModel.Factory
+    val navArgs by navArgs<QrCodeDetailFragmentArgs>()
+    private val viewModel by assistedViewModel { factory.create(navArgs.traceLocationId) }
 
     private val binding: TraceLocationOrganizerQrCodeDetailFragmentBinding by viewBinding()
 
@@ -99,6 +98,7 @@ class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_
                 is QrCodeDetailNavigationEvents.NavigateToQrCodePosterFragment -> findNavController().navigate(
                     QrCodeDetailFragmentDirections.actionQrCodeDetailFragmentToQrCodePosterFragment(it.locationId)
                 )
+
                 is QrCodeDetailNavigationEvents.NavigateToFullScreenQrCode -> findNavController().navigate(
                     R.id.action_global_qrCodeFullScreenFragment,
                     QrCodeFullScreenFragmentArgs(it.qrCode).toBundle(),

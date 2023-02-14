@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.transition.MaterialContainerTransform
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.validation.core.common.exception.DccValidationException
@@ -27,24 +28,25 @@ import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.mutateDrawable
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
+import de.rki.coronawarnapp.util.viewmodel.assistedViewModel
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import timber.log.Timber
+import javax.inject.Inject
 
 // Shows the list of certificates for one person
-class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoInject {
+@AndroidEntryPoint
+class PersonDetailsFragment : Fragment(R.layout.person_details_fragment) {
 
+    @Inject lateinit var factory: PersonDetailsViewModel.Factory
     private val args by navArgs<PersonDetailsFragmentArgs>()
     private val binding: PersonDetailsFragmentBinding by viewBinding()
-    private val viewModel: PersonDetailsViewModel by cwaViewModelsAssisted(
-        factoryProducer = { viewModelFactory },
-        constructorCall = { factory, _ ->
-            factory as PersonDetailsViewModel.Factory
-            factory.create(
-                groupKey = args.groupKey,
-                colorShade = args.colorShade
-            )
-        }
-    )
+    private val viewModel: PersonDetailsViewModel by assistedViewModel {
+        factory.create(
+            groupKey = args.groupKey,
+            colorShade = args.colorShade
+        )
+    }
+
     private val personDetailsAdapter = PersonDetailsAdapter()
     private var numberOfCertificates = 0
 

@@ -6,9 +6,11 @@ import android.view.View
 import android.widget.Button
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentFactory
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.navGraphViewModels
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionSymptomIntroBinding
 import de.rki.coronawarnapp.srs.ui.dialogs.showCloseDialog
@@ -21,24 +23,23 @@ import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 import de.rki.coronawarnapp.util.formatter.formatSymptomBackgroundButtonStyleByState
 import de.rki.coronawarnapp.util.formatter.formatSymptomButtonTextStyleByState
 import de.rki.coronawarnapp.util.ui.viewBinding
+import de.rki.coronawarnapp.util.viewmodel.assistedViewModel
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
+import javax.inject.Inject
 
-class SrsSymptomsIntroductionFragment : Fragment(R.layout.fragment_submission_symptom_intro), AutoInject {
+@AndroidEntryPoint
+class SrsSymptomsIntroductionFragment : Fragment(R.layout.fragment_submission_symptom_intro) {
 
+    @Inject lateinit var factory: SrsSymptomsIntroductionViewModel.Factory
     private val navArgs by navArgs<SrsSymptomsIntroductionFragmentArgs>()
-
     private val teksSharedViewModel by navGraphViewModels<TeksSharedViewModel>(R.id.srs_nav_graph)
-    private val viewModel: SrsSymptomsIntroductionViewModel by cwaViewModelsAssisted(
-        factoryProducer = { viewModelFactory },
-        constructorCall = { factory, _ ->
-            factory as SrsSymptomsIntroductionViewModel.Factory
-            factory.create(
-                submissionType = navArgs.submissionType,
-                selectedCheckIns = navArgs.selectedCheckIns,
-                teksSharedViewModel = teksSharedViewModel
-            )
-        }
-    )
+    private val viewModel: SrsSymptomsIntroductionViewModel by assistedViewModel {
+        factory.create(
+            submissionType = navArgs.submissionType,
+            selectedCheckIns = navArgs.selectedCheckIns,
+            teksSharedViewModel = teksSharedViewModel
+        )
+    }
 
     private val binding: FragmentSubmissionSymptomIntroBinding by viewBinding()
 

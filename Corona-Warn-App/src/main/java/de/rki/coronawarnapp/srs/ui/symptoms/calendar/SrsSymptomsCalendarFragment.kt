@@ -6,9 +6,11 @@ import android.view.View
 import android.widget.Button
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentFactory
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.navGraphViewModels
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionSymptomCalendarBinding
 import de.rki.coronawarnapp.srs.ui.dialogs.showCloseDialog
@@ -21,25 +23,24 @@ import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 import de.rki.coronawarnapp.util.formatter.formatSymptomBackgroundButtonStyleByState
 import de.rki.coronawarnapp.util.formatter.formatSymptomButtonTextStyleByState
 import de.rki.coronawarnapp.util.ui.viewBinding
+import de.rki.coronawarnapp.util.viewmodel.assistedViewModel
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
+import javax.inject.Inject
 
-class SrsSymptomsCalendarFragment : Fragment(R.layout.fragment_submission_symptom_calendar), AutoInject {
+@AndroidEntryPoint
+class SrsSymptomsCalendarFragment : Fragment(R.layout.fragment_submission_symptom_calendar) {
 
-    private val navArgs by navArgs<SrsSymptomsCalendarFragmentArgs>()
-
+    @Inject lateinit var factory: SrsSymptomsCalendarViewModel.Factory
+    val navArgs by navArgs<SrsSymptomsCalendarFragmentArgs>()
     private val teksSharedViewModel by navGraphViewModels<TeksSharedViewModel>(R.id.srs_nav_graph)
-    private val viewModel: SrsSymptomsCalendarViewModel by cwaViewModelsAssisted(
-        factoryProducer = { viewModelFactory },
-        constructorCall = { factory, _ ->
-            factory as SrsSymptomsCalendarViewModel.Factory
-            factory.create(
-                submissionType = navArgs.submissionType,
-                selectedCheckIns = navArgs.selectedCheckIns,
-                symptomsIndication = navArgs.symptomIndication,
-                teksSharedViewModel = teksSharedViewModel
-            )
-        }
-    )
+    private val viewModel: SrsSymptomsCalendarViewModel by assistedViewModel {
+        factory.create(
+            submissionType = navArgs.submissionType,
+            selectedCheckIns = navArgs.selectedCheckIns,
+            symptomsIndication = navArgs.symptomIndication,
+            teksSharedViewModel = teksSharedViewModel
+        )
+    }
 
     private val binding: FragmentSubmissionSymptomCalendarBinding by viewBinding()
 

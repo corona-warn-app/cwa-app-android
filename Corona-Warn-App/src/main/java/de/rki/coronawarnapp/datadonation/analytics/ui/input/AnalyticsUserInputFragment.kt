@@ -5,29 +5,23 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.AnalyticsPpaUserinfoInputFragmentBinding
-import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
+import de.rki.coronawarnapp.util.viewmodel.assistedViewModel
 import javax.inject.Inject
 
-class AnalyticsUserInputFragment : Fragment(R.layout.analytics_ppa_userinfo_input_fragment), AutoInject {
+@AndroidEntryPoint
+class AnalyticsUserInputFragment : Fragment(R.layout.analytics_ppa_userinfo_input_fragment) {
 
-    val navArgs by navArgs<AnalyticsUserInputFragmentArgs>()
-
-    private val vm: AnalyticsUserInputViewModel by cwaViewModelsAssisted(
-        factoryProducer = { viewModelFactory },
-        constructorCall = { factory, _ ->
-            factory as AnalyticsUserInputViewModel.Factory
-            factory.create(navArgs.type)
-        }
-    )
-
-    private val binding: AnalyticsPpaUserinfoInputFragmentBinding by viewBinding()
-
+    @Inject lateinit var factory: AnalyticsUserInputViewModel.Factory
     @Inject lateinit var itemAdapter: UserInfoItemAdapter
+
+    private val navArgs by navArgs<AnalyticsUserInputFragmentArgs>()
+    private val binding: AnalyticsPpaUserinfoInputFragmentBinding by viewBinding()
+    private val vm: AnalyticsUserInputViewModel by assistedViewModel { factory.create(navArgs.type) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

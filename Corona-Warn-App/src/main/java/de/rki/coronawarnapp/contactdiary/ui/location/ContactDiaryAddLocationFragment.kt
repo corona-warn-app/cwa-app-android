@@ -7,6 +7,7 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.transition.MaterialContainerTransform
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.util.focusAndShowKeyboard
 import de.rki.coronawarnapp.contactdiary.util.hideKeyboard
@@ -15,20 +16,15 @@ import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.setTextOnTextInput
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
+import de.rki.coronawarnapp.util.viewmodel.assistedViewModel
+import javax.inject.Inject
 
-class ContactDiaryAddLocationFragment : Fragment(R.layout.contact_diary_add_location_fragment), AutoInject {
+@AndroidEntryPoint
+class ContactDiaryAddLocationFragment : Fragment(R.layout.contact_diary_add_location_fragment) {
 
+    @Inject lateinit var factory: ContactDiaryAddLocationViewModel.Factory
     private val binding: ContactDiaryAddLocationFragmentBinding by viewBinding()
-
-    private val viewModel: ContactDiaryAddLocationViewModel by cwaViewModelsAssisted(
-        factoryProducer = { viewModelFactory },
-        constructorCall = { factory, _ ->
-            factory as ContactDiaryAddLocationViewModel.Factory
-            factory.create(navArgs.addedAt)
-        }
-    )
-
+    private val viewModel: ContactDiaryAddLocationViewModel by assistedViewModel { factory.create(navArgs.addedAt) }
     private val navArgs: ContactDiaryAddLocationFragmentArgs by navArgs()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -89,6 +85,7 @@ class ContactDiaryAddLocationFragment : Fragment(R.layout.contact_diary_add_loca
                         }
                         false
                     }
+
                     else -> true
                 }
             }

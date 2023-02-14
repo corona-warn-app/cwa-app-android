@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.NavGraphDirections
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.tan.CoronaTestTAN
@@ -14,13 +15,14 @@ import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.databinding.FragmentSubmissionDeletionWarningBinding
 import de.rki.coronawarnapp.submission.TestRegistrationStateProcessor.State
-import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
+import de.rki.coronawarnapp.util.viewmodel.assistedViewModel
 import timber.log.Timber
+import javax.inject.Inject
 
-class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_deletion_warning), AutoInject {
+@AndroidEntryPoint
+class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_deletion_warning) {
 
     private val navOptions by lazy {
         NavOptions.Builder().setPopUpTo(
@@ -33,13 +35,12 @@ class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_
     }
     private val args by navArgs<SubmissionDeletionWarningFragmentArgs>()
 
-    private val viewModel: SubmissionDeletionWarningViewModel by cwaViewModelsAssisted(
-        factoryProducer = { viewModelFactory },
-        constructorCall = { factory, _ ->
-            factory as SubmissionDeletionWarningViewModel.Factory
-            factory.create(args.testRegistrationRequest, args.comesFromDispatcherFragment)
-        }
-    )
+    @Inject lateinit var factory: SubmissionDeletionWarningViewModel.Factory
+
+    private val viewModel: SubmissionDeletionWarningViewModel by assistedViewModel {
+        factory.create(args.testRegistrationRequest, args.comesFromDispatcherFragment)
+    }
+
     private val binding: FragmentSubmissionDeletionWarningBinding by viewBinding()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -73,10 +74,12 @@ class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_
                 State.Working -> {
                     // Handled above
                 }
+
                 is State.Error -> state.showExceptionDialog(
                     fragment = this,
                     comingFromTan = args.testRegistrationRequest is CoronaTestTAN
                 ) { popBackStack() }
+
                 is State.TestRegistered -> when {
                     state.test.isPositive -> sortNavigation(state.test.identifier)
                     else -> findNavController().navigate(
@@ -98,6 +101,7 @@ class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_
                         }
                         popBackStack()
                     }
+
                     is DuplicateWarningEvent.Direction -> findNavController().navigate(event.direction, navOptions)
                 }
             }

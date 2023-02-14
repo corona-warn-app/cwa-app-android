@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.appbar.AppBarLayout
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.common.certificate.getValidQrCode
 import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
@@ -30,26 +31,26 @@ import de.rki.coronawarnapp.util.toLocalDateTimeUserTz
 import de.rki.coronawarnapp.util.ui.addMenuId
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
+import de.rki.coronawarnapp.util.viewmodel.assistedViewModel
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import timber.log.Timber
 import java.net.URLEncoder
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
+import javax.inject.Inject
 
-class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_details), AutoInject {
+@AndroidEntryPoint
+class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_details) {
 
+    @Inject lateinit var factory: VaccinationDetailsViewModel.Factory
     private val args by navArgs<VaccinationDetailsFragmentArgs>()
     private val binding: FragmentVaccinationDetailsBinding by viewBinding()
-    private val viewModel: VaccinationDetailsViewModel by cwaViewModelsAssisted(
-        factoryProducer = { viewModelFactory },
-        constructorCall = { factory, _ ->
-            factory as VaccinationDetailsViewModel.Factory
-            factory.create(
-                containerId = VaccinationCertificateContainerId(args.certIdentifier),
-                fromScanner = args.fromScanner
-            )
-        }
-    )
+    private val viewModel: VaccinationDetailsViewModel by assistedViewModel {
+        factory.create(
+            containerId = VaccinationCertificateContainerId(args.certIdentifier),
+            fromScanner = args.fromScanner
+        )
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) =
         with(binding) {

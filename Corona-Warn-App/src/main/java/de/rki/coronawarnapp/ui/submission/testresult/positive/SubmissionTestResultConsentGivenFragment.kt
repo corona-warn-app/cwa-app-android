@@ -8,34 +8,30 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultConsentGivenBinding
 import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.ui.submission.SubmissionBlockingDialog
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
-import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
+import de.rki.coronawarnapp.util.viewmodel.assistedViewModel
+import javax.inject.Inject
 
 /**
  * [SubmissionTestResultConsentGivenFragment], the test result screen that is shown to the user if they have provided
  * consent.
  */
-class SubmissionTestResultConsentGivenFragment :
-    Fragment(R.layout.fragment_submission_test_result_consent_given),
-    AutoInject {
+@AndroidEntryPoint
+class SubmissionTestResultConsentGivenFragment : Fragment(R.layout.fragment_submission_test_result_consent_given) {
 
+    @Inject lateinit var factory: SubmissionTestResultConsentGivenViewModel.Factory
     private val navArgs by navArgs<SubmissionTestResultConsentGivenFragmentArgs>()
-
-    private val viewModel: SubmissionTestResultConsentGivenViewModel by cwaViewModelsAssisted(
-        factoryProducer = { viewModelFactory },
-        constructorCall = { factory, _ ->
-            factory as SubmissionTestResultConsentGivenViewModel.Factory
-            factory.create(navArgs.testType)
-        }
-    )
+    private val viewModel: SubmissionTestResultConsentGivenViewModel by assistedViewModel {
+        factory.create(navArgs.testType)
+    }
 
     private val binding: FragmentSubmissionTestResultConsentGivenBinding by viewBinding()
 

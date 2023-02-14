@@ -8,6 +8,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.navGraphViewModels
 import com.google.android.material.transition.MaterialSharedAxis
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentDccTicketingConsentTwoBinding
 import de.rki.coronawarnapp.dccticketing.ui.dialog.dccTicketingConfirmCancellationDialog
@@ -17,23 +18,23 @@ import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
+import de.rki.coronawarnapp.util.viewmodel.assistedViewModel
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import timber.log.Timber
+import javax.inject.Inject
 
-class DccTicketingConsentTwoFragment : Fragment(R.layout.fragment_dcc_ticketing_consent_two), AutoInject {
+@AndroidEntryPoint
+class DccTicketingConsentTwoFragment : Fragment(R.layout.fragment_dcc_ticketing_consent_two) {
 
+    @Inject lateinit var factory: DccTicketingConsentTwoViewModel.Factory
     private val args by navArgs<DccTicketingConsentTwoFragmentArgs>()
+    private val viewModel: DccTicketingConsentTwoViewModel by assistedViewModel {
+        factory.create(
+            containerId = args.containerId,
+            dccTicketingSharedViewModel = dccTicketingSharedViewModel
+        )
+    }
 
-    private val viewModel: DccTicketingConsentTwoViewModel by cwaViewModelsAssisted(
-        factoryProducer = { viewModelFactory },
-        constructorCall = { factory, _ ->
-            factory as DccTicketingConsentTwoViewModel.Factory
-            factory.create(
-                containerId = args.containerId,
-                dccTicketingSharedViewModel = dccTicketingSharedViewModel
-            )
-        }
-    )
     private val binding: FragmentDccTicketingConsentTwoBinding by viewBinding()
     private val certificateAdapter = DccTicketingConsentTwoAdapter()
     private val dccTicketingSharedViewModel:

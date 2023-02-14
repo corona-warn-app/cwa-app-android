@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.appbar.AppBarLayout
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.common.certificate.getValidQrCode
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
@@ -33,26 +34,26 @@ import de.rki.coronawarnapp.util.ui.addMenuId
 import de.rki.coronawarnapp.util.ui.addNavigationIconButtonId
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
+import de.rki.coronawarnapp.util.viewmodel.assistedViewModel
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import timber.log.Timber
 import java.net.URLEncoder
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
+import javax.inject.Inject
 
-class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certificate_details), AutoInject {
+@AndroidEntryPoint
+class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certificate_details) {
 
+    @Inject lateinit var factory: TestCertificateDetailsViewModel.Factory
     private val binding by viewBinding<FragmentTestCertificateDetailsBinding>()
     private val args by navArgs<TestCertificateDetailsFragmentArgs>()
-    private val viewModel: TestCertificateDetailsViewModel by cwaViewModelsAssisted(
-        factoryProducer = { viewModelFactory },
-        constructorCall = { factory, _ ->
-            factory as TestCertificateDetailsViewModel.Factory
-            factory.create(
-                containerId = TestCertificateContainerId(args.certIdentifier),
-                fromScanner = args.fromScanner
-            )
-        }
-    )
+    private val viewModel: TestCertificateDetailsViewModel by assistedViewModel {
+        factory.create(
+            containerId = TestCertificateContainerId(args.certIdentifier),
+            fromScanner = args.fromScanner
+        )
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
 

@@ -11,6 +11,7 @@ import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.DefaultItemAnimator
 import com.google.android.material.transition.Hold
 import com.google.android.material.transition.MaterialSharedAxis
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.person.ui.admission.AdmissionScenariosSharedViewModel
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.PersonDetailsFragmentArgs
@@ -20,24 +21,25 @@ import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.viewBinding
+import de.rki.coronawarnapp.util.viewmodel.assistedViewModel
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import timber.log.Timber
+import javax.inject.Inject
 
-class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), AutoInject {
+@AndroidEntryPoint
+class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment) {
 
+    @Inject lateinit var factory: PersonOverviewViewModel.Factory
     private val admissionViewModel by navGraphViewModels<AdmissionScenariosSharedViewModel>(
         R.id.covid_certificates_graph
     )
-    private val viewModel: PersonOverviewViewModel by cwaViewModelsAssisted(
-        factoryProducer = { viewModelFactory },
-        constructorCall = { factory, savedState ->
-            factory as PersonOverviewViewModel.Factory
-            factory.create(
-                admissionScenariosSharedViewModel = admissionViewModel,
-                savedState = savedState
-            )
-        }
-    )
+    private val viewModel: PersonOverviewViewModel by assistedViewModel { savedState ->
+        factory.create(
+            admissionScenariosSharedViewModel = admissionViewModel,
+            savedState = savedState
+        )
+    }
+
     private val binding by viewBinding<PersonOverviewFragmentBinding>()
     private val personOverviewAdapter = PersonOverviewAdapter()
 

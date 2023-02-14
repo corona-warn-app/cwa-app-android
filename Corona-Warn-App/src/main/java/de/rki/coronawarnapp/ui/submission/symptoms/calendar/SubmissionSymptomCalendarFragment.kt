@@ -8,6 +8,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionSymptomCalendarBinding
 import de.rki.coronawarnapp.submission.Symptoms
@@ -16,21 +17,22 @@ import de.rki.coronawarnapp.util.formatter.formatSymptomBackgroundButtonStyleByS
 import de.rki.coronawarnapp.util.formatter.formatSymptomButtonTextStyleByState
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
+import de.rki.coronawarnapp.util.viewmodel.assistedViewModel
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
+import javax.inject.Inject
 
-class SubmissionSymptomCalendarFragment :
-    Fragment(R.layout.fragment_submission_symptom_calendar),
-    AutoInject {
+@AndroidEntryPoint
+class SubmissionSymptomCalendarFragment : Fragment(R.layout.fragment_submission_symptom_calendar) {
 
-    private val navArgs by navArgs<SubmissionSymptomCalendarFragmentArgs>()
-
-    private val viewModel: SubmissionSymptomCalendarViewModel by cwaViewModelsAssisted(
-        factoryProducer = { viewModelFactory },
-        constructorCall = { factory, _ ->
-            factory as SubmissionSymptomCalendarViewModel.Factory
-            factory.create(navArgs.symptomIndication, navArgs.testType, navArgs.comesFromDispatcherFragment)
-        }
-    )
+    @Inject lateinit var factory: SubmissionSymptomCalendarViewModel.Factory
+    val navArgs by navArgs<SubmissionSymptomCalendarFragmentArgs>()
+    private val viewModel: SubmissionSymptomCalendarViewModel by assistedViewModel {
+        factory.create(
+            navArgs.symptomIndication,
+            navArgs.testType,
+            navArgs.comesFromDispatcherFragment
+        )
+    }
 
     private val binding: FragmentSubmissionSymptomCalendarBinding by viewBinding()
 

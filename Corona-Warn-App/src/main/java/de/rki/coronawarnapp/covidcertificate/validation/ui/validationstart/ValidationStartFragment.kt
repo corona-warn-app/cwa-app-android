@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.text.format.DateFormat
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentFactory
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -13,6 +14,7 @@ import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidation
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
@@ -23,6 +25,7 @@ import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.toResolvingString
 import de.rki.coronawarnapp.util.ui.viewBinding
+import de.rki.coronawarnapp.util.viewmodel.assistedViewModel
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import setTextWithUrls
 import java.time.Instant
@@ -31,17 +34,17 @@ import java.time.LocalTime
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.temporal.ChronoUnit
+import javax.inject.Inject
 
-class ValidationStartFragment : Fragment(R.layout.validation_start_fragment), AutoInject {
+@AndroidEntryPoint
+class ValidationStartFragment : Fragment(R.layout.validation_start_fragment) {
 
-    private val args by navArgs<ValidationStartFragmentArgs>()
-    private val viewModel by cwaViewModelsAssisted<ValidationStartViewModel>(
-        factoryProducer = { viewModelFactory },
-        constructorCall = { factory, _ ->
-            factory as ValidationStartViewModel.Factory
-            factory.create(args.containerId)
-        }
-    )
+    @Inject lateinit var factory: ValidationStartViewModel.Factory
+    val args by navArgs<ValidationStartFragmentArgs>()
+    private val viewModel by assistedViewModel {
+        factory.create(args.containerId)
+    }
+
     private val binding by viewBinding<ValidationStartFragmentBinding>()
     private val dccCountryAdapter by lazy { DccCountryAdapter(requireContext()) }
 
@@ -92,22 +95,27 @@ class ValidationStartFragment : Fragment(R.layout.validation_start_fragment), Au
                     binding.dateInfoIcon to binding.dateInfoIcon.transitionName
                 )
             )
+
             NavigateToPrivacyFragment -> findNavController().navigate(
                 ValidationStartFragmentDirections.actionValidationStartFragmentToPrivacyFragment()
             )
+
             is ShowTimeMessage -> showTimeMessage(event)
             is NavigateToValidationResultFragment -> {
                 startValidationCheck.isLoading = false
                 navigateToResultScreen(event)
             }
+
             is ShowErrorDialog -> {
                 startValidationCheck.isLoading = false
                 displayDialog { setError(event.error) }
             }
+
             is ShowNoInternetDialog -> {
                 startValidationCheck.isLoading = false
                 dccValidationNoInternetDialog()
             }
+
             else -> Unit
         }
     }

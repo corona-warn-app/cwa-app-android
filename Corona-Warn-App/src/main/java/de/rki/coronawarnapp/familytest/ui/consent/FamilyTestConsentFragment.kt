@@ -10,27 +10,27 @@ import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.navGraphViewModels
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.NavGraphDirections
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.util.hideKeyboard
 import de.rki.coronawarnapp.databinding.FragmentFamilyTestConsentBinding
 import de.rki.coronawarnapp.qrcode.ui.QrcodeSharedViewModel
 import de.rki.coronawarnapp.submission.TestRegistrationStateProcessor
-import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
+import de.rki.coronawarnapp.util.viewmodel.assistedViewModel
+import javax.inject.Inject
 
-class FamilyTestConsentFragment : Fragment(R.layout.fragment_family_test_consent), AutoInject {
+@AndroidEntryPoint
+class FamilyTestConsentFragment : Fragment(R.layout.fragment_family_test_consent) {
 
+    @Inject lateinit var factory: FamilyTestConsentViewModel.Factory
     private val navArgs by navArgs<FamilyTestConsentFragmentArgs>()
-    private val viewModel: FamilyTestConsentViewModel by cwaViewModelsAssisted(
-        factoryProducer = { viewModelFactory },
-        constructorCall = { factory, _ ->
-            factory as FamilyTestConsentViewModel.Factory
-            factory.create(navArgs.coronaTestQrCode)
-        }
-    )
+    private val viewModel: FamilyTestConsentViewModel by assistedViewModel {
+        factory.create(navArgs.coronaTestQrCode)
+    }
+
     private val qrcodeSharedViewModel: QrcodeSharedViewModel by navGraphViewModels(R.id.nav_graph)
     private val binding: FragmentFamilyTestConsentBinding by viewBinding()
     private val navOptions = NavOptions.Builder().setPopUpTo(R.id.familyTestConsentFragment, true).build()

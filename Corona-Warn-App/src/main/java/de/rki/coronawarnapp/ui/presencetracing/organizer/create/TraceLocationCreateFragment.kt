@@ -15,6 +15,7 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.util.getLocale
 import de.rki.coronawarnapp.contactdiary.util.hideKeyboard
@@ -26,6 +27,7 @@ import de.rki.coronawarnapp.util.ui.addSubtitleId
 import de.rki.coronawarnapp.util.ui.addTitleId
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
+import de.rki.coronawarnapp.util.viewmodel.assistedViewModel
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import java.time.Duration
 import java.time.Instant
@@ -33,20 +35,15 @@ import java.time.LocalDate
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.temporal.ChronoUnit
+import javax.inject.Inject
 
-class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_fragment), AutoInject {
+@AndroidEntryPoint
+class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_fragment) {
 
+    @Inject lateinit var factory: TraceLocationCreateViewModel.Factory
     private val binding: TraceLocationCreateFragmentBinding by viewBinding()
     private val navArgs by navArgs<TraceLocationCreateFragmentArgs>()
-
-    private val viewModel: TraceLocationCreateViewModel by cwaViewModelsAssisted(
-        keyProducer = { navArgs.category.type.toString() },
-        factoryProducer = { viewModelFactory },
-        constructorCall = { factory, _ ->
-            factory as TraceLocationCreateViewModel.Factory
-            factory.create(navArgs.category)
-        }
-    )
+    private val viewModel: TraceLocationCreateViewModel by assistedViewModel { factory.create(navArgs.category) }
 
     @Suppress("NestedBlockDepth")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -66,6 +63,7 @@ class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_frag
                 is TraceLocationCreateViewModel.Result.Error -> {
                     showErrorDialog(result.exception)
                 }
+
                 is TraceLocationCreateViewModel.Result.Success -> {
                     findNavController().navigate(
                         TraceLocationCreateFragmentDirections

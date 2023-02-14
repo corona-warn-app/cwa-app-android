@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.transition.Hold
 import com.google.android.material.transition.MaterialSharedAxis
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TraceLocationAttendeeCheckinsFragmentBinding
 import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
@@ -29,25 +30,26 @@ import de.rki.coronawarnapp.util.tryHumanReadableError
 import de.rki.coronawarnapp.util.ui.LazyString
 import de.rki.coronawarnapp.util.ui.addMenuId
 import de.rki.coronawarnapp.util.ui.viewBinding
+import de.rki.coronawarnapp.util.viewmodel.assistedViewModel
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import timber.log.Timber
+import java.net.ContentHandlerFactory
 import java.net.URLEncoder
+import javax.inject.Inject
 
-class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_fragment), AutoInject {
+@AndroidEntryPoint
+class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_fragment) {
 
-    private val navArgs by navArgs<CheckInsFragmentArgs>()
+    @Inject lateinit var factory: CheckInsViewModel.Factory
+    val navArgs by navArgs<CheckInsFragmentArgs>()
+    private val viewModel: CheckInsViewModel by assistedViewModel { savedState ->
+        factory.create(
+            savedState = savedState,
+            deepLink = navArgs.uri,
+            cleanHistory = navArgs.cleanHistory
+        )
+    }
 
-    private val viewModel: CheckInsViewModel by cwaViewModelsAssisted(
-        factoryProducer = { viewModelFactory },
-        constructorCall = { factory, savedState ->
-            factory as CheckInsViewModel.Factory
-            factory.create(
-                savedState = savedState,
-                deepLink = navArgs.uri,
-                cleanHistory = navArgs.cleanHistory
-            )
-        }
-    )
     private val binding: TraceLocationAttendeeCheckinsFragmentBinding by viewBinding()
     private val checkInsAdapter = CheckInsAdapter()
     private val locationViewModel by navGraphViewModels<QrcodeSharedViewModel>(R.id.nav_graph)

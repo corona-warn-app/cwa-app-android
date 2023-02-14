@@ -8,6 +8,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionNoConsentPositiveOtherWarningBinding
 import de.rki.coronawarnapp.tracing.ui.tracingConsentDialog
@@ -16,6 +17,7 @@ import de.rki.coronawarnapp.ui.submission.SubmissionBlockingDialog
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
+import de.rki.coronawarnapp.util.viewmodel.assistedViewModel
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import javax.inject.Inject
 
@@ -23,22 +25,19 @@ import javax.inject.Inject
  * [SubmissionResultPositiveOtherWarningNoConsentFragment] the screen prompting the user to help by warning others of
  * their positive status, pressing the accept button provides the consent that was previously not provided.
  */
+@AndroidEntryPoint
 class SubmissionResultPositiveOtherWarningNoConsentFragment :
-    Fragment(R.layout.fragment_submission_no_consent_positive_other_warning), AutoInject {
-
-    private val navArgs by navArgs<SubmissionResultPositiveOtherWarningNoConsentFragmentArgs>()
+    Fragment(R.layout.fragment_submission_no_consent_positive_other_warning) {
 
     @Inject lateinit var appShortcutsHelper: AppShortcutsHelper
-
-    private val viewModel: SubmissionResultPositiveOtherWarningNoConsentViewModel by cwaViewModelsAssisted(
-        factoryProducer = { viewModelFactory },
-        constructorCall = { factory, _ ->
-            factory as SubmissionResultPositiveOtherWarningNoConsentViewModel.Factory
-            factory.create(navArgs.testIdentifier, navArgs.comesFromDispatcherFragment)
-        }
-    )
+    @Inject lateinit var factory: SubmissionResultPositiveOtherWarningNoConsentViewModel.Factory
 
     private val binding: FragmentSubmissionNoConsentPositiveOtherWarningBinding by viewBinding()
+    private val navArgs by navArgs<SubmissionResultPositiveOtherWarningNoConsentFragmentArgs>()
+
+    private val viewModel: SubmissionResultPositiveOtherWarningNoConsentViewModel by assistedViewModel {
+        factory.create(navArgs.testIdentifier, navArgs.comesFromDispatcherFragment)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

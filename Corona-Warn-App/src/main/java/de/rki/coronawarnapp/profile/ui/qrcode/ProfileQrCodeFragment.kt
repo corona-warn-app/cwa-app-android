@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import coil.loadAny
 import com.google.android.material.appbar.AppBarLayout
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.ProfileQrCodeFragmentBinding
 import de.rki.coronawarnapp.profile.model.Profile
@@ -23,22 +24,22 @@ import de.rki.coronawarnapp.util.joinToSpannable
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
+import de.rki.coronawarnapp.util.viewmodel.assistedViewModel
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
+import javax.inject.Inject
 import kotlin.math.abs
 
-class ProfileQrCodeFragment : Fragment(R.layout.profile_qr_code_fragment), AutoInject {
+@AndroidEntryPoint
+class ProfileQrCodeFragment : Fragment(R.layout.profile_qr_code_fragment) {
 
+    @Inject lateinit var factory: ProfileQrCodeFragmentViewModel.Factory
     private val binding: ProfileQrCodeFragmentBinding by viewBinding()
     private val navArgs by navArgs<ProfileQrCodeFragmentArgs>()
-    private val viewModel: ProfileQrCodeFragmentViewModel by cwaViewModelsAssisted(
-        factoryProducer = { viewModelFactory },
-        constructorCall = { factory, _ ->
-            factory as ProfileQrCodeFragmentViewModel.Factory
-            factory.create(navArgs.profileId)
-        }
-    )
+    private val viewModel: ProfileQrCodeFragmentViewModel by assistedViewModel {
+        factory.create(navArgs.profileId)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setToolbarOverlay()
@@ -56,6 +57,7 @@ class ProfileQrCodeFragment : Fragment(R.layout.profile_qr_code_fragment), AutoI
                         ProfileQrCodeFragmentDirections
                             .actionProfileQrCodeFragmentToProfileCreateFragment(navArgs.profileId)
                     )
+
                     R.id.profile_delete -> confirmDeletionDialog()
                     R.id.profile_information -> findNavController().navigate(
                         ProfileQrCodeFragmentDirections.actionProfileQrCodeFragmentToProfileOnboardingFragment(
@@ -93,6 +95,7 @@ class ProfileQrCodeFragment : Fragment(R.layout.profile_qr_code_fragment), AutoI
                         FragmentNavigatorExtras(binding.nextButton to binding.nextButton.transitionName)
                     )
                 }
+
                 is ProfileQrCodeNavigation.FullQrCode -> findNavController().navigate(
                     R.id.action_global_qrCodeFullScreenFragment,
                     QrCodeFullScreenFragmentArgs(it.qrCode).toBundle(),

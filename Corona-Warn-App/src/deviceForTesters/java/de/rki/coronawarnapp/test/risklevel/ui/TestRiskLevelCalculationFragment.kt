@@ -12,28 +12,25 @@ import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestRiskLevelCalculationBinding
 import de.rki.coronawarnapp.storage.TestSettings
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
-import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.viewBinding
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
+import de.rki.coronawarnapp.util.viewmodel.assistedViewModel
 import timber.log.Timber
 import java.io.File
+import javax.inject.Inject
 
-class TestRiskLevelCalculationFragment :
-    Fragment(R.layout.fragment_test_risk_level_calculation),
-    AutoInject {
+@AndroidEntryPoint
+class TestRiskLevelCalculationFragment : Fragment(R.layout.fragment_test_risk_level_calculation) {
+
+    @Inject lateinit var factory: TestRiskLevelCalculationFragmentCWAViewModel.Factory
     private val navArgs by navArgs<TestRiskLevelCalculationFragmentArgs>()
-
-    private val vm: TestRiskLevelCalculationFragmentCWAViewModel by cwaViewModelsAssisted(
-        factoryProducer = { viewModelFactory },
-        constructorCall = { factory, handle ->
-            factory as TestRiskLevelCalculationFragmentCWAViewModel.Factory
-            factory.create(handle, navArgs.exampleArgument)
-        }
-    )
+    private val vm: TestRiskLevelCalculationFragmentCWAViewModel by assistedViewModel { handle ->
+        factory.create(handle, navArgs.exampleArgument)
+    }
 
     private val binding: FragmentTestRiskLevelCalculationBinding by viewBinding()
 

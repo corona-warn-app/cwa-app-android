@@ -8,27 +8,26 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultInvalidBinding
 import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.reyclebin.ui.dialog.recycleTestDialog
-import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
+import de.rki.coronawarnapp.util.viewmodel.assistedViewModel
+import javax.inject.Inject
 
-class SubmissionTestResultInvalidFragment : Fragment(R.layout.fragment_submission_test_result_invalid), AutoInject {
+@AndroidEntryPoint
+class SubmissionTestResultInvalidFragment : Fragment(R.layout.fragment_submission_test_result_invalid) {
 
     private val navArgs by navArgs<SubmissionTestResultInvalidFragmentArgs>()
 
-    private val viewModel: SubmissionTestResultInvalidViewModel by cwaViewModelsAssisted(
-        factoryProducer = { viewModelFactory },
-        constructorCall = { factory, _ ->
-            factory as SubmissionTestResultInvalidViewModel.Factory
-            factory.create(navArgs.testIdentifier)
-        }
-    )
+    @Inject lateinit var factory: SubmissionTestResultInvalidViewModel.Factory
+    private val viewModel: SubmissionTestResultInvalidViewModel by assistedViewModel {
+        factory.create(navArgs.testIdentifier)
+    }
 
     private val binding: FragmentSubmissionTestResultInvalidBinding by viewBinding()
 

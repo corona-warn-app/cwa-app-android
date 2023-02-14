@@ -22,26 +22,23 @@ import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.ui.observeOnce
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
+import de.rki.coronawarnapp.util.viewmodel.assistedViewModel
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submission_test_result_pending) {
 
+    @Inject lateinit var factory: SubmissionTestResultPendingViewModel.Factory
     private val binding: FragmentSubmissionTestResultPendingBinding by viewBinding()
-
     private val navArgs by navArgs<SubmissionTestResultPendingFragmentArgs>()
 
-    private val viewModel: SubmissionTestResultPendingViewModel by cwaViewModelsAssisted(
-        factoryProducer = { viewModelFactory },
-        constructorCall = { factory, _ ->
-            factory as SubmissionTestResultPendingViewModel.Factory
-            factory.create(
-                testIdentifier = navArgs.testIdentifier,
-                initialUpdate = navArgs.forceTestResultUpdate,
-                comesFromDispatcherFragment = navArgs.comesFromDispatcherFragment
-            )
-        }
-    )
+    private val viewModel: SubmissionTestResultPendingViewModel by assistedViewModel {
+        factory.create(
+            testIdentifier = navArgs.testIdentifier,
+            initialUpdate = navArgs.forceTestResultUpdate,
+            comesFromDispatcherFragment = navArgs.comesFromDispatcherFragment
+        )
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

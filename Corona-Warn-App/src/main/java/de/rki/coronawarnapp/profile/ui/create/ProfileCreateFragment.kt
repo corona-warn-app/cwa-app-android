@@ -13,6 +13,7 @@ import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointBackward
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.transition.MaterialContainerTransform
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.util.hideKeyboard
 import de.rki.coronawarnapp.databinding.ProfileCreateFragmentBinding
@@ -22,26 +23,23 @@ import de.rki.coronawarnapp.util.toLocalDateUserTz
 import de.rki.coronawarnapp.util.ui.addTitleId
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
+import de.rki.coronawarnapp.util.viewmodel.assistedViewModel
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import java.time.Instant
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
+import javax.inject.Inject
 
-class ProfileCreateFragment : Fragment(R.layout.profile_create_fragment), AutoInject {
+@AndroidEntryPoint
+class ProfileCreateFragment : Fragment(R.layout.profile_create_fragment) {
 
+    @Inject lateinit var factory: ProfileCreateFragmentViewModel.Factory
     private val formatter: DateTimeFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
     private val navArgs by navArgs<ProfileCreateFragmentArgs>()
     private val binding: ProfileCreateFragmentBinding by viewBinding()
-    private val viewModel: ProfileCreateFragmentViewModel by cwaViewModelsAssisted(
-        factoryProducer = { viewModelFactory },
-        constructorCall = { factory, _ ->
-            factory as ProfileCreateFragmentViewModel.Factory
-            factory.create(
-                formatter,
-                if (navArgs.profileId > 0) navArgs.profileId else null
-            )
-        }
-    )
+    private val viewModel: ProfileCreateFragmentViewModel by assistedViewModel {
+        factory.create(formatter, if (navArgs.profileId > 0) navArgs.profileId else null)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

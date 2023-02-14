@@ -6,28 +6,23 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.transition.MaterialSharedAxis
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentBoosterInformationDetailsBinding
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.convertToHyperlink
-import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
+import de.rki.coronawarnapp.util.viewmodel.assistedViewModel
+import javax.inject.Inject
 
-class BoosterInfoDetailsFragment : Fragment(R.layout.fragment_booster_information_details), AutoInject {
+@AndroidEntryPoint
+class BoosterInfoDetailsFragment : Fragment(R.layout.fragment_booster_information_details) {
 
+    @Inject lateinit var factory: BoosterInfoDetailsViewModel.Factory
     private val args by navArgs<BoosterInfoDetailsFragmentArgs>()
     private val binding: FragmentBoosterInformationDetailsBinding by viewBinding()
-    private val viewModel: BoosterInfoDetailsViewModel by cwaViewModelsAssisted(
-        factoryProducer = { viewModelFactory },
-        constructorCall = { factory, _ ->
-            factory as BoosterInfoDetailsViewModel.Factory
-            factory.create(
-                groupKey = args.groupKey,
-            )
-        }
-    )
+    private val viewModel: BoosterInfoDetailsViewModel by assistedViewModel { factory.create(args.groupKey) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

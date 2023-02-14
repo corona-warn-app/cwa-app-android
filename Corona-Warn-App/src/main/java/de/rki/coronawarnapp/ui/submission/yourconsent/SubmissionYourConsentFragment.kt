@@ -6,29 +6,27 @@ import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionYourConsentBinding
 import de.rki.coronawarnapp.ui.dialog.displayDialog
-import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
+import de.rki.coronawarnapp.util.viewmodel.assistedViewModel
+import javax.inject.Inject
 
 /**
  * [SubmissionYourConsentFragment] allows the user to provide or revoke consent via a switch on the screen. This screen
  * is accessed via the TestResultAvailableFragment flow.
  */
-class SubmissionYourConsentFragment : Fragment(R.layout.fragment_submission_your_consent), AutoInject {
+@AndroidEntryPoint
+class SubmissionYourConsentFragment : Fragment(R.layout.fragment_submission_your_consent) {
 
+    @Inject lateinit var factory: SubmissionYourConsentViewModel.Factory
     private val navArgs by navArgs<SubmissionYourConsentFragmentArgs>()
-
-    private val vm: SubmissionYourConsentViewModel by cwaViewModelsAssisted(
-        factoryProducer = { viewModelFactory },
-        constructorCall = { factory, _ ->
-            factory as SubmissionYourConsentViewModel.Factory
-            factory.create(navArgs.testType)
-        }
-    )
+    private val vm: SubmissionYourConsentViewModel by assistedViewModel {
+        factory.create(navArgs.testType)
+    }
     private val binding: FragmentSubmissionYourConsentBinding by viewBinding()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

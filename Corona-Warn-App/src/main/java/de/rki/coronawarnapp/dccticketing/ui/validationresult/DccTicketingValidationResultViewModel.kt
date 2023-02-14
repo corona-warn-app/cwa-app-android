@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.dccticketing.ui.validationresult
 import androidx.lifecycle.LiveData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
-import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingResultToken
 import de.rki.coronawarnapp.dccticketing.ui.shared.DccTicketingSharedViewModel
 import de.rki.coronawarnapp.dccticketing.ui.validationresult.items.ValidationResultItem
@@ -12,10 +12,8 @@ import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.flow.map
-import javax.inject.Inject
 
-@HiltViewModel
-class DccTicketingValidationResultViewModel @Inject constructor(
+class DccTicketingValidationResultViewModel @AssistedInject constructor(
     @Assisted private val dccTicketingSharedViewModel: DccTicketingSharedViewModel,
     private val itemCreator: ValidationResultItemCreator,
     dispatcherProvider: DispatcherProvider

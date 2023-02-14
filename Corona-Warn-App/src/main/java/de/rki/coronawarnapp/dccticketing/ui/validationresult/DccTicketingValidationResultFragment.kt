@@ -5,29 +5,27 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentDccTicketingValidationResultBinding
 import de.rki.coronawarnapp.dccticketing.ui.shared.DccTicketingSharedViewModel
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.viewBinding
+import de.rki.coronawarnapp.util.viewmodel.assistedViewModel
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class DccTicketingValidationResultFragment : Fragment(R.layout.fragment_dcc_ticketing_validation_result) {
 
     @Inject lateinit var validationResultAdapter: ValidationResultAdapter
+    @Inject lateinit var viewModelFactory: DccTicketingValidationResultViewModel.Factory
 
-    private val dccTicketingSharedViewModel: DccTicketingSharedViewModel by navGraphViewModels(R.id.dcc_ticketing_nav_graph)
     private val binding: FragmentDccTicketingValidationResultBinding by viewBinding()
-    private val resultViewModel: DccTicketingValidationResultViewModel by cwaViewModelsAssisted(
-        factoryProducer = { viewModelFactory },
-        constructorCall = { factory, _ ->
-            factory as DccTicketingValidationResultViewModel.Factory
-            factory.create(
-                dccTicketingSharedViewModel = dccTicketingSharedViewModel
-            )
-        }
-    )
+    private val dccTicketingSharedViewModel: DccTicketingSharedViewModel by navGraphViewModels(R.id.dcc_ticketing_nav_graph)
+    private val resultViewModel: DccTicketingValidationResultViewModel by assistedViewModel {
+        viewModelFactory.create(dccTicketingSharedViewModel)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

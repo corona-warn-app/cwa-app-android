@@ -6,24 +6,23 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestRegistrationSelectionBinding
 import de.rki.coronawarnapp.ui.submission.qrcode.consent.SubmissionConsentBackNavArg.BackToTestRegistrationSelection
-import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
+import de.rki.coronawarnapp.util.viewmodel.assistedViewModel
+import javax.inject.Inject
 
-class TestRegistrationSelectionFragment : Fragment(R.layout.fragment_test_registration_selection), AutoInject {
+@AndroidEntryPoint
+class TestRegistrationSelectionFragment : Fragment(R.layout.fragment_test_registration_selection) {
 
+    @Inject lateinit var factory: TestRegistrationSelectionViewModel.Factory
     private val navArgs by navArgs<TestRegistrationSelectionFragmentArgs>()
-    private val viewModel: TestRegistrationSelectionViewModel by cwaViewModelsAssisted(
-        factoryProducer = { viewModelFactory },
-        constructorCall = { factory, _ ->
-            factory as TestRegistrationSelectionViewModel.Factory
-            factory.create(navArgs.coronaTestQrCode)
-        }
-    )
+    private val viewModel: TestRegistrationSelectionViewModel by assistedViewModel {
+        factory.create(navArgs.coronaTestQrCode)
+    }
     private val binding: FragmentTestRegistrationSelectionBinding by viewBinding()
     private val navOptions = NavOptions.Builder().setPopUpTo(R.id.testRegistrationSelectionFragment, true).build()
 
@@ -35,6 +34,7 @@ class TestRegistrationSelectionFragment : Fragment(R.layout.fragment_test_regist
                 is TestRegistrationSelectionNavigationEvents.NavigateBack -> {
                     popBackStack()
                 }
+
                 is TestRegistrationSelectionNavigationEvents.NavigateToPerson -> {
                     findNavController().navigate(
                         TestRegistrationSelectionFragmentDirections
@@ -46,6 +46,7 @@ class TestRegistrationSelectionFragment : Fragment(R.layout.fragment_test_regist
                         navOptions
                     )
                 }
+
                 is TestRegistrationSelectionNavigationEvents.NavigateToDeletionWarning -> {
                     findNavController().navigate(
                         TestRegistrationSelectionFragmentDirections
@@ -56,6 +57,7 @@ class TestRegistrationSelectionFragment : Fragment(R.layout.fragment_test_regist
                             )
                     )
                 }
+
                 is TestRegistrationSelectionNavigationEvents.NavigateToFamily -> {
                     findNavController().navigate(
                         TestRegistrationSelectionFragmentDirections

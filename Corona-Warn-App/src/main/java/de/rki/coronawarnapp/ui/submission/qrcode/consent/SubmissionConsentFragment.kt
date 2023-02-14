@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.NavGraphDirections
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionConsentBinding
@@ -17,21 +18,19 @@ import de.rki.coronawarnapp.submission.TestRegistrationStateProcessor.State
 import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.ui.submission.qrcode.consent.SubmissionConsentBackNavArg.BackToTestRegistrationSelection
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
-import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
+import de.rki.coronawarnapp.util.viewmodel.assistedViewModel
+import javax.inject.Inject
 
-class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent), AutoInject {
+@AndroidEntryPoint
+class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent) {
 
+    @Inject lateinit var factory: SubmissionConsentViewModel.Factory
     private val navArgs by navArgs<SubmissionConsentFragmentArgs>()
-    private val viewModel: SubmissionConsentViewModel by cwaViewModelsAssisted(
-        factoryProducer = { viewModelFactory },
-        constructorCall = { factory, _ ->
-            factory as SubmissionConsentViewModel.Factory
-            factory.create(navArgs.coronaTestQrCode, navArgs.allowTestReplacement)
-        }
-    )
+    private val viewModel: SubmissionConsentViewModel by assistedViewModel {
+        factory.create(navArgs.coronaTestQrCode, navArgs.allowTestReplacement)
+    }
     private val binding: FragmentSubmissionConsentBinding by viewBinding()
     private val navOptions = NavOptions.Builder().setPopUpTo(R.id.submissionConsentFragment, true).build()
 

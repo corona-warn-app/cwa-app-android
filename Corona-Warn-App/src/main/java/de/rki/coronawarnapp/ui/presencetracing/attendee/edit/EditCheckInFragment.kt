@@ -10,29 +10,28 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import com.google.android.material.transition.MaterialContainerTransform
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentEditCheckInBinding
-import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
+import de.rki.coronawarnapp.util.viewmodel.assistedViewModel
 import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.ZoneId
 import java.time.ZoneOffset
+import javax.inject.Inject
 import kotlin.math.abs
 
-class EditCheckInFragment : Fragment(R.layout.fragment_edit_check_in), AutoInject {
-    private val navArgs by navArgs<EditCheckInFragmentArgs>()
+@AndroidEntryPoint
+class EditCheckInFragment : Fragment(R.layout.fragment_edit_check_in) {
 
-    private val viewModel: EditCheckInViewModel by cwaViewModelsAssisted(
-        factoryProducer = { viewModelFactory },
-        constructorCall = { factory, _ ->
-            factory as EditCheckInViewModel.Factory
-            factory.create(if (navArgs.editCheckInId == 0L) null else navArgs.editCheckInId)
-        }
-    )
+    @Inject lateinit var factory: EditCheckInViewModel.Factory
+    private val navArgs by navArgs<EditCheckInFragmentArgs>()
+    private val viewModel: EditCheckInViewModel by assistedViewModel {
+        factory.create(if (navArgs.editCheckInId == 0L) null else navArgs.editCheckInId)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

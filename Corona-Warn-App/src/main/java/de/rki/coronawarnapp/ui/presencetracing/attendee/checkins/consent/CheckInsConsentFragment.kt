@@ -6,30 +6,29 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.CheckInsConsentFragmentBinding
 import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.viewBinding
+import de.rki.coronawarnapp.util.viewmodel.assistedViewModel
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import timber.log.Timber
+import javax.inject.Inject
 
-class CheckInsConsentFragment : Fragment(R.layout.check_ins_consent_fragment), AutoInject {
+@AndroidEntryPoint
+class CheckInsConsentFragment : Fragment(R.layout.check_ins_consent_fragment) {
 
-    private val binding: CheckInsConsentFragmentBinding by viewBinding()
-
+    @Inject lateinit var factory: CheckInsConsentViewModel.Factory
+    val binding: CheckInsConsentFragmentBinding by viewBinding()
     private val navArgs by navArgs<CheckInsConsentFragmentArgs>()
-
-    private val viewModel: CheckInsConsentViewModel by cwaViewModelsAssisted(
-        factoryProducer = { viewModelFactory },
-        constructorCall = { factory, savedState ->
-            factory as CheckInsConsentViewModel.Factory
-            factory.create(
-                savedState = savedState,
-                testType = navArgs.testType,
-            )
-        }
-    )
+    private val viewModel: CheckInsConsentViewModel by assistedViewModel { savedState ->
+        factory.create(
+            savedState = savedState,
+            testType = navArgs.testType,
+        )
+    }
 
     private val adapter = CheckInsConsentAdapter()
 
@@ -63,11 +62,13 @@ class CheckInsConsentFragment : Fragment(R.layout.check_ins_consent_fragment), A
                 CheckInsConsentNavigation.ToHomeFragment -> findNavController().navigate(
                     CheckInsConsentFragmentDirections.actionCheckInsConsentFragmentToMainFragment()
                 )
+
                 CheckInsConsentNavigation.ToSubmissionResultReadyFragment -> findNavController().navigate(
                     CheckInsConsentFragmentDirections.actionCheckInsConsentFragmentToSubmissionResultReadyFragment(
                         navArgs.testType
                     )
                 )
+
                 CheckInsConsentNavigation.ToSubmissionTestResultConsentGivenFragment -> findNavController().navigate(
                     CheckInsConsentFragmentDirections
                         .actionCheckInsConsentFragmentToSubmissionTestResultConsentGivenFragment(navArgs.testType)

@@ -5,6 +5,7 @@ import android.view.View
 import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.ValidationResultAdapter
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.setHeaderForState
@@ -14,23 +15,19 @@ import de.rki.coronawarnapp.util.lists.decorations.RecylerViewPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
+import de.rki.coronawarnapp.util.viewmodel.assistedViewModel
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import javax.inject.Inject
 
-class DccValidationOpenFragment : Fragment(R.layout.covid_certificate_validation_result_fragments), AutoInject {
+@AndroidEntryPoint
+class DccValidationOpenFragment : Fragment(R.layout.covid_certificate_validation_result_fragments) {
 
+    @Inject lateinit var factory: DccValidationOpenViewModel.Factory
     private val binding by viewBinding<CovidCertificateValidationResultFragmentsBinding>()
     private val args by navArgs<DccValidationOpenFragmentArgs>()
-    private val viewModel: DccValidationOpenViewModel by cwaViewModelsAssisted(
-        factoryProducer = { viewModelFactory },
-        constructorCall = { factory, _ ->
-            factory as DccValidationOpenViewModel.Factory
-            factory.create(
-                validation = args.validation,
-                containerId = args.containerId,
-            )
-        }
-    )
+    private val viewModel: DccValidationOpenViewModel by assistedViewModel {
+        factory.create(validation = args.validation, containerId = args.containerId)
+    }
 
     @Inject lateinit var validationResultAdapter: ValidationResultAdapter
 

@@ -7,6 +7,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.transition.MaterialSharedAxis
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.pdf.ui.poster.CertificatePosterViewModel.UiState.Done
 import de.rki.coronawarnapp.covidcertificate.pdf.ui.poster.CertificatePosterViewModel.UiState.PDF
@@ -14,24 +15,22 @@ import de.rki.coronawarnapp.covidcertificate.pdf.ui.poster.CertificatePosterView
 import de.rki.coronawarnapp.covidcertificate.pdf.ui.setupWebView
 import de.rki.coronawarnapp.databinding.CertificatePosterFragmentBinding
 import de.rki.coronawarnapp.ui.dialog.displayDialog
-import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
+import de.rki.coronawarnapp.util.viewmodel.assistedViewModel
 import java.time.Instant
+import javax.inject.Inject
 
-class CertificatePosterFragment : Fragment(R.layout.certificate_poster_fragment), AutoInject {
+@AndroidEntryPoint
+class CertificatePosterFragment : Fragment(R.layout.certificate_poster_fragment) {
 
+    @Inject lateinit var factory: CertificatePosterViewModel.Factory
     private val args by navArgs<CertificatePosterFragmentArgs>()
-    private val viewModel: CertificatePosterViewModel by cwaViewModelsAssisted(
-        factoryProducer = { viewModelFactory },
-        constructorCall = { factory, _ ->
-            factory as CertificatePosterViewModel.Factory
-            factory.create(
-                containerId = args.containerId
-            )
-        }
-    )
+    private val viewModel: CertificatePosterViewModel by assistedViewModel {
+        factory.create(
+            containerId = args.containerId
+        )
+    }
 
     private val binding: CertificatePosterFragmentBinding by viewBinding()
     private val jobName = "CoronaWarn-" + Instant.now().toString()

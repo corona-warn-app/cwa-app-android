@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.navGraphViewModels
 import com.google.android.material.transition.MaterialSharedAxis
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentDccTicketingConsentOneBinding
 import de.rki.coronawarnapp.dccticketing.ui.dialog.dccTicketingConfirmCancellationDialog
@@ -17,27 +18,25 @@ import de.rki.coronawarnapp.dccticketing.ui.dialog.dccTicketingErrorDialog
 import de.rki.coronawarnapp.dccticketing.ui.shared.DccTicketingSharedViewModel
 import de.rki.coronawarnapp.qrcode.ui.QrcodeSharedViewModel
 import de.rki.coronawarnapp.ui.view.onOffsetChange
-import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
+import de.rki.coronawarnapp.util.viewmodel.assistedViewModel
 import timber.log.Timber
 import java.net.URLEncoder
+import javax.inject.Inject
 
-class DccTicketingConsentOneFragment : Fragment(R.layout.fragment_dcc_ticketing_consent_one), AutoInject {
+@AndroidEntryPoint
+class DccTicketingConsentOneFragment : Fragment(R.layout.fragment_dcc_ticketing_consent_one) {
+
+    @Inject lateinit var factory: DccTicketingConsentOneViewModel.Factory
     private val args by navArgs<DccTicketingConsentOneFragmentArgs>()
-
-    private val viewModel: DccTicketingConsentOneViewModel by cwaViewModelsAssisted(
-        factoryProducer = { viewModelFactory },
-        constructorCall = { factory, _ ->
-            factory as DccTicketingConsentOneViewModel.Factory
-            factory.create(
-                dccTicketingSharedViewModel = dccTicketingSharedViewModel,
-                qrcodeSharedViewModel = qrcodeSharedViewModel,
-                args.transactionContextIdentifier
-            )
-        }
-    )
+    private val viewModel: DccTicketingConsentOneViewModel by assistedViewModel {
+        factory.create(
+            dccTicketingSharedViewModel = dccTicketingSharedViewModel,
+            qrcodeSharedViewModel = qrcodeSharedViewModel,
+            args.transactionContextIdentifier
+        )
+    }
     private val binding: FragmentDccTicketingConsentOneBinding by viewBinding()
     private val qrcodeSharedViewModel by navGraphViewModels<QrcodeSharedViewModel>(R.id.nav_graph)
     private val dccTicketingSharedViewModel:

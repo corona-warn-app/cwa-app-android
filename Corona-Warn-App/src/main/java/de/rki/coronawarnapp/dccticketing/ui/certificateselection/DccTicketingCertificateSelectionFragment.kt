@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentFactory
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentDccTicketingCertificateSelectionBinding
 import de.rki.coronawarnapp.dccticketing.ui.dialog.dccTicketingConfirmCancellationDialog
@@ -14,23 +16,23 @@ import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
+import de.rki.coronawarnapp.util.viewmodel.assistedViewModel
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
+import javax.inject.Inject
 
-class DccTicketingCertificateSelectionFragment :
-    Fragment(R.layout.fragment_dcc_ticketing_certificate_selection),
-    AutoInject {
+@AndroidEntryPoint
+class DccTicketingCertificateSelectionFragment : Fragment(R.layout.fragment_dcc_ticketing_certificate_selection) {
+
+    @Inject lateinit var factory: DccTicketingCertificateSelectionViewModel.Factory
 
     private val binding: FragmentDccTicketingCertificateSelectionBinding by viewBinding()
     private val dccTicketingSharedViewModel by navGraphViewModels<DccTicketingSharedViewModel>(
         R.id.dcc_ticketing_nav_graph
     )
-    private val viewModel: DccTicketingCertificateSelectionViewModel by cwaViewModelsAssisted(
-        factoryProducer = { viewModelFactory },
-        constructorCall = { factory, _ ->
-            factory as DccTicketingCertificateSelectionViewModel.Factory
-            factory.create(dccTicketingSharedViewModel = dccTicketingSharedViewModel)
-        }
-    )
+    private val viewModel: DccTicketingCertificateSelectionViewModel by assistedViewModel {
+        factory.create(dccTicketingSharedViewModel = dccTicketingSharedViewModel)
+    }
+
     private val certificatesAdapter = DccTicketingCertificateSelectionAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

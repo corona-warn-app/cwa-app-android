@@ -26,22 +26,20 @@ import de.rki.coronawarnapp.ui.submission.testresult.negative.SubmissionTestResu
 import de.rki.coronawarnapp.util.toLocalDateTimeUserTz
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
+import de.rki.coronawarnapp.util.viewmodel.assistedViewModel
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class SubmissionTestResultNegativeFragment : Fragment(R.layout.fragment_submission_test_result_negative) {
 
+    @Inject lateinit var factory: SubmissionTestResultNegativeViewModel.Factory
     private val navArgs by navArgs<SubmissionTestResultNegativeFragmentArgs>()
-
-    private val viewModel: SubmissionTestResultNegativeViewModel by cwaViewModelsAssisted(
-        factoryProducer = { viewModelFactory },
-        constructorCall = { factory, _ ->
-            factory as SubmissionTestResultNegativeViewModel.Factory
-            factory.create(navArgs.testIdentifier)
-        }
-    )
+    private val viewModel: SubmissionTestResultNegativeViewModel by assistedViewModel {
+        factory.create(navArgs.testIdentifier)
+    }
 
     private val binding: FragmentSubmissionTestResultNegativeBinding by viewBinding()
 
@@ -104,6 +102,7 @@ class SubmissionTestResultNegativeFragment : Fragment(R.layout.fragment_submissi
                     is FamilyCoronaTest -> testResultStepsTestAdded.setEntryTitle(
                         getText(R.string.submission_family_test_result_steps_added_rat_heading)
                     )
+
                     is PersonalCoronaTest -> {
                         testResultStepsTestAdded.setEntryTitle(
                             getText(R.string.submission_test_result_steps_added_rat_heading)
@@ -132,6 +131,7 @@ class SubmissionTestResultNegativeFragment : Fragment(R.layout.fragment_submissi
                 testResultStepsRemoveTest.isVisible = false
                 testResultStepsNegativeResult.setIsFinal(true)
             }
+
             is PersonalCoronaTest -> {
                 familyMemberName.isVisible = false
                 toolbar.title = getText(R.string.submission_test_result_toolbar_text)
@@ -187,6 +187,7 @@ class SubmissionTestResultNegativeFragment : Fragment(R.layout.fragment_submissi
                     personalRapidTestResultNegative.isVisible = true
                     personalRapidTestResultNegative.setTestResultSection(test)
                 }
+
                 else -> {
                     personalRapidTestResultNegative.isVisible = false
 

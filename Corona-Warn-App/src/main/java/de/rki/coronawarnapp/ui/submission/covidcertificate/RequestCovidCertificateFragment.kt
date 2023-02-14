@@ -12,6 +12,7 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointBackward
 import com.google.android.material.datepicker.MaterialDatePicker
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.NavGraphDirections
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
@@ -22,25 +23,26 @@ import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.toLocalDateUserTz
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
+import de.rki.coronawarnapp.util.viewmodel.assistedViewModel
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import java.time.Instant
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
+import javax.inject.Inject
 
-class RequestCovidCertificateFragment : Fragment(R.layout.fragment_request_covid_certificate), AutoInject {
+@AndroidEntryPoint
+class RequestCovidCertificateFragment : Fragment(R.layout.fragment_request_covid_certificate) {
 
-    private val viewModel by cwaViewModelsAssisted<RequestCovidCertificateViewModel>(
-        factoryProducer = { viewModelFactory },
-        constructorCall = { factory, _ ->
-            factory as RequestCovidCertificateViewModel.Factory
-            factory.create(
-                testRegistrationRequest = args.testRegistrationRequest,
-                coronaTestConsent = args.coronaTestConsent,
-                allowTestReplacement = args.allowTestReplacement,
-                personName = args.personName
-            )
-        }
-    )
+    @Inject lateinit var factory: RequestCovidCertificateViewModel.Factory
+
+    private val viewModel by assistedViewModel {
+        factory.create(
+            testRegistrationRequest = args.testRegistrationRequest,
+            coronaTestConsent = args.coronaTestConsent,
+            allowTestReplacement = args.allowTestReplacement,
+            personName = args.personName
+        )
+    }
     private val binding by viewBinding<FragmentRequestCovidCertificateBinding>()
     private val args by navArgs<RequestCovidCertificateFragmentArgs>()
     private val navOptions = NavOptions.Builder().setPopUpTo(R.id.requestCovidCertificateFragment, true).build()
