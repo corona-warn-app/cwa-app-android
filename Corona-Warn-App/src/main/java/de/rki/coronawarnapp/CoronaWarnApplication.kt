@@ -10,13 +10,20 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.work.WorkManager
 import coil.Coil
 import coil.ImageLoaderFactory
+import dagger.Lazy
+import dagger.hilt.EntryPoints
 import dagger.hilt.android.HiltAndroidApp
+import de.rki.coronawarnapp.bugreporting.debuglog.DebugEntryPoint
 import de.rki.coronawarnapp.bugreporting.loghistory.LogHistoryTree
 import de.rki.coronawarnapp.exception.reporting.ErrorReportReceiver
 import de.rki.coronawarnapp.exception.reporting.ReportingConstants.ERROR_REPORT_LOCAL_BROADCAST_CHANNEL
 import de.rki.coronawarnapp.initializer.Initializer
+import de.rki.coronawarnapp.util.BuildVersionWrap
+import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.device.ForegroundState
+import de.rki.coronawarnapp.util.encryptionmigration.EncryptedPreferencesMigration
+import de.rki.coronawarnapp.util.hasAPILevel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -30,19 +37,22 @@ open class CoronaWarnApplication : Application() {
     @Inject lateinit var workManager: WorkManager
     @Inject lateinit var imageLoaderFactory: ImageLoaderFactory
     @Inject lateinit var foregroundState: ForegroundState
+    @Inject lateinit var encryptedPreferencesMigration: Lazy<EncryptedPreferencesMigration>
     @Inject lateinit var initializers: Provider<Set<@JvmSuppressWildcards Initializer>>
     @AppScope @Inject lateinit var appScope: CoroutineScope
     @LogHistoryTree @Inject lateinit var rollingLogHistory: Timber.Tree
     override fun onCreate() {
         instance = this
         super.onCreate()
-//        CWADebug.init(this)
-//
-//        if (BuildVersionWrap.hasAPILevel(23)) {
-//            Timber.v("Calling EncryptedPreferencesMigration.doMigration()")
-//            compPreview.encryptedMigration.get().doMigration()
-//        }
-//        CWADebug.initAfterInjection(compPreview)
+        CWADebug.init(this)
+
+        if (BuildVersionWrap.hasAPILevel(23)) {
+            Timber.v("Calling EncryptedPreferencesMigration.doMigration()")
+            encryptedPreferencesMigration.get().doMigration()
+        }
+        CWADebug.initAfterInjection(
+            EntryPoints.get(applicationContext, DebugEntryPoint::class.java)
+        )
 
         initializers.get().forEach { initializer ->
             Timber.d("initialize => %s", initializer::class.simpleName)

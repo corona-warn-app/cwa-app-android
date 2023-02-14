@@ -83,10 +83,12 @@ class DebugLogger(
                 Timber.tag(TAG).i("Trigger file exists, starting debug log.")
                 true
             }
+
             isAutoLoggingEnabled() -> {
                 Timber.tag(TAG).i("Trigger file does not exist, but it's a tester build, starting debug log.")
                 true
             }
+
             else -> false
         }
 
@@ -104,8 +106,9 @@ class DebugLogger(
      * To censor unique data, we need to actually know what to censor.
      * So we buffer log statements until Dagger is ready
      */
-    fun setInjectionIsReady() {
+    fun setInjectionIsReady(point: DebugEntryPoint) {
         Timber.tag(TAG).i("setInjectionIsReady()")
+        point.inject(this)
         isDaggerReady = true
         Timber.tag(TAG).d("Censors loaded: %s", bugCensors.get())
     }

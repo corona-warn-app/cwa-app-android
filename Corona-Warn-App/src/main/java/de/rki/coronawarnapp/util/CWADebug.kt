@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Application
 import android.os.Build
 import androidx.annotation.VisibleForTesting
+import de.rki.coronawarnapp.bugreporting.debuglog.DebugEntryPoint
 import de.rki.coronawarnapp.bugreporting.debuglog.DebugLogger
 import de.rki.coronawarnapp.environment.BuildConfigWrap
 import de.rki.coronawarnapp.util.debug.UncaughtExceptionLogger
@@ -33,9 +34,9 @@ object CWADebug {
         logDeviceInfos()
     }
 
-    fun initAfterInjection() {
+    fun initAfterInjection(point: DebugEntryPoint) {
         Timber.v("initAfterInjection")
-        debugLogger.setInjectionIsReady()
+        debugLogger.setInjectionIsReady(point)
     }
 
     val isLogging: Boolean
