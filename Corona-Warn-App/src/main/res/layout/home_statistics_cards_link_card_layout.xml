@@ -68,6 +68,8 @@
             android:layout_marginEnd="@dimen/margin_8"
             android:text="@string/pandemic_radar_card_message"
             android:textSize="@dimen/font_14"
+            android:maxLines="4"
+            android:ellipsize="end"
             app:layout_constraintEnd_toStartOf="@id/background_image"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@id/subtitle"
