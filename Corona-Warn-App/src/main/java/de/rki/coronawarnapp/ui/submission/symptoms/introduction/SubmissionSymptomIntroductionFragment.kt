@@ -14,7 +14,6 @@ import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.ui.submission.submissionCancelDialog
 import de.rki.coronawarnapp.util.formatter.formatSymptomBackgroundButtonStyleByState
 import de.rki.coronawarnapp.util.formatter.formatSymptomButtonTextStyleByState
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
@@ -44,11 +43,11 @@ class SubmissionSymptomIntroductionFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.navigation.observe2(this) {
+        viewModel.navigation.observe(viewLifecycleOwner) {
             findNavController().navigate(it)
         }
 
-        viewModel.navigateBack.observe2(this) {
+        viewModel.navigateBack.observe(viewLifecycleOwner) {
             popBackStack()
         }
 
@@ -57,9 +56,11 @@ class SubmissionSymptomIntroductionFragment :
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backCallback)
 
-        viewModel.showCancelDialog.observe2(this) { submissionCancelDialog { viewModel.onCancelConfirmed() } }
+        viewModel.showCancelDialog.observe(viewLifecycleOwner) {
+            submissionCancelDialog { viewModel.onCancelConfirmed() }
+        }
 
-        viewModel.symptomIndication.observe2(this) {
+        viewModel.symptomIndication.observe(viewLifecycleOwner) {
             updateButtons(it)
         }
 

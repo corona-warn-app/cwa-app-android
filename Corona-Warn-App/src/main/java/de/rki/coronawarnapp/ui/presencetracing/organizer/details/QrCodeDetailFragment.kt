@@ -22,7 +22,6 @@ import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 import de.rki.coronawarnapp.util.coil.loadingView
 import de.rki.coronawarnapp.util.toLocalDateTimeUserTz
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
@@ -86,7 +85,7 @@ class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_
             }
         }
 
-        viewModel.routeToScreen.observe2(this) {
+        viewModel.routeToScreen.observe(viewLifecycleOwner) {
             when (it) {
                 QrCodeDetailNavigationEvents.NavigateBack -> popBackStack()
 
@@ -109,7 +108,7 @@ class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_
             }
         }
 
-        viewModel.uiState.observe2(this) { uiState ->
+        viewModel.uiState.observe(viewLifecycleOwner) { uiState ->
             with(binding) {
                 traceLocationOrganizerTitle.text = uiState.description
                 traceLocationOrganizerSubtitle.text = uiState.address

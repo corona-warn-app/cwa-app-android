@@ -6,7 +6,6 @@ import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
 import android.content.Intent
 import android.os.Build
@@ -46,7 +45,7 @@ class OnboardingDeltaNotificationsFragment : Fragment(R.layout.notifications_del
             )
         }
 
-        viewModel.routeToScreen.observe2(this) {
+        viewModel.routeToScreen.observe(viewLifecycleOwner) {
             when (it) {
                 is OnboardingDeltaNotificationsNavigationEvents.CloseScreen ->
                     (requireActivity() as OnboardingActivity).completeOnboarding()

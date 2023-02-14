@@ -11,6 +11,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSettingsBinding
 import de.rki.coronawarnapp.util.ui.observe2
+import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 
@@ -27,21 +28,21 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        vm.tracingState.observe2(this) {
+        vm.tracingState.observe(viewLifecycleOwner) {
             binding.settingsTracing.configureSettingsRowIcon(
                 it.getTracingIcon(requireContext()),
                 it.getTracingIconColor(requireContext())
             )
             binding.settingsTracing.configureSettingsRowSubtitle(it.getTracingStatusText(requireContext()))
         }
-        vm.notificationSettingsState.observe2(this) {
+        vm.notificationSettingsState.observe(viewLifecycleOwner) {
             binding.settingsNotifications.configureSettingsRowIcon(
                 it.getNotificationIcon(requireContext()),
                 it.getNotificationIconColor(requireContext())
             )
             binding.settingsNotifications.configureSettingsRowSubtitle(it.getNotificationStatusText(requireContext()))
         }
-        vm.backgroundPriorityState.observe2(this) {
+        vm.backgroundPriorityState.observe(viewLifecycleOwner) {
             binding.settingsBackgroundPriority.isVisible = it.showBackgroundPrioritySettings()
             binding.settingsBackgroundPriority.configureSettingsRowIcon(
                 it.getBackgroundPriorityIcon(requireContext()),
@@ -52,7 +53,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             )
         }
 
-        vm.analyticsState.observe2(this) {
+        vm.analyticsState.observe(viewLifecycleOwner) {
             binding.settingsPrivacyPreservingAnalytics.configureSettingsRowIcon(
                 it.getPrivacyPreservingAnalyticsIcon(requireContext()),
                 it.getPrivacyPreservingAnalyticsIconColor(requireContext())

@@ -15,7 +15,6 @@ import de.rki.coronawarnapp.contactdiary.ui.edit.adapter.LocationEditAdapter
 import de.rki.coronawarnapp.databinding.ContactDiaryEditLocationsFragmentBinding
 import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.lists.diffutil.update
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 
@@ -38,22 +37,22 @@ class ContactDiaryEditLocationsFragment : Fragment(R.layout.contact_diary_edit_l
 
         binding.deleteButton.setOnClickListener { viewModel.onDeleteAllLocationsClick() }
 
-        viewModel.isListVisible.observe2(this) {
+        viewModel.isListVisible.observe(viewLifecycleOwner) {
             binding.contactDiaryLocationListNoItemsGroup.isGone = it
         }
 
-        viewModel.isButtonEnabled.observe2(this) {
+        viewModel.isButtonEnabled.observe(viewLifecycleOwner) {
             binding.deleteButton.isEnabled = it
         }
 
-        viewModel.locationsLiveData.observe2(this) {
+        viewModel.locationsLiveData.observe(viewLifecycleOwner) {
             listAdapter.update(it, true)
             if (it.isEmpty()) {
                 popBackStack()
             }
         }
 
-        viewModel.navigationEvent.observe2(this) {
+        viewModel.navigationEvent.observe(viewLifecycleOwner) {
 
             when (it) {
                 ShowDeletionConfirmationDialog -> deleteAllLocationsConfirmationDialog()

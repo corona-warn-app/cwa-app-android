@@ -13,7 +13,6 @@ import de.rki.coronawarnapp.contactdiary.util.hideKeyboard
 import de.rki.coronawarnapp.databinding.ContactDiaryAddPersonFragmentBinding
 import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.setTextOnTextInput
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
@@ -95,12 +94,12 @@ class ContactDiaryAddPersonFragment :
             }
         }
 
-        viewModel.shouldClose.observe2(this) {
+        viewModel.shouldClose.observe(viewLifecycleOwner) {
             binding.root.hideKeyboard()
             popBackStack()
         }
 
-        viewModel.isNameValid.observe2(this) { isValid ->
+        viewModel.isNameValid.observe(viewLifecycleOwner) { isValid ->
             binding.personSaveButton.isEnabled = isValid
         }
     }

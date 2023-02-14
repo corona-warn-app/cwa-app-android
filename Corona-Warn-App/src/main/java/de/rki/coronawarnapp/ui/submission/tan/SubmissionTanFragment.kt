@@ -19,6 +19,7 @@ import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.ui.submission.tan.SubmissionTanViewModel.TanApiRequestState
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
+import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -39,7 +40,7 @@ class SubmissionTanFragment : Fragment(R.layout.fragment_submission_tan) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.state.observe2(this) {
+        viewModel.state.observe(viewLifecycleOwner) {
             binding.apply {
                 submissionTanButtonEnter.isEnabled = it.isTanValid
 
@@ -52,7 +53,7 @@ class SubmissionTanFragment : Fragment(R.layout.fragment_submission_tan) {
             }
         }
 
-        viewModel.routeToScreen.observe2(this) {
+        viewModel.routeToScreen.observe(viewLifecycleOwner) {
             when (it) {
                 is SubmissionNavigationEvents.NavigateToDeletionWarningFragmentFromTan ->
                     findNavController().navigate(
@@ -81,7 +82,7 @@ class SubmissionTanFragment : Fragment(R.layout.fragment_submission_tan) {
             toolbar.setNavigationOnClickListener { goBack() }
         }
 
-        viewModel.registrationState.observe2(this) {
+        viewModel.registrationState.observe(viewLifecycleOwner) {
             binding.submissionTanSpinner.visibility = when (it) {
                 TanApiRequestState.InProgress -> View.VISIBLE
                 else -> View.GONE
@@ -110,7 +111,7 @@ class SubmissionTanFragment : Fragment(R.layout.fragment_submission_tan) {
             }
         }
 
-        viewModel.registrationError.observe2(this) { buildErrorDialog(it) }
+        viewModel.registrationError.observe(viewLifecycleOwner) { buildErrorDialog(it) }
     }
 
     override fun onResume() {

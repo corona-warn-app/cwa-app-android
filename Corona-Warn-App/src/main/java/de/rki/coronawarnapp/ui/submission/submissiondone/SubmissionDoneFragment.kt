@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.databinding.FragmentSubmissionDoneBinding
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
+import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -52,7 +53,7 @@ class SubmissionDoneFragment : Fragment(R.layout.fragment_submission_done), Auto
                 (viewModel.testType == BaseCoronaTest.Type.PCR)
         }
 
-        viewModel.routeToScreen.observe2(this) {
+        viewModel.routeToScreen.observe(viewLifecycleOwner) {
             when (it) {
                 SubmissionNavigationEvents.NavigateToMainActivity -> {
                     if (args.comesFromDispatcherFragment) {

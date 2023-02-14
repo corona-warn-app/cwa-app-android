@@ -18,7 +18,6 @@ import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.list.setupSwipe
 import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.update
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 
@@ -35,10 +34,10 @@ class FamilyTestListFragment : Fragment(R.layout.fragment_family_test_list) {
         bindRecycler()
         binding.refreshLayout.setOnRefreshListener { viewModel.onRefreshTests() }
         binding.toolbar.setNavigationOnClickListener { viewModel.onBackPressed() }
-        viewModel.familyTests.observe2(this) { tests -> updateViews(tests) }
-        viewModel.events.observe2(this) { it?.let { onNavigationEvent(it) } }
-        viewModel.error.observe2(this) { displayDialog { setError(it) } }
-        viewModel.refreshComplete.observe2(this) { binding.refreshLayout.isRefreshing = false }
+        viewModel.familyTests.observe(viewLifecycleOwner) { tests -> updateViews(tests) }
+        viewModel.events.observe(viewLifecycleOwner) { it?.let { onNavigationEvent(it) } }
+        viewModel.error.observe(viewLifecycleOwner) { displayDialog { setError(it) } }
+        viewModel.refreshComplete.observe(viewLifecycleOwner) { binding.refreshLayout.isRefreshing = false }
     }
 
     override fun onStop() {

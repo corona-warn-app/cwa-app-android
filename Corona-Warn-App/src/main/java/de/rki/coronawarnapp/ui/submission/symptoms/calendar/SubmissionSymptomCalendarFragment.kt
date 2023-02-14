@@ -14,7 +14,6 @@ import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.ui.submission.submissionCancelDialog
 import de.rki.coronawarnapp.util.formatter.formatSymptomBackgroundButtonStyleByState
 import de.rki.coronawarnapp.util.formatter.formatSymptomButtonTextStyleByState
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
@@ -42,9 +41,11 @@ class SubmissionSymptomCalendarFragment :
             viewModel.onDateSelected(it)
         }
 
-        viewModel.showCancelDialog.observe2(this) { submissionCancelDialog { viewModel.onCancelConfirmed() } }
+        viewModel.showCancelDialog.observe(viewLifecycleOwner) {
+            submissionCancelDialog { viewModel.onCancelConfirmed() }
+        }
 
-        viewModel.navigateBack.observe2(this) {
+        viewModel.navigateBack.observe(viewLifecycleOwner) {
             popBackStack()
         }
 
@@ -53,11 +54,11 @@ class SubmissionSymptomCalendarFragment :
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backCallback)
 
-        viewModel.routeToScreen.observe2(this) {
+        viewModel.routeToScreen.observe(viewLifecycleOwner) {
             findNavController().navigate(it)
         }
 
-        viewModel.symptomStart.observe2(this) {
+        viewModel.symptomStart.observe(viewLifecycleOwner) {
             when (it) {
                 is Symptoms.StartOf.Date -> binding.symptomCalendarContainer.setSelectedDate(it.date)
                 else -> binding.symptomCalendarContainer.setSelectedDate(null)

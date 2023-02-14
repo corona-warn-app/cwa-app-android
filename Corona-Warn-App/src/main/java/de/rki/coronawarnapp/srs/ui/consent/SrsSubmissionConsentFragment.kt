@@ -13,6 +13,7 @@ import de.rki.coronawarnapp.srs.core.model.SrsSubmissionType
 import de.rki.coronawarnapp.srs.ui.vm.TeksSharedViewModel
 import de.rki.coronawarnapp.tracing.ui.tracingConsentDialog
 import de.rki.coronawarnapp.ui.submission.SubmissionBlockingDialog
+import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
@@ -57,29 +58,29 @@ class SrsSubmissionConsentFragment : Fragment(R.layout.fragment_srs_submission_c
         }
 
         with(binding) {
-            viewModel.timeBetweenSubmissionsInDays.observe2(this@SrsSubmissionConsentFragment) {
+            viewModel.timeBetweenSubmissionsInDays.observe(viewLifecycleOwner) {
                 srsSectionWarnInterval.text = getString(R.string.srs_section_warn_interval_text, it.toDays())
             }
         }
 
-        viewModel.showKeysRetrievalProgress.observe2(this) {
+        viewModel.showKeysRetrievalProgress.observe(viewLifecycleOwner) {
             Timber.i("SubmissionTestResult:showKeyRetrievalProgress:$it")
             keyRetrievalProgress.setState(it)
             binding.srsSubmissionConsentAcceptButton.isEnabled = !it
         }
 
-        viewModel.showTracingConsentDialog.observe2(this) { onConsentResult ->
+        viewModel.showTracingConsentDialog.observe(viewLifecycleOwner) { onConsentResult ->
             tracingConsentDialog(
                 positiveButton = { onConsentResult(true) },
                 negativeButton = { onConsentResult(false) }
             )
         }
 
-        viewModel.showPermissionRequest.observe2(this) { permissionRequest ->
+        viewModel.showPermissionRequest.observe(viewLifecycleOwner) { permissionRequest ->
             permissionRequest.invoke(requireActivity())
         }
 
-        viewModel.event.observe2(this) {
+        viewModel.event.observe(viewLifecycleOwner) {
             when (it) {
                 SrsSubmissionConsentNavigationEvents.NavigateToDataPrivacy ->
                     findNavController().navigate(

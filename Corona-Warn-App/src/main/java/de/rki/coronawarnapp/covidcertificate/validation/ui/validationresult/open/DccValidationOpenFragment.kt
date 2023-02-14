@@ -12,7 +12,6 @@ import de.rki.coronawarnapp.databinding.CovidCertificateValidationResultFragment
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.lists.decorations.RecylerViewPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.update
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
@@ -62,7 +61,7 @@ class DccValidationOpenFragment : Fragment(R.layout.covid_certificate_validation
             popBackStackTwice()
         }
 
-        viewModel.listItems.observe2(this) {
+        viewModel.listItems.observe(viewLifecycleOwner) {
             validationResultAdapter.update(it)
         }
     }

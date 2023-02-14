@@ -24,7 +24,6 @@ import de.rki.coronawarnapp.ui.submission.testresult.negative.SubmissionTestResu
 import de.rki.coronawarnapp.ui.submission.testresult.negative.SubmissionTestResultNegativeNavigation.OpenTestCertificateDetails
 import de.rki.coronawarnapp.ui.submission.testresult.negative.SubmissionTestResultNegativeViewModel.CertificateState
 import de.rki.coronawarnapp.util.toLocalDateTimeUserTz
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
@@ -53,7 +52,7 @@ class SubmissionTestResultNegativeFragment : Fragment(R.layout.fragment_submissi
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backCallback)
         bindViewsClicks()
-        viewModel.testResult.observe2(this) { uiState -> bindTestResultViews(uiState) }
+        viewModel.testResult.observe(viewLifecycleOwner) { uiState -> bindTestResultViews(uiState) }
         viewModel.events.observe(viewLifecycleOwner) { onNavEvent(it) }
         viewModel.certificate.observe(viewLifecycleOwner) { certificate -> bindCertificateViews(certificate) }
     }

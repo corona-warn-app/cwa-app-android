@@ -9,6 +9,8 @@ import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentOnboardingPrivacyBinding
+import de.rki.coronawarnapp.databinding.OnboardingScreensLayoutBinding
+import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -29,7 +31,7 @@ class OnboardingPrivacyFragment : Fragment(R.layout.fragment_onboarding_privacy)
             onboardingPrivacyToolbar.setNavigationOnClickListener { vm.onBackButtonClick() }
             privacyView.getOnboardingHtmlText()
         }
-        vm.routeToScreen.observe2(this) {
+        vm.routeToScreen.observe(viewLifecycleOwner) {
             when (it) {
                 is OnboardingNavigationEvents.NavigateToOnboardingTracing ->
                     findNavController().navigate(

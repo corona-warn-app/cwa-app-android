@@ -9,6 +9,7 @@ import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionYourConsentBinding
 import de.rki.coronawarnapp.ui.dialog.displayDialog
+import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -35,7 +36,7 @@ class SubmissionYourConsentFragment : Fragment(R.layout.fragment_submission_your
         super.onViewCreated(view, savedInstanceState)
         binding.submissionYourConsentSwitch.setSwitchEnabled(true)
 
-        vm.consent.observe2(this) {
+        vm.consent.observe(viewLifecycleOwner) {
             binding.submissionYourConsentSwitch.setChecked(it)
             binding.submissionYourConsentSwitch.setSubtitle(
                 getString(
@@ -48,11 +49,11 @@ class SubmissionYourConsentFragment : Fragment(R.layout.fragment_submission_your
             )
         }
 
-        vm.countryList.observe2(this) {
+        vm.countryList.observe(viewLifecycleOwner) {
             binding.submissionYourConsentAgreementCountryList.countries = it
         }
 
-        vm.clickEvent.observe2(this) {
+        vm.clickEvent.observe(viewLifecycleOwner) {
             when (it) {
                 is SubmissionYourConsentEvents.GoBack -> popBackStack()
                 is SubmissionYourConsentEvents.GoLegal -> findNavController().navigate(
@@ -76,7 +77,7 @@ class SubmissionYourConsentFragment : Fragment(R.layout.fragment_submission_your
             )
         }
 
-        vm.errorEvent.observe2(this) { displayDialog { setError(it) } }
+        vm.errorEvent.observe(viewLifecycleOwner) { displayDialog { setError(it) } }
     }
 
     override fun onResume() {

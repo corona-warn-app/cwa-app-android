@@ -234,11 +234,72 @@ class HomeFragmentTest : BaseUITest() {
 
     @Screenshot
     @Test
+    fun captureHomeFragmentTestPositiveRat() {
+        every { homeFragmentViewModel.homeItems } returns homeFragmentItemsLiveData(
+            submissionTestResultItems = listOf(
+                HomeData.Submission.TEST_POSITIVE_ITEM_RAT
+            )
+        )
+        launchInMainActivity<HomeFragment>(
+            testNavHostController = navController
+        )
+        takeScreenshot<HomeFragment>("test_positive_rat")
+    }
+
+    @Screenshot
+    @Test
     fun captureHomeFragmentTestPositive() {
         every { homeFragmentViewModel.homeItems } returns homeFragmentItemsLiveData(
             submissionTestResultItems = listOf(HomeData.Submission.TEST_POSITIVE_ITEM)
         )
         captureHomeFragment("test_positive")
+    }
+
+    @Screenshot
+    @Test
+    fun captureHomeFragmentTestNegativePcrPositiveRa() {
+        every { homeFragmentViewModel.homeItems } returns homeFragmentItemsLiveData(
+            submissionTestResultItems = listOf(
+                HomeData.Submission.TEST_NEGATIVE_ITEM,
+                HomeData.Submission.TEST_POSITIVE_ITEM_RAT
+            )
+        )
+        launchInMainActivity<HomeFragment>(
+            testNavHostController = navController
+        )
+        takeScreenshot<HomeFragment>("tests_negative_pcr_positive_ra")
+    }
+
+    @Screenshot
+    @Test
+    fun captureHomeFragmentTestNegativeRaPositivePcr() {
+        every { homeFragmentViewModel.homeItems } returns homeFragmentItemsLiveData(
+            submissionTestResultItems = listOf(
+                HomeData.Submission.TEST_NEGATIVE_ITEM_RAT,
+                HomeData.Submission.TEST_POSITIVE_ITEM
+            )
+        )
+        launchInMainActivity<HomeFragment>(
+            testNavHostController = navController
+        )
+        takeScreenshot<HomeFragment>("tests_negative_ra_positive_pcr")
+    }
+
+    @Screenshot
+    @Test
+    fun captureHomeFragmentTestPositiveRaPositivePcr() {
+        every { homeFragmentViewModel.homeItems } returns homeFragmentItemsLiveData(
+            submissionTestResultItems = listOf(
+                HomeData.Submission.TEST_POSITIVE_ITEM_RAT,
+                HomeData.Submission.TEST_POSITIVE_ITEM
+            )
+        )
+        launchInMainActivity<HomeFragment>(
+            testNavHostController = navController
+        )
+        takeScreenshot<HomeFragment>("tests_positive_ra_positive_pcr_1")
+        onView(withId(R.id.recycler_view)).perform(recyclerScrollTo(1, additionalY = -200))
+        takeScreenshot<HomeFragment>("tests_positive_ra_positive_pcr_2")
     }
 
     @Screenshot

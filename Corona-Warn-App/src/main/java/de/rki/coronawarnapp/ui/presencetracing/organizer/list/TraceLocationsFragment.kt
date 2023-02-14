@@ -26,7 +26,6 @@ import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.onScroll
 import de.rki.coronawarnapp.util.ui.addMenuId
 import de.rki.coronawarnapp.util.ui.addTitleId
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import timber.log.Timber
@@ -66,7 +65,7 @@ class TraceLocationsFragment : Fragment(R.layout.trace_location_organizer_trace_
             addTitleId(R.id.trace_location_organizer_trace_locations_list_fragment_title_id)
         }
 
-        viewModel.traceLocations.observe2(this) {
+        viewModel.traceLocations.observe(viewLifecycleOwner) {
             traceLocationsAdapter.update(it)
             binding.apply {
                 recyclerView.isGone = it.isEmpty()
@@ -75,7 +74,7 @@ class TraceLocationsFragment : Fragment(R.layout.trace_location_organizer_trace_
             }
         }
 
-        viewModel.events.observe2(this) {
+        viewModel.events.observe(viewLifecycleOwner) {
             when (it) {
                 is TraceLocationEvent.ConfirmDeleteItem -> {
                     showDeleteSingleDialog(it.traceLocation, null)

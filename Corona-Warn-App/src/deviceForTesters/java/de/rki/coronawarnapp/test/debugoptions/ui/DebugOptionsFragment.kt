@@ -22,6 +22,7 @@ import de.rki.coronawarnapp.databinding.FragmentTestDebugoptionsBinding
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
 import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
+import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
 
@@ -59,7 +60,7 @@ class DebugOptionsFragment : Fragment(R.layout.fragment_test_debugoptions) {
             vm.clearLaunchEnvironment()
         }
 
-        vm.environmentState.observe2(this) { state ->
+        vm.environmentState.observe(viewLifecycleOwner) { state ->
             binding.apply {
 
                 buttonClear.isVisible = state.isOverwritten
@@ -97,7 +98,7 @@ class DebugOptionsFragment : Fragment(R.layout.fragment_test_debugoptions) {
                 environmentDccReissuanceServerUrl.text = "DccReissuanceServerUrl" styleTo state.dccReissuanceServerUrl
             }
         }
-        vm.environmentStateChange.observe2(this) {
+        vm.environmentStateChange.observe(viewLifecycleOwner) {
             showSnackBar("Environment changed to: $it\nForce stop & restart the app!")
         }
     }

@@ -11,6 +11,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSettingsNotificationsBinding
 import de.rki.coronawarnapp.util.ExternalActionHelper.openAppNotificationSettings
+import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.toResolvingString
@@ -31,7 +32,7 @@ class NotificationSettingsFragment : Fragment(R.layout.fragment_settings_notific
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
-            viewModel.notificationSettingsState.observe2(this@NotificationSettingsFragment) {
+            viewModel.notificationSettingsState.observe(viewLifecycleOwner) {
                 informationDetailsHeaderIllustration.apply {
                     setImageResource(it.getNotificationsImage())
                     contentDescription = it.getNotificationsIllustrationText(requireContext())

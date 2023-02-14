@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentBoosterInformationDetailsBinding
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.convertToHyperlink
+import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -47,7 +48,7 @@ class BoosterInfoDetailsFragment : Fragment(R.layout.fragment_booster_informatio
             }
         }
 
-        viewModel.uiState.observe2(this) {
+        viewModel.uiState.observe(viewLifecycleOwner) {
             with(binding) {
                 toolbar.title = it.titleText
                 subtitle.text = it.subtitleText
@@ -57,7 +58,7 @@ class BoosterInfoDetailsFragment : Fragment(R.layout.fragment_booster_informatio
             }
         }
 
-        viewModel.shouldClose.observe2(this) {
+        viewModel.shouldClose.observe(viewLifecycleOwner) {
             popBackStack()
         }
     }

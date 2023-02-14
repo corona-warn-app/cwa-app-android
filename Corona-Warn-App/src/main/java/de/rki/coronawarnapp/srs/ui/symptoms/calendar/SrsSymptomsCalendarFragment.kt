@@ -20,7 +20,6 @@ import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 import de.rki.coronawarnapp.util.formatter.formatSymptomBackgroundButtonStyleByState
 import de.rki.coronawarnapp.util.formatter.formatSymptomButtonTextStyleByState
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 
@@ -56,7 +55,7 @@ class SrsSymptomsCalendarFragment : Fragment(R.layout.fragment_submission_sympto
             viewModel.onDateSelected(it)
         }
 
-        viewModel.symptomStart.observe2(this) {
+        viewModel.symptomStart.observe(viewLifecycleOwner) {
             when (it) {
                 is Symptoms.StartOf.Date -> binding.symptomCalendarContainer.setSelectedDate(it.date)
                 else -> binding.symptomCalendarContainer.setSelectedDate(null)

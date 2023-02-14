@@ -19,7 +19,6 @@ import de.rki.coronawarnapp.datadonation.survey.SurveyException
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
 import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.tryHumanReadableError
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
 import org.json.JSONObject
 
@@ -33,13 +32,13 @@ class DataDonationTestFragment : Fragment(R.layout.fragment_test_datadonation) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        vm.currentReport.observe2(this) {
+        vm.currentReport.observe(viewLifecycleOwner) {
             binding.safetynetBody.text = it?.body?.toString()?.let { json ->
                 JSONObject(json).toString(4)
             }
         }
 
-        vm.currentAnalyticsData.observe2(this) {
+        vm.currentAnalyticsData.observe(viewLifecycleOwner) {
             binding.analyticsBody.text = it.toString()
         }
 
@@ -51,7 +50,7 @@ class DataDonationTestFragment : Fragment(R.layout.fragment_test_datadonation) {
             analyticsSubmit.setOnClickListener { vm.submitAnalytics() }
         }
 
-        vm.copyJWSEvent.observe2(this) { jws ->
+        vm.copyJWSEvent.observe(viewLifecycleOwner) { jws ->
             val intent = ShareCompat.IntentBuilder(requireActivity())
                 .setType("text/plain")
                 .setSubject("JWS")
@@ -60,7 +59,7 @@ class DataDonationTestFragment : Fragment(R.layout.fragment_test_datadonation) {
             startActivity(intent)
         }
 
-        vm.copyAnalyticsEvent.observe2(this) { analytics ->
+        vm.copyAnalyticsEvent.observe(viewLifecycleOwner) { analytics ->
             val intent = ShareCompat.IntentBuilder(requireActivity())
                 .setType("text/plain")
                 .setSubject("Analytics")
@@ -69,14 +68,14 @@ class DataDonationTestFragment : Fragment(R.layout.fragment_test_datadonation) {
             startActivity(intent)
         }
 
-        vm.infoEvents.observe2(this) {
+        vm.infoEvents.observe(viewLifecycleOwner) {
             Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
         }
 
-        vm.currentValidation.observe2(this) { items ->
+        vm.currentValidation.observe(viewLifecycleOwner) { items ->
             if (items?.first == null) {
                 binding.safetynetRequirementsBody.text = "No validation yet."
-                return@observe2
+                return@observe
             }
             binding.safetynetRequirementsBody.apply {
                 text = items.first.toString()
@@ -94,22 +93,22 @@ class DataDonationTestFragment : Fragment(R.layout.fragment_test_datadonation) {
             safetynetRequirementsStrict.setOnClickListener { vm.validateSafetyNetStrict() }
         }
 
-        vm.lastAnalyticsData.observe2(this) {
+        vm.lastAnalyticsData.observe(viewLifecycleOwner) {
             binding.analyticsLastSubmitBody.text =
                 it?.toString() ?: "No analytics were successfully submitted until now"
         }
 
         vm.checkLastAnalytics()
 
-        vm.otp.observe2(this) {
+        vm.otp.observe(viewLifecycleOwner) {
             binding.oneTimePasswordBody.text = it.toString()
         }
 
-        vm.surveyConfig.observe2(this) {
+        vm.surveyConfig.observe(viewLifecycleOwner) {
             binding.surveyConfigBody.text = it
         }
 
-        vm.showErrorDialog.observe2(this) {
+        vm.showErrorDialog.observe(viewLifecycleOwner) {
             val humanReadableError = it.tryHumanReadableError(requireContext())
             displayDialog {
                 title(R.string.datadonation_details_survey_consent_error_dialog_title)
@@ -119,7 +118,7 @@ class DataDonationTestFragment : Fragment(R.layout.fragment_test_datadonation) {
             }
         }
 
-        vm.currentSafetyNetExceptionType.observe2(this) { type ->
+        vm.currentSafetyNetExceptionType.observe(viewLifecycleOwner) { type ->
             binding.apply {
                 if (safetynetExceptionSimulationRadioGroup.childCount != SafetyNetException.Type.values().size) {
                     SafetyNetException.Type.values()
@@ -139,7 +138,7 @@ class DataDonationTestFragment : Fragment(R.layout.fragment_test_datadonation) {
             safetynetExceptionSimulationButton.setOnClickListener { vm.showSafetyNetErrorDialog() }
         }
 
-        vm.currentSurveyExceptionType.observe2(this) { type ->
+        vm.currentSurveyExceptionType.observe(viewLifecycleOwner) { type ->
             binding.apply {
                 if (surveyExceptionSimulationRadioGroup.childCount != SurveyException.Type.values().size) {
                     SurveyException.Type.values()
@@ -159,7 +158,7 @@ class DataDonationTestFragment : Fragment(R.layout.fragment_test_datadonation) {
             surveyExceptionSimulationButton.setOnClickListener { vm.showSurveyErrorDialog() }
         }
 
-        vm.isSafetyNetTimeCheckSkipped.observe2(this) {
+        vm.isSafetyNetTimeCheckSkipped.observe(viewLifecycleOwner) {
             binding.disableSafetynetToggle.isChecked = it
         }
 

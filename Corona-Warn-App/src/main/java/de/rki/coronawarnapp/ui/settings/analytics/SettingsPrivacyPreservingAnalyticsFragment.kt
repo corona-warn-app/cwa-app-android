@@ -11,6 +11,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSettingsPrivacyPreservingAnalyticsBinding
 import de.rki.coronawarnapp.datadonation.analytics.ui.input.AnalyticsUserInputFragment
+import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -67,7 +68,7 @@ class SettingsPrivacyPreservingAnalyticsFragment : Fragment(R.layout.fragment_se
             }
         }
 
-        viewModel.settingsPrivacyPreservingAnalyticsState.observe2(this) {
+        viewModel.settingsPrivacyPreservingAnalyticsState.observe(viewLifecycleOwner) {
             binding.ageGroupRow.apply {
                 isGone = !it.isAgeGroupVisible
                 setSubtitle(it.getAgeGroupRowBodyText(requireContext()))

@@ -14,6 +14,7 @@ import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.databinding.FragmentSubmissionDeletionWarningBinding
 import de.rki.coronawarnapp.submission.TestRegistrationStateProcessor.State
+import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -63,7 +64,7 @@ class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_
             toolbar.setNavigationOnClickListener { popBackStack() }
         }
 
-        viewModel.registrationState.observe2(this) { state ->
+        viewModel.registrationState.observe(viewLifecycleOwner) { state ->
             val isWorking = state is State.Working
             binding.apply {
                 continueButton.isLoading = isWorking
@@ -89,7 +90,7 @@ class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_
                 }
             }
 
-            viewModel.routeToScreen.observe2(this) { event ->
+            viewModel.routeToScreen.observe(viewLifecycleOwner) { event ->
                 Timber.d("Navigating to %s", event)
                 when (event) {
                     DuplicateWarningEvent.Back -> {

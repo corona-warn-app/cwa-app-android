@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentInteroperabilityConfigurationBinding
+import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -24,7 +25,7 @@ class InteroperabilityConfigurationFragment : Fragment(R.layout.fragment_interop
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        vm.countryList.observe2(this) {
+        vm.countryList.observe(viewLifecycleOwner) {
             binding.interoperabilityConfigurationCountryList.setCountryList(it)
             if (it.isEmpty()) {
                 binding.noCountriesRiskdetailsInfoview.isVisible = false
@@ -34,7 +35,7 @@ class InteroperabilityConfigurationFragment : Fragment(R.layout.fragment_interop
         }
 
         vm.saveInteroperabilityUsed()
-        vm.navigateBack.observe2(this) {
+        vm.navigateBack.observe(viewLifecycleOwner) {
             if (it) {
                 popBackStack()
             }

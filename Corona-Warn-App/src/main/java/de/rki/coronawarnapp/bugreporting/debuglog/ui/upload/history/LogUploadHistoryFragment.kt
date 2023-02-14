@@ -9,6 +9,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.util.clearAndAddAll
 import de.rki.coronawarnapp.databinding.BugreportingUploadHistoryFragmentBinding
+import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -29,7 +30,7 @@ class LogUploadHistoryFragment : Fragment(R.layout.bugreporting_upload_history_f
             adapter = historyAdapter
         }
 
-        vm.logUploads.observe2(this) {
+        vm.logUploads.observe(viewLifecycleOwner) {
             historyAdapter.apply {
                 data.clearAndAddAll(it)
                 notifyDataSetChanged()

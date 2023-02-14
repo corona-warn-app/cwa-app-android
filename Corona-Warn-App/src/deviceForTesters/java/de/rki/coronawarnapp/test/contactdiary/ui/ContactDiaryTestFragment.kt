@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.databinding.FragmentTestContactDiaryBinding
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
 import de.rki.coronawarnapp.ui.durationpicker.DurationPicker
 import de.rki.coronawarnapp.ui.durationpicker.format
+import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
 import java.time.Duration
@@ -27,12 +28,12 @@ class ContactDiaryTestFragment : Fragment(R.layout.fragment_test_contact_diary),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        vm.locationVisits.observe2(this) {
+        vm.locationVisits.observe(viewLifecycleOwner) {
             binding.locationVisitsFancy.text = vm.getFancyLocationVisitString(it)
             binding.locationVisitsStatus.text = vm.getLocationVisitStatusString(it)
         }
 
-        vm.personEncounters.observe2(this) {
+        vm.personEncounters.observe(viewLifecycleOwner) {
             binding.personEncountersFancy.text = vm.getFancyPersonEncounterString(it)
             binding.personEncountersStatus.text = vm.getPersonEncounterStatusString(it)
         }

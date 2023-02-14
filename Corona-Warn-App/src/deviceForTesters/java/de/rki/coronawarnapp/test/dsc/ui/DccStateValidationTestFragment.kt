@@ -12,6 +12,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestStateValidationDccBinding
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
+import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
 
@@ -43,7 +44,7 @@ class DccStateValidationTestFragment : Fragment(R.layout.fragment_test_state_val
             refreshRevocationList.setOnClickListener { viewModel.refreshRevocationList() }
             clearRevocationList.setOnClickListener { viewModel.clearRevocationList() }
 
-            viewModel.dscData.observe2(this@DccStateValidationTestFragment) {
+            viewModel.dscData.observe(viewLifecycleOwner) {
                 infoText.text = buildSpannedString {
                     bold { append("Last update: ") }
                     appendLine(it.lastUpdate)
@@ -57,7 +58,7 @@ class DccStateValidationTestFragment : Fragment(R.layout.fragment_test_state_val
                 }
             }
 
-            viewModel.errorEvent.observe2(this@DccStateValidationTestFragment) {
+            viewModel.errorEvent.observe(viewLifecycleOwner) {
                 Toast.makeText(requireContext(), "Can't refresh List of DSCs", Toast.LENGTH_SHORT).show()
             }
         }

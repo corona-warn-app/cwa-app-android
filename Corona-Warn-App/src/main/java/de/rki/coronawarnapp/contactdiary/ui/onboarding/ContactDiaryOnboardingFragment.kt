@@ -15,7 +15,6 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.ContactDiaryOnboardingFragmentBinding
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 import de.rki.coronawarnapp.util.ui.addMenuId
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
 import java.time.LocalDate
 
@@ -52,7 +51,7 @@ class ContactDiaryOnboardingFragment : Fragment(R.layout.contact_diary_onboardin
             }
         }
 
-        vm.routeToScreen.observe2(this) {
+        vm.routeToScreen.observe(viewLifecycleOwner) {
             when (it) {
 
                 ContactDiaryOnboardingNavigationEvents.NavigateToMainActivity -> {

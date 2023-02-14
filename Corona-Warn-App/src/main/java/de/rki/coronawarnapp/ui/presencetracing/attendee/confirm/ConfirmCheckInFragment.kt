@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentConfirmCheckInBinding
 import de.rki.coronawarnapp.qrcode.ui.QrcodeSharedViewModel
 import de.rki.coronawarnapp.ui.durationpicker.DurationPicker
+import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -22,16 +23,19 @@ import kotlin.math.abs
 class ConfirmCheckInFragment : Fragment(R.layout.fragment_confirm_check_in), AutoInject {
     private val navArgs by navArgs<ConfirmCheckInFragmentArgs>()
 
+    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
+
+    private val locationViewModel by navGraphViewModels<QrcodeSharedViewModel>(R.id.nav_graph)
     private val viewModel: ConfirmCheckInViewModel by cwaViewModelsAssisted(
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
             factory as ConfirmCheckInViewModel.Factory
             factory.create(
-                verifiedTraceLocation = locationViewModel.verifiedTraceLocation(navArgs.locationId)
+                verifiedTraceLocationId = navArgs.locationId,
+                qrcodeSharedViewModel = locationViewModel
             )
         }
     )
-    private val locationViewModel by navGraphViewModels<QrcodeSharedViewModel>(R.id.nav_graph)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,14 +71,14 @@ class ConfirmCheckInFragment : Fragment(R.layout.fragment_confirm_check_in), Aut
             }
         }
 
-        viewModel.events.observe2(this) { navEvent ->
+        viewModel.events.observe(viewLifecycleOwner) { navEvent ->
             when (navEvent) {
                 ConfirmCheckInNavigation.BackNavigation -> popBackStack()
                 ConfirmCheckInNavigation.ConfirmNavigation -> popBackStack()
             }
         }
 
-        viewModel.uiState.observe2(this) { uiState ->
+        viewModel.uiState.observe(viewLifecycleOwner) { uiState ->
             with(binding) {
                 confirmCheckinInfoCardHeader.text = getString(uiState.typeRes)
                 confirmCheckinInfoCardTitle.text = uiState.description
@@ -94,7 +98,7 @@ class ConfirmCheckInFragment : Fragment(R.layout.fragment_confirm_check_in), Aut
             }
         }
 
-        viewModel.openDatePickerEvent.observe2(this) { time ->
+        viewModel.openDatePickerEvent.observe(viewLifecycleOwner) { time ->
             showDurationPicker(time) {
                 viewModel.durationUpdated(it)
             }

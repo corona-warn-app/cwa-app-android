@@ -15,7 +15,6 @@ import de.rki.coronawarnapp.dccticketing.ui.dialog.dccTicketingErrorDialog
 import de.rki.coronawarnapp.dccticketing.ui.shared.DccTicketingSharedViewModel
 import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.update
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
@@ -65,11 +64,9 @@ class DccTicketingConsentTwoFragment : Fragment(R.layout.fragment_dcc_ticketing_
             addItemDecoration(TopBottomPaddingDecorator(topPadding = R.dimen.standard_8))
         }
 
-        viewModel.events.observe2(this@DccTicketingConsentTwoFragment) {
-            handleEvents(it)
-        }
+        viewModel.events.observe(viewLifecycleOwner) { handleEvents(it) }
 
-        viewModel.uiState.observe2(this@DccTicketingConsentTwoFragment) {
+        viewModel.uiState.observe(viewLifecycleOwner) {
             val testPartnerText = "\"${it.testPartner}\""
             val providerText = "\"${it.provider}\""
 
@@ -79,9 +76,7 @@ class DccTicketingConsentTwoFragment : Fragment(R.layout.fragment_dcc_ticketing_
             certificateAdapter.update(listOf(it.certificateItem))
         }
 
-        viewModel.isLoading.observe2(this@DccTicketingConsentTwoFragment) {
-            agreeButton.isLoading = it
-        }
+        viewModel.isLoading.observe(viewLifecycleOwner) { agreeButton.isLoading = it }
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) { onBackAction() }
     }

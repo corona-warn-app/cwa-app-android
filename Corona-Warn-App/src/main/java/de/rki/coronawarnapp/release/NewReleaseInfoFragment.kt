@@ -16,7 +16,6 @@ import de.rki.coronawarnapp.databinding.NewReleaseInfoItemBinding
 import de.rki.coronawarnapp.databinding.NewReleaseInfoScreenFragmentBinding
 import de.rki.coronawarnapp.ui.lists.BaseAdapter
 import de.rki.coronawarnapp.util.lists.BindableVH
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import setTextWithUrl
@@ -64,7 +63,7 @@ class NewReleaseInfoFragment : Fragment(R.layout.new_release_info_screen_fragmen
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backCallback)
 
-        vm.routeToScreen.observe2(this) {
+        vm.routeToScreen.observe(viewLifecycleOwner) {
             when (it) {
                 is NewReleaseInfoNavigationEvents.CloseScreen ->
                     popBackStack()

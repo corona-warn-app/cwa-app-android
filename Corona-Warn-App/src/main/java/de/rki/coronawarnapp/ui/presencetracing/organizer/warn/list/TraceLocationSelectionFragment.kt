@@ -12,7 +12,6 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TraceLocationOrganizerTraceLocationsWarnListFragmentBinding
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.addTitleId
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 
@@ -53,7 +52,7 @@ class TraceLocationSelectionFragment : Fragment(R.layout.trace_location_organize
             }
         }
 
-        viewModel.state.observe2(this) {
+        viewModel.state.observe(viewLifecycleOwner) {
             traceLocationsAdapter.update(it.traceLocations)
             binding.apply {
                 recyclerView.isGone = it.traceLocations.isEmpty()
@@ -62,7 +61,7 @@ class TraceLocationSelectionFragment : Fragment(R.layout.trace_location_organize
             binding.nextButton.isEnabled = it.actionEnabled
         }
 
-        viewModel.events.observe2(this) {
+        viewModel.events.observe(viewLifecycleOwner) {
             when (it) {
                 is TraceLocationSelectionEvent.ContinueWithTraceLocation -> {
                     findNavController().navigate(

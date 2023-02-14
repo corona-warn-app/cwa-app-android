@@ -20,7 +20,6 @@ import de.rki.coronawarnapp.tracing.ui.tracingConsentDialog
 import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.HashExtensions.toHexString
 import de.rki.coronawarnapp.util.lists.diffutil.update
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
 import java.time.Instant
 
@@ -39,12 +38,12 @@ class SubmissionTestFragment : Fragment(R.layout.fragment_test_submission) {
             adapter = tekHistoryAdapter
             layoutManager = LinearLayoutManager(requireContext())
         }
-        vm.tekHistory.observe2(this) { teks ->
+        vm.tekHistory.observe(viewLifecycleOwner) { teks ->
             tekHistoryAdapter.update(teks)
             binding.tekStorageCount.text = "${teks.size} TEKs"
         }
 
-        vm.shareTEKsEvent.observe2(this) { tekExport ->
+        vm.shareTEKsEvent.observe(viewLifecycleOwner) { tekExport ->
             val share = Intent.createChooser(
                 Intent().apply {
                     action = Intent.ACTION_SEND
@@ -56,17 +55,17 @@ class SubmissionTestFragment : Fragment(R.layout.fragment_test_submission) {
             startActivity(share)
         }
 
-        vm.errorEvents.observe2(this) { displayDialog { setError(it) } }
+        vm.errorEvents.observe(viewLifecycleOwner) { displayDialog { setError(it) } }
 
         binding.apply {
             tekRetrieval.setOnClickListener { vm.updateStorage() }
             tekEmail.setOnClickListener { vm.emailTEKs() }
             tekClearCache.setOnClickListener { vm.clearTekCache() }
         }
-        vm.permissionRequestEvent.observe2(this) { permissionRequest ->
+        vm.permissionRequestEvent.observe(viewLifecycleOwner) { permissionRequest ->
             permissionRequest.invoke(requireActivity())
         }
-        vm.showTracingConsentDialog.observe2(this) { consentResult ->
+        vm.showTracingConsentDialog.observe(viewLifecycleOwner) { consentResult ->
             tracingConsentDialog(positiveButton = { consentResult(true) }, negativeButton = { consentResult(false) })
         }
         vm.otpData.observe(viewLifecycleOwner) {

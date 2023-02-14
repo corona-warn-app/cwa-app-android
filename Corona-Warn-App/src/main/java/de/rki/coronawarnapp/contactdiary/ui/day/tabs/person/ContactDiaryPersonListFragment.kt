@@ -13,7 +13,6 @@ import de.rki.coronawarnapp.contactdiary.util.MarginRecyclerViewDecoration
 import de.rki.coronawarnapp.databinding.ContactDiaryPersonListFragmentBinding
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.onScroll
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 
@@ -47,12 +46,12 @@ class ContactDiaryPersonListFragment : Fragment(R.layout.contact_diary_person_li
             }
         }
 
-        viewModel.uiList.observe2(this) {
+        viewModel.uiList.observe(viewLifecycleOwner) {
             personListAdapter.update(it)
             binding.contactDiaryPersonListNoItemsGroup.isGone = it.isNotEmpty()
         }
 
-        viewModel.openCommentInfo.observe2(this) {
+        viewModel.openCommentInfo.observe(viewLifecycleOwner) {
             findNavController().navigate(
                 ContactDiaryDayFragmentDirections
                     .actionContactDiaryDayFragmentToContactDiaryCommentInfoFragment()

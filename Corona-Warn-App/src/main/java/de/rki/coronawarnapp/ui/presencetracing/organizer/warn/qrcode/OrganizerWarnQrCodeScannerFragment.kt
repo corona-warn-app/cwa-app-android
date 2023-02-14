@@ -18,7 +18,6 @@ import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.ExternalActionHelper.openAppDetailsSettings
 import de.rki.coronawarnapp.util.permission.CameraPermissionHelper
 import de.rki.coronawarnapp.util.ui.LazyString
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import timber.log.Timber
 
@@ -65,7 +64,7 @@ class OrganizerWarnQrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_sca
             filePickerLauncher.launch(arrayOf("image/*", "application/pdf"))
         }
 
-        viewModel.events.observe2(this@OrganizerWarnQrCodeScannerFragment) { navEvent ->
+        viewModel.events.observe(viewLifecycleOwner) { navEvent ->
             qrCodeProcessingView.isVisible = navEvent == OrganizerWarnQrCodeNavigation.InProgress
             when (navEvent) {
                 is OrganizerWarnQrCodeNavigation.BackNavigation -> popBackStack()

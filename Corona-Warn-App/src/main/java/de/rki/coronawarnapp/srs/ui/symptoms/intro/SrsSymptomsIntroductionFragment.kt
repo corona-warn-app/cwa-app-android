@@ -20,7 +20,6 @@ import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 import de.rki.coronawarnapp.util.formatter.formatSymptomBackgroundButtonStyleByState
 import de.rki.coronawarnapp.util.formatter.formatSymptomButtonTextStyleByState
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 
@@ -53,7 +52,7 @@ class SrsSymptomsIntroductionFragment : Fragment(R.layout.fragment_submission_sy
 
         binding.toolbar.setNavigationOnClickListener { viewModel.onCancelConfirmed() }
 
-        viewModel.symptomIndication.observe2(this) {
+        viewModel.symptomIndication.observe(viewLifecycleOwner) {
             updateButtons(it)
         }
 

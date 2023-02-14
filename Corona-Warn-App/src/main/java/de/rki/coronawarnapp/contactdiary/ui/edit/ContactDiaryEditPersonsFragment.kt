@@ -16,7 +16,6 @@ import de.rki.coronawarnapp.databinding.ContactDiaryEditPersonsFragmentBinding
 import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.addNavigationIconButtonId
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 
@@ -38,22 +37,22 @@ class ContactDiaryEditPersonsFragment : Fragment(R.layout.contact_diary_edit_per
         }
         binding.toolbar.addNavigationIconButtonId(R.id.contact_diary_edit_persons_fragment_navigation_icon_buttonId)
 
-        viewModel.isListVisible.observe2(this) {
+        viewModel.isListVisible.observe(viewLifecycleOwner) {
             binding.contactDiaryPersonListNoItemsGroup.isGone = it
         }
 
-        viewModel.isButtonEnabled.observe2(this) {
+        viewModel.isButtonEnabled.observe(viewLifecycleOwner) {
             binding.deleteButton.isEnabled = it
         }
 
-        viewModel.personsLiveData.observe2(this) {
+        viewModel.personsLiveData.observe(viewLifecycleOwner) {
             listAdapter.update(it, true)
             if (it.isEmpty()) {
                 popBackStack()
             }
         }
 
-        viewModel.navigationEvent.observe2(this) {
+        viewModel.navigationEvent.observe(viewLifecycleOwner) {
             when (it) {
                 ShowDeletionConfirmationDialog -> deleteAllPersonsConfirmationDialog()
                 is ShowPersonDetailFragment -> {

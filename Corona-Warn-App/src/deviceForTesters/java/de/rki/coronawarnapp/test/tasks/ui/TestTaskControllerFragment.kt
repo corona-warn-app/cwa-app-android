@@ -10,6 +10,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestTaskControllerBinding
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
+import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
 
@@ -23,21 +24,21 @@ class TestTaskControllerFragment : Fragment(R.layout.fragment_test_task_controll
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        vm.factoryState.observe2(this) { state ->
+        vm.factoryState.observe(viewLifecycleOwner) { state ->
             binding.taskfactoriesValues.text = state.infos.joinToString("\n")
         }
 
-        vm.controllerState.observe2(this) {
+        vm.controllerState.observe(viewLifecycleOwner) {
             binding.runningTasksValues.text = it.stateDescriptions.joinToString("\n")
         }
 
-        vm.lastActivityState.observe2(this) { state ->
+        vm.lastActivityState.observe(viewLifecycleOwner) { state ->
             val lastResults = state.lastActivity.joinToString("\n")
             binding.tasksLastResults.text = lastResults
         }
 
-        vm.latestTestTaskProgress.observe2(this) {
-            if (it == null) return@observe2
+        vm.latestTestTaskProgress.observe(viewLifecycleOwner) {
+            if (it == null) return@observe
             Snackbar.make(
                 requireView(),
                 "Latest TestTask progress: ${it.primaryMessage.get(requireContext())}",

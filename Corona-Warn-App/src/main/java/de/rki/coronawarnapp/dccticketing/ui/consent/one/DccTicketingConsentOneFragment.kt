@@ -17,6 +17,7 @@ import de.rki.coronawarnapp.dccticketing.ui.dialog.dccTicketingErrorDialog
 import de.rki.coronawarnapp.dccticketing.ui.shared.DccTicketingSharedViewModel
 import de.rki.coronawarnapp.qrcode.ui.QrcodeSharedViewModel
 import de.rki.coronawarnapp.ui.view.onOffsetChange
+import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -67,11 +68,9 @@ class DccTicketingConsentOneFragment : Fragment(R.layout.fragment_dcc_ticketing_
             viewModel.showPrivacyInformation()
         }
 
-        viewModel.events.observe2(this@DccTicketingConsentOneFragment) {
-            handleEvents(it)
-        }
+        viewModel.events.observe(viewLifecycleOwner) { handleEvents(it) }
 
-        viewModel.uiState.observe2(this@DccTicketingConsentOneFragment) {
+        viewModel.uiState.observe(viewLifecycleOwner) {
             val providerText = "\"${it.provider}\""
             val subjectText = "\"${it.subject}\""
 
@@ -79,9 +78,7 @@ class DccTicketingConsentOneFragment : Fragment(R.layout.fragment_dcc_ticketing_
             subject.text = subjectText
         }
 
-        viewModel.isLoading.observe2(this@DccTicketingConsentOneFragment) {
-            agreeButton.isLoading = it
-        }
+        viewModel.isLoading.observe(viewLifecycleOwner) { agreeButton.isLoading = it }
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) { onUserCancelAction() }
     }

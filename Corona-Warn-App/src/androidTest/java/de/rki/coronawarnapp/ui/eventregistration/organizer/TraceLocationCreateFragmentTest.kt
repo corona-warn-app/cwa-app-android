@@ -27,8 +27,10 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
+import testhelpers.Screenshot
 import testhelpers.TestDispatcherProvider
 import testhelpers.launchFragmentInContainer2
+import testhelpers.takeScreenshot
 import java.util.TimeZone
 
 @RunWith(AndroidJUnit4::class)
@@ -109,6 +111,21 @@ class TraceLocationCreateFragmentTest : BaseUITest() {
         onView(withId(R.id.button_submit)).perform(click())
 
         navController.currentDestination?.id shouldBe R.id.traceLocationsFragment
+    }
+
+    @Screenshot
+    @Test
+    fun screenshot() {
+        launchFragmentInContainer2<TraceLocationCreateFragment>(
+            themeResId = R.style.AppTheme_Main,
+            fragmentArgs = TraceLocationCreateFragmentArgs(
+                category = TraceLocationData.categoryEvent,
+                originalItem = TraceLocationData.traceLocationTestData
+            ).toBundle(),
+            testNavHostController = navController
+        )
+
+        takeScreenshot<TraceLocationCreateFragment>()
     }
 
     private fun createViewModel(category: TraceLocationCategory) =
