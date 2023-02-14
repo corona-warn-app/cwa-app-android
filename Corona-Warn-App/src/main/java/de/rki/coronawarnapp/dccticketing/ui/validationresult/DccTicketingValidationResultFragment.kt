@@ -12,7 +12,6 @@ import de.rki.coronawarnapp.dccticketing.ui.shared.DccTicketingSharedViewModel
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.assistedViewModel
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -22,7 +21,9 @@ class DccTicketingValidationResultFragment : Fragment(R.layout.fragment_dcc_tick
     @Inject lateinit var viewModelFactory: DccTicketingValidationResultViewModel.Factory
 
     private val binding: FragmentDccTicketingValidationResultBinding by viewBinding()
-    private val dccTicketingSharedViewModel: DccTicketingSharedViewModel by navGraphViewModels(R.id.dcc_ticketing_nav_graph)
+    private val dccTicketingSharedViewModel: DccTicketingSharedViewModel by navGraphViewModels(
+        R.id.dcc_ticketing_nav_graph
+    )
     private val resultViewModel: DccTicketingValidationResultViewModel by assistedViewModel {
         viewModelFactory.create(dccTicketingSharedViewModel)
     }

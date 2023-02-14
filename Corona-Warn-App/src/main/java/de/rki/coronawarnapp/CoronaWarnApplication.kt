@@ -15,8 +15,6 @@ import de.rki.coronawarnapp.bugreporting.loghistory.LogHistoryTree
 import de.rki.coronawarnapp.exception.reporting.ErrorReportReceiver
 import de.rki.coronawarnapp.exception.reporting.ReportingConstants.ERROR_REPORT_LOCAL_BROADCAST_CHANNEL
 import de.rki.coronawarnapp.initializer.Initializer
-import de.rki.coronawarnapp.util.BuildVersionWrap
-import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.device.ForegroundState
 import kotlinx.coroutines.CoroutineScope

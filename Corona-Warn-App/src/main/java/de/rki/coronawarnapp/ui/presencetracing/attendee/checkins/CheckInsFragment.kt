@@ -31,9 +31,7 @@ import de.rki.coronawarnapp.util.ui.LazyString
 import de.rki.coronawarnapp.util.ui.addMenuId
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.assistedViewModel
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import timber.log.Timber
-import java.net.ContentHandlerFactory
 import java.net.URLEncoder
 import javax.inject.Inject
 

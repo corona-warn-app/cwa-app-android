@@ -28,7 +28,6 @@ import de.rki.coronawarnapp.util.ui.addTitleId
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.assistedViewModel
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import java.time.Duration
 import java.time.Instant
 import java.time.LocalDate

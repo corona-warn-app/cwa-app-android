@@ -5,7 +5,6 @@ import android.view.View
 import android.view.inputmethod.EditorInfo.IME_ACTION_DONE
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentFactory
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.transition.MaterialContainerTransform
 import dagger.hilt.android.AndroidEntryPoint
@@ -18,7 +17,6 @@ import de.rki.coronawarnapp.util.setTextOnTextInput
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.assistedViewModel
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import javax.inject.Inject
 
 @AndroidEntryPoint

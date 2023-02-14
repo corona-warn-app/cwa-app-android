@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.text.format.DateFormat
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentFactory
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -26,7 +25,6 @@ import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.toResolvingString
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.assistedViewModel
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import setTextWithUrls
 import java.time.Instant
 import java.time.LocalDate

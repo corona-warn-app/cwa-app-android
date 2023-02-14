@@ -16,7 +16,7 @@ import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
+import de.rki.coronawarnapp.util.viewmodel.assistedViewModel
 import javax.inject.Inject
 
 /**
@@ -29,15 +29,12 @@ class SubmissionTestResultNoConsentFragment : Fragment(R.layout.fragment_submiss
     private val navArgs by navArgs<SubmissionTestResultNoConsentFragmentArgs>()
 
     @Inject lateinit var appShortcutsHelper: AppShortcutsHelper
+    @Inject lateinit var factory: SubmissionTestResultNoConsentViewModel.Factory
 
     private val binding: FragmentSubmissionTestResultPositiveNoConsentBinding by viewBinding()
-    private val viewModel: SubmissionTestResultNoConsentViewModel by cwaViewModelsAssisted(
-        factoryProducer = { viewModelFactory },
-        constructorCall = { factory, _ ->
-            factory as SubmissionTestResultNoConsentViewModel.Factory
-            factory.create(navArgs.testIdentifier)
-        }
-    )
+    private val viewModel: SubmissionTestResultNoConsentViewModel by assistedViewModel {
+        factory.create(navArgs.testIdentifier)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

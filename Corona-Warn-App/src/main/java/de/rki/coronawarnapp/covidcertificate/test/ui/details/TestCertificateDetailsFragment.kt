@@ -35,7 +35,6 @@ import de.rki.coronawarnapp.util.ui.addNavigationIconButtonId
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.assistedViewModel
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import timber.log.Timber
 import java.net.URLEncoder
 import java.time.format.DateTimeFormatter

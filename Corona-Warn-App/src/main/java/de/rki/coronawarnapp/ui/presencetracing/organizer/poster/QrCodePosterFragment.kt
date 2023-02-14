@@ -25,7 +25,6 @@ import de.rki.coronawarnapp.util.files.FileSharing
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.assistedViewModel
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import timber.log.Timber
 import java.io.File
 import javax.inject.Inject

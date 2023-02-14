@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentFactory
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import dagger.hilt.android.AndroidEntryPoint
@@ -17,7 +16,6 @@ import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.assistedViewModel
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import javax.inject.Inject
 
 @AndroidEntryPoint
