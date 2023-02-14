@@ -52,6 +52,7 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
     )
     private val personDetailsAdapter = PersonDetailsAdapter()
     private var numberOfCertificates = 0
+    private var overlayOverlap = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -187,19 +188,21 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
         try {
             if (binding.recyclerViewCertificatesList.childCount > 0) {
                 removeGlobalLayoutListener()
-                val firstElement = binding.recyclerViewCertificatesList[0]
-                val emptySpaceToTop =
-                    firstElement.marginTop + binding.recyclerViewCertificatesList.paddingTop
-                val overlap = (firstElement.height / 2) + emptySpaceToTop
+                if (overlayOverlap == 0) {
+                    val firstElement = binding.recyclerViewCertificatesList[0]
+                    val emptySpaceToTop =
+                        firstElement.marginTop + binding.recyclerViewCertificatesList.paddingTop
+                    overlayOverlap = (firstElement.height / 2) + emptySpaceToTop
+                }
 
                 val layoutParamsRecyclerView: CoordinatorLayout.LayoutParams =
                     binding.recyclerViewCertificatesList.layoutParams
                         as (CoordinatorLayout.LayoutParams)
                 val behavior: AppBarLayout.ScrollingViewBehavior =
                     layoutParamsRecyclerView.behavior as (AppBarLayout.ScrollingViewBehavior)
-                behavior.overlayTop = overlap
+                behavior.overlayTop = overlayOverlap
 
-                binding.europaImage.layoutParams.height = binding.collapsingToolbarLayout.height + overlap
+                binding.europaImage.layoutParams.height = binding.collapsingToolbarLayout.height + overlayOverlap
                 binding.europaImage.requestLayout()
             }
         } catch (e: Exception) {
