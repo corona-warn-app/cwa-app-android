@@ -10,6 +10,8 @@ import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import dagger.multibindings.IntoSet
 import de.rki.coronawarnapp.covidcertificate.valueset.server.CertificateValueSet
 import de.rki.coronawarnapp.covidcertificate.valueset.server.CertificateValueSetApiV1
@@ -33,6 +35,7 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Qualifier
 import javax.inject.Singleton
 
+@InstallIn(SingletonComponent::class)
 @Module(includes = [CertificateValueSetModule.ResetModule::class])
 object CertificateValueSetModule {
 
@@ -84,6 +87,7 @@ object CertificateValueSetModule {
         )
     )
 
+    @InstallIn(SingletonComponent::class)
     @Module
     internal interface ResetModule {
 

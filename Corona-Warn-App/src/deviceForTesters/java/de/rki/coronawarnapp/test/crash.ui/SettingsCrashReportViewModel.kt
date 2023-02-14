@@ -4,22 +4,22 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.map
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import de.rki.coronawarnapp.bugreporting.event.BugEvent
 import de.rki.coronawarnapp.bugreporting.reportProblem
 import de.rki.coronawarnapp.bugreporting.storage.repository.BugRepository
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import timber.log.Timber
+import javax.inject.Inject
 
-class SettingsCrashReportViewModel @AssistedInject constructor(
+@HiltViewModel
+class SettingsCrashReportViewModel @Inject constructor(
     private val crashReportRepository: BugRepository
 ) : CWAViewModel() {
 
-    val crashReports = crashReportRepository.getAll().asLiveData()
-
     private val selectedCrashReportMutable: MutableLiveData<BugEvent> = MutableLiveData()
+
+    val crashReports = crashReportRepository.getAll().asLiveData()
     val selectedCrashReport: LiveData<BugEvent> = selectedCrashReportMutable
     val selectedCrashReportFormattedText: LiveData<String> = selectedCrashReportMutable.map {
         createBugEventFormattedText(it)
@@ -53,7 +53,4 @@ class SettingsCrashReportViewModel @AssistedInject constructor(
             " # C-Hash ${bugEvent.shortCommitHash} \n\n\n" +
             " ${bugEvent.stackTrace}\n\n" +
             " # Corresponding Log: \n\n ${bugEvent.logHistory}"
-
-    @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<SettingsCrashReportViewModel>
 }

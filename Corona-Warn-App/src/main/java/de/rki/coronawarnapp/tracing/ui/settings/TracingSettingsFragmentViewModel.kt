@@ -6,8 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
@@ -23,15 +22,16 @@ import de.rki.coronawarnapp.util.device.BackgroundModeStatus
 import de.rki.coronawarnapp.util.flow.shareLatest
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.plus
 import timber.log.Timber
+import javax.inject.Inject
 
-class TracingSettingsFragmentViewModel @AssistedInject constructor(
+@HiltViewModel
+class TracingSettingsFragmentViewModel @Inject constructor(
     dispatcherProvider: DispatcherProvider,
     tracingStatus: GeneralTracingStatus,
     installTimeProvider: InstallTimeProvider,
@@ -146,7 +146,4 @@ class TracingSettingsFragmentViewModel @AssistedInject constructor(
         data class TracingConsentDialog(val onConsentResult: (Boolean) -> Unit) : Event()
         object ManualCheckingDialog : Event()
     }
-
-    @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<TracingSettingsFragmentViewModel>
 }

@@ -4,22 +4,19 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestDeltaonboardingBinding
 import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
-import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.viewBinding
-import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
-import javax.inject.Inject
 
 @SuppressLint("SetTextI18n")
-class DeltaOnboardingFragment : Fragment(R.layout.fragment_test_deltaonboarding), AutoInject {
+@AndroidEntryPoint
+class DeltaOnboardingFragment : Fragment(R.layout.fragment_test_deltaonboarding) {
 
-    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val viewModel: DeltaOnboardingFragmentViewModel by cwaViewModels { viewModelFactory }
-
+    private val viewModel: DeltaOnboardingFragmentViewModel by viewModels()
     private val binding: FragmentTestDeltaonboardingBinding by viewBinding()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -9,22 +9,19 @@ import androidx.core.text.buildSpannedString
 import androidx.core.text.color
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestCclBinding
 import de.rki.coronawarnapp.test.ccl.CclTestViewModel.ForceUpdateUiState.Loading
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
-import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
-import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
-import javax.inject.Inject
 
-class CclTestFragment : Fragment(R.layout.fragment_test_ccl), AutoInject {
+@AndroidEntryPoint
+class CclTestFragment : Fragment(R.layout.fragment_test_ccl) {
 
-    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-
-    private val viewModel: CclTestViewModel by cwaViewModels { viewModelFactory }
+    private val viewModel: CclTestViewModel by viewModels()
     private val binding: FragmentTestCclBinding by viewBinding()
 
     @SuppressLint("SetTextI18n")

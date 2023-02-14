@@ -1,8 +1,7 @@
 package de.rki.coronawarnapp.test.datadonation.ui
 
 import androidx.lifecycle.asLiveData
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.SafetyNetRequirementsContainer
 import de.rki.coronawarnapp.datadonation.analytics.Analytics
@@ -20,13 +19,14 @@ import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.security.RandomStrong
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 import timber.log.Timber
+import javax.inject.Inject
 import kotlin.random.Random
 
-class DataDonationTestFragmentViewModel @AssistedInject constructor(
+@HiltViewModel
+class DataDonationTestFragmentViewModel @Inject constructor(
     dispatcherProvider: DispatcherProvider,
     private val safetyNetClientWrapper: SafetyNetClientWrapper,
     @RandomStrong private val randomSource: Random,
@@ -194,7 +194,4 @@ class DataDonationTestFragmentViewModel @AssistedInject constructor(
             SurveyException(type = currentSurveyExceptionTypeInternal.value)
         )
     }
-
-    @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<DataDonationTestFragmentViewModel>
 }

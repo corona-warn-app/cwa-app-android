@@ -2,8 +2,7 @@ package de.rki.coronawarnapp.ui.presencetracing.organizer.list
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
@@ -14,13 +13,14 @@ import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class TraceLocationsViewModel @AssistedInject constructor(
+@HiltViewModel
+class TraceLocationsViewModel @Inject constructor(
     @AppScope private val appScope: CoroutineScope,
     dispatcherProvider: DispatcherProvider,
     checkInsRepository: CheckInRepository,
@@ -76,7 +76,4 @@ class TraceLocationsViewModel @AssistedInject constructor(
     fun deleteSingleTraceLocation(traceLocation: TraceLocation) {
         traceLocationRepository.deleteTraceLocation(traceLocation)
     }
-
-    @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<TraceLocationsViewModel>
 }

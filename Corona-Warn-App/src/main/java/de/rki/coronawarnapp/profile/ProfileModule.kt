@@ -9,6 +9,8 @@ import androidx.datastore.preferences.preferencesDataStoreFile
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import dagger.multibindings.IntoSet
 import de.rki.coronawarnapp.profile.storage.ProfileDao
 import de.rki.coronawarnapp.profile.storage.ProfileDataStore
@@ -19,6 +21,7 @@ import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.reset.Resettable
 import javax.inject.Singleton
 
+@InstallIn(SingletonComponent::class)
 @Module(includes = [ProfileModule.ResetModule::class])
 object ProfileModule {
     @Singleton
@@ -26,6 +29,19 @@ object ProfileModule {
     fun familyCoronaTestDao(
         factory: ProfileDatabase.Factory
     ): ProfileDao = factory.create().profileDao()
+
+    @InstallIn(SingletonComponent::class)
+    @Module
+    internal interface ResetModule {
+
+        @Binds
+        @IntoSet
+        fun bindResettableProfileSettingsDataStore(resettable: ProfileSettingsDataStore): Resettable
+
+        @Binds
+        @IntoSet
+        fun bindResettableProfileRepository(resettable: ProfileRepository): Resettable
+    }
 
     @Singleton
     @ProfileDataStore
@@ -41,18 +57,6 @@ object ProfileModule {
         )
     ) {
         context.preferencesDataStoreFile(LEGACY_SHARED_PREFS_NAME)
-    }
-
-    @Module
-    internal interface ResetModule {
-
-        @Binds
-        @IntoSet
-        fun bindResettableProfileSettingsDataStore(resettable: ProfileSettingsDataStore): Resettable
-
-        @Binds
-        @IntoSet
-        fun bindResettableProfileRepository(resettable: ProfileRepository): Resettable
     }
 }
 

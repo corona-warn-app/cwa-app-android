@@ -4,6 +4,8 @@ import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import dagger.multibindings.IntoSet
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor
 import de.rki.coronawarnapp.bugreporting.censors.contactdiary.DiaryEncounterCensor
@@ -43,6 +45,7 @@ import retrofit2.converter.protobuf.ProtoConverterFactory
 import javax.inject.Singleton
 
 @Suppress("TooManyFunctions")
+@InstallIn(SingletonComponent::class)
 @Module(
     includes = [
         BugReportingSharedModule.BindsModule::class,
@@ -90,6 +93,7 @@ object BugReportingSharedModule {
     @Provides
     fun scope(): CoroutineScope = DebugLoggerScope
 
+    @InstallIn(SingletonComponent::class)
     @Module
     internal interface BindsModule {
 

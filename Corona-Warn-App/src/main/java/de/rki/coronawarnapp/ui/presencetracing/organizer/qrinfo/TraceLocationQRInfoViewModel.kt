@@ -1,13 +1,13 @@
 package de.rki.coronawarnapp.ui.presencetracing.organizer.qrinfo
 
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import de.rki.coronawarnapp.ui.presencetracing.TraceLocationPreferences
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import javax.inject.Inject
 
-class TraceLocationQRInfoViewModel @AssistedInject constructor(
+@HiltViewModel
+class TraceLocationQRInfoViewModel @Inject constructor(
     private val traceLocationPreferences: TraceLocationPreferences
 ) : CWAViewModel() {
     val routeToScreen: SingleLiveEvent<TraceLocationQRInfoNavigationEvents> = SingleLiveEvent()
@@ -24,7 +24,4 @@ class TraceLocationQRInfoViewModel @AssistedInject constructor(
     fun updateQrInfoAcknowledged(value: Boolean) = launch {
         traceLocationPreferences.updateQrInfoAcknowledged(value)
     }
-
-    @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<TraceLocationQRInfoViewModel>
 }

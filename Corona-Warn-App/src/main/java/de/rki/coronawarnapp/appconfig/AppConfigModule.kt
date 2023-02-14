@@ -4,6 +4,8 @@ import android.content.Context
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import dagger.multibindings.IntoSet
 import de.rki.coronawarnapp.appconfig.download.AppConfigApiV2
 import de.rki.coronawarnapp.appconfig.mapping.AnalyticsConfigMapper
@@ -29,7 +31,13 @@ import java.io.File
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
-@Module(includes = [AppConfigModule.BindsModule::class, AppConfigModule.ResetModule::class])
+@InstallIn(SingletonComponent::class)
+@Module(
+    includes = [
+        AppConfigModule.BindsModule::class,
+        AppConfigModule.ResetModule::class
+    ]
+)
 object AppConfigModule {
 
     @Singleton
@@ -63,6 +71,7 @@ object AppConfigModule {
         return Cache(cacheDir, DEFAULT_CACHE_SIZE)
     }
 
+    @InstallIn(SingletonComponent::class)
     @Module
     internal interface ResetModule {
 
@@ -71,6 +80,7 @@ object AppConfigModule {
         fun bindResettableAppConfigProvider(resettable: AppConfigProvider): Resettable
     }
 
+    @InstallIn(SingletonComponent::class)
     @Module
     internal interface BindsModule {
 

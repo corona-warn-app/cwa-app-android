@@ -3,8 +3,7 @@ package de.rki.coronawarnapp.test.presencetracing.ui
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
@@ -23,7 +22,6 @@ import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.debug.measureTime
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import timber.log.Timber
@@ -31,9 +29,11 @@ import java.time.Duration
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
+import javax.inject.Inject
 import kotlin.system.measureTimeMillis
 
-class PresenceTracingTestViewModel @AssistedInject constructor(
+@HiltViewModel
+class PresenceTracingTestViewModel @Inject constructor(
     dispatcherProvider: DispatcherProvider,
     traceLocationRepository: TraceLocationRepository,
     checkInRepository: CheckInRepository,
@@ -80,7 +80,8 @@ class PresenceTracingTestViewModel @AssistedInject constructor(
 
         val warningPackages = traceWarningRepository.allMetaData.first()
         val overlaps = presenceTracingRiskRepository.allCheckInWarningOverlaps.first()
-        val lastResult = presenceTracingRiskRepository.allRiskLevelResults.first().firstOrNull { it.wasSuccessfullyCalculated }
+        val lastResult =
+            presenceTracingRiskRepository.allRiskLevelResults.first().firstOrNull { it.wasSuccessfullyCalculated }
 
         val infoText = when {
             lastResult?.wasSuccessfullyCalculated != true -> "Last calculation failed"
@@ -93,6 +94,7 @@ class PresenceTracingTestViewModel @AssistedInject constructor(
                     .append("Min. ${checkInOverlap.overlap.toMinutes()}")
                     .appendLine()
             }.toString()
+
             else -> "Unknown state"
         }
         presenceTracingWarningTaskResult.postValue(infoText)
@@ -176,7 +178,4 @@ class PresenceTracingTestViewModel @AssistedInject constructor(
             }
         }
     }
-
-    @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<PresenceTracingTestViewModel>
 }

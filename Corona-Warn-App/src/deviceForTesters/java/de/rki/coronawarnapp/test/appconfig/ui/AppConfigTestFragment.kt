@@ -5,26 +5,22 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestAppconfigBinding
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
-import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
-import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
-import javax.inject.Inject
 
 @SuppressLint("SetTextI18n")
-class AppConfigTestFragment : Fragment(R.layout.fragment_test_appconfig), AutoInject {
+@AndroidEntryPoint
+class AppConfigTestFragment : Fragment(R.layout.fragment_test_appconfig) {
 
-    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val vm: AppConfigTestFragmentViewModel by cwaViewModels { viewModelFactory }
-
+    private val vm: AppConfigTestFragmentViewModel by viewModels()
     private val binding: FragmentTestAppconfigBinding by viewBinding()
-
     private val timeFormatter = DateTimeFormatter
         .ofPattern("yyyy-MM-dd - HH:mm:ss")
         .withZone(ZoneId.systemDefault())

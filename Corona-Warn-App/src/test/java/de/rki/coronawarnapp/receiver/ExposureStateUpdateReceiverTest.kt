@@ -10,7 +10,6 @@ import dagger.android.AndroidInjector
 import dagger.android.HasAndroidInjector
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTracker
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.TrackedExposureDetection
-import de.rki.coronawarnapp.util.di.AppInjector
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.every

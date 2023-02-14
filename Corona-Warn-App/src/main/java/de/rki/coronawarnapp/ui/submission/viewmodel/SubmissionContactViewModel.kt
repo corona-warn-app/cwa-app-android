@@ -1,12 +1,12 @@
 package de.rki.coronawarnapp.ui.submission.viewmodel
 
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import javax.inject.Inject
 
-class SubmissionContactViewModel @AssistedInject constructor() : CWAViewModel() {
+@HiltViewModel
+class SubmissionContactViewModel @Inject constructor() : CWAViewModel() {
 
     val routeToScreen: SingleLiveEvent<SubmissionNavigationEvents> = SingleLiveEvent()
 
@@ -17,7 +17,4 @@ class SubmissionContactViewModel @AssistedInject constructor() : CWAViewModel() 
     fun onEnterTanPressed() {
         routeToScreen.postValue(SubmissionNavigationEvents.NavigateToTAN)
     }
-
-    @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<SubmissionContactViewModel>
 }

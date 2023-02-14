@@ -8,6 +8,8 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStoreFile
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.di.AppContext
@@ -16,6 +18,7 @@ import kotlinx.coroutines.plus
 import javax.inject.Qualifier
 import javax.inject.Singleton
 
+@InstallIn(SingletonComponent::class)
 @Module
 object VaccinationStorageModule {
 

@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.DeserializationFeature
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import de.rki.coronawarnapp.BuildConfig
 import de.rki.coronawarnapp.http.config.HTTPVariables
 import de.rki.coronawarnapp.http.interceptor.RetryInterceptor
@@ -22,6 +24,7 @@ import retrofit2.converter.protobuf.ProtoConverterFactory
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
+@InstallIn(SingletonComponent::class)
 @Module
 class HttpModule {
 

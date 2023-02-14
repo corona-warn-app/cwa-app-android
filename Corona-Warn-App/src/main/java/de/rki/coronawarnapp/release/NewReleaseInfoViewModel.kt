@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.release
 
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import de.rki.coronawarnapp.BuildConfig
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.environment.BuildConfigWrap
@@ -10,12 +9,13 @@ import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.ui.toResolvingString
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.first
 import timber.log.Timber
+import javax.inject.Inject
 
-class NewReleaseInfoViewModel @AssistedInject constructor(
+@HiltViewModel
+class NewReleaseInfoViewModel @Inject constructor(
     dispatcherProvider: DispatcherProvider,
     private val appSettings: CWASettings
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
@@ -58,7 +58,4 @@ class NewReleaseInfoViewModel @AssistedInject constructor(
         }
         return items
     }
-
-    @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<NewReleaseInfoViewModel>
 }

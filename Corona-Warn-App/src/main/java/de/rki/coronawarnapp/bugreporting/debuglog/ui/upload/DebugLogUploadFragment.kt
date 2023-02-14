@@ -5,22 +5,20 @@ import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.BugreportingDebuglogUploadFragmentBinding
 import de.rki.coronawarnapp.ui.dialog.displayDialog
-import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
-import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
-import javax.inject.Inject
 
-class DebugLogUploadFragment : Fragment(R.layout.bugreporting_debuglog_upload_fragment), AutoInject {
+@AndroidEntryPoint
+class DebugLogUploadFragment : Fragment(R.layout.bugreporting_debuglog_upload_fragment) {
 
-    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val vm: DebugLogUploadViewModel by cwaViewModels { viewModelFactory }
+    private val vm: DebugLogUploadViewModel by viewModels()
     private val binding: BugreportingDebuglogUploadFragmentBinding by viewBinding()
     private lateinit var uploadDialog: LogUploadBlockingDialog
 

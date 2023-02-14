@@ -5,26 +5,24 @@ import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.ui.edit.ContactDiaryEditLocationsViewModel.NavigationEvent.ShowDeletionConfirmationDialog
 import de.rki.coronawarnapp.contactdiary.ui.edit.ContactDiaryEditLocationsViewModel.NavigationEvent.ShowLocationDetailFragment
 import de.rki.coronawarnapp.contactdiary.ui.edit.adapter.LocationEditAdapter
 import de.rki.coronawarnapp.databinding.ContactDiaryEditLocationsFragmentBinding
 import de.rki.coronawarnapp.ui.dialog.displayDialog
-import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
-import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
-import javax.inject.Inject
 
-class ContactDiaryEditLocationsFragment : Fragment(R.layout.contact_diary_edit_locations_fragment), AutoInject {
+@AndroidEntryPoint
+class ContactDiaryEditLocationsFragment : Fragment(R.layout.contact_diary_edit_locations_fragment) {
 
-    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val viewModel: ContactDiaryEditLocationsViewModel by cwaViewModels { viewModelFactory }
+    private val viewModel: ContactDiaryEditLocationsViewModel by viewModels()
     private val binding: ContactDiaryEditLocationsFragmentBinding by viewBinding()
 
     private lateinit var listAdapter: LocationEditAdapter

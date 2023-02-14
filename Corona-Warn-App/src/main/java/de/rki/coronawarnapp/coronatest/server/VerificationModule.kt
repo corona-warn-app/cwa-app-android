@@ -4,6 +4,8 @@ import android.content.Context
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import de.rki.coronawarnapp.environment.verification.VerificationCDNServerUrl
 import de.rki.coronawarnapp.http.HttpClientDefault
 import de.rki.coronawarnapp.http.RestrictedConnectionSpecs
@@ -16,6 +18,7 @@ import retrofit2.converter.jackson.JacksonConverterFactory
 import java.io.File
 import javax.inject.Singleton
 
+@InstallIn(SingletonComponent::class)
 @Module
 class VerificationModule {
 

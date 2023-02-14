@@ -10,6 +10,8 @@ import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import dagger.multibindings.IntoSet
 import de.rki.coronawarnapp.environment.submission.SubmissionCDNServerUrl
 import de.rki.coronawarnapp.http.HttpClientDefault
@@ -35,7 +37,13 @@ import java.io.File
 import javax.inject.Qualifier
 import javax.inject.Singleton
 
-@Module(includes = [SubmissionModule.ResetModule::class, SubmissionModule.BindsModule::class])
+@InstallIn(SingletonComponent::class)
+@Module(
+    includes = [
+        SubmissionModule.ResetModule::class,
+        SubmissionModule.BindsModule::class
+    ]
+)
 object SubmissionModule {
 
     @Reusable
@@ -89,6 +97,7 @@ object SubmissionModule {
         )
     )
 
+    @InstallIn(SingletonComponent::class)
     @Module
     internal interface ResetModule {
 
@@ -101,6 +110,7 @@ object SubmissionModule {
         fun bindResettableTEKHistoryStorage(resettable: TEKHistoryStorage): Resettable
     }
 
+    @InstallIn(SingletonComponent::class)
     @Module
     internal interface BindsModule {
 

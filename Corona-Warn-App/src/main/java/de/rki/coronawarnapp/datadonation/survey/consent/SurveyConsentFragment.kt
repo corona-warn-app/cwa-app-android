@@ -10,19 +10,15 @@ import de.rki.coronawarnapp.databinding.SurveyConsentFragmentBinding
 import de.rki.coronawarnapp.ui.dialog.CwaDialogFragment
 import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
-import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
-import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
-import javax.inject.Inject
 
 class SurveyConsentFragment : Fragment(R.layout.survey_consent_fragment), AutoInject {
 
     private val navArgs by navArgs<SurveyConsentFragmentArgs>()
 
-    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val vm: SurveyConsentViewModel by cwaViewModelsAssisted(
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->

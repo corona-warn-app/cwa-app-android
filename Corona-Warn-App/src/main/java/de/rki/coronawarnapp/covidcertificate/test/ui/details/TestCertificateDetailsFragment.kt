@@ -25,7 +25,6 @@ import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
-import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.expendedImageResource
 import de.rki.coronawarnapp.util.getEuropaStarsTint
 import de.rki.coronawarnapp.util.mutateDrawable
@@ -34,17 +33,14 @@ import de.rki.coronawarnapp.util.ui.addMenuId
 import de.rki.coronawarnapp.util.ui.addNavigationIconButtonId
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
-import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import timber.log.Timber
 import java.net.URLEncoder
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
-import javax.inject.Inject
 
 class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certificate_details), AutoInject {
 
-    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val binding by viewBinding<FragmentTestCertificateDetailsBinding>()
     private val args by navArgs<TestCertificateDetailsFragmentArgs>()
     private val viewModel: TestCertificateDetailsViewModel by cwaViewModelsAssisted(

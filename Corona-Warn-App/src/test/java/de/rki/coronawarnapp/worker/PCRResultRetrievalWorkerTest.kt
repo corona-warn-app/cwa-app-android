@@ -13,7 +13,6 @@ import de.rki.coronawarnapp.coronatest.type.pcr.execution.PCRResultRetrievalWork
 import de.rki.coronawarnapp.coronatest.type.pcr.execution.PCRResultScheduler
 import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.util.TimeStamper
-import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.di.ApplicationComponent
 import de.rki.coronawarnapp.util.encryptionmigration.EncryptedPreferencesFactory
 import de.rki.coronawarnapp.util.encryptionmigration.EncryptionErrorResetTool

@@ -6,8 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.main.CWASettings
@@ -23,11 +22,12 @@ import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.serialization.BaseJackson
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import timber.log.Timber
 import java.time.Instant
+import javax.inject.Inject
 
-class SubmissionTestFragmentViewModel @AssistedInject constructor(
+@HiltViewModel
+class SubmissionTestFragmentViewModel @Inject constructor(
     @BaseJackson private val mapper: ObjectMapper,
     timeStamper: TimeStamper,
     androidIdProvider: AndroidIdProvider,
@@ -159,9 +159,6 @@ class SubmissionTestFragmentViewModel @AssistedInject constructor(
     fun updateFirstReliableTime(time: Long) = launch {
         cwaSettings.updateFirstReliableDeviceTime(Instant.ofEpochMilli(time))
     }
-
-    @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<SubmissionTestFragmentViewModel>
 }
 
 sealed interface SrsSubmissionResult

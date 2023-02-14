@@ -9,6 +9,8 @@ import androidx.datastore.preferences.preferencesDataStoreFile
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import dagger.multibindings.IntoSet
 import de.rki.coronawarnapp.environment.presencetracing.qrcodeposter.QrCodePosterTemplateModule
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
@@ -26,6 +28,7 @@ import kotlinx.coroutines.plus
 import javax.inject.Qualifier
 import javax.inject.Singleton
 
+@InstallIn(SingletonComponent::class)
 @Module(
     includes = [
         QrCodePosterTemplateModule::class,
@@ -42,6 +45,7 @@ interface PresenceTracingModule {
         defaultTraceLocationRepo: DefaultTraceLocationRepository
     ): TraceLocationRepository
 
+    @InstallIn(SingletonComponent::class)
     @Module
     object PresenceTracingDataStoreModule {
         @Singleton

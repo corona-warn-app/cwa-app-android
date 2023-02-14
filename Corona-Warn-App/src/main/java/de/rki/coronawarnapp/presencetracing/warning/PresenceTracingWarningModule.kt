@@ -3,6 +3,8 @@ package de.rki.coronawarnapp.presencetracing.warning
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import dagger.multibindings.IntoMap
 import dagger.multibindings.IntoSet
 import de.rki.coronawarnapp.environment.download.DownloadCDNHttpClient
@@ -20,7 +22,13 @@ import retrofit2.Retrofit
 import retrofit2.converter.jackson.JacksonConverterFactory
 import javax.inject.Singleton
 
-@Module(includes = [PresenceTracingWarningModule.BindsModule::class, PresenceTracingWarningModule.ResetModule::class])
+@InstallIn(SingletonComponent::class)
+@Module(
+    includes = [
+        PresenceTracingWarningModule.BindsModule::class,
+        PresenceTracingWarningModule.ResetModule::class
+    ]
+)
 object PresenceTracingWarningModule {
 
     @Singleton
@@ -55,6 +63,7 @@ object PresenceTracingWarningModule {
             .create(TraceWarningEncryptedApiV2::class.java)
     }
 
+    @InstallIn(SingletonComponent::class)
     @Module
     internal interface ResetModule {
 
@@ -63,6 +72,7 @@ object PresenceTracingWarningModule {
         fun bindResettableTraceWarningRepository(resettable: TraceWarningRepository): Resettable
     }
 
+    @InstallIn(SingletonComponent::class)
     @Module
     internal interface BindsModule {
 

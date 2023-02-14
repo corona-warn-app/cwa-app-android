@@ -9,6 +9,8 @@ import androidx.datastore.preferences.preferencesDataStoreFile
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import dagger.multibindings.IntoSet
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -19,6 +21,7 @@ import kotlinx.coroutines.plus
 import javax.inject.Qualifier
 import javax.inject.Singleton
 
+@InstallIn(SingletonComponent::class)
 @Module(includes = [StorageModule.ResetModule::class])
 object StorageModule {
 
@@ -77,6 +80,7 @@ object StorageModule {
     )
 
     @Module
+    @InstallIn(SingletonComponent::class)
     internal interface ResetModule {
         @Binds
         @IntoSet

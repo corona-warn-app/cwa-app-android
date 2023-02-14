@@ -13,22 +13,18 @@ import de.rki.coronawarnapp.databinding.FragmentDccTicketingConsentTwoBinding
 import de.rki.coronawarnapp.dccticketing.ui.dialog.dccTicketingConfirmCancellationDialog
 import de.rki.coronawarnapp.dccticketing.ui.dialog.dccTicketingErrorDialog
 import de.rki.coronawarnapp.dccticketing.ui.shared.DccTicketingSharedViewModel
-import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
-import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import timber.log.Timber
-import javax.inject.Inject
 
 class DccTicketingConsentTwoFragment : Fragment(R.layout.fragment_dcc_ticketing_consent_two), AutoInject {
 
     private val args by navArgs<DccTicketingConsentTwoFragmentArgs>()
 
-    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val viewModel: DccTicketingConsentTwoViewModel by cwaViewModelsAssisted(
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->

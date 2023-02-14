@@ -9,30 +9,29 @@ import android.widget.Toast
 import androidx.core.view.isGone
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.LogSnapshotter
 import de.rki.coronawarnapp.databinding.BugreportingDebuglogFragmentBinding
 import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
-import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.files.FileSharing
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
-import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import setTextWithUrl
 import java.time.Duration
 import java.time.Instant
 import javax.inject.Inject
 
-class DebugLogFragment : Fragment(R.layout.bugreporting_debuglog_fragment), AutoInject {
+@AndroidEntryPoint
+class DebugLogFragment : Fragment(R.layout.bugreporting_debuglog_fragment) {
 
-    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     @Inject lateinit var fileSharing: FileSharing
 
-    private val vm: DebugLogViewModel by cwaViewModels { viewModelFactory }
+    private val vm: DebugLogViewModel by viewModels()
     private val binding: BugreportingDebuglogFragmentBinding by viewBinding()
 
     @Suppress("ComplexMethod")

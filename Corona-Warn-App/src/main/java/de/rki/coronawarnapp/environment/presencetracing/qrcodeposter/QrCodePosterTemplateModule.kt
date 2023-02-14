@@ -3,6 +3,8 @@ package de.rki.coronawarnapp.environment.presencetracing.qrcodeposter
 import android.content.Context
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import de.rki.coronawarnapp.environment.BaseEnvironmentModule
 import de.rki.coronawarnapp.environment.download.DownloadCDNHttpClient
 import de.rki.coronawarnapp.environment.download.DownloadCDNServerUrl
@@ -15,6 +17,7 @@ import java.io.File
 import javax.inject.Qualifier
 import javax.inject.Singleton
 
+@InstallIn(SingletonComponent::class)
 @Module
 class QrCodePosterTemplateModule : BaseEnvironmentModule() {
 

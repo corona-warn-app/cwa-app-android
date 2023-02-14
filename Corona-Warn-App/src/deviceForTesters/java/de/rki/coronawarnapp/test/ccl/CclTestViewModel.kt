@@ -1,16 +1,16 @@
 package de.rki.coronawarnapp.test.ccl
 
 import androidx.lifecycle.MutableLiveData
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import de.rki.coronawarnapp.ccl.configuration.update.CclConfigurationUpdater
 import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.DccWalletInfoCalculationManager
 import de.rki.coronawarnapp.ccl.dccwalletinfo.storage.DccWalletInfoRepository
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesSettings
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import javax.inject.Inject
 
-class CclTestViewModel @AssistedInject constructor(
+@HiltViewModel
+class CclTestViewModel @Inject constructor(
     private val dccWalletInfoRepository: DccWalletInfoRepository,
     private val dccWalletInfoCalculationManager: DccWalletInfoCalculationManager,
     private val cclConfigurationUpdater: CclConfigurationUpdater,
@@ -40,7 +40,4 @@ class CclTestViewModel @AssistedInject constructor(
         object Loading : ForceUpdateUiState()
         object Success : ForceUpdateUiState()
     }
-
-    @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<CclTestViewModel>
 }

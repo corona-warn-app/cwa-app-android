@@ -9,6 +9,8 @@ import androidx.datastore.preferences.preferencesDataStoreFile
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import dagger.multibindings.IntoSet
 import de.rki.coronawarnapp.coronatest.server.VerificationModule
 import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTestProcessor
@@ -24,6 +26,7 @@ import kotlinx.coroutines.plus
 import javax.inject.Qualifier
 import javax.inject.Singleton
 
+@InstallIn(SingletonComponent::class)
 @Module(
     includes = [
         CoronaTestModule.ResetModule::class,
@@ -67,6 +70,7 @@ interface CoronaTestModule {
         )
     }
 
+    @InstallIn(SingletonComponent::class)
     @Module
     interface ResetModule {
 

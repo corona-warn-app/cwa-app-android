@@ -3,6 +3,8 @@ package de.rki.coronawarnapp.ccl.configuration
 import android.content.Context
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import de.rki.coronawarnapp.ccl.configuration.server.CclConfigurationApiV1
 import de.rki.coronawarnapp.environment.download.DownloadCDNHttpClient
 import de.rki.coronawarnapp.environment.download.DownloadCDNServerUrl
@@ -14,6 +16,7 @@ import java.io.File
 import javax.inject.Qualifier
 import javax.inject.Singleton
 
+@InstallIn(SingletonComponent::class)
 @Module
 object CclConfigurationModule {
 

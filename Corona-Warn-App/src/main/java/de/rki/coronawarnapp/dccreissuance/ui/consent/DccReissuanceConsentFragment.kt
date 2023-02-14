@@ -10,19 +10,15 @@ import com.google.android.material.transition.MaterialSharedAxis
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentDccReissuanceConsentBinding
 import de.rki.coronawarnapp.ui.dialog.displayDialog
-import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
-import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import setTextWithUrl
-import javax.inject.Inject
 
 class DccReissuanceConsentFragment : Fragment(R.layout.fragment_dcc_reissuance_consent), AutoInject {
 
-    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val binding: FragmentDccReissuanceConsentBinding by viewBinding()
     private val args by navArgs<DccReissuanceConsentFragmentArgs>()
     private val viewModel: DccReissuanceConsentViewModel by cwaViewModelsAssisted(

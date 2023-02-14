@@ -9,11 +9,13 @@ import android.view.Menu
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.onNavDestinationSelected
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.appbar.MaterialToolbar
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.NavGraphDirections
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
@@ -23,7 +25,6 @@ import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
-import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.addMenuId
@@ -34,11 +35,8 @@ import de.rki.coronawarnapp.util.ui.setItemContentDescription
 import de.rki.coronawarnapp.util.ui.setLottieAnimation
 import de.rki.coronawarnapp.util.ui.setLottieAnimationColor
 import de.rki.coronawarnapp.util.ui.viewBinding
-import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import timber.log.Timber
 import java.util.Locale
-import javax.inject.Inject
 import kotlin.math.abs
 
 /**
@@ -46,14 +44,10 @@ import kotlin.math.abs
  * Three ViewModels are needed that this fragment shows all relevant information to the user.
  * Also the Menu is set here.
  */
-class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
+@AndroidEntryPoint
+class HomeFragment : Fragment(R.layout.home_fragment_layout) {
 
-    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-
-    private val viewModel by cwaViewModels<HomeFragmentViewModel>(
-        ownerProducer = { requireActivity().viewModelStore },
-        factoryProducer = { viewModelFactory }
-    )
+    private val viewModel by activityViewModels<HomeFragmentViewModel>()
 
     private val binding by viewBinding<HomeFragmentLayoutBinding>()
     private val homeAdapter = HomeAdapter()

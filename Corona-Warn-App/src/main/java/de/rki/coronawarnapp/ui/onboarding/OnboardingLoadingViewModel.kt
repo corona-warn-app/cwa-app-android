@@ -1,16 +1,16 @@
 package de.rki.coronawarnapp.ui.onboarding
 
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import de.rki.coronawarnapp.environment.BuildConfigWrap
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.first
+import javax.inject.Inject
 
-class OnboardingLoadingViewModel @AssistedInject constructor(
+@HiltViewModel
+class OnboardingLoadingViewModel @Inject constructor(
     private val cwaSettings: CWASettings,
     private val onboardingSettings: OnboardingSettings
 ) : CWAViewModel() {
@@ -22,20 +22,20 @@ class OnboardingLoadingViewModel @AssistedInject constructor(
             !onboardingSettings.isOnboarded() -> {
                 navigationEvents.postValue(OnboardingFragmentEvents.ShowOnboarding)
             }
+
             !cwaSettings.wasInteroperabilityShownAtLeastOnce.first() -> {
                 navigationEvents.postValue(OnboardingFragmentEvents.ShowInteropDeltaOnboarding)
             }
+
             cwaSettings.lastChangelogVersion.first() / 10000 < BuildConfigWrap.VERSION_CODE / 10000 -> {
                 navigationEvents.postValue(OnboardingFragmentEvents.ShowNewReleaseFragment)
             }
+
             else -> {
                 navigationEvents.postValue(OnboardingFragmentEvents.OnboardingDone)
             }
         }
     }
-
-    @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<OnboardingLoadingViewModel>
 }
 
 sealed class OnboardingFragmentEvents {

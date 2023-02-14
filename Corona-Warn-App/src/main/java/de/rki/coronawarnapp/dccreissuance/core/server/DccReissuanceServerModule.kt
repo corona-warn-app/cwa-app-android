@@ -2,6 +2,8 @@ package de.rki.coronawarnapp.dccreissuance.core.server
 
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.environment.dccreissuance.DccReissuanceServerURL
 import de.rki.coronawarnapp.http.HttpClientDefault
@@ -16,6 +18,7 @@ import retrofit2.converter.jackson.JacksonConverterFactory
 import timber.log.Timber
 import java.net.URL
 
+@InstallIn(SingletonComponent::class)
 @Module
 object DccReissuanceServerModule {
 

@@ -2,8 +2,7 @@ package de.rki.coronawarnapp.familytest.ui.testlist
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.CoronaTestConfig
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest.Type
@@ -21,13 +20,14 @@ import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import kotlinx.coroutines.flow.combine
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
-class FamilyTestListViewModel @AssistedInject constructor(
+@HiltViewModel
+class FamilyTestListViewModel @Inject constructor(
     dispatcherProvider: DispatcherProvider,
     appConfigProvider: AppConfigProvider,
     private val familyTestRepository: FamilyTestRepository,
@@ -124,6 +124,7 @@ class FamilyTestListViewModel @AssistedInject constructor(
                     events.postValue(FamilyTestListEvent.ConfirmSwipeTest(familyCoronaTest, position))
                 }
             )
+
             State.REDEEMED -> FamilyPcrTestRedeemedCard.Item(
                 familyCoronaTest = this,
                 onSwipeItem = { familyCoronaTest, position ->
@@ -154,6 +155,7 @@ class FamilyTestListViewModel @AssistedInject constructor(
                     events.postValue(FamilyTestListEvent.ConfirmSwipeTest(familyCoronaTest, position))
                 }
             )
+
             State.REDEEMED -> FamilyRapidTestRedeemedCard.Item(
                 familyCoronaTest = this,
                 onSwipeItem = { familyCoronaTest, position ->
@@ -161,6 +163,7 @@ class FamilyTestListViewModel @AssistedInject constructor(
                 },
                 onDeleteTest = { events.postValue(FamilyTestListEvent.ConfirmRemoveTest(this)) }
             )
+
             State.OUTDATED -> FamilyRapidTestOutdatedCard.Item(
                 familyCoronaTest = this,
                 onSwipeItem = { familyCoronaTest, position ->
@@ -175,7 +178,4 @@ class FamilyTestListViewModel @AssistedInject constructor(
                 onSwipeItem = { _, _ -> }
             )
         }
-
-    @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<FamilyTestListViewModel>
 }

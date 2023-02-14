@@ -9,13 +9,10 @@ import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.CheckInsConsentFragmentBinding
 import de.rki.coronawarnapp.ui.dialog.displayDialog
-import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.viewBinding
-import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import timber.log.Timber
-import javax.inject.Inject
 
 class CheckInsConsentFragment : Fragment(R.layout.check_ins_consent_fragment), AutoInject {
 
@@ -23,7 +20,6 @@ class CheckInsConsentFragment : Fragment(R.layout.check_ins_consent_fragment), A
 
     private val navArgs by navArgs<CheckInsConsentFragmentArgs>()
 
-    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val viewModel: CheckInsConsentViewModel by cwaViewModelsAssisted(
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, savedState ->

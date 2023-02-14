@@ -8,26 +8,24 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentQrcodeScannerBinding
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.ExternalActionHelper.openAppDetailsSettings
-import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.permission.CameraPermissionHelper
 import de.rki.coronawarnapp.util.ui.LazyString
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
-import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import timber.log.Timber
-import javax.inject.Inject
 
-class OrganizerWarnQrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoInject {
+@AndroidEntryPoint
+class OrganizerWarnQrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner) {
 
-    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val viewModel: OrganizerWarnQrCodeScannerViewModel by cwaViewModels { viewModelFactory }
+    private val viewModel: OrganizerWarnQrCodeScannerViewModel by viewModels()
 
     // This type of binding initialization should not be followed elsewhere.
     // Please use lazy initialization wherever possible
@@ -47,6 +45,7 @@ class OrganizerWarnQrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_sca
                 isGranted -> startDecode()
                 shouldShowRequestPermissionRationale(Manifest.permission.CAMERA) ->
                     showCameraPermissionRationaleDialog()
+
                 else -> showCameraPermissionDeniedDialog() // User permanently denied access to the camera
             }
         }
@@ -79,6 +78,7 @@ class OrganizerWarnQrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_sca
                             )
                     )
                 }
+
                 is OrganizerWarnQrCodeNavigation.Error -> displayDialog { setError(navEvent.exception) }
                 OrganizerWarnQrCodeNavigation.InProgress -> Unit
             }

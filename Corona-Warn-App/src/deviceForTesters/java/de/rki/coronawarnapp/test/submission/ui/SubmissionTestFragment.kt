@@ -7,8 +7,10 @@ import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.datepicker.MaterialDatePicker
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.databinding.FragmentTestSubmissionBinding
@@ -17,20 +19,16 @@ import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
 import de.rki.coronawarnapp.tracing.ui.tracingConsentDialog
 import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.HashExtensions.toHexString
-import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
-import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import java.time.Instant
-import javax.inject.Inject
 
 @SuppressLint("SetTextI18n")
-class SubmissionTestFragment : Fragment(R.layout.fragment_test_submission), AutoInject {
-    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val vm: SubmissionTestFragmentViewModel by cwaViewModels { viewModelFactory }
+@AndroidEntryPoint
+class SubmissionTestFragment : Fragment(R.layout.fragment_test_submission) {
 
+    private val vm: SubmissionTestFragmentViewModel by viewModels()
     private val binding: FragmentTestSubmissionBinding by viewBinding()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -19,21 +19,16 @@ import de.rki.coronawarnapp.qrcode.ui.QrCodeScannerFragmentDirections
 import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.util.coil.loadingView
-import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.joinToSpannable
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
-import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
-import javax.inject.Inject
 import kotlin.math.abs
 
 class ProfileQrCodeFragment : Fragment(R.layout.profile_qr_code_fragment), AutoInject {
-
-    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
 
     private val binding: ProfileQrCodeFragmentBinding by viewBinding()
     private val navArgs by navArgs<ProfileQrCodeFragmentArgs>()

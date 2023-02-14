@@ -4,23 +4,17 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.app.ShareCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSettingsCrashReportDetailsBinding
-import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
-import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
-import javax.inject.Inject
 
-class SettingsCrashReportDetailsFragment :
-    Fragment(R.layout.fragment_settings_crash_report_details), AutoInject {
+@AndroidEntryPoint
+class SettingsCrashReportDetailsFragment : Fragment(R.layout.fragment_settings_crash_report_details) {
 
-    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val vm: SettingsCrashReportViewModel by cwaViewModels(
-        ownerProducer = { requireActivity().viewModelStore },
-        factoryProducer = { viewModelFactory }
-    )
+    private val vm: SettingsCrashReportViewModel by activityViewModels()
     private val fragmentSettingsCrashReportDetailsBinding: FragmentSettingsCrashReportDetailsBinding by viewBinding()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -13,12 +13,10 @@ import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultAvailableBin
 import de.rki.coronawarnapp.tracing.ui.tracingConsentDialog
 import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.ui.submission.SubmissionBlockingDialog
-import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
-import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import timber.log.Timber
 import javax.inject.Inject
@@ -30,7 +28,7 @@ import javax.inject.Inject
 class SubmissionTestResultAvailableFragment : Fragment(R.layout.fragment_submission_test_result_available), AutoInject {
 
     @Inject lateinit var appShortcutsHelper: AppShortcutsHelper
-    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
+
     private val binding: FragmentSubmissionTestResultAvailableBinding by viewBinding()
     private lateinit var keyRetrievalProgress: SubmissionBlockingDialog
 

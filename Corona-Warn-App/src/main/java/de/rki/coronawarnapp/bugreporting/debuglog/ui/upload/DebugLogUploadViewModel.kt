@@ -2,16 +2,16 @@ package de.rki.coronawarnapp.bugreporting.debuglog.ui.upload
 
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavDirections
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import de.rki.coronawarnapp.bugreporting.debuglog.upload.SnapshotUploader
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import timber.log.Timber
+import javax.inject.Inject
 
-class DebugLogUploadViewModel @AssistedInject constructor(
+@HiltViewModel
+class DebugLogUploadViewModel @Inject constructor(
     dispatcherProvider: DispatcherProvider,
     private val snapshotUploader: SnapshotUploader
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
@@ -37,9 +37,6 @@ class DebugLogUploadViewModel @AssistedInject constructor(
     fun onPrivacyButtonPress() {
         routeToScreen.postValue(DebugLogUploadFragmentDirections.actionDebugLogUploadFragmentToDebugLogLegalFragment())
     }
-
-    @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<DebugLogUploadViewModel>
 }
 
 private const val TAG = "DebugLogUploadViewModel"

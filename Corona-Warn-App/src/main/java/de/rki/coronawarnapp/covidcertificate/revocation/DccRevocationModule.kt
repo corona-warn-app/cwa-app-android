@@ -8,6 +8,8 @@ import androidx.datastore.preferences.preferencesDataStoreFile
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import dagger.multibindings.IntoSet
 import de.rki.coronawarnapp.covidcertificate.revocation.server.DccRevocationApi
 import de.rki.coronawarnapp.environment.download.DownloadCDNHttpClient
@@ -25,6 +27,7 @@ import java.io.File
 import javax.inject.Qualifier
 import javax.inject.Singleton
 
+@InstallIn(SingletonComponent::class)
 @Module(includes = [DccRevocationModule.ResetModule::class])
 object DccRevocationModule {
 
@@ -62,6 +65,7 @@ object DccRevocationModule {
         produceFile = { context.preferencesDataStoreFile(REVOCATION_DATASTORE_NAME) }
     )
 
+    @InstallIn(SingletonComponent::class)
     @Module
     internal interface ResetModule {
 

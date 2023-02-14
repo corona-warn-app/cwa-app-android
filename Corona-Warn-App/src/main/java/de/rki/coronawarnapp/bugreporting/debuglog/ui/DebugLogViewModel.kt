@@ -2,8 +2,7 @@ package de.rki.coronawarnapp.bugreporting.debuglog.ui
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import de.rki.coronawarnapp.bugreporting.debuglog.DebugLogger
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.LogSnapshotter
 import de.rki.coronawarnapp.bugreporting.debuglog.upload.history.storage.UploadHistoryStorage
@@ -12,13 +11,14 @@ import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import timber.log.Timber
+import javax.inject.Inject
 
-class DebugLogViewModel @AssistedInject constructor(
+@HiltViewModel
+class DebugLogViewModel @Inject constructor(
     private val debugLogger: DebugLogger,
     dispatcherProvider: DispatcherProvider,
     private val enfClient: ENFClient,
@@ -28,8 +28,7 @@ class DebugLogViewModel @AssistedInject constructor(
 
     private val isActionInProgress = MutableStateFlow(false)
 
-    val logUploads = uploadHistoryStorage.uploadHistory
-        .asLiveData(context = dispatcherProvider.Default)
+    val logUploads = uploadHistoryStorage.uploadHistory.asLiveData2()
 
     val state: LiveData<State> = combine(
         isActionInProgress,
@@ -130,7 +129,4 @@ class DebugLogViewModel @AssistedInject constructor(
         data class Error(val error: Throwable) : Event()
         data class Export(val snapshot: LogSnapshotter.Snapshot) : Event()
     }
-
-    @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<DebugLogViewModel>
 }

@@ -10,6 +10,7 @@ import androidx.activity.result.contract.ActivityResultContracts.OpenDocument
 import androidx.activity.result.contract.ActivityResultContracts.RequestPermission
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -18,6 +19,7 @@ import androidx.transition.Fade
 import androidx.transition.Slide
 import androidx.transition.TransitionSet
 import com.google.android.material.transition.MaterialContainerTransform
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
@@ -33,24 +35,20 @@ import de.rki.coronawarnapp.util.ExternalActionHelper.openAppDetailsSettings
 import de.rki.coronawarnapp.util.ExternalActionHelper.openGooglePlay
 import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 import de.rki.coronawarnapp.util.HumanReadableError
-import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.permission.CameraPermissionHelper
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import de.rki.coronawarnapp.util.tryHumanReadableError
 import de.rki.coronawarnapp.util.ui.LazyString
 import de.rki.coronawarnapp.util.ui.popBackStack
-import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import timber.log.Timber
 import javax.inject.Inject
 
 @Suppress("TooManyFunctions")
-class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoInject {
+@AndroidEntryPoint
+class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner) {
 
-    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     @Inject lateinit var appShortcutsHelper: AppShortcutsHelper
-
-    private val viewModel by cwaViewModels<QrCodeScannerViewModel> { viewModelFactory }
+    private val viewModel by viewModels<QrCodeScannerViewModel>()
     private val qrcodeSharedViewModel: QrcodeSharedViewModel by navGraphViewModels(R.id.nav_graph)
     private var showsPermissionDialog = false
     private var _binding: FragmentQrcodeScannerBinding? = null

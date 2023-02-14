@@ -7,8 +7,7 @@ import com.google.android.play.core.appupdate.AppUpdateManager
 import com.google.android.play.core.install.model.AppUpdateType.IMMEDIATE
 import com.google.android.play.core.install.model.UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS
 import com.google.android.play.core.install.model.UpdateAvailability.UPDATE_AVAILABLE
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import de.rki.coronawarnapp.covidcertificate.signature.core.DscRepository
 import de.rki.coronawarnapp.environment.BuildConfigWrap
 import de.rki.coronawarnapp.environment.EnvironmentSetup
@@ -23,12 +22,13 @@ import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.serialization.BaseJackson
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.first
 import okio.ByteString.Companion.decodeBase64
 import timber.log.Timber
+import javax.inject.Inject
 
-class LauncherActivityViewModel @AssistedInject constructor(
+@HiltViewModel
+class LauncherActivityViewModel @Inject constructor(
     dispatcherProvider: DispatcherProvider,
     private val updateChecker: UpdateChecker,
     private val cwaSettings: CWASettings,
@@ -165,9 +165,6 @@ class LauncherActivityViewModel @AssistedInject constructor(
     private suspend fun isJustInstalledOrUpdated() =
         !onboardingSettings.isOnboarded() || !cwaSettings.wasInteroperabilityShownAtLeastOnce.first() ||
             cwaSettings.lastChangelogVersion.first() < BuildConfigWrap.VERSION_CODE
-
-    @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<LauncherActivityViewModel>
 
     companion object {
         const val UPDATE_CODE = 90000

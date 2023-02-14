@@ -10,17 +10,12 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentBoosterInformationDetailsBinding
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.convertToHyperlink
-import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
-import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
-import javax.inject.Inject
 
 class BoosterInfoDetailsFragment : Fragment(R.layout.fragment_booster_information_details), AutoInject {
-
-    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
 
     private val args by navArgs<BoosterInfoDetailsFragmentArgs>()
     private val binding: FragmentBoosterInformationDetailsBinding by viewBinding()

@@ -1,14 +1,14 @@
 package de.rki.coronawarnapp.ui.presencetracing.attendee.onboarding
 
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.first
+import javax.inject.Inject
 
-class CheckInOnboardingViewModel @AssistedInject constructor(
+@HiltViewModel
+class CheckInOnboardingViewModel @Inject constructor(
     private val settings: TraceLocationSettings
 ) : CWAViewModel() {
     val events = SingleLiveEvent<CheckInOnboardingNavigation>()
@@ -31,7 +31,4 @@ class CheckInOnboardingViewModel @AssistedInject constructor(
     fun onBackButtonPress() {
         events.value = CheckInOnboardingNavigation.AcknowledgedNavigation
     }
-
-    @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<CheckInOnboardingViewModel>
 }

@@ -9,13 +9,10 @@ import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionYourConsentBinding
 import de.rki.coronawarnapp.ui.dialog.displayDialog
-import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
-import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
-import javax.inject.Inject
 
 /**
  * [SubmissionYourConsentFragment] allows the user to provide or revoke consent via a switch on the screen. This screen
@@ -24,7 +21,7 @@ import javax.inject.Inject
 class SubmissionYourConsentFragment : Fragment(R.layout.fragment_submission_your_consent), AutoInject {
 
     private val navArgs by navArgs<SubmissionYourConsentFragmentArgs>()
-    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
+
     private val vm: SubmissionYourConsentViewModel by cwaViewModelsAssisted(
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->

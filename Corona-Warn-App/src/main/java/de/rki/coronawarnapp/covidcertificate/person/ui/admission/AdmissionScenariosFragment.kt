@@ -8,17 +8,13 @@ import androidx.navigation.navGraphViewModels
 import com.google.android.material.transition.MaterialContainerTransform
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentAdmissionScenariosBinding
-import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
-import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
-import javax.inject.Inject
 
 class AdmissionScenariosFragment : Fragment(R.layout.fragment_admission_scenarios), AutoInject {
 
-    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val admissionScenariosSharedViewModel by navGraphViewModels<AdmissionScenariosSharedViewModel>(
         R.id.covid_certificates_graph
     )

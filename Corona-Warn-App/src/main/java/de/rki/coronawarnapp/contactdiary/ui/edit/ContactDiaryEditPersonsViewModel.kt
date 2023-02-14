@@ -1,8 +1,7 @@
 package de.rki.coronawarnapp.contactdiary.ui.edit
 
 import androidx.lifecycle.asLiveData
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPerson
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryPersonEntity
 import de.rki.coronawarnapp.contactdiary.storage.entity.toContactDiaryPersonEntity
@@ -13,12 +12,13 @@ import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
-class ContactDiaryEditPersonsViewModel @AssistedInject constructor(
+@HiltViewModel
+class ContactDiaryEditPersonsViewModel @Inject constructor(
     @AppScope private val appScope: CoroutineScope,
     private val contactDiaryRepository: ContactDiaryRepository,
     dispatcherProvider: DispatcherProvider
@@ -55,9 +55,6 @@ class ContactDiaryEditPersonsViewModel @AssistedInject constructor(
     fun onEditPersonClick(person: ContactDiaryPerson) {
         navigationEvent.postValue(NavigationEvent.ShowPersonDetailFragment(person.toContactDiaryPersonEntity()))
     }
-
-    @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<ContactDiaryEditPersonsViewModel>
 
     sealed class NavigationEvent {
         object ShowDeletionConfirmationDialog : NavigationEvent()

@@ -2,8 +2,7 @@ package de.rki.coronawarnapp.ui.main.home
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.CoronaTestConfig
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
@@ -87,7 +86,6 @@ import de.rki.coronawarnapp.util.encryptionmigration.EncryptionErrorResetTool
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -96,9 +94,11 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
+import javax.inject.Inject
 
 @Suppress("LongParameterList")
-class HomeFragmentViewModel @AssistedInject constructor(
+@HiltViewModel
+class HomeFragmentViewModel @Inject constructor(
     dispatcherProvider: DispatcherProvider,
     tracingStatus: GeneralTracingStatus,
     tracingStateProviderFactory: TracingStateProvider.Factory,
@@ -542,9 +542,6 @@ class HomeFragmentViewModel @AssistedInject constructor(
     fun deleteCoronaTest(identifier: TestIdentifier) = launch {
         recycledTestProvider.deleteCoronaTest(identifier)
     }
-
-    @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<HomeFragmentViewModel>
 
     companion object {
         val TAG = tag<HomeFragmentViewModel>()

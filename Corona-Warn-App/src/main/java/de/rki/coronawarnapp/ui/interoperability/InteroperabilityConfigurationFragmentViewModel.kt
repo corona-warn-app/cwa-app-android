@@ -1,21 +1,20 @@
 package de.rki.coronawarnapp.ui.interoperability
 
 import androidx.lifecycle.asLiveData
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import javax.inject.Inject
 
-class InteroperabilityConfigurationFragmentViewModel @AssistedInject constructor(
+@HiltViewModel
+class InteroperabilityConfigurationFragmentViewModel @Inject constructor(
     private val interoperabilityRepository: InteroperabilityRepository,
     dispatcherProvider: DispatcherProvider,
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
-    val countryList = interoperabilityRepository.countryList
-        .asLiveData(context = dispatcherProvider.Default)
+    val countryList = interoperabilityRepository.countryList.asLiveData(context = dispatcherProvider.Default)
 
     val navigateBack = SingleLiveEvent<Boolean>()
 
@@ -26,7 +25,4 @@ class InteroperabilityConfigurationFragmentViewModel @AssistedInject constructor
     fun saveInteroperabilityUsed() = launch {
         interoperabilityRepository.saveInteroperabilityUsed()
     }
-
-    @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<InteroperabilityConfigurationFragmentViewModel>
 }

@@ -3,6 +3,8 @@ package de.rki.coronawarnapp.environment.download
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import de.rki.coronawarnapp.environment.BaseEnvironmentModule
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.http.HttpClientDefault
@@ -11,6 +13,7 @@ import okhttp3.OkHttpClient
 import okhttp3.TlsVersion
 import javax.inject.Singleton
 
+@InstallIn(SingletonComponent::class)
 @Module
 class DownloadCDNModule : BaseEnvironmentModule() {
 

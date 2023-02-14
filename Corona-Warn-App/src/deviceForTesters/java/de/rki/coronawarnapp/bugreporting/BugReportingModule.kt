@@ -2,6 +2,8 @@ package de.rki.coronawarnapp.bugreporting
 
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import de.rki.coronawarnapp.bugreporting.loghistory.LogHistoryTree
 import de.rki.coronawarnapp.bugreporting.loghistory.RollingLogHistory
 import de.rki.coronawarnapp.bugreporting.processor.BugProcessor
@@ -14,6 +16,7 @@ import de.rki.coronawarnapp.bugreporting.storage.repository.DefaultBugRepository
 import timber.log.Timber
 import javax.inject.Singleton
 
+@InstallIn(SingletonComponent::class)
 @Module
 class BugReportingModule {
 

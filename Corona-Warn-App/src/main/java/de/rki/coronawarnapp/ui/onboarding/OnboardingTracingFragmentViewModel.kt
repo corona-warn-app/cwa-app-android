@@ -3,8 +3,7 @@ package de.rki.coronawarnapp.ui.onboarding
 import android.app.Activity
 import android.content.Intent
 import androidx.lifecycle.asLiveData
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.ENFClient
@@ -12,13 +11,15 @@ import de.rki.coronawarnapp.nearby.TracingPermissionHelper
 import de.rki.coronawarnapp.nearby.modules.tracing.disableTracingIfEnabled
 import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
+import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import timber.log.Timber
+import javax.inject.Inject
 
-class OnboardingTracingFragmentViewModel @AssistedInject constructor(
+@HiltViewModel
+class OnboardingTracingFragmentViewModel @Inject constructor(
     private val interoperabilityRepository: InteroperabilityRepository,
     tracingPermissionHelperFactory: TracingPermissionHelper.Factory,
     dispatcherProvider: DispatcherProvider,
@@ -93,10 +94,7 @@ class OnboardingTracingFragmentViewModel @AssistedInject constructor(
         tracingPermissionHelper.handleActivityResult(requestCode, resultCode, data)
     }
 
-    @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<OnboardingTracingFragmentViewModel>
-
     companion object {
-        private val TAG: String? = OnboardingTracingFragmentViewModel::class.simpleName
+        private val TAG = tag<OnboardingTracingFragmentViewModel>()
     }
 }

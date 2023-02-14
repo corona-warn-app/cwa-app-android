@@ -13,17 +13,13 @@ import de.rki.coronawarnapp.srs.core.model.SrsSubmissionType
 import de.rki.coronawarnapp.srs.ui.vm.TeksSharedViewModel
 import de.rki.coronawarnapp.tracing.ui.tracingConsentDialog
 import de.rki.coronawarnapp.ui.submission.SubmissionBlockingDialog
-import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
-import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import timber.log.Timber
-import javax.inject.Inject
 
 class SrsSubmissionConsentFragment : Fragment(R.layout.fragment_srs_submission_consent), AutoInject {
 
-    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val navArgs by navArgs<SrsSubmissionConsentFragmentArgs>()
     private val teksSharedViewModel by navGraphViewModels<TeksSharedViewModel>(R.id.srs_nav_graph)
     private val viewModel: SrsSubmissionConsentFragmentViewModel by cwaViewModelsAssisted(

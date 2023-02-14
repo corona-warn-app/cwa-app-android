@@ -5,27 +5,25 @@ import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.ui.edit.ContactDiaryEditPersonsViewModel.NavigationEvent.ShowDeletionConfirmationDialog
 import de.rki.coronawarnapp.contactdiary.ui.edit.ContactDiaryEditPersonsViewModel.NavigationEvent.ShowPersonDetailFragment
 import de.rki.coronawarnapp.contactdiary.ui.edit.adapter.PersonEditAdapter
 import de.rki.coronawarnapp.databinding.ContactDiaryEditPersonsFragmentBinding
 import de.rki.coronawarnapp.ui.dialog.displayDialog
-import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.addNavigationIconButtonId
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
-import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
-import javax.inject.Inject
 
-class ContactDiaryEditPersonsFragment : Fragment(R.layout.contact_diary_edit_persons_fragment), AutoInject {
+@AndroidEntryPoint
+class ContactDiaryEditPersonsFragment : Fragment(R.layout.contact_diary_edit_persons_fragment) {
 
-    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val viewModel: ContactDiaryEditPersonsViewModel by cwaViewModels { viewModelFactory }
+    private val viewModel: ContactDiaryEditPersonsViewModel by viewModels()
     private val binding: ContactDiaryEditPersonsFragmentBinding by viewBinding()
 
     private lateinit var listAdapter: PersonEditAdapter

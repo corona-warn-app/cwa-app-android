@@ -2,12 +2,15 @@ package de.rki.coronawarnapp.test.tasks
 
 import dagger.Binds
 import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import dagger.multibindings.IntoMap
 import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.task.TaskFactory
 import de.rki.coronawarnapp.task.TaskTypeKey
 import de.rki.coronawarnapp.test.tasks.testtask.TestTask
 
+@InstallIn(SingletonComponent::class)
 @Module
 abstract class TaskControllerTestModule {
 

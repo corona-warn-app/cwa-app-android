@@ -11,6 +11,8 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import dagger.multibindings.IntoSet
 import de.rki.coronawarnapp.bugreporting.debuglog.upload.history.model.UploadHistory
 import de.rki.coronawarnapp.util.coroutine.AppScope
@@ -23,6 +25,7 @@ import kotlinx.coroutines.plus
 import timber.log.Timber
 import javax.inject.Singleton
 
+@InstallIn(SingletonComponent::class)
 @Module(includes = [UploadHistoryStorageModule.ResetModule::class])
 object UploadHistoryStorageModule {
 
@@ -61,6 +64,7 @@ object UploadHistoryStorageModule {
         migratedUploadHistory ?: uploadHistory
     }
 
+    @InstallIn(SingletonComponent::class)
     @Module
     internal interface ResetModule {
 

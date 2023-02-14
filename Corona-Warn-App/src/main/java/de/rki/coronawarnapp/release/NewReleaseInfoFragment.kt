@@ -7,27 +7,24 @@ import android.view.accessibility.AccessibilityEvent
 import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.NewReleaseInfoItemBinding
 import de.rki.coronawarnapp.databinding.NewReleaseInfoScreenFragmentBinding
 import de.rki.coronawarnapp.ui.lists.BaseAdapter
-import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.BindableVH
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
-import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import setTextWithUrl
-import javax.inject.Inject
 
-class NewReleaseInfoFragment : Fragment(R.layout.new_release_info_screen_fragment), AutoInject {
+@AndroidEntryPoint
+class NewReleaseInfoFragment : Fragment(R.layout.new_release_info_screen_fragment) {
 
-    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-
-    private val vm: NewReleaseInfoViewModel by cwaViewModels { viewModelFactory }
+    private val vm: NewReleaseInfoViewModel by viewModels()
     private val binding: NewReleaseInfoScreenFragmentBinding by viewBinding()
     private val args: NewReleaseInfoFragmentArgs by navArgs()
 
@@ -71,6 +68,7 @@ class NewReleaseInfoFragment : Fragment(R.layout.new_release_info_screen_fragmen
             when (it) {
                 is NewReleaseInfoNavigationEvents.CloseScreen ->
                     popBackStack()
+
                 is NewReleaseInfoNavigationEvents.NavigateToOnboardingDeltaNotificationsFragment -> {
                     findNavController().navigate(
                         NewReleaseInfoFragmentDirections

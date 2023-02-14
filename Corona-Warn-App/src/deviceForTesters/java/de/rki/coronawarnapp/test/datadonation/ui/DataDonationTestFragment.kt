@@ -10,27 +10,24 @@ import androidx.core.app.ShareCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestDatadonationBinding
 import de.rki.coronawarnapp.datadonation.safetynet.SafetyNetException
 import de.rki.coronawarnapp.datadonation.survey.SurveyException
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
 import de.rki.coronawarnapp.ui.dialog.displayDialog
-import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.tryHumanReadableError
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
-import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import org.json.JSONObject
-import javax.inject.Inject
 
 @SuppressLint("SetTextI18n")
-class DataDonationTestFragment : Fragment(R.layout.fragment_test_datadonation), AutoInject {
+@AndroidEntryPoint
+class DataDonationTestFragment : Fragment(R.layout.fragment_test_datadonation) {
 
-    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val vm: DataDonationTestFragmentViewModel by cwaViewModels { viewModelFactory }
-
+    private val vm: DataDonationTestFragmentViewModel by viewModels()
     private val binding: FragmentTestDatadonationBinding by viewBinding()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

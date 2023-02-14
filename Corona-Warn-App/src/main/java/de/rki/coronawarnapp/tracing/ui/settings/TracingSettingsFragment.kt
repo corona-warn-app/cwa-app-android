@@ -6,32 +6,26 @@ import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTracingSettingsBinding
 import de.rki.coronawarnapp.tracing.ui.settings.TracingSettingsFragmentViewModel.Event
 import de.rki.coronawarnapp.tracing.ui.tracingConsentDialog
 import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.ExternalActionHelper.openDeviceSettings
-import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
-import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
-import javax.inject.Inject
 
 /**
  * The user can start/stop tracing and is informed about tracing.
  */
-class TracingSettingsFragment : Fragment(R.layout.fragment_tracing_settings), AutoInject {
+@AndroidEntryPoint
+class TracingSettingsFragment : Fragment(R.layout.fragment_tracing_settings) {
 
-    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val viewModel: TracingSettingsFragmentViewModel by cwaViewModels(
-        ownerProducer = { requireActivity().viewModelStore },
-        factoryProducer = { viewModelFactory }
-    )
-
+    private val viewModel: TracingSettingsFragmentViewModel by activityViewModels()
     private val binding: FragmentTracingSettingsBinding by viewBinding()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

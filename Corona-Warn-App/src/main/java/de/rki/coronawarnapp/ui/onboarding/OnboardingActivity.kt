@@ -8,16 +8,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.lifecycleScope
-import dagger.android.AndroidInjector
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasAndroidInjector
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.environment.BuildConfigWrap
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.util.TimeStamper
-import de.rki.coronawarnapp.util.di.AppInjector
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -26,7 +23,8 @@ import javax.inject.Inject
  * This activity holds all the onboarding fragments and isn't used after a successful onboarding flow.
  *
  */
-class OnboardingActivity : AppCompatActivity(), LifecycleObserver, HasAndroidInjector {
+@AndroidEntryPoint
+class OnboardingActivity : AppCompatActivity(), LifecycleObserver {
     companion object {
 
         fun start(context: Context, launchIntent: Intent? = null) {
@@ -40,9 +38,6 @@ class OnboardingActivity : AppCompatActivity(), LifecycleObserver, HasAndroidInj
             context.startActivity(intent)
         }
     }
-
-    @Inject lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
-    override fun androidInjector(): AndroidInjector<Any> = dispatchingAndroidInjector
 
     @Inject lateinit var settings: CWASettings
     @Inject lateinit var onboardingSettings: OnboardingSettings

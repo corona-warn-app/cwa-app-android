@@ -10,6 +10,8 @@ import com.fasterxml.jackson.module.kotlin.kotlinModule
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import de.rki.coronawarnapp.util.serialization.jackson.registerByteArraySerialization
 import de.rki.coronawarnapp.util.serialization.jackson.registerByteStringSerialization
 import de.rki.coronawarnapp.util.serialization.jackson.registerDurationSerialization
@@ -19,6 +21,7 @@ import de.rki.coronawarnapp.util.serialization.jackson.registerPPADataSerializat
 import de.rki.coronawarnapp.util.serialization.jackson.registerPrivateSerialization
 import de.rki.coronawarnapp.util.serialization.jackson.registerPublicSerialization
 
+@InstallIn(SingletonComponent::class)
 @Module
 class SerializationModule {
 

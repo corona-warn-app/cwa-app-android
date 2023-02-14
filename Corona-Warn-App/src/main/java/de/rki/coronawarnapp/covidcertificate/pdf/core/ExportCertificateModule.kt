@@ -6,12 +6,15 @@ import android.print.PrintAttributes
 import androidx.core.content.res.ResourcesCompat
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.util.di.AppContext
 import java.io.File
 import javax.inject.Qualifier
 import javax.inject.Singleton
 
+@InstallIn(SingletonComponent::class)
 @Module
 class ExportCertificateModule {
 

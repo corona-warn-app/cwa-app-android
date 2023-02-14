@@ -21,17 +21,13 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.ui.details.VaccinationD
 import de.rki.coronawarnapp.databinding.CovidCertificateOnboardingFragmentBinding
 import de.rki.coronawarnapp.qrcode.ui.QrcodeSharedViewModel
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
-import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
-import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import java.net.URLEncoder
-import javax.inject.Inject
 
 class CovidCertificateOnboardingFragment : Fragment(R.layout.covid_certificate_onboarding_fragment), AutoInject {
 
-    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val binding: CovidCertificateOnboardingFragmentBinding by viewBinding()
     private val args by navArgs<CovidCertificateOnboardingFragmentArgs>()
     private val qrcodeSharedViewModel: QrcodeSharedViewModel by navGraphViewModels(R.id.nav_graph)

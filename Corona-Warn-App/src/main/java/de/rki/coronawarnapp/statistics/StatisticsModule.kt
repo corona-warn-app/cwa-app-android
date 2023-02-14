@@ -29,12 +29,15 @@ import androidx.datastore.preferences.SharedPreferencesMigration
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStoreFile
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.plus
 import retrofit2.converter.jackson.JacksonConverterFactory
 
+@InstallIn(SingletonComponent::class)
 @Module(includes = [StatisticsModule.ResetModule::class])
 object StatisticsModule {
 
@@ -118,6 +121,7 @@ object StatisticsModule {
         )
     )
 
+    @InstallIn(SingletonComponent::class)
     @Module
     internal interface ResetModule {
 

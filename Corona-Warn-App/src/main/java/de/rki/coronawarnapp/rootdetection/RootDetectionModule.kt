@@ -4,10 +4,12 @@ import android.content.Context
 import com.scottyab.rootbeer.RootBeer
 import dagger.Module
 import dagger.Provides
-import de.rki.coronawarnapp.rootdetection.ui.RootDetectionUiModule
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import de.rki.coronawarnapp.util.di.AppContext
 
-@Module(includes = [RootDetectionUiModule::class])
+@InstallIn(SingletonComponent::class)
+@Module
 class RootDetectionModule {
 
     @Provides

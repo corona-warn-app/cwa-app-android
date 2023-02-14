@@ -1,18 +1,18 @@
 package de.rki.coronawarnapp.ui.submission.viewmodel
 
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import de.rki.coronawarnapp.profile.storage.ProfileSettingsDataStore
 import de.rki.coronawarnapp.srs.core.SrsLocalChecker
 import de.rki.coronawarnapp.srs.core.error.SrsSubmissionException
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.first
 import timber.log.Timber
+import javax.inject.Inject
 
-class SubmissionDispatcherViewModel @AssistedInject constructor(
+@HiltViewModel
+class SubmissionDispatcherViewModel @Inject constructor(
     private val profileSettings: ProfileSettingsDataStore,
     private val srsLocalChecker: SrsLocalChecker,
     dispatcherProvider: DispatcherProvider,
@@ -61,7 +61,4 @@ class SubmissionDispatcherViewModel @AssistedInject constructor(
     fun onTestCenterPressed() {
         routeToScreen.postValue(SubmissionNavigationEvents.OpenTestCenterUrl)
     }
-
-    @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<SubmissionDispatcherViewModel>
 }

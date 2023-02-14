@@ -2,16 +2,16 @@ package de.rki.coronawarnapp.bugreporting.debuglog.ui.upload.history
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import de.rki.coronawarnapp.bugreporting.debuglog.upload.history.model.LogUpload
 import de.rki.coronawarnapp.bugreporting.debuglog.upload.history.storage.UploadHistoryStorage
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
-class LogUploadHistoryViewModel @AssistedInject constructor(
+@HiltViewModel
+class LogUploadHistoryViewModel @Inject constructor(
     dispatcherProvider: DispatcherProvider,
     uploadHistoryStorage: UploadHistoryStorage
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
@@ -19,7 +19,4 @@ class LogUploadHistoryViewModel @AssistedInject constructor(
     val logUploads: LiveData<List<LogUpload>> = uploadHistoryStorage.uploadHistory
         .map { history -> history.logs.sortedByDescending { it.uploadedAt } }
         .asLiveData(context = dispatcherProvider.Default)
-
-    @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<LogUploadHistoryViewModel>
 }

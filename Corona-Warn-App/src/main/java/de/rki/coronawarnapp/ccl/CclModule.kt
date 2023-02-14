@@ -8,6 +8,8 @@ import androidx.datastore.preferences.preferencesDataStoreFile
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import dagger.multibindings.IntoSet
 import de.rki.coronawarnapp.ccl.configuration.CclConfigurationModule
 import de.rki.coronawarnapp.ccl.configuration.storage.CclConfigurationRepository
@@ -21,6 +23,7 @@ import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.reset.Resettable
 import javax.inject.Singleton
 
+@InstallIn(SingletonComponent::class)
 @Module(includes = [CclConfigurationModule::class, CclModule.ResetModule::class])
 object CclModule {
 
@@ -40,6 +43,7 @@ object CclModule {
 
     private const val CCL_SETTINGS_DATASTORE_NAME = "ccl_settings_localdata"
 
+    @InstallIn(SingletonComponent::class)
     @Module
     internal interface ResetModule {
 

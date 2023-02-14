@@ -10,20 +10,14 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.work.WorkManager
 import coil.Coil
 import coil.ImageLoaderFactory
-import dagger.android.AndroidInjector
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasAndroidInjector
+import dagger.hilt.android.HiltAndroidApp
 import de.rki.coronawarnapp.bugreporting.loghistory.LogHistoryTree
 import de.rki.coronawarnapp.exception.reporting.ErrorReportReceiver
 import de.rki.coronawarnapp.exception.reporting.ReportingConstants.ERROR_REPORT_LOCAL_BROADCAST_CHANNEL
 import de.rki.coronawarnapp.initializer.Initializer
-import de.rki.coronawarnapp.util.BuildVersionWrap
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.device.ForegroundState
-import de.rki.coronawarnapp.util.di.AppInjector
-import de.rki.coronawarnapp.util.di.ApplicationComponent
-import de.rki.coronawarnapp.util.hasAPILevel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -31,10 +25,8 @@ import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Provider
 
-class CoronaWarnApplication : Application(), HasAndroidInjector {
-
-    @Inject lateinit var component: ApplicationComponent
-    @Inject lateinit var androidInjector: DispatchingAndroidInjector<Any>
+@HiltAndroidApp
+open class CoronaWarnApplication : Application() {
 
     @Inject lateinit var workManager: WorkManager
     @Inject lateinit var imageLoaderFactory: ImageLoaderFactory
@@ -42,24 +34,21 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
     @Inject lateinit var initializers: Provider<Set<@JvmSuppressWildcards Initializer>>
     @AppScope @Inject lateinit var appScope: CoroutineScope
     @LogHistoryTree @Inject lateinit var rollingLogHistory: Timber.Tree
-
-    override fun androidInjector(): AndroidInjector<Any> = androidInjector
-
     override fun onCreate() {
         instance = this
         super.onCreate()
         CWADebug.init(this)
 
-        AppInjector.init(this).let { compPreview ->
-            if (BuildVersionWrap.hasAPILevel(23)) {
-                Timber.v("Calling EncryptedPreferencesMigration.doMigration()")
-                compPreview.encryptedMigration.get().doMigration()
-            }
-            CWADebug.initAfterInjection(compPreview)
-
-            Timber.v("Completing application injection")
-            compPreview.inject(this)
-        }
+//        AppInjector.init(this).let { compPreview ->
+//            if (BuildVersionWrap.hasAPILevel(23)) {
+//                Timber.v("Calling EncryptedPreferencesMigration.doMigration()")
+//                compPreview.encryptedMigration.get().doMigration()
+//            }
+//            CWADebug.initAfterInjection(compPreview)
+//
+//            Timber.v("Completing application injection")
+//            compPreview.inject(this)
+//        }
 
         initializers.get().forEach { initializer ->
             Timber.d("initialize => %s", initializer::class.simpleName)

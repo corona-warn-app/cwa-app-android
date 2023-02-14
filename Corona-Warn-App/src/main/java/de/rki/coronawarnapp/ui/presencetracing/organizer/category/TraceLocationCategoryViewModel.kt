@@ -2,8 +2,7 @@ package de.rki.coronawarnapp.ui.presencetracing.organizer.category
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.ui.presencetracing.organizer.category.adapter.CategoryItem
 import de.rki.coronawarnapp.ui.presencetracing.organizer.category.adapter.category.TraceLocationUIType
@@ -11,12 +10,10 @@ import de.rki.coronawarnapp.ui.presencetracing.organizer.category.adapter.catego
 import de.rki.coronawarnapp.ui.presencetracing.organizer.category.adapter.header.TraceLocationHeaderItem
 import de.rki.coronawarnapp.ui.presencetracing.organizer.category.adapter.separator.TraceLocationSeparatorItem
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import javax.inject.Inject
 
-class TraceLocationCategoryViewModel @AssistedInject constructor() : CWAViewModel() {
-
-    @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<TraceLocationCategoryViewModel>
+@HiltViewModel
+class TraceLocationCategoryViewModel @Inject constructor() : CWAViewModel() {
 
     private val categoryItemList = mutableListOf<CategoryItem>().apply {
         add(TraceLocationHeaderItem(R.string.tracelocation_organizer_category_type_location_header))

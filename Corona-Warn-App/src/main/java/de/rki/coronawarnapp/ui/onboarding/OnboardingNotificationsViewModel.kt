@@ -1,14 +1,14 @@
 package de.rki.coronawarnapp.ui.onboarding
 
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import de.rki.coronawarnapp.environment.BuildConfigWrap
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import javax.inject.Inject
 
-class OnboardingNotificationsViewModel @AssistedInject constructor(
+@HiltViewModel
+class OnboardingNotificationsViewModel @Inject constructor(
     private val settings: CWASettings
 ) : CWAViewModel() {
 
@@ -18,7 +18,4 @@ class OnboardingNotificationsViewModel @AssistedInject constructor(
         settings.updateLastNotificationsOnboardingVersionCode(BuildConfigWrap.VERSION_CODE)
         routeToScreen.postValue(OnboardingNavigationEvents.NavigateToOnboardingAnalytics)
     }
-
-    @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<OnboardingNotificationsViewModel>
 }

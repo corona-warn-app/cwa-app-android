@@ -8,16 +8,15 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultPositiveNoConsentBinding
 import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.ui.dialog.displayDialog
-import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
-import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import javax.inject.Inject
 
@@ -25,14 +24,13 @@ import javax.inject.Inject
  * [SubmissionTestResultNoConsentFragment], the test result screen that is shown to the user if they have not provided
  * consent
  */
-class SubmissionTestResultNoConsentFragment :
-    Fragment(R.layout.fragment_submission_test_result_positive_no_consent),
-    AutoInject {
+@AndroidEntryPoint
+class SubmissionTestResultNoConsentFragment : Fragment(R.layout.fragment_submission_test_result_positive_no_consent) {
 
     private val navArgs by navArgs<SubmissionTestResultNoConsentFragmentArgs>()
 
     @Inject lateinit var appShortcutsHelper: AppShortcutsHelper
-    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
+
     private val binding: FragmentSubmissionTestResultPositiveNoConsentBinding by viewBinding()
     private val viewModel: SubmissionTestResultNoConsentViewModel by cwaViewModelsAssisted(
         factoryProducer = { viewModelFactory },

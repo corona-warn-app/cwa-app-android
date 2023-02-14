@@ -1,8 +1,7 @@
 package de.rki.coronawarnapp.reyclebin.ui
 
 import androidx.lifecycle.LiveData
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
@@ -22,12 +21,13 @@ import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import timber.log.Timber
+import javax.inject.Inject
 
-class RecyclerBinOverviewViewModel @AssistedInject constructor(
+@HiltViewModel
+class RecyclerBinOverviewViewModel @Inject constructor(
     dispatcherProvider: DispatcherProvider,
     private val recycledCertificatesProvider: RecycledCertificatesProvider,
     private val recycledCoronaTestsProvider: RecycledCoronaTestsProvider,
@@ -105,6 +105,7 @@ class RecyclerBinOverviewViewModel @AssistedInject constructor(
                 currentEvent.postValue(RecyclerBinEvent.ConfirmRestoreCertificate(certificate))
             }
         )
+
         else -> null
     }
 
@@ -144,10 +145,8 @@ class RecyclerBinOverviewViewModel @AssistedInject constructor(
             coronaTest is PersonalCoronaTest && currentCoronaTest != null -> currentEvent.postValue(
                 RecyclerBinEvent.RestoreDuplicateTest(coronaTest.toRestoreRecycledTestRequest(openResult = false))
             )
+
             else -> recycledCoronaTestsProvider.restoreCoronaTest(coronaTest.identifier)
         }
     }
-
-    @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<RecyclerBinOverviewViewModel>
 }

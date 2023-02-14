@@ -5,23 +5,20 @@ import android.text.method.LinkMovementMethod
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentOnboardingDeltaInteroperabilityBinding
 import de.rki.coronawarnapp.util.convertToHyperlink
-import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
-import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
-import javax.inject.Inject
 
-class OnboardingDeltaInteroperabilityFragment :
-    Fragment(R.layout.fragment_onboarding_delta_interoperability), AutoInject {
+@AndroidEntryPoint
+class OnboardingDeltaInteroperabilityFragment : Fragment(R.layout.fragment_onboarding_delta_interoperability) {
 
-    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val vm: OnboardingDeltaInteroperabilityFragmentViewModel by cwaViewModels { viewModelFactory }
+    private val vm: OnboardingDeltaInteroperabilityFragmentViewModel by viewModels()
 
     private val binding: FragmentOnboardingDeltaInteroperabilityBinding by viewBinding()
 

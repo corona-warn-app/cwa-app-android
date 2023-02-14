@@ -4,11 +4,14 @@ import android.os.Build
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import timber.log.Timber
 import java.security.SecureRandom
 import kotlin.random.Random
 import kotlin.random.asKotlinRandom
 
+@InstallIn(SingletonComponent::class)
 @Module
 class SecurityModule {
 

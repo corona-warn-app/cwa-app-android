@@ -11,6 +11,8 @@ import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import dagger.multibindings.IntoSet
 import de.rki.coronawarnapp.ccl.dccwalletinfo.notification.DccWalletInfoNotificationService
 import de.rki.coronawarnapp.covidcertificate.booster.BoosterNotificationService
@@ -41,6 +43,7 @@ import kotlinx.coroutines.plus
 import javax.inject.Qualifier
 import javax.inject.Singleton
 
+@InstallIn(SingletonComponent::class)
 @Module(
     includes = [
         CertificateValueSetModule::class,
@@ -115,6 +118,7 @@ object DigitalCovidCertificateModule {
         )
     )
 
+    @InstallIn(SingletonComponent::class)
     @Module
     internal interface ResetModule {
 
@@ -147,6 +151,7 @@ object DigitalCovidCertificateModule {
         fun bindResettableCovidCertificateSettings(resettable: CovidCertificateSettings): Resettable
     }
 
+    @InstallIn(SingletonComponent::class)
     @Module
     internal interface BindsModule {
 

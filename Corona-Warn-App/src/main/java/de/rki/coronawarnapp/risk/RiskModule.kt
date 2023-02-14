@@ -9,6 +9,8 @@ import androidx.datastore.preferences.preferencesDataStoreFile
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import dagger.multibindings.IntoMap
 import dagger.multibindings.IntoSet
 import de.rki.coronawarnapp.risk.storage.DefaultRiskLevelStorage
@@ -25,6 +27,7 @@ import kotlinx.coroutines.plus
 import javax.inject.Qualifier
 import javax.inject.Singleton
 
+@InstallIn(SingletonComponent::class)
 @Module(includes = [RiskModule.ResetModule::class, RiskModule.RiskLevelSettingsDataStoreModule::class])
 interface RiskModule {
 
@@ -45,6 +48,7 @@ interface RiskModule {
         storage: DefaultRiskLevelStorage
     ): RiskLevelStorage
 
+    @InstallIn(SingletonComponent::class)
     @Module
     interface ResetModule {
 
@@ -53,6 +57,7 @@ interface RiskModule {
         fun bindResettableRiskLevelStorage(resettable: DefaultRiskLevelStorage): Resettable
     }
 
+    @InstallIn(SingletonComponent::class)
     @Module
     object RiskLevelSettingsDataStoreModule {
         @Singleton

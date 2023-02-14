@@ -2,8 +2,7 @@ package de.rki.coronawarnapp.tracing.ui.details
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import de.rki.coronawarnapp.datadonation.survey.Surveys
 import de.rki.coronawarnapp.datadonation.survey.Surveys.ConsentResult.AlreadyGiven
 import de.rki.coronawarnapp.datadonation.survey.Surveys.ConsentResult.Needed
@@ -28,7 +27,6 @@ import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.device.BackgroundModeStatus
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
@@ -36,8 +34,10 @@ import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import timber.log.Timber
+import javax.inject.Inject
 
-class TracingDetailsFragmentViewModel @AssistedInject constructor(
+@HiltViewModel
+class TracingDetailsFragmentViewModel @Inject constructor(
     dispatcherProvider: DispatcherProvider,
     tracingStatus: GeneralTracingStatus,
     backgroundModeStatus: BackgroundModeStatus,
@@ -111,6 +111,7 @@ class TracingDetailsFragmentViewModel @AssistedInject constructor(
                                 item.type
                             )
                         )
+
                         is AlreadyGiven -> routeToScreen.postValue(
                             TracingDetailsNavigationEvents.NavigateToSurveyUrlInBrowser(
                                 consentResult.surveyLink
@@ -132,7 +133,4 @@ class TracingDetailsFragmentViewModel @AssistedInject constructor(
         HYGIENE_RULES,
         HOME_RULES
     }
-
-    @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<TracingDetailsFragmentViewModel>
 }

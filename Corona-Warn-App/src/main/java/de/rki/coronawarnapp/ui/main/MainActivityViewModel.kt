@@ -2,8 +2,7 @@ package de.rki.coronawarnapp.ui.main
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import de.rki.coronawarnapp.contactdiary.ui.ContactDiaryUiSettings
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
@@ -32,14 +31,15 @@ import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.device.BackgroundModeStatus
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import timber.log.Timber
+import javax.inject.Inject
 
 @Suppress("LongParameterList")
-class MainActivityViewModel @AssistedInject constructor(
+@HiltViewModel
+class MainActivityViewModel @Inject constructor(
     dispatcherProvider: DispatcherProvider,
     private val environmentSetup: EnvironmentSetup,
     private val backgroundModeStatus: BackgroundModeStatus,
@@ -177,7 +177,4 @@ class MainActivityViewModel @AssistedInject constructor(
         onboardingSettings.updateFabScannerOnboardingDone(isDone = true)
         onboardingSettings.updateFabUqsVersion(BuildConfigWrap.VERSION_CODE)
     }
-
-    @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<MainActivityViewModel>
 }

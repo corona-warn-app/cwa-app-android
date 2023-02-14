@@ -1,8 +1,7 @@
 package de.rki.coronawarnapp.ui.presencetracing.organizer.warn.qrcode
 
 import android.net.Uri
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.CheckInQrCodeExtractor
 import de.rki.coronawarnapp.qrcode.QrCodeFileParser
 import de.rki.coronawarnapp.qrcode.handler.CheckInQrCodeHandler
@@ -14,10 +13,11 @@ import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.ui.toLazyString
 import de.rki.coronawarnapp.util.ui.toResolvingString
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import timber.log.Timber
+import javax.inject.Inject
 
-class OrganizerWarnQrCodeScannerViewModel @AssistedInject constructor(
+@HiltViewModel
+class OrganizerWarnQrCodeScannerViewModel @Inject constructor(
     private val checkInQrCodeExtractor: CheckInQrCodeExtractor,
     private val checkInQrCodeHandler: CheckInQrCodeHandler,
     private val qrCodeFileParser: QrCodeFileParser
@@ -38,6 +38,7 @@ class OrganizerWarnQrCodeScannerViewModel @AssistedInject constructor(
                     Timber.tag(TAG).d(parseResult.exception, "parseResult failed")
                     events.postValue(OrganizerWarnQrCodeNavigation.Error(parseResult.exception))
                 }
+
                 is QrCodeFileParser.ParseResult.Success -> {
                     Timber.tag(TAG).d("parseResult=$parseResult")
                     onScanResult(parseResult.text)
@@ -58,6 +59,7 @@ class OrganizerWarnQrCodeScannerViewModel @AssistedInject constructor(
                 is CheckInQrCodeHandler.Result.Invalid -> events.postValue(
                     OrganizerWarnQrCodeNavigation.InvalidQrCode(result.errorTextRes.toResolvingString())
                 )
+
                 is CheckInQrCodeHandler.Result.Valid -> events.postValue(
                     OrganizerWarnQrCodeNavigation.DurationSelectionScreen(result.verifiedTraceLocation.traceLocation)
                 )
@@ -74,14 +76,12 @@ class OrganizerWarnQrCodeScannerViewModel @AssistedInject constructor(
         when (parseResult) {
             is QrCodeBoofCVParser.ParseResult.Failure ->
                 events.postValue(OrganizerWarnQrCodeNavigation.Error(exception = parseResult.exception))
+
             is QrCodeBoofCVParser.ParseResult.Success ->
                 parseResult.rawResults.firstOrNull()
                     ?.let { onScanResult(rawResult = it) }
         }
     }
-
-    @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<OrganizerWarnQrCodeScannerViewModel>
 
     companion object {
         private val TAG = tag<OrganizerWarnQrCodeScannerViewModel>()

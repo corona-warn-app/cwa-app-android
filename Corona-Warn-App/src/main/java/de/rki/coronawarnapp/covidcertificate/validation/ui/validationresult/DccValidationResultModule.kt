@@ -10,7 +10,6 @@ import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.pass
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.failed.DccValidationFailedFragment
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.open.DccValidationOpenFragment
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.open.DccValidationOpenViewModel
-import de.rki.coronawarnapp.covidcertificate.validation.ui.validationstart.ValidationStartModule
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelKey

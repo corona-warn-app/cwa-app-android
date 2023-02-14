@@ -11,6 +11,8 @@ import com.google.android.gms.nearby.exposurenotification.ExposureNotificationCl
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import dagger.multibindings.IntoSet
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.DefaultExposureDetectionTracker
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTracker
@@ -37,6 +39,7 @@ import kotlinx.coroutines.plus
 import javax.inject.Qualifier
 import javax.inject.Singleton
 
+@InstallIn(SingletonComponent::class)
 @Module(includes = [ENFModule.BindsModule::class])
 object ENFModule {
 
@@ -60,6 +63,7 @@ object ENFModule {
         )
     )
 
+    @InstallIn(SingletonComponent::class)
     @Module
     internal interface BindsModule {
 

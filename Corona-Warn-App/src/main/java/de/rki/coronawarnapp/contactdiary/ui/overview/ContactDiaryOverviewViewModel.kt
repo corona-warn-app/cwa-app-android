@@ -4,8 +4,7 @@ import android.annotation.SuppressLint
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.lifecycle.asLiveData
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryLocationVisit
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPersonEncounter
@@ -44,7 +43,6 @@ import de.rki.coronawarnapp.util.toLocalDateTimeUserTz
 import de.rki.coronawarnapp.util.toLocalDateUserTz
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
@@ -53,10 +51,12 @@ import java.time.Duration
 import java.time.LocalDate
 import java.time.ZoneId
 import java.util.Date
+import javax.inject.Inject
 import kotlin.concurrent.fixedRateTimer
 
 @Suppress("LongParameterList")
-class ContactDiaryOverviewViewModel @AssistedInject constructor(
+@HiltViewModel
+class ContactDiaryOverviewViewModel @Inject constructor(
     taskController: TaskController,
     dispatcherProvider: DispatcherProvider,
     contactDiaryRepository: ContactDiaryRepository,
@@ -378,9 +378,6 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
         super.onCleared()
         reloadDatesMidnightTimer.cancel()
     }
-
-    @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<ContactDiaryOverviewViewModel>
 
     companion object {
         // Today + 14 days

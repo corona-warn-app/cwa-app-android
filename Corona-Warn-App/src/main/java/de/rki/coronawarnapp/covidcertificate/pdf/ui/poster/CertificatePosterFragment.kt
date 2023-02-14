@@ -14,18 +14,13 @@ import de.rki.coronawarnapp.covidcertificate.pdf.ui.poster.CertificatePosterView
 import de.rki.coronawarnapp.covidcertificate.pdf.ui.setupWebView
 import de.rki.coronawarnapp.databinding.CertificatePosterFragmentBinding
 import de.rki.coronawarnapp.ui.dialog.displayDialog
-import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
-import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import java.time.Instant
-import javax.inject.Inject
 
 class CertificatePosterFragment : Fragment(R.layout.certificate_poster_fragment), AutoInject {
-
-    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
 
     private val args by navArgs<CertificatePosterFragmentArgs>()
     private val viewModel: CertificatePosterViewModel by cwaViewModelsAssisted(

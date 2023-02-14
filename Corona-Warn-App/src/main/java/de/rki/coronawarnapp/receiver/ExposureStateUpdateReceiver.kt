@@ -9,7 +9,7 @@ import androidx.work.WorkManager
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient.ACTION_EXPOSURE_NOT_FOUND
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient.ACTION_EXPOSURE_STATE_UPDATED
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient.EXTRA_TOKEN
-import dagger.android.AndroidInjection
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.exception.ExceptionCategory.INTERNAL
 import de.rki.coronawarnapp.exception.UnknownBroadcastException
 import de.rki.coronawarnapp.exception.reporting.report
@@ -34,6 +34,7 @@ import javax.inject.Inject
  * a worker that launches the RiskLevelTask which then makes use of the new data this notifies us of.
  *
  */
+@AndroidEntryPoint
 class ExposureStateUpdateReceiver : BroadcastReceiver() {
 
     @Inject @AppScope lateinit var scope: CoroutineScope
@@ -43,7 +44,6 @@ class ExposureStateUpdateReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         Timber.tag(TAG).d("onReceive(context=%s, intent=%s)", context, intent)
-        AndroidInjection.inject(this, context)
 
         val action = intent.action
         Timber.tag(TAG).v("Looking up action: %s", action)

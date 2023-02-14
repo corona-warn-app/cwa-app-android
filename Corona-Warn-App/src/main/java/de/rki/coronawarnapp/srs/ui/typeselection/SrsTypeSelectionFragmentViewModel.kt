@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.srs.ui.typeselection
 
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.checkins.common.completedCheckIns
 import de.rki.coronawarnapp.srs.core.model.SrsSubmissionType
@@ -12,14 +11,15 @@ import de.rki.coronawarnapp.srs.ui.typeselection.SrsTypeSelectionNavigationEvent
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import timber.log.Timber
+import javax.inject.Inject
 
-class SrsTypeSelectionFragmentViewModel @AssistedInject constructor(
+@HiltViewModel
+class SrsTypeSelectionFragmentViewModel @Inject constructor(
     private val checkInRepository: CheckInRepository,
     dispatcherProvider: DispatcherProvider
 ) : CWAViewModel(dispatcherProvider) {
@@ -71,9 +71,6 @@ class SrsTypeSelectionFragmentViewModel @AssistedInject constructor(
     fun selectTypeListItem(selectionItem: SrsTypeSelectionItem) {
         selectedType.value = selectionItem.submissionType
     }
-
-    @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<SrsTypeSelectionFragmentViewModel>
 
     companion object {
         private const val TAG = "SrsTypeSelectionFragmentViewModel"

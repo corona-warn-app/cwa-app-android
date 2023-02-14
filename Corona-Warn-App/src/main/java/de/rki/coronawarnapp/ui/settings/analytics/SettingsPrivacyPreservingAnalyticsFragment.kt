@@ -5,24 +5,20 @@ import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSettingsPrivacyPreservingAnalyticsBinding
 import de.rki.coronawarnapp.datadonation.analytics.ui.input.AnalyticsUserInputFragment
-import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
-import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
-import javax.inject.Inject
 
-class SettingsPrivacyPreservingAnalyticsFragment :
-    Fragment(R.layout.fragment_settings_privacy_preserving_analytics),
-    AutoInject {
+@AndroidEntryPoint
+class SettingsPrivacyPreservingAnalyticsFragment : Fragment(R.layout.fragment_settings_privacy_preserving_analytics) {
 
-    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val viewModel: SettingsPrivacyPreservingAnalyticsViewModel by cwaViewModels { viewModelFactory }
+    private val viewModel: SettingsPrivacyPreservingAnalyticsViewModel by viewModels()
     private val binding: FragmentSettingsPrivacyPreservingAnalyticsBinding by viewBinding()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

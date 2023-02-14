@@ -3,8 +3,7 @@ package de.rki.coronawarnapp.ui.submission.tan
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import de.rki.coronawarnapp.bugreporting.censors.submission.PcrTeleTanCensor
 import de.rki.coronawarnapp.coronatest.tan.CoronaTestTAN
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
@@ -17,16 +16,17 @@ import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import timber.log.Timber
+import javax.inject.Inject
 
-class SubmissionTanViewModel @AssistedInject constructor(
+@HiltViewModel
+class SubmissionTanViewModel @Inject constructor(
     dispatcherProvider: DispatcherProvider,
     private val submissionRepository: SubmissionRepository
-) : CWAViewModel() {
+) : CWAViewModel(dispatcherProvider) {
 
     private val currentTan = MutableStateFlow(Tan(""))
 
@@ -82,6 +82,7 @@ class SubmissionTanViewModel @AssistedInject constructor(
             when {
                 test.isPositive ->
                     mutableRegistrationState.postValue(TanApiRequestState.SuccessPositiveResult(request.identifier))
+
                 test.isPending ->
                     mutableRegistrationState.postValue(TanApiRequestState.SuccessPendingResult(request.identifier))
             }
@@ -100,9 +101,6 @@ class SubmissionTanViewModel @AssistedInject constructor(
         val isTanValidFormat: Boolean = false,
         val isCorrectLength: Boolean = false
     )
-
-    @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<SubmissionTanViewModel>
 
     sealed class TanApiRequestState {
         object Idle : TanApiRequestState()

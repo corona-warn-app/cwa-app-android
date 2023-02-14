@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import de.rki.coronawarnapp.diagnosiskeys.download.DownloadDiagnosisKeysSettings
 import de.rki.coronawarnapp.diagnosiskeys.download.DownloadDiagnosisKeysTask
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
@@ -37,6 +38,7 @@ import java.time.Instant
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 
+@HiltViewModel
 class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     @Assisted private val handle: SavedStateHandle,
@@ -50,9 +52,7 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
     private val timeStamper: TimeStamper,
     private val exposureDetectionTracker: ExposureDetectionTracker,
     private val downloadDiagnosisKeysSettings: DownloadDiagnosisKeysSettings
-) : CWAViewModel(
-    dispatcherProvider = dispatcherProvider
-) {
+) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     val fakeWindowsState = testSettings.fakeExposureWindows.asLiveData()
 

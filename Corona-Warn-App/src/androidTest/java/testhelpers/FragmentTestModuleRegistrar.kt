@@ -13,9 +13,7 @@ import de.rki.coronawarnapp.covidcertificate.test.ui.CovidCertificateDetailsFrag
 import de.rki.coronawarnapp.covidcertificate.vaccination.ui.details.VaccinationDetailsFragmentTestModule
 import de.rki.coronawarnapp.dccreissuance.ui.consent.DccReissuanceConsentFragmentTestModule
 import de.rki.coronawarnapp.dccreissuance.ui.consent.acccerts.DccReissuanceAccCertsFragmentTestModule
-import de.rki.coronawarnapp.dccticketing.ui.certificateselection.DccTicketingCertificateSelectionFragmentModule
 import de.rki.coronawarnapp.dccticketing.ui.consent.one.DccTicketingConsentOneFragmentTestModule
-import de.rki.coronawarnapp.dccticketing.ui.consent.two.DccTicketingConsentTwoFragmentModule
 import de.rki.coronawarnapp.dccticketing.ui.validationresult.success.DccTicketingValidationResultFragmentTestModule
 import de.rki.coronawarnapp.familytest.ui.consent.FamilyTestConsentFragmentTestModule
 import de.rki.coronawarnapp.familytest.ui.selection.TestRegistrationSelectionFragmentTestModule

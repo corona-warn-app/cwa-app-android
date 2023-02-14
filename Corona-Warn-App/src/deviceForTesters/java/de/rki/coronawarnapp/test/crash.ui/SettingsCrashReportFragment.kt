@@ -3,27 +3,21 @@ package de.rki.coronawarnapp.test.crash.ui
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.event.BugEvent
 import de.rki.coronawarnapp.databinding.FragmentCrashreporterOverviewBinding
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
-import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
-import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import timber.log.Timber
-import javax.inject.Inject
 
-class SettingsCrashReportFragment : Fragment(R.layout.fragment_crashreporter_overview), AutoInject {
+@AndroidEntryPoint
+class SettingsCrashReportFragment : Fragment(R.layout.fragment_crashreporter_overview) {
 
-    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val vm: SettingsCrashReportViewModel by cwaViewModels(
-        ownerProducer = { requireActivity().viewModelStore },
-        factoryProducer = { viewModelFactory }
-    )
-
+    private val vm: SettingsCrashReportViewModel by activityViewModels()
     private val fragmentCrashreporterOverviewBinding: FragmentCrashreporterOverviewBinding by viewBinding()
     private lateinit var adapter: CrashReportAdapter
 

@@ -2,8 +2,7 @@ package de.rki.coronawarnapp.ui.onboarding
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import de.rki.coronawarnapp.datadonation.analytics.Analytics
 import de.rki.coronawarnapp.datadonation.analytics.common.Districts
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
@@ -13,12 +12,13 @@ import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import kotlinx.coroutines.flow.combine
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class OnboardingAnalyticsViewModel @AssistedInject constructor(
+@HiltViewModel
+class OnboardingAnalyticsViewModel @Inject constructor(
     private val settings: AnalyticsSettings,
     private val dispatcherProvider: DispatcherProvider,
     private val analytics: Analytics,
@@ -44,7 +44,4 @@ class OnboardingAnalyticsViewModel @AssistedInject constructor(
         }
         completedOnboardingEvent.postValue(Unit)
     }
-
-    @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<OnboardingAnalyticsViewModel>
 }

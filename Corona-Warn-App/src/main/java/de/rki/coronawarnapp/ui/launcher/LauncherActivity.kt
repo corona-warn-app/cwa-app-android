@@ -3,30 +3,23 @@ package de.rki.coronawarnapp.ui.launcher
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.rootdetection.ui.showRootDetectionDialog
 import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.onboarding.OnboardingActivity
 import de.rki.coronawarnapp.util.CWADebug
-import de.rki.coronawarnapp.util.di.AppInjector
-import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import timber.log.Timber
-import javax.inject.Inject
 
+@AndroidEntryPoint
 class LauncherActivity : AppCompatActivity() {
 
-    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-
-    private val viewModel: LauncherActivityViewModel by cwaViewModels(
-        ownerProducer = { viewModelStore },
-        factoryProducer = { viewModelFactory }
-    )
+    private val viewModel: LauncherActivityViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        AppInjector.setup(this)
         super.onCreate(savedInstanceState)
 
         checkEnvSetup()
@@ -38,11 +31,13 @@ class LauncherActivity : AppCompatActivity() {
                     this.overridePendingTransition(0, 0)
                     finish()
                 }
+
                 LauncherEvent.GoToMainActivity -> {
                     MainActivity.start(this, intent)
                     this.overridePendingTransition(0, 0)
                     finish()
                 }
+
                 is LauncherEvent.ForceUpdate -> it.forceUpdate(this)
                 LauncherEvent.ShowUpdateDialog -> showUpdateNeededDialog()
                 LauncherEvent.ShowRootedDialog -> showRootDetectionDialog { viewModel.onRootedDialogDismiss() }

@@ -1,17 +1,17 @@
 package de.rki.coronawarnapp.test.dccticketing
 
 import androidx.lifecycle.asLiveData
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import de.rki.coronawarnapp.dccticketing.core.qrcode.DccTicketingQrCodeSettings
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.encryption.ec.ECKeyPair
 import de.rki.coronawarnapp.util.encryption.ec.EcKeyGenerator
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import javax.inject.Inject
 
-class DccTicketingTestViewModel @AssistedInject constructor(
+@HiltViewModel
+class DccTicketingTestViewModel @Inject constructor(
     dispatcherProvider: DispatcherProvider,
     private val ecKeyGenerator: EcKeyGenerator,
     private val qrCodeSettings: DccTicketingQrCodeSettings,
@@ -30,7 +30,4 @@ class DccTicketingTestViewModel @AssistedInject constructor(
     fun toggleServiceIdentityCheck(isChecked: Boolean) = launch {
         qrCodeSettings.updateCheckServiceIdentity(isChecked)
     }
-
-    @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<DccTicketingTestViewModel>
 }

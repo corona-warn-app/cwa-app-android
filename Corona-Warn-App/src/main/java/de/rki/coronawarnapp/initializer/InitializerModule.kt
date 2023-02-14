@@ -2,6 +2,8 @@ package de.rki.coronawarnapp.initializer
 
 import dagger.Binds
 import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import dagger.multibindings.IntoSet
 import de.rki.coronawarnapp.SecurityProvider
 import de.rki.coronawarnapp.appconfig.ConfigChangeDetector
@@ -33,6 +35,7 @@ import de.rki.coronawarnapp.submission.auto.AutoSubmission
 import de.rki.coronawarnapp.util.ForegroundRiskCalculationService
 
 @Suppress("TooManyFunctions")
+@InstallIn(SingletonComponent::class)
 @Module
 interface InitializerModule {
 

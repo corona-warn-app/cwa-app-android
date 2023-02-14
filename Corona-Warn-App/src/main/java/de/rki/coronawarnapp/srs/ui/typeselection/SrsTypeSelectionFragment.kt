@@ -4,24 +4,21 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSrsTypeSelectionBinding
 import de.rki.coronawarnapp.srs.ui.dialogs.showCloseDialog
-import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
-import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import javax.inject.Inject
 
-class SrsTypeSelectionFragment : Fragment(R.layout.fragment_srs_type_selection), AutoInject {
+@AndroidEntryPoint
+class SrsTypeSelectionFragment : Fragment(R.layout.fragment_srs_type_selection) {
 
-    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val viewModel: SrsTypeSelectionFragmentViewModel by cwaViewModels { viewModelFactory }
-
+    private val viewModel: SrsTypeSelectionFragmentViewModel by viewModels()
     private val binding by viewBinding<FragmentSrsTypeSelectionBinding>()
-
     @Inject lateinit var itemAdapter: SrsTypeSelectionItemAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

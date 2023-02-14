@@ -12,14 +12,11 @@ import de.rki.coronawarnapp.contactdiary.ui.day.ContactDiaryDayFragmentDirection
 import de.rki.coronawarnapp.contactdiary.util.MarginRecyclerViewDecoration
 import de.rki.coronawarnapp.databinding.ContactDiaryLocationListFragmentBinding
 import de.rki.coronawarnapp.ui.durationpicker.DurationPicker
-import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.onScroll
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
-import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
-import javax.inject.Inject
 
 class ContactDiaryLocationListFragment :
     Fragment(R.layout.contact_diary_location_list_fragment),
@@ -29,7 +26,6 @@ class ContactDiaryLocationListFragment :
 
     private val navArgs by navArgs<ContactDiaryLocationListFragmentArgs>()
 
-    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val viewModel: ContactDiaryLocationListViewModel by cwaViewModelsAssisted(
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->

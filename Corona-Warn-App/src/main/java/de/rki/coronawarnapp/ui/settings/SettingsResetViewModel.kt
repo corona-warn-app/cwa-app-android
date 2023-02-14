@@ -1,20 +1,21 @@
 package de.rki.coronawarnapp.ui.settings
 
 import com.google.android.gms.common.api.ApiException
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.nearby.modules.tracing.disableTracingIfEnabled
+import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.reset.DataReset
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import javax.inject.Inject
 
-class SettingsResetViewModel @AssistedInject constructor(
+@HiltViewModel
+class SettingsResetViewModel @Inject constructor(
     dispatcherProvider: DispatcherProvider,
     private val dataReset: DataReset,
     private val shortcutsHelper: AppShortcutsHelper,
@@ -46,9 +47,6 @@ class SettingsResetViewModel @AssistedInject constructor(
     }
 
     companion object {
-        private val TAG: String? = SettingsResetFragment::class.simpleName
+        private val TAG = tag<SettingsResetFragment>()
     }
-
-    @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<SettingsResetViewModel>
 }

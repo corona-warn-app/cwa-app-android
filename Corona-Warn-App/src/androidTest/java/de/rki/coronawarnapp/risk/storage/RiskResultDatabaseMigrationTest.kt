@@ -13,7 +13,6 @@ import de.rki.coronawarnapp.risk.storage.internal.migrations.RiskResultDatabaseM
 import de.rki.coronawarnapp.risk.storage.internal.migrations.RiskResultDatabaseMigration2To3
 import de.rki.coronawarnapp.risk.storage.internal.riskresults.PersistedRiskLevelResultDao
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass
-import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.di.ApplicationComponent
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe

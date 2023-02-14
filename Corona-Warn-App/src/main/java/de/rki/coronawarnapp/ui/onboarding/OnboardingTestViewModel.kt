@@ -1,12 +1,12 @@
 package de.rki.coronawarnapp.ui.onboarding
 
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import javax.inject.Inject
 
-class OnboardingTestViewModel @AssistedInject constructor() : CWAViewModel() {
+@HiltViewModel
+class OnboardingTestViewModel @Inject constructor() : CWAViewModel() {
     val routeToScreen: SingleLiveEvent<OnboardingNavigationEvents> = SingleLiveEvent()
 
     fun onNextButtonClick() {
@@ -16,7 +16,4 @@ class OnboardingTestViewModel @AssistedInject constructor() : CWAViewModel() {
     fun onBackButtonClick() {
         routeToScreen.postValue(OnboardingNavigationEvents.NavigateToOnboardingTracing)
     }
-
-    @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<OnboardingTestViewModel>
 }

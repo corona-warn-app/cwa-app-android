@@ -5,8 +5,10 @@ import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.util.hideKeyboard
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTanBinding
@@ -17,21 +19,18 @@ import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.ui.submission.tan.SubmissionTanViewModel.TanApiRequestState
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
-import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
-import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
-import javax.inject.Inject
 
 /**
  * [SubmissionTanFragment] for submission via TAN entry
  */
-class SubmissionTanFragment : Fragment(R.layout.fragment_submission_tan), AutoInject {
 
-    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val viewModel: SubmissionTanViewModel by cwaViewModels { viewModelFactory }
+@AndroidEntryPoint
+class SubmissionTanFragment : Fragment(R.layout.fragment_submission_tan) {
+
+    private val viewModel: SubmissionTanViewModel by viewModels()
 
     private val navArgs by navArgs<SubmissionTanFragmentArgs>()
 

@@ -5,32 +5,27 @@ import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TracingDetailsFragmentLayoutBinding
 import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
-import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.mutateDrawable
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
-import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
-import javax.inject.Inject
 
 /**
  * This is the detail view of the risk card if additional information for the user.
  */
-class TracingDetailsFragment : Fragment(R.layout.tracing_details_fragment_layout), AutoInject {
+@AndroidEntryPoint
+class TracingDetailsFragment : Fragment(R.layout.tracing_details_fragment_layout) {
 
-    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val vm: TracingDetailsFragmentViewModel by cwaViewModels(
-        ownerProducer = { requireActivity().viewModelStore },
-        factoryProducer = { viewModelFactory }
-    )
+    private val vm: TracingDetailsFragmentViewModel by activityViewModels()
     private val binding: TracingDetailsFragmentLayoutBinding by viewBinding()
 
     private val detailsAdapter = TracingDetailsAdapter(

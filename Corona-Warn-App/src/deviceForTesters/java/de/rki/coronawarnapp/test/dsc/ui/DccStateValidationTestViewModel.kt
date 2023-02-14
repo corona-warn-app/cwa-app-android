@@ -1,8 +1,7 @@
 package de.rki.coronawarnapp.test.dsc.ui
 
 import androidx.lifecycle.LiveData
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import de.rki.coronawarnapp.covidcertificate.expiration.DccValidityStateNotificationService
 import de.rki.coronawarnapp.covidcertificate.revocation.storage.DccRevocationRepository
 import de.rki.coronawarnapp.covidcertificate.revocation.update.DccRevocationListUpdater
@@ -10,12 +9,13 @@ import de.rki.coronawarnapp.covidcertificate.signature.core.DscRepository
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import java.time.Instant
+import javax.inject.Inject
 
-class DccStateValidationTestViewModel @AssistedInject constructor(
+@HiltViewModel
+class DccStateValidationTestViewModel @Inject constructor(
     private val dscRepository: DscRepository,
     private val covidCertificateSettings: CovidCertificateSettings,
     private val dccValidityStateNotificationService: DccValidityStateNotificationService,
@@ -23,13 +23,9 @@ class DccStateValidationTestViewModel @AssistedInject constructor(
     private val dccRevocationListUpdater: DccRevocationListUpdater
 ) : CWAViewModel() {
 
-    @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<DccStateValidationTestViewModel>
-
-    val errorEvent = SingleLiveEvent<Unit>()
-
     private val searchTerm = MutableStateFlow("")
 
+    val errorEvent = SingleLiveEvent<Unit>()
     val dscData: LiveData<DscDataInfo> = searchTerm.combine(dscRepository.dscSignatureList) { searchTerm, dscList ->
         DscDataInfo(
             lastUpdate = if (dscList.updatedAt == Instant.EPOCH)
@@ -47,19 +43,15 @@ class DccStateValidationTestViewModel @AssistedInject constructor(
         searchTerm.value = value
     }
 
-    fun clearDscList() {
-        launch {
-            dscRepository.reset()
-        }
+    fun clearDscList() = launch {
+        dscRepository.reset()
     }
 
-    fun refresh() {
-        launch {
-            try {
-                dscRepository.refresh()
-            } catch (e: Exception) {
-                errorEvent.postValue(Unit)
-            }
+    fun refresh() = launch {
+        try {
+            dscRepository.refresh()
+        } catch (e: Exception) {
+            errorEvent.postValue(Unit)
         }
     }
 

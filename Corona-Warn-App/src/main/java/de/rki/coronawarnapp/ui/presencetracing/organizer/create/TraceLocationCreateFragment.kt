@@ -22,12 +22,10 @@ import de.rki.coronawarnapp.databinding.TraceLocationCreateFragmentBinding
 import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.ui.durationpicker.DurationPicker
 import de.rki.coronawarnapp.ui.durationpicker.format
-import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.addSubtitleId
 import de.rki.coronawarnapp.util.ui.addTitleId
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
-import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import java.time.Duration
 import java.time.Instant
@@ -35,14 +33,12 @@ import java.time.LocalDate
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.temporal.ChronoUnit
-import javax.inject.Inject
 
 class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_fragment), AutoInject {
 
     private val binding: TraceLocationCreateFragmentBinding by viewBinding()
     private val navArgs by navArgs<TraceLocationCreateFragmentArgs>()
 
-    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val viewModel: TraceLocationCreateViewModel by cwaViewModelsAssisted(
         keyProducer = { navArgs.category.type.toString() },
         factoryProducer = { viewModelFactory },

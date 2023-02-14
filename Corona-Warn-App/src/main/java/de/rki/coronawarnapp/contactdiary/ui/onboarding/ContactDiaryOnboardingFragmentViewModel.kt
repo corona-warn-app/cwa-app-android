@@ -1,15 +1,15 @@
 package de.rki.coronawarnapp.contactdiary.ui.onboarding
 
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import de.rki.coronawarnapp.contactdiary.storage.settings.ContactDiarySettings
 import de.rki.coronawarnapp.contactdiary.ui.ContactDiaryUiSettings
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import javax.inject.Inject
 
-class ContactDiaryOnboardingFragmentViewModel @AssistedInject constructor(
+@HiltViewModel
+class ContactDiaryOnboardingFragmentViewModel @Inject constructor(
     dispatcherProvider: DispatcherProvider,
     private val settings: ContactDiaryUiSettings
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
@@ -30,7 +30,4 @@ class ContactDiaryOnboardingFragmentViewModel @AssistedInject constructor(
     fun onboardingComplete() = launch {
         settings.updateOnboardingStatus(onboardingStatus = ContactDiarySettings.OnboardingStatus.RISK_STATUS_1_12)
     }
-
-    @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<ContactDiaryOnboardingFragmentViewModel>
 }

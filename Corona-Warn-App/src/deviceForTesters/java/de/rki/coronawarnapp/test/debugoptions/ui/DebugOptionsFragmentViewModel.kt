@@ -1,8 +1,7 @@
 package de.rki.coronawarnapp.test.debugoptions.ui
 
 import androidx.lifecycle.asLiveData
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.environment.EnvironmentSetup.Type.Companion.toEnvironmentType
 import de.rki.coronawarnapp.test.debugoptions.ui.EnvironmentState.Companion.toEnvironmentState
@@ -10,12 +9,13 @@ import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class DebugOptionsFragmentViewModel @AssistedInject constructor(
+@HiltViewModel
+class DebugOptionsFragmentViewModel @Inject constructor(
     private val envSetup: EnvironmentSetup,
     dispatcherProvider: DispatcherProvider,
     private val environmentSunset: EnvironmentSunset,
@@ -47,7 +47,4 @@ class DebugOptionsFragmentViewModel @AssistedInject constructor(
     private fun cleanCachedData() = appScope.launch {
         environmentSunset.reset()
     }
-
-    @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<DebugOptionsFragmentViewModel>
 }

@@ -5,24 +5,22 @@ import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSettingsBinding
-import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
-import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
-import javax.inject.Inject
 
 /**
  * This is the setting overview page.
  */
-class SettingsFragment : Fragment(R.layout.fragment_settings), AutoInject {
+@AndroidEntryPoint
+class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
-    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val vm: SettingsFragmentViewModel by cwaViewModels { viewModelFactory }
+    private val vm: SettingsFragmentViewModel by viewModels()
 
     private val binding: FragmentSettingsBinding by viewBinding()
 

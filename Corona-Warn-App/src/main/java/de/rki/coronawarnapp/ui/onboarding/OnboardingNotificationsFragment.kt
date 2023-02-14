@@ -6,15 +6,13 @@ import android.view.accessibility.AccessibilityEvent
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentOnboardingNotificationsBinding
-import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
-import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
-import javax.inject.Inject
 
 /**
  * This fragment ask the user if he wants to get notifications and finishes the onboarding afterwards.
@@ -22,12 +20,10 @@ import javax.inject.Inject
  * @see NotificationManagerCompat
  * @see AlertDialog
  */
-class OnboardingNotificationsFragment :
-    Fragment(R.layout.fragment_onboarding_notifications),
-    AutoInject {
+@AndroidEntryPoint
+class OnboardingNotificationsFragment : Fragment(R.layout.fragment_onboarding_notifications) {
 
-    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val vm: OnboardingNotificationsViewModel by cwaViewModels { viewModelFactory }
+    private val vm: OnboardingNotificationsViewModel by viewModels()
     private val binding: FragmentOnboardingNotificationsBinding by viewBinding()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

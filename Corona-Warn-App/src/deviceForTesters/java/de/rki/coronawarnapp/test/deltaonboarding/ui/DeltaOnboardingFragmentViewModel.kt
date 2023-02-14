@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.test.deltaonboarding.ui
 
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import de.rki.coronawarnapp.contactdiary.storage.settings.ContactDiarySettings
 import de.rki.coronawarnapp.contactdiary.ui.ContactDiaryUiSettings
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
@@ -11,9 +10,10 @@ import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import javax.inject.Inject
 
-class DeltaOnboardingFragmentViewModel @AssistedInject constructor(
+@HiltViewModel
+class DeltaOnboardingFragmentViewModel @Inject constructor(
     private val settings: CWASettings,
     private val analyticsSettings: AnalyticsSettings,
     private val traceLocationSettings: TraceLocationSettings,
@@ -29,16 +29,16 @@ class DeltaOnboardingFragmentViewModel @AssistedInject constructor(
     val isVaccinationRegistrationOnboardingDone = covidCertificateSettings.isOnboarded.asLiveData2()
     val isAttendeeOnboardingDone = traceLocationSettings.onboardingStatus.asLiveData2()
 
-    fun updateChangelogVersion(value: Long) {
-        launch { settings.updateLastChangelogVersion(value) }
+    fun updateChangelogVersion(value: Long) = launch {
+        settings.updateLastChangelogVersion(value)
     }
 
-    fun resetChangelogVersion() {
-        launch { settings.updateLastChangelogVersion(BuildConfigWrap.VERSION_CODE) }
+    fun resetChangelogVersion() = launch {
+        settings.updateLastChangelogVersion(BuildConfigWrap.VERSION_CODE)
     }
 
-    fun clearChangelogVersion() {
-        launch { settings.updateLastChangelogVersion(1) }
+    fun clearChangelogVersion() = launch {
+        settings.updateLastChangelogVersion(1)
     }
 
     fun setContactJournalOnboardingDone(value: Boolean) = launch {
@@ -50,8 +50,8 @@ class DeltaOnboardingFragmentViewModel @AssistedInject constructor(
 
     val isDeltaOnboardingDone = settings.wasInteroperabilityShownAtLeastOnce.asLiveData2()
 
-    fun setDeltaOnboardingDone(value: Boolean) {
-        launch { settings.updateWasInteroperabilityShownAtLeastOnce(value) }
+    fun setDeltaOnboardingDone(value: Boolean) = launch {
+        settings.updateWasInteroperabilityShownAtLeastOnce(value)
     }
 
     fun setAttendeeOnboardingDone(value: Boolean) = launch {
@@ -73,7 +73,4 @@ class DeltaOnboardingFragmentViewModel @AssistedInject constructor(
     fun setAnalyticsOnboardingDone(value: Boolean) = launch {
         analyticsSettings.updateLastOnboardingVersionCode(if (value) BuildConfigWrap.VERSION_CODE else 0L)
     }
-
-    @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<DeltaOnboardingFragmentViewModel>
 }

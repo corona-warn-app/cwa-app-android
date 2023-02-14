@@ -1,8 +1,7 @@
 package de.rki.coronawarnapp.qrcode.ui
 
 import android.net.Uri
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
@@ -30,12 +29,13 @@ import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.first
 import timber.log.Timber
+import javax.inject.Inject
 
 @Suppress("LongParameterList")
-class QrCodeScannerViewModel @AssistedInject constructor(
+@HiltViewModel
+class QrCodeScannerViewModel @Inject constructor(
     dispatcherProvider: DispatcherProvider,
     private val qrCodeValidator: QrCodeValidator,
     private val qrCodeFileParser: QrCodeFileParser,
@@ -61,6 +61,7 @@ class QrCodeScannerViewModel @AssistedInject constructor(
                     Timber.tag(TAG).d(parseResult.exception, "parseResult failed")
                     result.postValue(Error(error = parseResult.exception))
                 }
+
                 is QrCodeFileParser.ParseResult.Success -> {
                     Timber.tag(TAG).d("parseResult=$parseResult")
                     onScanResult(parseResult.text)
@@ -108,6 +109,7 @@ class QrCodeScannerViewModel @AssistedInject constructor(
                     error = e,
                     errorMsg = e.errorMessage(serviceProvider = qrCode.data.serviceProvider)
                 )
+
                 else -> Error(error = e)
             }
             result.postValue(error)
@@ -133,6 +135,7 @@ class QrCodeScannerViewModel @AssistedInject constructor(
         is CoronaTestRestoreEvent.RestoreDuplicateTest -> CoronaTestResult.RestoreDuplicateTest(
             restoreRecycledTestRequest
         )
+
         is CoronaTestRestoreEvent.RestoredTest -> restoredTest.toCoronaResult()
     }
 
@@ -143,6 +146,7 @@ class QrCodeScannerViewModel @AssistedInject constructor(
             this is PersonalCoronaTest && isAdvancedConsentGiven -> CoronaTestResult.TestPositive(test = this)
             else -> CoronaTestResult.WarnOthers(test = this)
         }
+
         else -> CoronaTestResult.TestInvalid(test = this)
     }
 
@@ -155,6 +159,7 @@ class QrCodeScannerViewModel @AssistedInject constructor(
                 Timber.tag(TAG).d("recycledContainerId=$recycledContainerId")
                 DccResult.InRecycleBin(recycledContainerId)
             }
+
             dccSettings.isOnboarded.first() -> {
                 when (val checkerResult = dccMaxPersonChecker.checkForMaxPersons(dccQrCode)) {
                     DccMaxPersonChecker.Result.Passed -> {
@@ -162,17 +167,20 @@ class QrCodeScannerViewModel @AssistedInject constructor(
                         Timber.tag(TAG).d("containerId=%s,checkerResult=%s", containerId, checkerResult)
                         containerId.toDccDetails()
                     }
+
                     is DccMaxPersonChecker.Result.ReachesThreshold -> {
                         val containerId = dccHandler.validateAndRegister(dccQrCode = dccQrCode)
                         Timber.tag(TAG).d("containerId=%s,checkerResult=%s", containerId, checkerResult)
                         containerId.toMaxPersonsWarning(checkerResult.max)
                     }
+
                     is DccMaxPersonChecker.Result.ExceedsMax -> {
                         Timber.tag(TAG).w("Importing new certificate is blocked")
                         DccResult.MaxPersonsBlock(checkerResult.max)
                     }
                 }
             }
+
             else -> DccResult.Onboarding(dccQrCode)
         }
         result.postValue(event)
@@ -196,9 +204,6 @@ class QrCodeScannerViewModel @AssistedInject constructor(
             coronaTestQrCode
         )
     }
-
-    @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<QrCodeScannerViewModel>
 
     companion object {
         private val TAG = tag<QrCodeScannerViewModel>()

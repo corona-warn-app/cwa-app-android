@@ -20,11 +20,9 @@ import de.rki.coronawarnapp.covidcertificate.validation.ui.common.dccValidationN
 import de.rki.coronawarnapp.databinding.ValidationStartFragmentBinding
 import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
-import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.toResolvingString
 import de.rki.coronawarnapp.util.ui.viewBinding
-import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import setTextWithUrls
 import java.time.Instant
@@ -33,11 +31,9 @@ import java.time.LocalTime
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.temporal.ChronoUnit
-import javax.inject.Inject
 
 class ValidationStartFragment : Fragment(R.layout.validation_start_fragment), AutoInject {
 
-    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val args by navArgs<ValidationStartFragmentArgs>()
     private val viewModel by cwaViewModelsAssisted<ValidationStartViewModel>(
         factoryProducer = { viewModelFactory },

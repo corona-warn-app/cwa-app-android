@@ -8,21 +8,17 @@ import androidx.navigation.navGraphViewModels
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentDccTicketingValidationResultBinding
 import de.rki.coronawarnapp.dccticketing.ui.shared.DccTicketingSharedViewModel
-import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
-import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import javax.inject.Inject
 
-class DccTicketingValidationResultFragment : Fragment(R.layout.fragment_dcc_ticketing_validation_result), AutoInject {
+class DccTicketingValidationResultFragment : Fragment(R.layout.fragment_dcc_ticketing_validation_result) {
 
-    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     @Inject lateinit var validationResultAdapter: ValidationResultAdapter
 
-    private val dccTicketingSharedViewModel:
-        DccTicketingSharedViewModel by navGraphViewModels(R.id.dcc_ticketing_nav_graph)
+    private val dccTicketingSharedViewModel: DccTicketingSharedViewModel by navGraphViewModels(R.id.dcc_ticketing_nav_graph)
     private val binding: FragmentDccTicketingValidationResultBinding by viewBinding()
     private val resultViewModel: DccTicketingValidationResultViewModel by cwaViewModelsAssisted(
         factoryProducer = { viewModelFactory },

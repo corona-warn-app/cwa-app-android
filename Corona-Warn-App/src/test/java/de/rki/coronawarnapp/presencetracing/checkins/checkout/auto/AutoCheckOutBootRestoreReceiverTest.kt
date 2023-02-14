@@ -7,7 +7,6 @@ import androidx.work.WorkManager
 import androidx.work.WorkRequest
 import dagger.android.AndroidInjector
 import dagger.android.HasAndroidInjector
-import de.rki.coronawarnapp.util.di.AppInjector
 import io.kotest.matchers.shouldBe
 import io.mockk.CapturingSlot
 import io.mockk.MockKAnnotations

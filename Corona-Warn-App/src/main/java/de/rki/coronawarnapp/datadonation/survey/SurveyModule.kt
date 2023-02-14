@@ -9,8 +9,9 @@ import androidx.datastore.preferences.preferencesDataStoreFile
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import dagger.multibindings.IntoSet
-import de.rki.coronawarnapp.datadonation.survey.consent.SurveyConsentModule
 import de.rki.coronawarnapp.datadonation.survey.server.SurveyApiV1
 import de.rki.coronawarnapp.environment.datadonation.DataDonationCDNHttpClient
 import de.rki.coronawarnapp.environment.datadonation.DataDonationCDNServerUrl
@@ -27,8 +28,11 @@ import retrofit2.converter.protobuf.ProtoConverterFactory
 import javax.inject.Qualifier
 import javax.inject.Singleton
 
+@InstallIn(SingletonComponent::class)
 @Module(
-    includes = [SurveyModule.ResetModule::class, SurveyConsentModule::class]
+    includes = [
+        SurveyModule.ResetModule::class
+    ]
 )
 object SurveyModule {
 
@@ -65,6 +69,7 @@ object SurveyModule {
         )
     )
 
+    @InstallIn(SingletonComponent::class)
     @Module
     internal interface ResetModule {
 

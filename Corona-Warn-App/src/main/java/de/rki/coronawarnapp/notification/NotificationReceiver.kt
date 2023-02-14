@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.notification
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import dagger.android.AndroidInjection
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.coronatest.notification.ShareTestResultNotificationService
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.notification.NotificationConstants.NOTIFICATION_ID
@@ -18,13 +18,13 @@ import javax.inject.Inject
 
 typealias NotificationId = Int
 
+@AndroidEntryPoint
 class NotificationReceiver : BroadcastReceiver() {
 
     @Inject lateinit var shareTestResultNotificationService: ShareTestResultNotificationService
 
     @Suppress("MaxLineLength")
     override fun onReceive(context: Context, intent: Intent) {
-        AndroidInjection.inject(this, context)
         when (val notificationId = intent.getIntExtra(NOTIFICATION_ID, Int.MIN_VALUE)) {
             POSITIVE_LEGACY_RESULT_NOTIFICATION_ID,
             POSITIVE_PCR_RESULT_NOTIFICATION_ID,

@@ -7,6 +7,8 @@ import coil.ImageLoaderFactory
 import coil.util.Logger
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.qrcode.coil.BitMatrixDecoder
@@ -15,6 +17,7 @@ import timber.log.Timber
 import javax.inject.Provider
 import javax.inject.Singleton
 
+@InstallIn(SingletonComponent::class)
 @Module
 class CoilModule {
 

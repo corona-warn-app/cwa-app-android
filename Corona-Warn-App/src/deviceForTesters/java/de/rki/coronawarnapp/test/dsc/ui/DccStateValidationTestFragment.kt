@@ -7,21 +7,18 @@ import androidx.core.text.bold
 import androidx.core.text.buildSpannedString
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestStateValidationDccBinding
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
-import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
-import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
-import javax.inject.Inject
 
-class DccStateValidationTestFragment : Fragment(R.layout.fragment_test_state_validation_dcc), AutoInject {
+@AndroidEntryPoint
+class DccStateValidationTestFragment : Fragment(R.layout.fragment_test_state_validation_dcc) {
 
-    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-
-    private val viewModel: DccStateValidationTestViewModel by cwaViewModels { viewModelFactory }
+    private val viewModel: DccStateValidationTestViewModel by viewModels()
     private val binding: FragmentTestStateValidationDccBinding by viewBinding()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

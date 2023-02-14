@@ -5,27 +5,25 @@ import android.view.MenuItem
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.RecyclerBinOverviewFragmentBinding
 import de.rki.coronawarnapp.reyclebin.ui.adapter.RecyclerBinAdapter
 import de.rki.coronawarnapp.reyclebin.ui.dialog.removeAllItemsDialog
 import de.rki.coronawarnapp.reyclebin.ui.dialog.restoreCertificateDialog
 import de.rki.coronawarnapp.reyclebin.ui.dialog.restoreTestDialog
-import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.list.setupSwipe
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
-import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
-import javax.inject.Inject
 
-class RecyclerBinOverviewFragment : Fragment(R.layout.recycler_bin_overview_fragment), AutoInject {
+@AndroidEntryPoint
+class RecyclerBinOverviewFragment : Fragment(R.layout.recycler_bin_overview_fragment) {
 
-    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val viewModel: RecyclerBinOverviewViewModel by cwaViewModels { viewModelFactory }
+    private val viewModel: RecyclerBinOverviewViewModel by viewModels()
     private val binding: RecyclerBinOverviewFragmentBinding by viewBinding()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -78,6 +76,7 @@ class RecyclerBinOverviewFragment : Fragment(R.layout.recycler_bin_overview_frag
             viewModel.onRemoveAllItemsClicked()
             true
         }
+
         else -> false
     }
 }

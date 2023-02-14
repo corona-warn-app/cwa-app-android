@@ -2,18 +2,18 @@ package de.rki.coronawarnapp.ui.settings.start
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import de.rki.coronawarnapp.datadonation.analytics.Analytics
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.ui.settings.notifications.NotificationSettings
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.device.BackgroundModeStatus
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
-class SettingsFragmentViewModel @AssistedInject constructor(
+@HiltViewModel
+class SettingsFragmentViewModel @Inject constructor(
     dispatcherProvider: DispatcherProvider,
     tracingStatus: GeneralTracingStatus,
     notificationSettings: NotificationSettings,
@@ -41,7 +41,4 @@ class SettingsFragmentViewModel @AssistedInject constructor(
         analytics.isAnalyticsEnabledFlow()
             .map { SettingsPrivacyPreservingAnalyticsState(it) }
             .asLiveData(dispatcherProvider.Default)
-
-    @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<SettingsFragmentViewModel>
 }

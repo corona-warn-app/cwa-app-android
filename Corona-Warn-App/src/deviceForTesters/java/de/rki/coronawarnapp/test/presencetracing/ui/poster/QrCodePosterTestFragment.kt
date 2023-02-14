@@ -26,19 +26,14 @@ import de.rki.coronawarnapp.server.protocols.internal.pt.QrCodePosterTemplate
 import de.rki.coronawarnapp.ui.color.parseColor
 import de.rki.coronawarnapp.ui.print.PrintingAdapter
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
-import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
-import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import timber.log.Timber
 import java.io.File
-import javax.inject.Inject
 
 @SuppressLint("SetTextI18n")
 class QrCodePosterTestFragment : Fragment(R.layout.fragment_test_qr_code_poster), AutoInject {
-
-    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
 
     private val args by navArgs<QrCodePosterTestFragmentArgs>()
     private val viewModel: QrCodePosterTestViewModel by cwaViewModelsAssisted(

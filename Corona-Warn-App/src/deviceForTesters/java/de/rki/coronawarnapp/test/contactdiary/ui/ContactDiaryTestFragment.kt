@@ -5,28 +5,23 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.widget.TextViewCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestContactDiaryBinding
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
 import de.rki.coronawarnapp.ui.durationpicker.DurationPicker
 import de.rki.coronawarnapp.ui.durationpicker.format
-import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
-import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import java.time.Duration
-import javax.inject.Inject
 import kotlin.math.roundToInt
 
 @SuppressLint("SetTextI18n")
-class ContactDiaryTestFragment :
-    Fragment(R.layout.fragment_test_contact_diary),
-    AutoInject,
-    DurationPicker.OnChangeListener {
-    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val vm: ContactDiaryTestFragmentViewModel by cwaViewModels { viewModelFactory }
+@AndroidEntryPoint
+class ContactDiaryTestFragment : Fragment(R.layout.fragment_test_contact_diary), DurationPicker.OnChangeListener {
 
+    private val vm: ContactDiaryTestFragmentViewModel by viewModels()
     private val binding: FragmentTestContactDiaryBinding by viewBinding()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

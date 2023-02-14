@@ -6,26 +6,23 @@ import android.view.accessibility.AccessibilityEvent
 import androidx.core.net.toUri
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.transition.MaterialSharedAxis
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.ContactDiaryOnboardingFragmentBinding
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
-import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.addMenuId
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
-import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import java.time.LocalDate
-import javax.inject.Inject
 
-class ContactDiaryOnboardingFragment : Fragment(R.layout.contact_diary_onboarding_fragment), AutoInject {
+@AndroidEntryPoint
+class ContactDiaryOnboardingFragment : Fragment(R.layout.contact_diary_onboarding_fragment) {
 
-    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-
-    private val vm: ContactDiaryOnboardingFragmentViewModel by cwaViewModels { viewModelFactory }
+    private val vm: ContactDiaryOnboardingFragmentViewModel by viewModels()
     private val binding: ContactDiaryOnboardingFragmentBinding by viewBinding()
     private val args by navArgs<ContactDiaryOnboardingFragmentArgs>()
 

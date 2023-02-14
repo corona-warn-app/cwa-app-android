@@ -5,8 +5,7 @@ import android.print.FilePrinter
 import android.print.PrintDocumentAdapter
 import android.print.PrintManager
 import androidx.core.content.getSystemService
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificateProvider
 import de.rki.coronawarnapp.covidcertificate.pdf.core.CertificateExportCache
@@ -21,15 +20,16 @@ import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.files.FileSharing
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 import timber.log.Timber
 import java.io.File
 import java.util.Timer
+import javax.inject.Inject
 import kotlin.concurrent.timerTask
 
-class DccExportAllOverviewViewModel @AssistedInject constructor(
+@HiltViewModel
+class DccExportAllOverviewViewModel @Inject constructor(
     personCertificatesProvider: CertificateProvider,
     template: CertificateTemplate,
     timeStamper: TimeStamper,
@@ -123,9 +123,6 @@ class DccExportAllOverviewViewModel @AssistedInject constructor(
             Timber.tag(TAG).e(it, "delete() failed")
         }
     }
-
-    @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<DccExportAllOverviewViewModel>
 
     sealed interface ExportResult
     data class PrintResult(val print: (activity: Activity) -> Unit) : ExportResult

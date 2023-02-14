@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.bugreporting
 
 import de.rki.coronawarnapp.util.CWADebug
-import de.rki.coronawarnapp.util.di.AppInjector
 import timber.log.Timber
 
 interface BugReporter {

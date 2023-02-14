@@ -2,15 +2,15 @@ package de.rki.coronawarnapp.ui.settings.backgroundpriority
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.device.BackgroundModeStatus
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
-class SettingsBackgroundPriorityFragmentViewModel @AssistedInject constructor(
+@HiltViewModel
+class SettingsBackgroundPriorityFragmentViewModel @Inject constructor(
     dispatcherProvider: DispatcherProvider,
     backgroundModeStatus: BackgroundModeStatus
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
@@ -21,7 +21,4 @@ class SettingsBackgroundPriorityFragmentViewModel @AssistedInject constructor(
                 BackgroundPriorityState(isBackgroundPriorityEnabled = it)
             }
             .asLiveData(dispatcherProvider.Default)
-
-    @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<SettingsBackgroundPriorityFragmentViewModel>
 }

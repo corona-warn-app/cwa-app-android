@@ -2,8 +2,7 @@ package de.rki.coronawarnapp.profile.ui.list
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import de.rki.coronawarnapp.profile.storage.ProfileRepository
 import de.rki.coronawarnapp.profile.ui.list.items.ProfileCard
 import de.rki.coronawarnapp.profile.ui.list.items.ProfileListItem
@@ -11,12 +10,13 @@ import de.rki.coronawarnapp.profile.ui.qrcode.VCard
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
-class ProfileListViewModel @AssistedInject constructor(
+@HiltViewModel
+class ProfileListViewModel @Inject constructor(
     dispatcherProvider: DispatcherProvider,
-    private val profileRepository: ProfileRepository,
+    profileRepository: ProfileRepository,
     private val vCard: VCard,
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
@@ -43,7 +43,4 @@ class ProfileListViewModel @AssistedInject constructor(
     fun onCreateProfileClicked() {
         events.postValue(ProfileListEvent.NavigateToAddProfile)
     }
-
-    @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<ProfileListViewModel>
 }

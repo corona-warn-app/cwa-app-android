@@ -4,22 +4,20 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestMenuBinding
-import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
-import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import javax.inject.Inject
 
-class TestMenuFragment : Fragment(R.layout.fragment_test_menu), AutoInject {
+@AndroidEntryPoint
+class TestMenuFragment : Fragment(R.layout.fragment_test_menu) {
 
-    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val vm: TestMenuFragmentViewModel by cwaViewModels { viewModelFactory }
-
+    private val vm: TestMenuFragmentViewModel by viewModels()
     private val binding: FragmentTestMenuBinding by viewBinding()
 
     @Inject lateinit var menuAdapter: TestMenuAdapter

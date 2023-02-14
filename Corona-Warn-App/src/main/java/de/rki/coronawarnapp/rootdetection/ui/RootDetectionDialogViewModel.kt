@@ -1,14 +1,14 @@
 package de.rki.coronawarnapp.rootdetection.ui
 
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import de.rki.coronawarnapp.rootdetection.core.RootDetectionCheck
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import timber.log.Timber
+import javax.inject.Inject
 
-class RootDetectionDialogViewModel @AssistedInject constructor(
+@HiltViewModel
+class RootDetectionDialogViewModel @Inject constructor(
     private val rootDetectionCheck: RootDetectionCheck
 ) : CWAViewModel() {
 
@@ -16,9 +16,6 @@ class RootDetectionDialogViewModel @AssistedInject constructor(
         Timber.tag(TAG).d("onSuppressCheckedChanged(isChecked=%s)", isChecked)
         rootDetectionCheck.suppressRootInfoForCurrentVersion(suppress = isChecked)
     }
-
-    @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<RootDetectionDialogViewModel>
 
     companion object {
         private val TAG = tag<RootDetectionDialogViewModel>()

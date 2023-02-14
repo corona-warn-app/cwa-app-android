@@ -3,6 +3,8 @@ package de.rki.coronawarnapp.covidcertificate.test.core.server
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import de.rki.coronawarnapp.environment.covidcertificate.DCCHttpClient
 import de.rki.coronawarnapp.environment.covidcertificate.DCCServerUrl
 import okhttp3.OkHttpClient
@@ -12,6 +14,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.jackson.JacksonConverterFactory
 import java.lang.reflect.Type
 
+@InstallIn(SingletonComponent::class)
 @Module
 class TestCertificateServerModule {
 

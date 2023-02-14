@@ -8,11 +8,8 @@ import de.rki.coronawarnapp.contactdiary.ui.day.tabs.location.ContactDiaryLocati
 import de.rki.coronawarnapp.contactdiary.ui.day.tabs.location.ContactDiaryLocationListModule
 import de.rki.coronawarnapp.contactdiary.ui.day.tabs.person.ContactDiaryPersonListFragment
 import de.rki.coronawarnapp.contactdiary.ui.day.tabs.person.ContactDiaryPersonListModule
-import de.rki.coronawarnapp.contactdiary.ui.edit.ContactDiaryEditModule
 import de.rki.coronawarnapp.contactdiary.ui.onboarding.ContactDiaryOnboardingFragment
-import de.rki.coronawarnapp.contactdiary.ui.onboarding.ContactDiaryOnboardingFragmentModule
 import de.rki.coronawarnapp.contactdiary.ui.overview.ContactDiaryOverviewFragment
-import de.rki.coronawarnapp.contactdiary.ui.overview.ContactDiaryOverviewFragmentModule
 import de.rki.coronawarnapp.contactdiary.ui.location.ContactDiaryAddLocationFragment
 import de.rki.coronawarnapp.contactdiary.ui.location.ContactDiaryAddLocationFragmentModule
 import de.rki.coronawarnapp.contactdiary.ui.person.ContactDiaryAddPersonFragment

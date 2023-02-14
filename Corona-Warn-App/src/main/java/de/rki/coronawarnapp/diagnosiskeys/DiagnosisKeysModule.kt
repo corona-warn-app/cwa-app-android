@@ -9,6 +9,8 @@ import androidx.datastore.preferences.preferencesDataStoreFile
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import dagger.multibindings.IntoSet
 import de.rki.coronawarnapp.diagnosiskeys.download.DownloadDiagnosisKeysSettings
 import de.rki.coronawarnapp.diagnosiskeys.server.DiagnosisKeyApiV1
@@ -27,7 +29,12 @@ import retrofit2.converter.jackson.JacksonConverterFactory
 import javax.inject.Qualifier
 import javax.inject.Singleton
 
-@Module(includes = [DiagnosisKeysModule.ResetModule::class])
+@InstallIn(SingletonComponent::class)
+@Module(
+    includes = [
+        DiagnosisKeysModule.ResetModule::class
+    ]
+)
 object DiagnosisKeysModule {
 
     @Singleton
@@ -61,6 +68,7 @@ object DiagnosisKeysModule {
         )
     )
 
+    @InstallIn(SingletonComponent::class)
     @Module
     internal interface ResetModule {
 

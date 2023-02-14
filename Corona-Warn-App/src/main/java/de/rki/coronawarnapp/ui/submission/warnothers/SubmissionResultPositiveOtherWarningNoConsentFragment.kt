@@ -13,12 +13,10 @@ import de.rki.coronawarnapp.databinding.FragmentSubmissionNoConsentPositiveOther
 import de.rki.coronawarnapp.tracing.ui.tracingConsentDialog
 import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.ui.submission.SubmissionBlockingDialog
-import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
-import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import javax.inject.Inject
 
@@ -32,7 +30,7 @@ class SubmissionResultPositiveOtherWarningNoConsentFragment :
     private val navArgs by navArgs<SubmissionResultPositiveOtherWarningNoConsentFragmentArgs>()
 
     @Inject lateinit var appShortcutsHelper: AppShortcutsHelper
-    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
+
     private val viewModel: SubmissionResultPositiveOtherWarningNoConsentViewModel by cwaViewModelsAssisted(
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->

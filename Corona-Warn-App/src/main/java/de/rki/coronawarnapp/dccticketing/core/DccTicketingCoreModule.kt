@@ -8,6 +8,8 @@ import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import dagger.multibindings.IntoSet
 import de.rki.coronawarnapp.dccticketing.core.allowlist.repo.DccTicketingAllowListRepository
 import de.rki.coronawarnapp.dccticketing.core.allowlist.repo.storage.DccTicketingAllowListStorage
@@ -33,6 +35,7 @@ import java.io.File
 import javax.inject.Qualifier
 import javax.inject.Singleton
 
+@InstallIn(SingletonComponent::class)
 @Module(includes = [DccTicketingCoreModule.ResetModule::class])
 object DccTicketingCoreModule {
 
@@ -105,6 +108,7 @@ object DccTicketingCoreModule {
         @AppContext context: Context
     ): Cache = Cache(File(context.cacheDir, "dcc_ticketing"), DEFAULT_CACHE_SIZE)
 
+    @InstallIn(SingletonComponent::class)
     @Module
     internal interface ResetModule {
 

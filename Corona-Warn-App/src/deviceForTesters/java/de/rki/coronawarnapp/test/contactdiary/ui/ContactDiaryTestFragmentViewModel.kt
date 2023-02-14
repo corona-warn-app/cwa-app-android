@@ -1,8 +1,7 @@
 package de.rki.coronawarnapp.test.contactdiary.ui
 
 import androidx.lifecycle.asLiveData
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryLocationVisit
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPersonEncounter
 import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryLocation
@@ -13,11 +12,12 @@ import de.rki.coronawarnapp.contactdiary.retention.ContactDiaryRetentionCalculat
 import de.rki.coronawarnapp.contactdiary.storage.repo.DefaultContactDiaryRepository
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import java.time.LocalDate
+import javax.inject.Inject
 import kotlin.random.Random
 
-class ContactDiaryTestFragmentViewModel @AssistedInject constructor(
+@HiltViewModel
+class ContactDiaryTestFragmentViewModel @Inject constructor(
     dispatcherProvider: DispatcherProvider,
     private val repository: DefaultContactDiaryRepository,
     private val retentionCalculation: ContactDiaryRetentionCalculation
@@ -107,7 +107,4 @@ class ContactDiaryTestFragmentViewModel @AssistedInject constructor(
             date.minusDays(Random.nextLong(0, 16))
         }
     }
-
-    @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<ContactDiaryTestFragmentViewModel>
 }

@@ -8,18 +8,15 @@ import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.ValidationResultAdapter
 import de.rki.coronawarnapp.databinding.CovidCertificateValidationPassedFragmentBinding
-import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
-import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import javax.inject.Inject
 
 class DccValidationPassedFragment : Fragment(R.layout.covid_certificate_validation_passed_fragment), AutoInject {
 
-    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val binding: CovidCertificateValidationPassedFragmentBinding by viewBinding()
     private val args: DccValidationPassedFragmentArgs by navArgs()
     private val viewModel: DccValidationPassedViewModel by cwaViewModelsAssisted(

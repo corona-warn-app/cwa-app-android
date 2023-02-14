@@ -1,8 +1,7 @@
 package de.rki.coronawarnapp.test.menu.ui
 
 import androidx.lifecycle.MutableLiveData
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.miscinfo.MiscInfoFragment
 import de.rki.coronawarnapp.test.appconfig.ui.AppConfigTestFragment
@@ -14,7 +13,6 @@ import de.rki.coronawarnapp.test.dccticketing.DccTicketingTestFragment
 import de.rki.coronawarnapp.test.debugoptions.ui.DebugOptionsFragment
 import de.rki.coronawarnapp.test.deltaonboarding.ui.DeltaOnboardingFragment
 import de.rki.coronawarnapp.test.dsc.ui.DccStateValidationTestFragment
-import de.rki.coronawarnapp.test.hometestcards.ui.HomeTestCardsFragment
 import de.rki.coronawarnapp.test.keydownload.ui.KeyDownloadTestFragment
 import de.rki.coronawarnapp.test.playground.ui.PlaygroundFragment
 import de.rki.coronawarnapp.test.presencetracing.ui.PresenceTracingTestFragment
@@ -24,10 +22,11 @@ import de.rki.coronawarnapp.test.submission.ui.SubmissionTestFragment
 import de.rki.coronawarnapp.test.tasks.ui.TestTaskControllerFragment
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
-class TestMenuFragmentViewModel @AssistedInject constructor(
+@HiltViewModel
+class TestMenuFragmentViewModel @Inject constructor(
     personCertificatesProvider: PersonCertificatesProvider
 ) : CWAViewModel() {
 
@@ -52,7 +51,6 @@ class TestMenuFragmentViewModel @AssistedInject constructor(
             DataDonationTestFragment.MENU_ITEM,
             DeltaOnboardingFragment.MENU_ITEM,
             PresenceTracingTestFragment.MENU_ITEM,
-            HomeTestCardsFragment.MENU_ITEM,
             QrCodeTestFragment.MENU_ITEM,
             DccStateValidationTestFragment.MENU_ITEM,
             DccTicketingTestFragment.MENU_ITEM,
@@ -63,7 +61,4 @@ class TestMenuFragmentViewModel @AssistedInject constructor(
     fun showTestScreen(it: TestMenuItem) {
         showTestScreenEvent.postValue(it)
     }
-
-    @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<TestMenuFragmentViewModel>
 }

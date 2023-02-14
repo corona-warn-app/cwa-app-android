@@ -1,19 +1,19 @@
 package de.rki.coronawarnapp.ui.settings.analytics
 
 import androidx.lifecycle.asLiveData
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import de.rki.coronawarnapp.datadonation.analytics.Analytics
 import de.rki.coronawarnapp.datadonation.analytics.common.Districts
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import kotlinx.coroutines.flow.combine
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
+import javax.inject.Inject
 
-class SettingsPrivacyPreservingAnalyticsViewModel @AssistedInject constructor(
+@HiltViewModel
+class SettingsPrivacyPreservingAnalyticsViewModel @Inject constructor(
     dispatcherProvider: DispatcherProvider,
     analyticsSettings: AnalyticsSettings,
     districts: Districts,
@@ -36,9 +36,6 @@ class SettingsPrivacyPreservingAnalyticsViewModel @AssistedInject constructor(
             district = selectedDistrict
         )
     }.asLiveData(dispatcherProvider.IO)
-
-    @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<SettingsPrivacyPreservingAnalyticsViewModel>
 
     fun analyticsToggleEnabled() = launch {
         val analyticsState = analytics.isAnalyticsEnabledFlow().first()

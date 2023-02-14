@@ -2,8 +2,7 @@ package de.rki.coronawarnapp.ui.presencetracing.organizer.warn.list
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.presencetracing.storage.repo.TraceLocationRepository
@@ -13,12 +12,13 @@ import de.rki.coronawarnapp.ui.presencetracing.organizer.warn.list.items.TraceLo
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
-class TraceLocationSelectionViewModel @AssistedInject constructor(
+@HiltViewModel
+class TraceLocationSelectionViewModel @Inject constructor(
     dispatcherProvider: DispatcherProvider,
     checkInsRepository: CheckInRepository,
     traceLocationRepository: TraceLocationRepository,
@@ -71,9 +71,6 @@ class TraceLocationSelectionViewModel @AssistedInject constructor(
     fun scanQrCode() {
         events.value = TraceLocationSelectionEvent.ScanQrCode
     }
-
-    @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<TraceLocationSelectionViewModel>
 
     data class State(val traceLocations: List<TraceLocationItem>, val actionEnabled: Boolean)
 }

@@ -3,8 +3,7 @@ package de.rki.coronawarnapp.test.tasks.ui
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.liveData
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.task.TaskFactory
@@ -13,18 +12,19 @@ import de.rki.coronawarnapp.task.common.DefaultTaskRequest
 import de.rki.coronawarnapp.test.tasks.testtask.TestTask
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.flatMapMerge
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
-class TestTaskControllerFragmentViewModel @AssistedInject constructor(
+@HiltViewModel
+class TestTaskControllerFragmentViewModel @Inject constructor(
     private val taskController: TaskController,
     dispatcherProvider: DispatcherProvider,
     private val taskFactories: Map<
         @JvmSuppressWildcards Class<out Task<*, *>>,
         @JvmSuppressWildcards TaskFactory<out Task.Progress, out Task.Result>>
-) : CWAViewModel() {
+) : CWAViewModel(dispatcherProvider) {
 
     data class FactoryState(
         val infos: List<String>
@@ -116,7 +116,4 @@ class TestTaskControllerFragmentViewModel @AssistedInject constructor(
             )
         )
     }
-
-    @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<TestTaskControllerFragmentViewModel>
 }

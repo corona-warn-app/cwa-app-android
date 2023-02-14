@@ -10,19 +10,16 @@ import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.comm
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.setHeaderForState
 import de.rki.coronawarnapp.databinding.CovidCertificateValidationResultFragmentsBinding
 import de.rki.coronawarnapp.ui.view.onOffsetChange
-import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.decorations.RecylerViewPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
-import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import javax.inject.Inject
 
 class DccValidationOpenFragment : Fragment(R.layout.covid_certificate_validation_result_fragments), AutoInject {
 
-    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val binding by viewBinding<CovidCertificateValidationResultFragmentsBinding>()
     private val args by navArgs<DccValidationOpenFragmentArgs>()
     private val viewModel: DccValidationOpenViewModel by cwaViewModelsAssisted(

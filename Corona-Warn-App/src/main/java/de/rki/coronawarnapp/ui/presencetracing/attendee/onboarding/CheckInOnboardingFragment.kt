@@ -5,27 +5,24 @@ import android.view.View
 import androidx.core.net.toUri
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.transition.MaterialSharedAxis
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTraceLocationOnboardingBinding
 import de.rki.coronawarnapp.ui.presencetracing.attendee.confirm.ConfirmCheckInFragment
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
-import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
-import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
-import javax.inject.Inject
 
-class CheckInOnboardingFragment : Fragment(R.layout.fragment_trace_location_onboarding), AutoInject {
+@AndroidEntryPoint
+class CheckInOnboardingFragment : Fragment(R.layout.fragment_trace_location_onboarding) {
 
-    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-
-    private val viewModel: CheckInOnboardingViewModel by cwaViewModels { viewModelFactory }
+    private val viewModel: CheckInOnboardingViewModel by viewModels()
     private val binding: FragmentTraceLocationOnboardingBinding by viewBinding()
     private val args by navArgs<CheckInOnboardingFragmentArgs>()
 

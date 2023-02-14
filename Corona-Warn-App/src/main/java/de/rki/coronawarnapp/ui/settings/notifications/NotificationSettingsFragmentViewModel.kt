@@ -2,17 +2,17 @@ package de.rki.coronawarnapp.ui.settings.notifications
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import de.rki.coronawarnapp.covidcertificate.common.notification.DigitalCovidCertificateNotifications
 import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.presencetracing.common.PresenceTracingNotifications
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
-class NotificationSettingsFragmentViewModel @AssistedInject constructor(
+@HiltViewModel
+class NotificationSettingsFragmentViewModel @Inject constructor(
     dispatcherProvider: DispatcherProvider,
     notificationSettings: NotificationSettings,
     private val generalNotifications: GeneralNotifications,
@@ -32,7 +32,4 @@ class NotificationSettingsFragmentViewModel @AssistedInject constructor(
         presenceTracingNotifications.setupChannel()
         digitalCovidCertificateNotifications.setupChannel()
     }
-
-    @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<NotificationSettingsFragmentViewModel>
 }

@@ -6,7 +6,7 @@ import android.content.Intent
 import androidx.work.Data
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
-import dagger.android.AndroidInjection
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.bugreporting.reportProblem
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -15,6 +15,7 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class AutoCheckOutBootRestoreReceiver : BroadcastReceiver() {
     @Inject @AppScope lateinit var scope: CoroutineScope
     @Inject lateinit var dispatcherProvider: DispatcherProvider
@@ -27,8 +28,6 @@ class AutoCheckOutBootRestoreReceiver : BroadcastReceiver() {
             Timber.e("Received unknown intent action: %s", intent.action)
             return
         }
-
-        AndroidInjection.inject(this, context)
 
         val async = goAsync()
 

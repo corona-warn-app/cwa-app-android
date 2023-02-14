@@ -6,27 +6,25 @@ import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentInformationBinding
 import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
-import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
-import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import timber.log.Timber
-import javax.inject.Inject
 
 /**
  * Basic Fragment which links to static and web content.
  */
-class InformationFragment : Fragment(R.layout.fragment_information), AutoInject {
+@AndroidEntryPoint
+class InformationFragment : Fragment(R.layout.fragment_information) {
 
-    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val vm: InformationFragmentViewModel by cwaViewModels { viewModelFactory }
+    private val vm: InformationFragmentViewModel by viewModels()
 
     private val binding: FragmentInformationBinding by viewBinding()
 

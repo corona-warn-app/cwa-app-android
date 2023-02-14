@@ -18,6 +18,8 @@ import com.google.android.gms.safetynet.SafetyNet
 import com.google.android.gms.safetynet.SafetyNetClient
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.util.SafeNavDeepLinkBuilder
 import de.rki.coronawarnapp.util.worker.WorkManagerProvider
@@ -25,6 +27,7 @@ import kotlinx.coroutines.CoroutineScope
 import java.time.Instant
 import javax.inject.Singleton
 
+@InstallIn(SingletonComponent::class)
 @Module
 class AndroidModule {
 

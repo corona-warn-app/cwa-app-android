@@ -2,8 +2,7 @@ package de.rki.coronawarnapp.test.keydownload.ui
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import de.rki.coronawarnapp.diagnosiskeys.download.KeyPackageSyncTool
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.storage.TestSettings
@@ -11,13 +10,14 @@ import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.network.NetworkStateProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.sample
 import kotlinx.coroutines.runBlocking
 import timber.log.Timber
+import javax.inject.Inject
 
-class KeyDownloadTestFragmentViewModel @AssistedInject constructor(
+@HiltViewModel
+class KeyDownloadTestFragmentViewModel @Inject constructor(
     dispatcherProvider: DispatcherProvider,
     networkStateProvider: NetworkStateProvider,
     private val testSettings: TestSettings,
@@ -75,7 +75,4 @@ class KeyDownloadTestFragmentViewModel @AssistedInject constructor(
     fun deleteKeyFile(it: CachedKeyListItem) = launchWithSyncProgress {
         keyCacheRepository.deleteInfoAndFile(listOf(it.info))
     }
-
-    @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<KeyDownloadTestFragmentViewModel>
 }

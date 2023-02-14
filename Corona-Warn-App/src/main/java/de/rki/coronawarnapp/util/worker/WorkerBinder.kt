@@ -3,6 +3,8 @@ package de.rki.coronawarnapp.util.worker
 import androidx.work.ListenableWorker
 import dagger.Binds
 import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import dagger.multibindings.IntoMap
 import de.rki.coronawarnapp.ccl.configuration.update.CclConfigurationUpdateWorker
 import de.rki.coronawarnapp.contactdiary.retention.ContactDiaryRetentionWorker
@@ -24,6 +26,7 @@ import de.rki.coronawarnapp.presencetracing.risk.execution.PresenceTracingWarnin
 import de.rki.coronawarnapp.presencetracing.storage.retention.TraceLocationDbCleanUpPeriodicWorker
 import de.rki.coronawarnapp.submission.auto.SubmissionWorker
 
+@InstallIn(SingletonComponent::class)
 @Module
 abstract class WorkerBinder {
 

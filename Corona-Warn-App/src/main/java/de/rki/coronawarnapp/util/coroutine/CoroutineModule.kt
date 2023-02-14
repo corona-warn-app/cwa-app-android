@@ -2,8 +2,11 @@ package de.rki.coronawarnapp.util.coroutine
 
 import dagger.Binds
 import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineScope
 
+@InstallIn(SingletonComponent::class)
 @Module
 abstract class CoroutineModule {
 
