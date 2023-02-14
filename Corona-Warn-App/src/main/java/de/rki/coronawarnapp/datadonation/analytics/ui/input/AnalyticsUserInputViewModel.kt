@@ -34,7 +34,7 @@ class AnalyticsUserInputViewModel @AssistedInject constructor(
     @AppContext private val context: Context,
     private val districtsSource: Districts,
     dispatcherProvider: DispatcherProvider
-) : CWAViewModel() {
+) : CWAViewModel(dispatcherProvider) {
 
     private val ageGroupSource: Flow<List<UserInfoItem>> = flowOf(PpaData.PPAAgeGroup.values())
         .map { ages ->
