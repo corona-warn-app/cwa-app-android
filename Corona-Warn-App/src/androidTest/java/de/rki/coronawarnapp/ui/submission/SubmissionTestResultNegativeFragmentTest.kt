@@ -82,7 +82,7 @@ class SubmissionTestResultNegativeFragmentTest : BaseUITest() {
 
     @Test
     @Screenshot
-    fun capture_fragment_for_personal_test() {
+    fun capture_fragment_for_personal_test_pcr_negative() {
         every { viewModel.testResult } returns MutableLiveData(
             SubmissionTestResultNegativeViewModel.UIState(
                 coronaTest = mockk<BaseCoronaTest>().apply {
@@ -100,7 +100,30 @@ class SubmissionTestResultNegativeFragmentTest : BaseUITest() {
         )
 
         launchFragmentInContainer2<SubmissionTestResultNegativeFragment>(fragmentArgs = resultNegativeFragmentArgs)
-        takeScreenshot<SubmissionTestResultNegativeFragment>()
+        takeScreenshot<SubmissionTestResultNegativeFragment>("pcr_negative")
+    }
+
+    @Test
+    @Screenshot
+    fun capture_fragment_for_personal_test_rat_negative() {
+        every { viewModel.testResult } returns MutableLiveData(
+            SubmissionTestResultNegativeViewModel.UIState(
+                coronaTest = mockk<BaseCoronaTest>().apply {
+                    every { testResult } returns CoronaTestResult.RAT_NEGATIVE
+                    every { registeredAt } returns Instant.now()
+                    every { type } returns BaseCoronaTest.Type.RAPID_ANTIGEN
+                    every { identifier } returns TestIdentifier()
+                },
+                certificateState = SubmissionTestResultNegativeViewModel.CertificateState.NOT_REQUESTED
+            )
+        )
+
+        every { viewModel.certificate } returns MutableLiveData(
+            mockTestCertificate()
+        )
+
+        launchFragmentInContainer2<SubmissionTestResultNegativeFragment>(fragmentArgs = resultNegativeFragmentArgs)
+        takeScreenshot<SubmissionTestResultNegativeFragment>("rat_negative")
     }
 
     @Test
@@ -111,14 +134,15 @@ class SubmissionTestResultNegativeFragmentTest : BaseUITest() {
                 coronaTest = mockk<FamilyCoronaTest>().apply {
                     every { testResult } returns CoronaTestResult.RAT_NEGATIVE
                     every { registeredAt } returns Instant.now()
-                    every { type } returns BaseCoronaTest.Type.PCR
+                    every { type } returns BaseCoronaTest.Type.RAPID_ANTIGEN
                     every { identifier } returns ""
                     every { personName } returns "Lara"
                     every { coronaTest } returns CoronaTest(
                         identifier = identifier,
                         type = type,
                         registeredAt = registeredAt,
-                        registrationToken = ""
+                        registrationToken = "",
+                        additionalInfo = CoronaTest.AdditionalInfo(Instant.now())
                     )
                 },
                 certificateState = SubmissionTestResultNegativeViewModel.CertificateState.AVAILABLE
@@ -126,7 +150,7 @@ class SubmissionTestResultNegativeFragmentTest : BaseUITest() {
         )
 
         launchFragmentInContainer2<SubmissionTestResultNegativeFragment>(fragmentArgs = resultNegativeFragmentArgs)
-        takeScreenshot<SubmissionTestResultNegativeFragment>()
+        takeScreenshot<SubmissionTestResultNegativeFragment>("rat_negative")
     }
 
     private fun mockTestCertificate(): TestCertificate = mockk<TestCertificate>().apply {

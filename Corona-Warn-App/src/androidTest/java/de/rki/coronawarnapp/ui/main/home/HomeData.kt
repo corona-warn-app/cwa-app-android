@@ -17,6 +17,7 @@ import de.rki.coronawarnapp.submission.ui.homecards.PcrTestPendingCard
 import de.rki.coronawarnapp.submission.ui.homecards.PcrTestPositiveCard
 import de.rki.coronawarnapp.submission.ui.homecards.PcrTestSubmissionDoneCard
 import de.rki.coronawarnapp.submission.ui.homecards.RapidTestNegativeCard
+import de.rki.coronawarnapp.submission.ui.homecards.RapidTestPositiveCard
 import de.rki.coronawarnapp.submission.ui.homecards.RegisterTestCard
 import de.rki.coronawarnapp.submission.ui.homecards.TestFetchingCard
 import de.rki.coronawarnapp.tracing.RiskCalculationState
@@ -138,6 +139,14 @@ object HomeData {
 
         val TEST_POSITIVE_ITEM = PcrTestPositiveCard.Item(
             state = TestPositive(
+                testRegisteredAt = Instant.now()
+            ),
+            onClickAction = {},
+            onRemoveAction = {}
+        )
+
+        val TEST_POSITIVE_ITEM_RAT = RapidTestPositiveCard.Item(
+            state = SubmissionStateRAT.TestPositive(
                 testRegisteredAt = Instant.now()
             ),
             onClickAction = {},

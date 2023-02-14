@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.srs.ui.done
 
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions.scrollTo
+import androidx.test.espresso.action.ViewActions.swipeDown
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
@@ -23,7 +23,7 @@ class SrsSubmissionDoneFragmentTest : BaseUITest() {
         launchFragmentInContainer2<SrsSubmissionDoneFragment>()
         takeScreenshot<SrsSubmissionDoneFragment>()
 
-        onView(withId(R.id.further_info_title)).perform(scrollTo())
+        onView(withId(R.id.scrollview)).perform(swipeDown())
         takeScreenshot<SrsSubmissionDoneFragment>("1")
     }
 }
