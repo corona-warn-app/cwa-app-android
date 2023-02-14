@@ -20,6 +20,8 @@ import de.rki.coronawarnapp.dccticketing.ui.validationresult.success.DccTicketin
 import de.rki.coronawarnapp.familytest.ui.consent.FamilyTestConsentFragmentTestModule
 import de.rki.coronawarnapp.familytest.ui.selection.TestRegistrationSelectionFragmentTestModule
 import de.rki.coronawarnapp.familytest.ui.testlist.FamilyTestsListFragmentTestModule
+import de.rki.coronawarnapp.presencetracing.attendee.checkins.CheckInsFragmentTestModule
+import de.rki.coronawarnapp.presencetracing.attendee.confirm.ConfirmCheckInFragmentModule
 import de.rki.coronawarnapp.profile.ui.create.ProfileCreateFragmentTestModule
 import de.rki.coronawarnapp.profile.ui.list.ProfileListFragmentTestModule
 import de.rki.coronawarnapp.profile.ui.onboarding.ProfileOnboardingFragmentTestModule
@@ -39,6 +41,7 @@ import de.rki.coronawarnapp.ui.contactdiary.ContactDiaryPersonListFragmentTestMo
 import de.rki.coronawarnapp.ui.coronatest.rat.profile.qrcode.ProfileQrCodeFragmentTestModule
 import de.rki.coronawarnapp.ui.eventregistration.organizer.CreateEventTestModule
 import de.rki.coronawarnapp.ui.eventregistration.organizer.QrCodeDetailFragmentTestModule
+import de.rki.coronawarnapp.ui.eventregistration.organizer.TraceLocationCategoryFragmentTestModule
 import de.rki.coronawarnapp.ui.eventregistration.organizer.TraceLocationsFragmentTestModule
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentTestModule
 import de.rki.coronawarnapp.ui.onboarding.OnboardingAnalyticsFragmentTestModule
@@ -49,6 +52,7 @@ import de.rki.coronawarnapp.ui.onboarding.OnboardingNotificationsTestModule
 import de.rki.coronawarnapp.ui.onboarding.OnboardingPrivacyTestModule
 import de.rki.coronawarnapp.ui.onboarding.OnboardingTestFragmentModule
 import de.rki.coronawarnapp.ui.onboarding.OnboardingTracingFragmentTestModule
+import de.rki.coronawarnapp.ui.presencetracing.organizer.poster.QrCodePosterFragmentTestModule
 import de.rki.coronawarnapp.ui.presencetracing.organizer.warn.duration.TraceLocationWarnDurationFragmentTestModule
 import de.rki.coronawarnapp.ui.presencetracing.organizer.warn.list.TraceLocationSelectionFragmentTestModule
 import de.rki.coronawarnapp.ui.presencetracing.organizer.warn.tan.TraceLocationWarnTanFragmentTestModule
@@ -61,6 +65,7 @@ import de.rki.coronawarnapp.ui.submission.SubmissionSymptomCalendarFragmentTestM
 import de.rki.coronawarnapp.ui.submission.SubmissionSymptomIntroFragmentTestModule
 import de.rki.coronawarnapp.ui.submission.SubmissionTanTestModule
 import de.rki.coronawarnapp.ui.submission.SubmissionTestResultConsentGivenTestModule
+import de.rki.coronawarnapp.ui.submission.SubmissionTestResultKeysSharedFragmentModule
 import de.rki.coronawarnapp.ui.submission.SubmissionTestResultNoConsentModel
 import de.rki.coronawarnapp.ui.submission.SubmissionTestResultTestAvailableModule
 import de.rki.coronawarnapp.ui.submission.SubmissionTestResultTestModule
@@ -106,6 +111,7 @@ import kotlinx.coroutines.test.TestScope
         SubmissionDoneFragmentTestModule::class,
         SrsCheckinsFragmentTestModule::class,
         SrsSubmissionDoneFragmentTestModule::class,
+        SubmissionTestResultKeysSharedFragmentModule::class,
 
         // -------- Tracing --------
         TracingDetailsFragmentTestTestModule::class,
@@ -133,6 +139,10 @@ import kotlinx.coroutines.test.TestScope
         TraceLocationSelectionFragmentTestModule::class,
         TraceLocationWarnDurationFragmentTestModule::class,
         TraceLocationWarnTanFragmentTestModule::class,
+        TraceLocationCategoryFragmentTestModule::class,
+        CheckInsFragmentTestModule::class,
+        QrCodePosterFragmentTestModule::class,
+        ConfirmCheckInFragmentModule::class,
 
         // -------- Certificates --------
         VaccinationDetailsFragmentTestModule::class,

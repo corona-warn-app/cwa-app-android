@@ -25,16 +25,18 @@ class ConfirmCheckInFragment : Fragment(R.layout.fragment_confirm_check_in), Aut
     private val navArgs by navArgs<ConfirmCheckInFragmentArgs>()
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
+
+    private val locationViewModel by navGraphViewModels<QrcodeSharedViewModel>(R.id.nav_graph)
     private val viewModel: ConfirmCheckInViewModel by cwaViewModelsAssisted(
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
             factory as ConfirmCheckInViewModel.Factory
             factory.create(
-                verifiedTraceLocation = locationViewModel.verifiedTraceLocation(navArgs.locationId)
+                verifiedTraceLocationId = navArgs.locationId,
+                qrcodeSharedViewModel = locationViewModel
             )
         }
     )
-    private val locationViewModel by navGraphViewModels<QrcodeSharedViewModel>(R.id.nav_graph)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
