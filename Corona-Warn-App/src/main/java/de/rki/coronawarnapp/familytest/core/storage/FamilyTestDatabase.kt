@@ -17,9 +17,9 @@ import androidx.room.TypeConverter
 import androidx.room.TypeConverters
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
+import dagger.hilt.android.qualifiers.ApplicationContext
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
-import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import kotlinx.coroutines.flow.Flow
 import timber.log.Timber
@@ -35,7 +35,7 @@ abstract class FamilyTestDatabase : RoomDatabase() {
 
     abstract fun familyCoronaTestDao(): FamilyCoronaTestDao
 
-    class Factory @Inject constructor(@AppContext private val context: Context) {
+    class Factory @Inject constructor(@ApplicationContext private val context: Context) {
         fun create(): FamilyTestDatabase = Room
             .databaseBuilder(context, FamilyTestDatabase::class.java, DATABASE_NAME)
             .build()

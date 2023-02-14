@@ -2,9 +2,9 @@ package de.rki.coronawarnapp.diagnosiskeys.storage
 
 import android.content.Context
 import android.database.sqlite.SQLiteConstraintException
+import dagger.hilt.android.qualifiers.ApplicationContext
 import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import de.rki.coronawarnapp.util.TimeStamper
-import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.reset.Resettable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
@@ -21,7 +21,7 @@ import javax.inject.Singleton
 
 @Singleton
 class KeyCacheRepository @Inject constructor(
-    @AppContext private val context: Context,
+    @ApplicationContext private val context: Context,
     private val databaseFactory: KeyCacheDatabase.Factory,
     private val timeStamper: TimeStamper
 ) : Resettable {

@@ -5,8 +5,8 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import dagger.hilt.android.qualifiers.ApplicationContext
 import de.rki.coronawarnapp.util.coroutine.AppScope
-import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.flow.shareLatest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.awaitClose
@@ -19,7 +19,7 @@ import javax.inject.Singleton
 
 @Singleton
 class BluetoothProvider @Inject constructor(
-    @AppContext private val context: Context,
+    @ApplicationContext private val context: Context,
     @AppScope private val appScope: CoroutineScope,
     private val bluetoothAdapter: BluetoothAdapter?
 ) {

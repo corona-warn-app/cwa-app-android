@@ -19,6 +19,7 @@ import com.google.android.gms.safetynet.SafetyNetClient
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.util.SafeNavDeepLinkBuilder
@@ -36,13 +37,8 @@ class AndroidModule {
     fun application(app: CoronaWarnApplication): Application = app
 
     @Provides
-    @Singleton
-    @AppContext
-    fun context(app: Application): Context = app.applicationContext
-
-    @Provides
     @AppInstallTime
-    fun installTime(@AppContext context: Context): Instant =
+    fun installTime(@ApplicationContext context: Context): Instant =
         context
             .packageManager
             .getPackageInfo(context.packageName, 0)
@@ -58,7 +54,7 @@ class AndroidModule {
     @Provides
     @Singleton
     fun notificationManagerCompat(
-        @AppContext context: Context
+        @ApplicationContext context: Context
     ): NotificationManagerCompat = NotificationManagerCompat.from(context)
 
     @Provides
@@ -68,11 +64,11 @@ class AndroidModule {
     ): WorkManager = workManagerProvider.workManager
 
     @Provides
-    fun navDeepLinkBuilder(@AppContext context: Context): SafeNavDeepLinkBuilder = SafeNavDeepLinkBuilder(context)
+    fun navDeepLinkBuilder(@ApplicationContext context: Context): SafeNavDeepLinkBuilder = SafeNavDeepLinkBuilder(context)
 
     @Provides
     @Singleton
-    fun activityManager(@AppContext context: Context): ActivityManager = context.getSystemService()!!
+    fun activityManager(@ApplicationContext context: Context): ActivityManager = context.getSystemService()!!
 
     @Provides
     @Singleton
@@ -86,21 +82,21 @@ class AndroidModule {
 
     @Provides
     @Singleton
-    fun safetyNet(@AppContext context: Context): SafetyNetClient = SafetyNet.getClient(context)
+    fun safetyNet(@ApplicationContext context: Context): SafetyNetClient = SafetyNet.getClient(context)
 
     @Provides
-    fun contentResolver(@AppContext context: Context): ContentResolver = context.contentResolver
+    fun contentResolver(@ApplicationContext context: Context): ContentResolver = context.contentResolver
 
     @Provides
-    fun applicationInfo(@AppContext context: Context): ApplicationInfo = context.applicationInfo
+    fun applicationInfo(@ApplicationContext context: Context): ApplicationInfo = context.applicationInfo
 
     @Provides
     fun alarmManager(
-        @AppContext context: Context
+        @ApplicationContext context: Context
     ): AlarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
     @Provides
     fun assetManager(
-        @AppContext context: Context
+        @ApplicationContext context: Context
     ): AssetManager = context.assets
 }

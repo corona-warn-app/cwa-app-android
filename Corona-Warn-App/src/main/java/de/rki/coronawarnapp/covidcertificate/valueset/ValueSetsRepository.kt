@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.covidcertificate.valueset
 
 import android.content.Context
 import dagger.Reusable
+import dagger.hilt.android.qualifiers.ApplicationContext
 import de.rki.coronawarnapp.contactdiary.util.getLocale
 import de.rki.coronawarnapp.covidcertificate.valueset.server.CertificateValueSetServer
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.TestCertificateValueSets
@@ -12,7 +13,6 @@ import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.emptyValueSetsCo
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.isEmpty
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
-import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.flow.HotDataFlow
 import de.rki.coronawarnapp.util.reset.Resettable
 import kotlinx.coroutines.CoroutineScope
@@ -34,7 +34,7 @@ class ValueSetsRepository @Inject constructor(
     private val valueSetsStorage: ValueSetsStorage,
     @AppScope private val scope: CoroutineScope,
     dispatcherProvider: DispatcherProvider,
-    @AppContext val context: Context,
+    @ApplicationContext val context: Context,
 ) : Resettable {
 
     private val internalData: HotDataFlow<ValueSetsContainer> = HotDataFlow(

@@ -8,9 +8,9 @@ import coil.util.Logger
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import de.rki.coronawarnapp.util.CWADebug
-import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.qrcode.coil.BitMatrixDecoder
 import de.rki.coronawarnapp.util.qrcode.coil.QrCodeBitMatrixFetcher
 import timber.log.Timber
@@ -23,7 +23,7 @@ class CoilModule {
 
     @Provides
     fun imageLoader(
-        @AppContext context: Context,
+        @ApplicationContext context: Context,
         qrCodeBitMatrixFetcher: QrCodeBitMatrixFetcher,
         bitMatrixDecoder: BitMatrixDecoder,
     ): ImageLoader = ImageLoader.Builder(context).apply {

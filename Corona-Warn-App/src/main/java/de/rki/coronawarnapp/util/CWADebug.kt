@@ -7,7 +7,6 @@ import androidx.annotation.VisibleForTesting
 import de.rki.coronawarnapp.bugreporting.debuglog.DebugLogger
 import de.rki.coronawarnapp.environment.BuildConfigWrap
 import de.rki.coronawarnapp.util.debug.UncaughtExceptionLogger
-import de.rki.coronawarnapp.util.di.ApplicationComponent
 import timber.log.Timber
 
 object CWADebug {
@@ -34,9 +33,9 @@ object CWADebug {
         logDeviceInfos()
     }
 
-    fun initAfterInjection(component: ApplicationComponent) {
-        Timber.v("initAfterInjection(%s)", component)
-        debugLogger.setInjectionIsReady(component)
+    fun initAfterInjection() {
+        Timber.v("initAfterInjection")
+        debugLogger.setInjectionIsReady()
     }
 
     val isLogging: Boolean

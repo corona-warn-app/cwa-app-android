@@ -6,6 +6,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import dagger.hilt.android.qualifiers.ApplicationContext
 import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryLocationDao
 import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryLocationVisitDao
 import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryPersonDao
@@ -23,7 +24,6 @@ import de.rki.coronawarnapp.contactdiary.storage.internal.migrations.ContactDiar
 import de.rki.coronawarnapp.contactdiary.storage.internal.migrations.ContactDiaryDatabaseMigration2To3
 import de.rki.coronawarnapp.contactdiary.storage.internal.migrations.ContactDiaryDatabaseMigration3To4
 import de.rki.coronawarnapp.util.database.CommonConverters
-import de.rki.coronawarnapp.util.di.AppContext
 import javax.inject.Inject
 
 @Database(
@@ -54,7 +54,7 @@ abstract class ContactDiaryDatabase : RoomDatabase() {
     abstract fun coronaTestDao(): ContactDiaryCoronaTestDao
     abstract fun submissionDao(): ContactDiarySubmissionDao
 
-    class Factory @Inject constructor(@AppContext private val ctx: Context) {
+    class Factory @Inject constructor(@ApplicationContext private val ctx: Context) {
         fun create(databaseName: String = CONTACT_DIARY_DATABASE_NAME): ContactDiaryDatabase = Room
             .databaseBuilder(ctx, ContactDiaryDatabase::class.java, databaseName)
             .addMigrations(

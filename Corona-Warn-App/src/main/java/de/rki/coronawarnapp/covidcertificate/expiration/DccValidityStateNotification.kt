@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.annotation.StringRes
 import androidx.core.app.NotificationCompat
 import dagger.Reusable
+import dagger.hilt.android.qualifiers.ApplicationContext
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.common.notification.DigitalCovidCertificateNotifications
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
@@ -17,7 +18,6 @@ import de.rki.coronawarnapp.covidcertificate.test.ui.details.TestCertificateDeta
 import de.rki.coronawarnapp.covidcertificate.vaccination.ui.details.VaccinationDetailsFragmentArgs
 import de.rki.coronawarnapp.notification.NotificationConstants
 import de.rki.coronawarnapp.ui.launcher.LauncherActivity
-import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.notifications.NavDeepLinkBuilderFactory
 import de.rki.coronawarnapp.util.notifications.setContentTextExpandable
 import timber.log.Timber
@@ -25,7 +25,7 @@ import javax.inject.Inject
 
 @Reusable
 class DccValidityStateNotification @Inject constructor(
-    @AppContext private val context: Context,
+    @ApplicationContext private val context: Context,
     private val notificationHelper: DigitalCovidCertificateNotifications,
     private val deepLinkBuilderFactory: NavDeepLinkBuilderFactory,
 ) {

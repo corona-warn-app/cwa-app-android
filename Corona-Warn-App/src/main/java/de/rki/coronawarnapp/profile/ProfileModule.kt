@@ -10,6 +10,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import dagger.multibindings.IntoSet
 import de.rki.coronawarnapp.profile.storage.ProfileDao
@@ -17,7 +18,6 @@ import de.rki.coronawarnapp.profile.storage.ProfileDataStore
 import de.rki.coronawarnapp.profile.storage.ProfileDatabase
 import de.rki.coronawarnapp.profile.storage.ProfileRepository
 import de.rki.coronawarnapp.profile.storage.ProfileSettingsDataStore
-import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.reset.Resettable
 import javax.inject.Singleton
 
@@ -47,7 +47,7 @@ object ProfileModule {
     @ProfileDataStore
     @Provides
     fun profileDataStore(
-        @AppContext context: Context
+        @ApplicationContext context: Context
     ): DataStore<Preferences> = PreferenceDataStoreFactory.create(
         migrations = listOf(
             SharedPreferencesMigration(

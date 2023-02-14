@@ -76,7 +76,6 @@ class MainActivity : AppCompatActivity() {
     private var lastFabClickTime = 0L
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        AppInjector.setup(this)
         super.onCreate(savedInstanceState)
 
         val binding = ActivityMainBinding.inflate(layoutInflater)

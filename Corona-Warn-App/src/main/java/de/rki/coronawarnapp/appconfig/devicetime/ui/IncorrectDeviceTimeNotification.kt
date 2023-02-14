@@ -2,12 +2,12 @@ package de.rki.coronawarnapp.appconfig.devicetime.ui
 
 import android.content.Context
 import dagger.Reusable
+import dagger.hilt.android.qualifiers.ApplicationContext
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.notification.NotificationConstants
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.util.device.ForegroundState
-import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.notifications.NavDeepLinkBuilderFactory
 import de.rki.coronawarnapp.util.notifications.setContentTextExpandable
 import kotlinx.coroutines.flow.first
@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 @Reusable
 class IncorrectDeviceTimeNotification @Inject constructor(
-    @AppContext private val context: Context,
+    @ApplicationContext private val context: Context,
     private val foregroundState: ForegroundState,
     private val navDeepLinkBuilderFactory: NavDeepLinkBuilderFactory,
     private val notificationHelper: GeneralNotifications

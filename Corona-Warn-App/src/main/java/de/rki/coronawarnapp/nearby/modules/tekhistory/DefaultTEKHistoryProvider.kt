@@ -13,8 +13,8 @@ import com.google.android.gms.nearby.exposurenotification.ExposureNotificationCl
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient.EXTRA_TEMPORARY_EXPOSURE_KEY_LIST
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationStatusCodes
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
+import dagger.hilt.android.qualifiers.ApplicationContext
 import de.rki.coronawarnapp.nearby.modules.version.ENFVersion
-import de.rki.coronawarnapp.util.di.AppContext
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.suspendCancellableCoroutine
@@ -31,7 +31,7 @@ import kotlin.coroutines.suspendCoroutine
 class DefaultTEKHistoryProvider @Inject constructor(
     private val client: ExposureNotificationClient,
     private val enfVersion: ENFVersion,
-    @AppContext private val context: Context
+    @ApplicationContext private val context: Context
 ) : TEKHistoryProvider {
 
     override suspend fun getTEKHistoryOrRequestPermission(

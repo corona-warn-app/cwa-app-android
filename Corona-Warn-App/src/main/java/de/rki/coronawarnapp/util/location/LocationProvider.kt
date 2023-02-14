@@ -6,8 +6,8 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.location.LocationManager
 import androidx.core.location.LocationManagerCompat
+import dagger.hilt.android.qualifiers.ApplicationContext
 import de.rki.coronawarnapp.util.coroutine.AppScope
-import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.flow.shareLatest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.awaitClose
@@ -20,7 +20,7 @@ import javax.inject.Singleton
 
 @Singleton
 class LocationProvider @Inject constructor(
-    @AppContext private val context: Context,
+    @ApplicationContext private val context: Context,
     @AppScope private val appScope: CoroutineScope
 ) {
     private val locationManager: LocationManager

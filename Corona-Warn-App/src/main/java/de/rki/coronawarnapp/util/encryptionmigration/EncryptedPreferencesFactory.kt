@@ -4,8 +4,8 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
+import dagger.hilt.android.qualifiers.ApplicationContext
 import de.rki.coronawarnapp.util.RetryMechanism
-import de.rki.coronawarnapp.util.di.AppContext
 import timber.log.Timber
 import java.security.KeyException
 import javax.inject.Inject
@@ -13,7 +13,7 @@ import javax.inject.Singleton
 
 @Singleton
 class EncryptedPreferencesFactory @Inject constructor(
-    @AppContext private val context: Context
+    @ApplicationContext private val context: Context
 ) {
 
     private val mainKeyAlias by lazy {

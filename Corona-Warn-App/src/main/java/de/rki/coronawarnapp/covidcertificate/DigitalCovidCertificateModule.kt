@@ -12,6 +12,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.Reusable
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import dagger.multibindings.IntoSet
 import de.rki.coronawarnapp.ccl.dccwalletinfo.notification.DccWalletInfoNotificationService
@@ -32,7 +33,6 @@ import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationModule
 import de.rki.coronawarnapp.covidcertificate.valueset.CertificateValueSetModule
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
-import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.reset.Resettable
 import de.rki.coronawarnapp.util.serialization.BaseJackson
 import dgca.verifier.app.engine.DefaultAffectedFieldsDataRetriever
@@ -73,7 +73,7 @@ object DigitalCovidCertificateModule {
     @PersonSettingsDataStore
     @Provides
     fun personSettingsDataStore(
-        @AppContext context: Context
+        @ApplicationContext context: Context
     ): DataStore<Preferences> = PreferenceDataStoreFactory.create(
         migrations = listOf(
             SharedPreferencesMigration(
@@ -89,7 +89,7 @@ object DigitalCovidCertificateModule {
     @RecoveryCertificateDataStore
     @Provides
     fun provideRecoveryCertificateDataStore(
-        @AppContext context: Context
+        @ApplicationContext context: Context
     ): DataStore<Preferences> = PreferenceDataStoreFactory.create(
         produceFile = { context.preferencesDataStoreFile(RECOVERY_CERTIFICATE_STORAGE_NAME) },
         migrations = listOf(
@@ -104,7 +104,7 @@ object DigitalCovidCertificateModule {
     @CovidCertificateSettingsDataStore
     @Provides
     fun provideCovidCertificateSettingsDataStore(
-        @AppContext context: Context,
+        @ApplicationContext context: Context,
         @AppScope appScope: CoroutineScope,
         dispatcherProvider: DispatcherProvider
     ): DataStore<Preferences> = PreferenceDataStoreFactory.create(

@@ -12,12 +12,12 @@ import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import dagger.multibindings.IntoSet
 import de.rki.coronawarnapp.bugreporting.debuglog.upload.history.model.UploadHistory
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
-import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.reset.Resettable
 import de.rki.coronawarnapp.util.serialization.BaseJackson
 import kotlinx.coroutines.CoroutineScope
@@ -35,7 +35,7 @@ object UploadHistoryStorageModule {
         serializer: UploadHistorySerializer,
         @AppScope appScope: CoroutineScope,
         dispatcherProvider: DispatcherProvider,
-        @AppContext context: Context,
+        @ApplicationContext context: Context,
         migration: SharedPreferencesMigration<UploadHistory>
     ): DataStore<UploadHistory> = DataStoreFactory.create(
         serializer = serializer,
@@ -47,7 +47,7 @@ object UploadHistoryStorageModule {
 
     @Provides
     fun provideMigration(
-        @AppContext context: Context,
+        @ApplicationContext context: Context,
         @BaseJackson mapper: ObjectMapper
     ) = SharedPreferencesMigration<UploadHistory>(
         context = context,

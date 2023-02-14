@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.coronatest.type.rapidantigen.notification
 
 import android.content.Context
+import dagger.hilt.android.qualifiers.ApplicationContext
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.errors.CoronaTestNotFoundException
 import de.rki.coronawarnapp.coronatest.latestRAT
@@ -11,7 +12,6 @@ import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.notification.NotificationConstants
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.device.ForegroundState
-import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.notifications.NavDeepLinkBuilderFactory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.first
@@ -23,7 +23,7 @@ import javax.inject.Singleton
 
 @Singleton
 class RATTestResultAvailableNotificationService @Inject constructor(
-    @AppContext context: Context,
+    @ApplicationContext context: Context,
     foregroundState: ForegroundState,
     navDeepLinkBuilderFactory: NavDeepLinkBuilderFactory,
     private val notificationHelper: GeneralNotifications,

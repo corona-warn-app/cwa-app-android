@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.database.sqlite.SQLiteDatabase
 import androidx.annotation.VisibleForTesting
+import dagger.hilt.android.qualifiers.ApplicationContext
 import de.rki.coronawarnapp.bugreporting.reportProblem
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.storage.OnboardingSettings
@@ -11,7 +12,6 @@ import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toInstantOrNull
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
-import de.rki.coronawarnapp.util.di.AppContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import java.time.Instant
@@ -19,7 +19,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 class EncryptedPreferencesMigration @Inject constructor(
-    @AppContext private val context: Context,
+    @ApplicationContext private val context: Context,
     private val encryptedPreferences: EncryptedPreferencesHelper,
     private val cwaSettings: CWASettings,
     private val submissionSettings: SubmissionSettings,

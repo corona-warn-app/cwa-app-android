@@ -3,14 +3,14 @@ package de.rki.coronawarnapp.util.worker
 import android.content.Context
 import androidx.work.Configuration
 import androidx.work.WorkManager
-import de.rki.coronawarnapp.util.di.AppContext
+import dagger.hilt.android.qualifiers.ApplicationContext
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class WorkManagerProvider @Inject constructor(
-    @AppContext private val context: Context,
+    @ApplicationContext private val context: Context,
     private val cwaWorkerFactory: CWAWorkerFactory
 ) {
 

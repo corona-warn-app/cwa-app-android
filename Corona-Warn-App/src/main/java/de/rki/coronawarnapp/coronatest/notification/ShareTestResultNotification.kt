@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.coronatest.notification
 
 import android.content.Context
 import dagger.Reusable
+import dagger.hilt.android.qualifiers.ApplicationContext
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
@@ -11,7 +12,6 @@ import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.submission.warnothers.SubmissionResultPositiveOtherWarningNoConsentFragmentArgs
 import de.rki.coronawarnapp.util.TimeStamper
-import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.notifications.NavDeepLinkBuilderFactory
 import de.rki.coronawarnapp.util.notifications.setContentTextExpandable
 import timber.log.Timber
@@ -19,7 +19,7 @@ import javax.inject.Inject
 
 @Reusable
 class ShareTestResultNotification @Inject constructor(
-    @AppContext private val context: Context,
+    @ApplicationContext private val context: Context,
     private val timeStamper: TimeStamper,
     private val notificationHelper: GeneralNotifications,
     private val navDeepLinkBuilderFactory: NavDeepLinkBuilderFactory,

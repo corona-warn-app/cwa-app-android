@@ -14,7 +14,6 @@ import de.rki.coronawarnapp.statistics.local.storage.LocalStatisticsConfigStorag
 import de.rki.coronawarnapp.statistics.source.StatisticsApiV1
 import de.rki.coronawarnapp.statistics.source.StatisticsCache
 import de.rki.coronawarnapp.statistics.source.StatisticsServer
-import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.reset.Resettable
 import okhttp3.Cache
 import okhttp3.OkHttpClient
@@ -30,6 +29,7 @@ import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStoreFile
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -45,7 +45,7 @@ object StatisticsModule {
     @Provides
     @Statistics
     fun cacheDir(
-        @AppContext context: Context
+        @ApplicationContext context: Context
     ): File = File(context.cacheDir, "statistics")
 
     @Singleton
@@ -107,7 +107,7 @@ object StatisticsModule {
     @LocalStatisticsConfigDataStore
     @Provides
     fun provideLocalStatisticsConfigDataStore(
-        @AppContext context: Context,
+        @ApplicationContext context: Context,
         @AppScope appScope: CoroutineScope,
         dispatcherProvider: DispatcherProvider
     ): DataStore<Preferences> = PreferenceDataStoreFactory.create(

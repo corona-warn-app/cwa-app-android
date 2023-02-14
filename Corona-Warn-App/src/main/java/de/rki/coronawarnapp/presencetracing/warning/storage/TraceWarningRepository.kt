@@ -1,11 +1,11 @@
 package de.rki.coronawarnapp.presencetracing.warning.storage
 
 import android.content.Context
+import dagger.hilt.android.qualifiers.ApplicationContext
 import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import de.rki.coronawarnapp.presencetracing.warning.WarningPackageId
 import de.rki.coronawarnapp.util.HourInterval
 import de.rki.coronawarnapp.util.TimeStamper
-import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.reset.Resettable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
@@ -18,7 +18,7 @@ import javax.inject.Singleton
 
 @Singleton
 class TraceWarningRepository @Inject constructor(
-    @AppContext private val context: Context,
+    @ApplicationContext private val context: Context,
     private val factory: TraceWarningDatabase.Factory,
     private val timeStamper: TimeStamper
 ) : Resettable {

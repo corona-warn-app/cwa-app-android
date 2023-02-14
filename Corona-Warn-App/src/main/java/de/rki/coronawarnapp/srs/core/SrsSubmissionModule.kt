@@ -8,6 +8,7 @@ import androidx.datastore.preferences.preferencesDataStoreFile
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import de.rki.coronawarnapp.environment.datadonation.DataDonationCDNHttpClient
 import de.rki.coronawarnapp.environment.datadonation.DataDonationCDNServerUrl
@@ -18,7 +19,6 @@ import de.rki.coronawarnapp.srs.core.server.SrsAuthorizationApi
 import de.rki.coronawarnapp.srs.core.server.SrsSubmissionApi
 import de.rki.coronawarnapp.submission.DEFAULT_CACHE_SIZE
 import de.rki.coronawarnapp.submission.server.SubmissionHttpClient
-import de.rki.coronawarnapp.util.di.AppContext
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -55,7 +55,7 @@ object SrsSubmissionModule {
     @Singleton
     @Provides
     fun provideSrsSubmissionApi(
-        @AppContext context: Context,
+        @ApplicationContext context: Context,
         @SubmissionHttpClient client: OkHttpClient,
         @SubmissionCDNServerUrl url: String,
         protoConverterFactory: ProtoConverterFactory,
@@ -77,7 +77,7 @@ object SrsSubmissionModule {
     @Singleton
     @Provides
     @SrsSettingsDataStore
-    fun provideSrsSettingsDataStore(@AppContext context: Context): DataStore<Preferences> =
+    fun provideSrsSettingsDataStore(@ApplicationContext context: Context): DataStore<Preferences> =
         PreferenceDataStoreFactory.create {
             context.preferencesDataStoreFile("srs_settings_localdata")
         }

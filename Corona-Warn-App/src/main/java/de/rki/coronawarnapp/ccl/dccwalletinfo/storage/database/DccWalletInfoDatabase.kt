@@ -5,7 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import de.rki.coronawarnapp.util.di.AppContext
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 @Database(
@@ -18,7 +18,7 @@ abstract class DccWalletInfoDatabase : RoomDatabase() {
 
     abstract fun dccWalletInfoDao(): DccWalletInfoDao
 
-    class Factory @Inject constructor(@AppContext private val context: Context) {
+    class Factory @Inject constructor(@ApplicationContext private val context: Context) {
         fun create(): DccWalletInfoDatabase = Room
             .databaseBuilder(context, DccWalletInfoDatabase::class.java, DCC_WALLET_INFO_DATABASE_NAME)
             .build()

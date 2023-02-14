@@ -7,9 +7,9 @@ import androidx.core.content.res.ResourcesCompat
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.util.di.AppContext
 import java.io.File
 import javax.inject.Qualifier
 import javax.inject.Singleton
@@ -22,14 +22,14 @@ class ExportCertificateModule {
     @Provides
     @OpenSansTypeFace
     fun provideFont(
-        @AppContext context: Context
+        @ApplicationContext context: Context
     ): Typeface = ResourcesCompat.getFont(context, R.font.opensans)!!
 
     @Singleton
     @Provides
     @CertificateExportCache
     fun cacheDir(
-        @AppContext context: Context
+        @ApplicationContext context: Context
     ): File = File(context.cacheDir, "export")
 
     @Singleton

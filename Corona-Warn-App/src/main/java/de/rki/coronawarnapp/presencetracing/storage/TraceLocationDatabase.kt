@@ -5,6 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import dagger.hilt.android.qualifiers.ApplicationContext
 import de.rki.coronawarnapp.presencetracing.storage.dao.CheckInDao
 import de.rki.coronawarnapp.presencetracing.storage.dao.TraceLocationDao
 import de.rki.coronawarnapp.presencetracing.storage.entity.TraceLocationCheckInEntity
@@ -12,7 +13,6 @@ import de.rki.coronawarnapp.presencetracing.storage.entity.TraceLocationConverte
 import de.rki.coronawarnapp.presencetracing.storage.entity.TraceLocationEntity
 import de.rki.coronawarnapp.presencetracing.storage.migration.PresenceTracingDatabaseMigration1To2
 import de.rki.coronawarnapp.util.database.CommonConverters
-import de.rki.coronawarnapp.util.di.AppContext
 import javax.inject.Inject
 
 @Database(
@@ -29,7 +29,7 @@ abstract class TraceLocationDatabase : RoomDatabase() {
     abstract fun checkInDao(): CheckInDao
     abstract fun traceLocationDao(): TraceLocationDao
 
-    class Factory @Inject constructor(@AppContext private val context: Context) {
+    class Factory @Inject constructor(@ApplicationContext private val context: Context) {
         fun create(databaseName: String = TRACE_LOCATIONS_DATABASE_NAME): TraceLocationDatabase = Room
             .databaseBuilder(context, TraceLocationDatabase::class.java, databaseName)
             .addMigrations(PresenceTracingDatabaseMigration1To2)

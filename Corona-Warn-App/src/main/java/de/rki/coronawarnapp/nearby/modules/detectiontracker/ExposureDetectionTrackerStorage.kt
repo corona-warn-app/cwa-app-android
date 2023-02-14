@@ -3,9 +3,9 @@ package de.rki.coronawarnapp.nearby.modules.detectiontracker
 import android.content.Context
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.module.SimpleModule
+import dagger.hilt.android.qualifiers.ApplicationContext
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
-import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.serialization.BaseJackson
 import de.rki.coronawarnapp.util.serialization.jackson.LegacyInstantDeserializer
 import de.rki.coronawarnapp.util.serialization.readValue
@@ -20,7 +20,7 @@ import javax.inject.Singleton
 
 @Singleton
 class ExposureDetectionTrackerStorage @Inject constructor(
-    @AppContext private val context: Context,
+    @ApplicationContext private val context: Context,
     @BaseJackson private val objectMapper: ObjectMapper,
 ) {
 

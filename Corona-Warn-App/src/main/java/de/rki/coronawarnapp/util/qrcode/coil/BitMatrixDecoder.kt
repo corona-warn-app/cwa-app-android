@@ -15,7 +15,7 @@ import coil.size.OriginalSize
 import coil.size.PixelSize
 import coil.size.Size
 import dagger.Reusable
-import de.rki.coronawarnapp.util.di.AppContext
+import dagger.hilt.android.qualifiers.ApplicationContext
 import okio.BufferedSource
 import timber.log.Timber
 import java.io.ObjectInputStream
@@ -25,7 +25,7 @@ import kotlin.math.nextUp
 
 @Reusable
 class BitMatrixDecoder @Inject constructor(
-    @AppContext private val context: Context,
+    @ApplicationContext private val context: Context,
 ) : Decoder {
     private val resources: Resources = context.resources
 

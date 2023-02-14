@@ -10,6 +10,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import dagger.multibindings.IntoSet
 import de.rki.coronawarnapp.datadonation.survey.server.SurveyApiV1
@@ -17,7 +18,6 @@ import de.rki.coronawarnapp.environment.datadonation.DataDonationCDNHttpClient
 import de.rki.coronawarnapp.environment.datadonation.DataDonationCDNServerUrl
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
-import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.reset.Resettable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.plus
@@ -55,7 +55,7 @@ object SurveyModule {
     @SurveySettingsDataStore
     @Provides
     fun provideSurveySettingsDataStore(
-        @AppContext context: Context,
+        @ApplicationContext context: Context,
         @AppScope appScope: CoroutineScope,
         dispatcherProvider: DispatcherProvider
     ): DataStore<Preferences> = PreferenceDataStoreFactory.create(

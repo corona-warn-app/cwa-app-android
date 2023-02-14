@@ -7,16 +7,16 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import com.google.android.gms.nearby.exposurenotification.ScanInstance
 import dagger.Reusable
+import dagger.hilt.android.qualifiers.ApplicationContext
 import de.rki.coronawarnapp.storage.TestSettings.FakeExposureWindowTypes
 import de.rki.coronawarnapp.util.TimeStamper
-import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.serialization.BaseJackson
 import java.time.Duration
 import javax.inject.Inject
 
 @Reusable
 class FakeExposureWindowProvider @Inject constructor(
-    @AppContext val context: Context,
+    @ApplicationContext val context: Context,
     @BaseJackson private val mapper: ObjectMapper,
     val timeStamper: TimeStamper
 ) {

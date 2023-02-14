@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import de.rki.coronawarnapp.diagnosiskeys.download.DownloadDiagnosisKeysSettings
 import de.rki.coronawarnapp.diagnosiskeys.download.DownloadDiagnosisKeysTask
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
@@ -24,7 +24,6 @@ import de.rki.coronawarnapp.task.submitBlocking
 import de.rki.coronawarnapp.test.risklevel.entities.toExposureWindowJson
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
-import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.serialization.BaseJackson
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -38,12 +37,11 @@ import java.time.Instant
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 
-@HiltViewModel
 class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     @Assisted private val handle: SavedStateHandle,
     @Assisted private val exampleArg: String?,
-    @AppContext private val context: Context, // App context
+    @ApplicationContext private val context: Context, // App context
     @BaseJackson private val mapper: ObjectMapper,
     private val taskController: TaskController,
     private val keyCacheRepository: KeyCacheRepository,

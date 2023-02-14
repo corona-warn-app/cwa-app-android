@@ -10,6 +10,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.Reusable
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import dagger.multibindings.IntoSet
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountryApi
@@ -21,7 +22,6 @@ import de.rki.coronawarnapp.environment.download.DownloadCDNHttpClient
 import de.rki.coronawarnapp.environment.download.DownloadCDNServerUrl
 import de.rki.coronawarnapp.statistics.Statistics
 import de.rki.coronawarnapp.util.coroutine.AppScope
-import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.reset.Resettable
 import kotlinx.coroutines.CoroutineScope
 import okhttp3.Cache
@@ -39,7 +39,7 @@ object DccValidationModule {
     @Provides
     @CertificateValidation
     fun cacheDir(
-        @AppContext context: Context
+        @ApplicationContext context: Context
     ): File = File(context.cacheDir, "dcc_validation")
 
     @Singleton
@@ -87,13 +87,14 @@ object DccValidationModule {
     @CertificateValidationDataStore
     @Provides
     fun provideDccValidationSettingsDataStore(
-        @AppContext context: Context,
+        @ApplicationContext context: Context,
         @AppScope appScope: CoroutineScope
     ): DataStore<Preferences> = PreferenceDataStoreFactory.create(
         scope = appScope,
         produceFile = { context.preferencesDataStoreFile("dcc_validation_datastore") }
     )
 
+    @InstallIn(SingletonComponent::class)
     @Module
     internal interface ResetModule {
 

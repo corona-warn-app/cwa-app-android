@@ -7,6 +7,7 @@ import androidx.work.ListenableWorker
 import dagger.Component
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.android.qualifiers.ApplicationContext
 import de.rki.coronawarnapp.ccl.configuration.update.CclConfigurationUpdater
 import de.rki.coronawarnapp.ccl.dccwalletinfo.update.DccWalletInfoUpdateTrigger
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
@@ -38,7 +39,6 @@ import de.rki.coronawarnapp.risk.execution.RiskWorkScheduler
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.task.TaskController
-import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.di.AppInstallTime
 import io.github.classgraph.ClassGraph
 import io.kotest.matchers.collections.shouldContainAll
@@ -151,12 +151,12 @@ class MockProvider {
     fun notificationHelper(): GeneralNotifications = mockk()
 
     @Provides
-    @AppContext
+    @ApplicationContext
     fun context(): Context = mockk()
 
     @Provides
     @AppInstallTime
-    fun installTime(@AppContext context: Context): Instant = Instant.EPOCH
+    fun installTime(@ApplicationContext context: Context): Instant = Instant.EPOCH
 
     @Provides
     fun autoCheckOut(): AutoCheckOut = mockk()

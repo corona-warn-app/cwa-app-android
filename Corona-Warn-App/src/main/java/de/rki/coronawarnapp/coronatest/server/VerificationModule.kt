@@ -5,11 +5,11 @@ import dagger.Module
 import dagger.Provides
 import dagger.Reusable
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import de.rki.coronawarnapp.environment.verification.VerificationCDNServerUrl
 import de.rki.coronawarnapp.http.HttpClientDefault
 import de.rki.coronawarnapp.http.RestrictedConnectionSpecs
-import de.rki.coronawarnapp.util.di.AppContext
 import okhttp3.Cache
 import okhttp3.ConnectionSpec
 import okhttp3.OkHttpClient
@@ -34,7 +34,7 @@ class VerificationModule {
     @Singleton
     @Provides
     fun provideVerificationApi(
-        @AppContext context: Context,
+        @ApplicationContext context: Context,
         @VerificationHttpClient client: OkHttpClient,
         @VerificationCDNServerUrl url: String,
         jacksonConverterFactory: JacksonConverterFactory

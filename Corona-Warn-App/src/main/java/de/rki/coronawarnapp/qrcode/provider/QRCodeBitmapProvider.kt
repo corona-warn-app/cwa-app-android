@@ -4,16 +4,16 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.net.Uri
 import dagger.Reusable
+import dagger.hilt.android.qualifiers.ApplicationContext
 import de.rki.coronawarnapp.qrcode.scanner.ImportDocumentException
 import de.rki.coronawarnapp.qrcode.scanner.ImportDocumentException.ErrorCode.FILE_FORMAT_NOT_SUPPORTED
 import de.rki.coronawarnapp.qrcode.provider.image.ImageUriResolver
 import de.rki.coronawarnapp.qrcode.provider.pdf.PdfUriResolver
-import de.rki.coronawarnapp.util.di.AppContext
 import javax.inject.Inject
 
 @Reusable
 class QRCodeBitmapProvider @Inject constructor(
-    @AppContext private val context: Context,
+    @ApplicationContext private val context: Context,
     private val imageUriResolver: ImageUriResolver,
     private val pdfUriResolver: PdfUriResolver
 ) {

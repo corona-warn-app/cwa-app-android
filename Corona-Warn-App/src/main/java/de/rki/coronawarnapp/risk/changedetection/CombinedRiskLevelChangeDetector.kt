@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.risk.changedetection
 
 import android.content.Context
 import androidx.core.app.NotificationManagerCompat
+import dagger.hilt.android.qualifiers.ApplicationContext
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.initializer.Initializer
 import de.rki.coronawarnapp.notification.GeneralNotifications
@@ -14,7 +15,6 @@ import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.util.coroutine.AppScope
-import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.notifications.NavDeepLinkBuilderFactory
 import de.rki.coronawarnapp.util.notifications.setContentTextExpandable
 import kotlinx.coroutines.CoroutineScope
@@ -32,7 +32,7 @@ import javax.inject.Inject
  **/
 @Suppress("LongParameterList")
 class CombinedRiskLevelChangeDetector @Inject constructor(
-    @AppContext private val context: Context,
+    @ApplicationContext private val context: Context,
     @AppScope private val appScope: CoroutineScope,
     private val riskLevelStorage: RiskLevelStorage,
     private val riskLevelSettings: RiskLevelSettings,

@@ -10,6 +10,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import dagger.multibindings.IntoSet
 import de.rki.coronawarnapp.environment.presencetracing.qrcodeposter.QrCodePosterTemplateModule
@@ -21,7 +22,6 @@ import de.rki.coronawarnapp.presencetracing.warning.PresenceTracingWarningModule
 import de.rki.coronawarnapp.ui.presencetracing.TraceLocationPreferences
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
-import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.reset.Resettable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.plus
@@ -52,7 +52,7 @@ interface PresenceTracingModule {
         @LocationSettingsDataStore
         @Provides
         fun provideLocationSettingsDataStore(
-            @AppContext context: Context,
+            @ApplicationContext context: Context,
             @AppScope appScope: CoroutineScope,
             dispatcherProvider: DispatcherProvider
         ): DataStore<Preferences> = PreferenceDataStoreFactory.create(
@@ -70,7 +70,7 @@ interface PresenceTracingModule {
         @LocationPreferencesDataStore
         @Provides
         fun provideLocationPreferencesDataStore(
-            @AppContext context: Context,
+            @ApplicationContext context: Context,
             @AppScope appScope: CoroutineScope,
             dispatcherProvider: DispatcherProvider
         ): DataStore<Preferences> = PreferenceDataStoreFactory.create(
@@ -85,6 +85,7 @@ interface PresenceTracingModule {
         )
     }
 
+    @InstallIn(SingletonComponent::class)
     @Module
     interface ResetModule {
 

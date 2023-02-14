@@ -1,9 +1,9 @@
 package de.rki.coronawarnapp.covidcertificate.signature.core.storage
 
 import android.content.Context
+import dagger.hilt.android.qualifiers.ApplicationContext
 import de.rki.coronawarnapp.covidcertificate.signature.core.DscSignatureList
 import de.rki.coronawarnapp.covidcertificate.signature.core.DscDataParser
-import de.rki.coronawarnapp.util.di.AppContext
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import java.time.Instant
@@ -14,7 +14,7 @@ import javax.inject.Singleton
 
 @Singleton
 class LocalDscStorage @Inject constructor(
-    @AppContext context: Context,
+    @ApplicationContext context: Context,
     private val dscDataParser: DscDataParser,
 ) {
     private val mutex = Mutex()

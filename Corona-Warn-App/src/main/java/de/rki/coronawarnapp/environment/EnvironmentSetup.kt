@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.core.content.edit
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
+import dagger.hilt.android.qualifiers.ApplicationContext
 import de.rki.coronawarnapp.environment.EnvironmentSetup.EnvKey.CROWD_NOTIFIER_PUBLIC_KEY
 import de.rki.coronawarnapp.environment.EnvironmentSetup.EnvKey.DATA_DONATION
 import de.rki.coronawarnapp.environment.EnvironmentSetup.EnvKey.DCC
@@ -17,7 +18,6 @@ import de.rki.coronawarnapp.environment.EnvironmentSetup.EnvKey.VERIFICATION_KEY
 import de.rki.coronawarnapp.environment.EnvironmentSetup.Type.Companion.toEnvironmentType
 import de.rki.coronawarnapp.initializer.Initializer
 import de.rki.coronawarnapp.util.CWADebug
-import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.serialization.BaseJackson
 import timber.log.Timber
 import javax.inject.Inject
@@ -25,7 +25,7 @@ import javax.inject.Singleton
 
 @Singleton
 class EnvironmentSetup @Inject constructor(
-    @AppContext private val context: Context,
+    @ApplicationContext private val context: Context,
     @BaseJackson private val objectMapper: ObjectMapper,
 ) : Initializer {
 

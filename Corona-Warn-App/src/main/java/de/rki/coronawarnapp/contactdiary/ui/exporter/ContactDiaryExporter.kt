@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.contactdiary.ui.exporter
 
 import android.content.Context
 import dagger.Reusable
+import dagger.hilt.android.qualifiers.ApplicationContext
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryLocationVisit
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPersonEncounter
@@ -9,7 +10,6 @@ import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryCoronaTestEn
 import de.rki.coronawarnapp.ui.durationpicker.toReadableDuration
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
-import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.toLocalDateUserTz
 import de.rki.coronawarnapp.util.toLocalDateUtc
 import kotlinx.coroutines.withContext
@@ -20,7 +20,7 @@ import javax.inject.Inject
 
 @Reusable
 class ContactDiaryExporter @Inject constructor(
-    @AppContext private val context: Context,
+    @ApplicationContext private val context: Context,
     private val timeStamper: TimeStamper,
     private val dispatcherProvider: DispatcherProvider
 ) {

@@ -7,8 +7,8 @@ import android.os.Build
 import android.os.storage.StorageManager
 import android.text.format.Formatter
 import dagger.Reusable
+import dagger.hilt.android.qualifiers.ApplicationContext
 import de.rki.coronawarnapp.util.BuildVersionWrap
-import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.hasAPILevel
 import de.rki.coronawarnapp.util.storage.StatsFsProvider
 import kotlinx.coroutines.Dispatchers
@@ -21,7 +21,7 @@ import javax.inject.Inject
 
 @Reusable
 class DeviceStorage @Inject constructor(
-    @AppContext private val context: Context,
+    @ApplicationContext private val context: Context,
     private val statsFsProvider: StatsFsProvider
 ) {
 

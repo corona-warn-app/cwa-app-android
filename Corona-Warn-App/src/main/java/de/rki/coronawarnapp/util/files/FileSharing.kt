@@ -7,15 +7,15 @@ import android.net.Uri
 import androidx.core.app.ShareCompat
 import androidx.core.content.FileProvider
 import dagger.Reusable
+import dagger.hilt.android.qualifiers.ApplicationContext
 import de.rki.coronawarnapp.BuildConfig
-import de.rki.coronawarnapp.util.di.AppContext
 import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
 
 @Reusable
 class FileSharing @Inject constructor(
-    @AppContext private val context: Context
+    @ApplicationContext private val context: Context
 ) {
 
     private fun getFileUri(path: File): Uri = FileProvider.getUriForFile(

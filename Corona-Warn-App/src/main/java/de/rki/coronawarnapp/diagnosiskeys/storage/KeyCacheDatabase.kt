@@ -11,8 +11,8 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.room.Update
+import dagger.hilt.android.qualifiers.ApplicationContext
 import de.rki.coronawarnapp.util.database.CommonConverters
-import de.rki.coronawarnapp.util.di.AppContext
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -50,7 +50,7 @@ abstract class KeyCacheDatabase : RoomDatabase() {
         suspend fun setChecked(id: String)
     }
 
-    class Factory @Inject constructor(@AppContext private val context: Context) {
+    class Factory @Inject constructor(@ApplicationContext private val context: Context) {
         /**
          * The fallback behavior is to reset the app as we only store exposure summaries
          * and cached references that are non-critical to app operation.

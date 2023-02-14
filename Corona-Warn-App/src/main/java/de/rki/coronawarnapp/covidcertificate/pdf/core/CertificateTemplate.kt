@@ -2,18 +2,18 @@ package de.rki.coronawarnapp.covidcertificate.pdf.core
 
 import android.content.Context
 import dagger.Reusable
+import dagger.hilt.android.qualifiers.ApplicationContext
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
-import de.rki.coronawarnapp.util.di.AppContext
 import java.lang.UnsupportedOperationException
 import javax.inject.Inject
 
 @Reusable
 class CertificateTemplate @Inject constructor(
-    @AppContext private val context: Context
+    @ApplicationContext private val context: Context
 ) {
     private val templates = mutableMapOf<String, String>()
     operator fun invoke(cwaCovidCertificate: CwaCovidCertificate): String =

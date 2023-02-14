@@ -10,7 +10,6 @@ import de.rki.coronawarnapp.bugreporting.debuglog.internal.DebugLogTree
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.DebugLoggerScope
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.LogWriter
 import de.rki.coronawarnapp.util.CWADebug
-import de.rki.coronawarnapp.util.di.ApplicationComponent
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -19,7 +18,6 @@ import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -30,7 +28,6 @@ import timber.log.Timber
 import java.io.File
 
 @SuppressLint("LogNotTimber", "StaticFieldLeak")
-@Suppress("BlockingMethodInNonBlockingContext")
 class DebugLogger(
     private val scope: CoroutineScope = DebugLoggerScope,
     private val context: Context,
@@ -107,9 +104,8 @@ class DebugLogger(
      * To censor unique data, we need to actually know what to censor.
      * So we buffer log statements until Dagger is ready
      */
-    fun setInjectionIsReady(component: ApplicationComponent) {
+    fun setInjectionIsReady() {
         Timber.tag(TAG).i("setInjectionIsReady()")
-        component.inject(this)
         isDaggerReady = true
         Timber.tag(TAG).d("Censors loaded: %s", bugCensors.get())
     }

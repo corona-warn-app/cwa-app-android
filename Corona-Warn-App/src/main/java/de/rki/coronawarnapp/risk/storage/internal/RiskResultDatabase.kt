@@ -11,6 +11,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.Transaction
 import androidx.room.TypeConverters
+import dagger.hilt.android.qualifiers.ApplicationContext
 import de.rki.coronawarnapp.risk.storage.internal.migrations.RiskResultDatabaseMigration1To2
 import de.rki.coronawarnapp.risk.storage.internal.migrations.RiskResultDatabaseMigration2To3
 import de.rki.coronawarnapp.risk.storage.internal.riskresults.PersistedAggregatedRiskPerDateResult
@@ -18,7 +19,6 @@ import de.rki.coronawarnapp.risk.storage.internal.riskresults.PersistedRiskLevel
 import de.rki.coronawarnapp.risk.storage.internal.windows.PersistedExposureWindowDao
 import de.rki.coronawarnapp.risk.storage.internal.windows.PersistedExposureWindowDaoWrapper
 import de.rki.coronawarnapp.util.database.CommonConverters
-import de.rki.coronawarnapp.util.di.AppContext
 import kotlinx.coroutines.flow.Flow
 import timber.log.Timber
 import javax.inject.Inject
@@ -102,7 +102,7 @@ abstract class RiskResultDatabase : RoomDatabase() {
         suspend fun delete(persistedAggregatedRiskPerDateResults: List<PersistedAggregatedRiskPerDateResult>)
     }
 
-    class Factory @Inject constructor(@AppContext private val context: Context) {
+    class Factory @Inject constructor(@ApplicationContext private val context: Context) {
 
         fun create(databaseName: String = DATABASE_NAME): RiskResultDatabase {
             Timber.d("Instantiating risk result database.")

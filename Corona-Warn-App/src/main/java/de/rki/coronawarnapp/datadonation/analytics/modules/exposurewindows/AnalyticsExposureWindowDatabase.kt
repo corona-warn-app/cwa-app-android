@@ -14,7 +14,7 @@ import androidx.room.Relation
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.Transaction
-import de.rki.coronawarnapp.util.di.AppContext
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 @Database(
@@ -28,7 +28,7 @@ import javax.inject.Inject
 abstract class AnalyticsExposureWindowDatabase : RoomDatabase() {
     abstract fun analyticsExposureWindowDao(): AnalyticsExposureWindowDao
 
-    class Factory @Inject constructor(@AppContext private val context: Context) {
+    class Factory @Inject constructor(@ApplicationContext private val context: Context) {
         fun create(): AnalyticsExposureWindowDatabase = Room
             .databaseBuilder(
                 context,

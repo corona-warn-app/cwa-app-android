@@ -3,10 +3,10 @@ package de.rki.coronawarnapp.appconfig.sources.local
 import android.content.Context
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
+import dagger.hilt.android.qualifiers.ApplicationContext
 import de.rki.coronawarnapp.appconfig.internal.InternalConfigData
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
-import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.serialization.BaseJackson
 import de.rki.coronawarnapp.util.serialization.writeValue
 import kotlinx.coroutines.sync.Mutex
@@ -20,7 +20,7 @@ import javax.inject.Singleton
 
 @Singleton
 class AppConfigStorage @Inject constructor(
-    @AppContext context: Context,
+    @ApplicationContext context: Context,
     @BaseJackson private val mapper: ObjectMapper
 ) {
 

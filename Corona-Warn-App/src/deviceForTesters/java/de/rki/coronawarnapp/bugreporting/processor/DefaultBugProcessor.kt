@@ -3,19 +3,19 @@ package de.rki.coronawarnapp.bugreporting.processor
 import android.content.Context
 import android.os.Build
 import android.util.Log
+import dagger.hilt.android.qualifiers.ApplicationContext
 import de.rki.coronawarnapp.BuildConfig
 import de.rki.coronawarnapp.bugreporting.event.BugEvent
 import de.rki.coronawarnapp.bugreporting.event.DefaultBugEvent
 import de.rki.coronawarnapp.bugreporting.loghistory.RollingLogHistory
 import de.rki.coronawarnapp.util.TimeStamper
-import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.tryHumanReadableError
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class DefaultBugProcessor @Inject constructor(
-    @AppContext private val context: Context,
+    @ApplicationContext private val context: Context,
     private val timeStamper: TimeStamper,
     private val rollingLogHistory: RollingLogHistory
 ) : BugProcessor {

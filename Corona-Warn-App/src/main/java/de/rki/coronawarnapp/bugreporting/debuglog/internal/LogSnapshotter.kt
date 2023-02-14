@@ -2,9 +2,9 @@ package de.rki.coronawarnapp.bugreporting.debuglog.internal
 
 import android.content.Context
 import dagger.Reusable
+import dagger.hilt.android.qualifiers.ApplicationContext
 import de.rki.coronawarnapp.bugreporting.debuglog.DebugLogger
 import de.rki.coronawarnapp.util.TimeStamper
-import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.files.Zipper
 import de.rki.coronawarnapp.util.toLocalDateTimeUserTz
 import java.time.format.DateTimeFormatter
@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @Reusable
 class LogSnapshotter @Inject constructor(
-    @AppContext private val context: Context,
+    @ApplicationContext private val context: Context,
     private val debugLogger: DebugLogger,
     private val timeStamper: TimeStamper
 ) {

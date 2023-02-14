@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.datadonation.safetynet
 
 import android.content.Context
 import androidx.annotation.VisibleForTesting
+import dagger.hilt.android.qualifiers.ApplicationContext
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.datadonation.safetynet.SafetyNetException.Type
@@ -10,7 +11,6 @@ import de.rki.coronawarnapp.storage.TestSettings
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import de.rki.coronawarnapp.util.TimeStamper
-import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.gplay.GoogleApiVersion
 import de.rki.coronawarnapp.util.security.RandomStrong
 import kotlinx.coroutines.flow.first
@@ -26,7 +26,7 @@ import kotlin.random.Random
 
 @Singleton
 class CWASafetyNet @Inject constructor(
-    @AppContext private val context: Context,
+    @ApplicationContext private val context: Context,
     private val client: SafetyNetClientWrapper,
     @RandomStrong private val randomSource: Random,
     private val appConfigProvider: AppConfigProvider,

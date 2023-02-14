@@ -10,11 +10,11 @@ import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import dagger.multibindings.IntoSet
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
-import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.reset.Resettable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.plus
@@ -29,7 +29,7 @@ object StorageModule {
     @OnboardingSettingsDataStore
     @Provides
     fun provideOnboardingSettingsDataStore(
-        @AppContext context: Context,
+        @ApplicationContext context: Context,
         @AppScope appScope: CoroutineScope,
         dispatcherProvider: DispatcherProvider
     ): DataStore<Preferences> = PreferenceDataStoreFactory.create(
@@ -47,7 +47,7 @@ object StorageModule {
     @TestSettingsDataStore
     @Provides
     fun provideTestSettingsDataStore(
-        @AppContext context: Context,
+        @ApplicationContext context: Context,
         @AppScope appScope: CoroutineScope,
         dispatcherProvider: DispatcherProvider
     ): DataStore<Preferences> = PreferenceDataStoreFactory.create(
@@ -65,7 +65,7 @@ object StorageModule {
     @TracingSettingsDataStore
     @Provides
     fun provideTracingSettingsDataStore(
-        @AppContext context: Context,
+        @ApplicationContext context: Context,
         @AppScope appScope: CoroutineScope,
         dispatcherProvider: DispatcherProvider
     ): DataStore<Preferences> = PreferenceDataStoreFactory.create(

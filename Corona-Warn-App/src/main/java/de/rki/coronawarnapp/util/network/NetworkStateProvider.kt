@@ -11,10 +11,10 @@ import android.net.NetworkCapabilities.NET_CAPABILITY_VALIDATED
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.core.net.ConnectivityManagerCompat
+import dagger.hilt.android.qualifiers.ApplicationContext
 import de.rki.coronawarnapp.storage.TestSettings
 import de.rki.coronawarnapp.util.BuildVersionWrap
 import de.rki.coronawarnapp.util.coroutine.AppScope
-import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.flow.shareLatest
 import de.rki.coronawarnapp.util.hasAPILevel
 import kotlinx.coroutines.CoroutineScope
@@ -32,7 +32,7 @@ import javax.inject.Singleton
 
 @Singleton
 class NetworkStateProvider @Inject constructor(
-    @AppContext private val context: Context,
+    @ApplicationContext private val context: Context,
     @AppScope private val appScope: CoroutineScope,
     private val testSettings: TestSettings,
     private val networkRequestBuilderProvider: NetworkRequestBuilderProvider

@@ -7,9 +7,9 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
+import dagger.hilt.android.qualifiers.ApplicationContext
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
-import de.rki.coronawarnapp.util.di.AppContext
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -27,7 +27,7 @@ abstract class PresenceTracingRiskDatabase : RoomDatabase() {
     abstract fun presenceTracingRiskLevelResultDao(): PresenceTracingRiskLevelResultDao
     abstract fun traceTimeIntervalMatchDao(): TraceTimeIntervalMatchDao
 
-    class Factory @Inject constructor(@AppContext private val context: Context) {
+    class Factory @Inject constructor(@ApplicationContext private val context: Context) {
         fun create() = Room
             .databaseBuilder(context, PresenceTracingRiskDatabase::class.java, DATABASE_NAME)
             .addMigrations(PresenceTracingRiskDatabaseMigration1To2)

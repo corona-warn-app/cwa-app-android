@@ -7,15 +7,15 @@ import android.os.PowerManager
 import android.provider.Settings
 import androidx.annotation.RequiresApi
 import androidx.core.content.getSystemService
+import dagger.hilt.android.qualifiers.ApplicationContext
 import de.rki.coronawarnapp.util.BuildVersionWrap
-import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.hasAPILevel
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class PowerManagement @Inject constructor(
-    @AppContext private val context: Context
+    @ApplicationContext private val context: Context
 ) {
 
     private val powerManager by lazy { context.getSystemService<PowerManager>()!! }

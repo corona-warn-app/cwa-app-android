@@ -5,9 +5,9 @@ import androidx.core.content.pm.PackageInfoCompat
 import androidx.lifecycle.asLiveData
 import com.google.android.gms.common.GoogleApiAvailability
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
-import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import kotlinx.coroutines.flow.flow
@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MiscInfoFragmentViewModel @Inject constructor(
-    @AppContext private val context: Context,
+    @ApplicationContext private val context: Context,
     private val enfClient: ENFClient,
     dispatcherProvider: DispatcherProvider
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {

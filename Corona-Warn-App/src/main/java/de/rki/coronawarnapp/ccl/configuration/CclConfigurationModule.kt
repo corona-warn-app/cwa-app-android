@@ -4,11 +4,11 @@ import android.content.Context
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import de.rki.coronawarnapp.ccl.configuration.server.CclConfigurationApiV1
 import de.rki.coronawarnapp.environment.download.DownloadCDNHttpClient
 import de.rki.coronawarnapp.environment.download.DownloadCDNServerUrl
-import de.rki.coronawarnapp.util.di.AppContext
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -24,7 +24,7 @@ object CclConfigurationModule {
     @CclConfiguration
     @Provides
     // Holds the ccl and ccl http cache. Gets cleared in CclConfigurationRepository
-    fun provideCclDir(@AppContext context: Context): File = File(context.filesDir, CCL_DIR)
+    fun provideCclDir(@ApplicationContext context: Context): File = File(context.filesDir, CCL_DIR)
 
     @Singleton
     @Provides

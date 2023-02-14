@@ -4,10 +4,10 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.pdf.PdfRenderer
 import android.os.ParcelFileDescriptor
+import dagger.hilt.android.qualifiers.ApplicationContext
 import de.rki.coronawarnapp.presencetracing.locations.server.qrcodepostertemplate.QrCodePosterTemplateServer
 import de.rki.coronawarnapp.server.protocols.internal.pt.QrCodePosterTemplate.QRCodePosterTemplateAndroid.QRCodeTextBoxAndroid
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
-import de.rki.coronawarnapp.util.di.AppContext
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.io.File
@@ -18,7 +18,7 @@ import kotlin.math.roundToInt
 class PosterTemplateProvider @Inject constructor(
     private val posterTemplateServer: QrCodePosterTemplateServer,
     private val dispatcherProvider: DispatcherProvider,
-    @AppContext private val context: Context
+    @ApplicationContext private val context: Context
 ) {
     @Suppress("BlockingMethodInNonBlockingContext")
     suspend fun template(): Template = withContext(dispatcherProvider.IO) {

@@ -9,10 +9,10 @@ import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import de.rki.coronawarnapp.srs.core.storage.DefaultSrsDevSettings
 import de.rki.coronawarnapp.srs.core.storage.SrsDevSettings
-import de.rki.coronawarnapp.util.di.AppContext
 import javax.inject.Qualifier
 import javax.inject.Singleton
 
@@ -26,7 +26,7 @@ abstract class SrsDevSettingsModule {
         @Singleton
         @Provides
         @SrsDevSettingsDataStore
-        fun provideSrsDevSettingsStore(@AppContext context: Context): DataStore<Preferences> =
+        fun provideSrsDevSettingsStore(@ApplicationContext context: Context): DataStore<Preferences> =
             PreferenceDataStoreFactory.create {
                 context.preferencesDataStoreFile("srs_dev_settings_localdata")
             }

@@ -6,6 +6,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.test.platform.app.InstrumentationRegistry
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.android.qualifiers.ApplicationContext
 import de.rki.coronawarnapp.covidcertificate.CovidCertificateSettingsDataStore
 import de.rki.coronawarnapp.datadonation.analytics.AnalyticsSettingsDataStore
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionDataStore
@@ -19,7 +20,6 @@ import de.rki.coronawarnapp.statistics.LocalStatisticsConfigDataStore
 import de.rki.coronawarnapp.storage.OnboardingSettingsDataStore
 import de.rki.coronawarnapp.storage.TestSettingsDataStore
 import de.rki.coronawarnapp.storage.TracingSettingsDataStore
-import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.di.AppInstallTime
 import io.mockk.mockk
 import java.time.Instant
@@ -29,12 +29,12 @@ import javax.inject.Singleton
 class TestAndroidModule {
     @Provides
     @Singleton
-    @AppContext
+    @ApplicationContext
     fun context(): Context = InstrumentationRegistry.getInstrumentation().targetContext
 
     @Provides
     @AppInstallTime
-    fun installTime(@AppContext context: Context): Instant = Instant.EPOCH
+    fun installTime(@ApplicationContext context: Context): Instant = Instant.EPOCH
 
     @OnboardingSettingsDataStore
     @Provides

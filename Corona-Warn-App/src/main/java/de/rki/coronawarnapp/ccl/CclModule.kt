@@ -9,6 +9,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import dagger.multibindings.IntoSet
 import de.rki.coronawarnapp.ccl.configuration.CclConfigurationModule
@@ -19,7 +20,6 @@ import de.rki.coronawarnapp.ccl.configuration.update.CclSettingsDataStore
 import de.rki.coronawarnapp.ccl.dccwalletinfo.storage.DccWalletInfoRepository
 import de.rki.coronawarnapp.ccl.dccwalletinfo.storage.database.DccWalletInfoDao
 import de.rki.coronawarnapp.ccl.dccwalletinfo.storage.database.DccWalletInfoDatabase
-import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.reset.Resettable
 import javax.inject.Singleton
 
@@ -36,7 +36,7 @@ object CclModule {
     @Singleton
     @Provides
     @CclSettingsDataStore
-    fun provideCLLSettingsDataStore(@AppContext context: Context): DataStore<Preferences> =
+    fun provideCLLSettingsDataStore(@ApplicationContext context: Context): DataStore<Preferences> =
         PreferenceDataStoreFactory.create {
             context.preferencesDataStoreFile(CCL_SETTINGS_DATASTORE_NAME)
         }

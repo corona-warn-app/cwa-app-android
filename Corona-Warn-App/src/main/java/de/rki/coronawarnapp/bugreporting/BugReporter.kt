@@ -11,6 +11,5 @@ fun Throwable.reportProblem(tag: String? = null, info: String? = null) {
     Timber.tag(tag ?: "BugReporter").e(this, info)
 
     if (CWADebug.isAUnitTest) return
-    val reporter = AppInjector.component.bugReporter
-    reporter.report(this, tag, info)
+    // reporter.report(this, tag, info)
 }

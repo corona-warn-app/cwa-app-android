@@ -9,6 +9,9 @@ import androidx.datastore.migrations.SharedPreferencesMigration
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
 import dagger.multibindings.IntoSet
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.contactdiary.storage.repo.DefaultContactDiaryRepository
@@ -17,14 +20,19 @@ import de.rki.coronawarnapp.contactdiary.storage.settings.ContactDiarySettingsSe
 import de.rki.coronawarnapp.contactdiary.storage.settings.ContactDiarySettingsStorage
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
-import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.reset.Resettable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.plus
 import timber.log.Timber
 import javax.inject.Singleton
 
-@Module(includes = [ContactDiaryStorageModule.BindsModule::class, ContactDiaryStorageModule.ResetModule::class])
+@InstallIn(SingletonComponent::class)
+@Module(
+    includes = [
+        ContactDiaryStorageModule.BindsModule::class,
+        ContactDiaryStorageModule.ResetModule::class
+    ]
+)
 object ContactDiaryStorageModule {
 
     @Singleton
@@ -33,7 +41,7 @@ object ContactDiaryStorageModule {
         serializer: ContactDiarySettingsSerializer,
         @AppScope appScope: CoroutineScope,
         dispatcherProvider: DispatcherProvider,
-        @AppContext context: Context,
+        @ApplicationContext context: Context,
         migration: SharedPreferencesMigration<ContactDiarySettings>
     ): DataStore<ContactDiarySettings> = DataStoreFactory.create(
         serializer = serializer,
@@ -45,7 +53,7 @@ object ContactDiaryStorageModule {
 
     @Provides
     fun provideMigration(
-        @AppContext context: Context
+        @ApplicationContext context: Context
     ) = SharedPreferencesMigration<ContactDiarySettings>(
         context = context,
         sharedPreferencesName = LEGACY_SHARED_PREFS
@@ -61,12 +69,14 @@ object ContactDiaryStorageModule {
         migratedOnboardingStatus?.let { contactDiarySettings.copy(onboardingStatus = it) } ?: contactDiarySettings
     }
 
+    @InstallIn(SingletonComponent::class)
     @Module
     interface BindsModule {
         @Binds
         fun contactDiaryRepo(defaultContactDiaryRepository: DefaultContactDiaryRepository): ContactDiaryRepository
     }
 
+    @InstallIn(SingletonComponent::class)
     @Module
     interface ResetModule {
 

@@ -8,23 +8,26 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStoreFile
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsPCRKeySubmissionStorage as PCR
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsRAKeySubmissionStorage as RAT
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
-import de.rki.coronawarnapp.util.di.AppContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.plus
 import javax.inject.Qualifier
 import javax.inject.Singleton
 
+@InstallIn(SingletonComponent::class)
 @Module
 class AnalyticsKeySubmissionModule {
     @Singleton
     @AnalyticsKeySubmissionDataStore
     @Provides
     fun provideAnalyticsKeySubmissionDataStore(
-        @AppContext context: Context,
+        @ApplicationContext context: Context,
         @AppScope appScope: CoroutineScope,
         dispatcherProvider: DispatcherProvider
     ): DataStore<Preferences> = PreferenceDataStoreFactory.create(
@@ -46,7 +49,7 @@ class AnalyticsKeySubmissionModule {
     @AnalyticsSrsKeySubmissionDataStore
     @Provides
     fun provideAnalyticsSrsKeySubmissionDataStore(
-        @AppContext context: Context
+        @ApplicationContext context: Context
     ): DataStore<Preferences> = PreferenceDataStoreFactory.create {
         context.preferencesDataStoreFile("analytics_srs_key_submission_datastore")
     }

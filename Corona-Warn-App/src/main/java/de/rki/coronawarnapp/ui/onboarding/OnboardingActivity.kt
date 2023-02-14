@@ -47,7 +47,6 @@ class OnboardingActivity : AppCompatActivity(), LifecycleObserver {
         get() = primaryNavigationFragment?.childFragmentManager?.fragments?.first()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        AppInjector.setup(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_onboarding)
     }

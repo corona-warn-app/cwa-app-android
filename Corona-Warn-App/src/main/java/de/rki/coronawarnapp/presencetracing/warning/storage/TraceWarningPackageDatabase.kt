@@ -10,9 +10,9 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.room.Update
+import dagger.hilt.android.qualifiers.ApplicationContext
 import de.rki.coronawarnapp.presencetracing.warning.WarningPackageId
 import de.rki.coronawarnapp.util.database.CommonConverters
-import de.rki.coronawarnapp.util.di.AppContext
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -54,7 +54,7 @@ abstract class TraceWarningDatabase : RoomDatabase() {
 
     abstract fun traceWarningPackageDao(): TraceWarningPackageDao
 
-    class Factory @Inject constructor(@AppContext private val context: Context) {
+    class Factory @Inject constructor(@ApplicationContext private val context: Context) {
         fun create() = Room
             .databaseBuilder(context, TraceWarningDatabase::class.java, "TraceWarning_db")
             .build()

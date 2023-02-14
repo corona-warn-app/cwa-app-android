@@ -2,10 +2,10 @@ package de.rki.coronawarnapp.datadonation.analytics.storage
 
 import android.content.Context
 import com.fasterxml.jackson.databind.ObjectMapper
+import dagger.hilt.android.qualifiers.ApplicationContext
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
-import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.serialization.BaseJackson
 import de.rki.coronawarnapp.util.serialization.readValue
 import de.rki.coronawarnapp.util.serialization.writeValue
@@ -15,7 +15,7 @@ import java.io.File
 import javax.inject.Inject
 
 class DefaultLastAnalyticsSubmissionLogger @Inject constructor(
-    @AppContext private val context: Context,
+    @ApplicationContext private val context: Context,
     private val dispatcherProvider: DispatcherProvider,
     @BaseJackson private val mapper: ObjectMapper,
     private val timeStamper: TimeStamper

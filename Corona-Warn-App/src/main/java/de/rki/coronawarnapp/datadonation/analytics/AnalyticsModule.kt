@@ -10,6 +10,9 @@ import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable
+import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
 import dagger.multibindings.IntoSet
 import de.rki.coronawarnapp.datadonation.analytics.modules.DonorModule
 import de.rki.coronawarnapp.datadonation.analytics.modules.clientmetadata.ClientMetadataDonor
@@ -32,7 +35,6 @@ import de.rki.coronawarnapp.environment.datadonation.DataDonationCDNHttpClient
 import de.rki.coronawarnapp.environment.datadonation.DataDonationCDNServerUrl
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
-import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.reset.Resettable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.plus
@@ -43,6 +45,7 @@ import retrofit2.converter.protobuf.ProtoConverterFactory
 import javax.inject.Qualifier
 import javax.inject.Singleton
 
+@InstallIn(SingletonComponent::class)
 @Module(
     includes = [
         AnalyticsModule.BindsModule::class,
@@ -74,7 +77,7 @@ object AnalyticsModule {
     @AnalyticsSettingsDataStore
     @Provides
     fun provideAnalyticsSettingsDataStore(
-        @AppContext context: Context,
+        @ApplicationContext context: Context,
         @AppScope appScope: CoroutineScope,
         dispatcherProvider: DispatcherProvider
     ): DataStore<Preferences> = PreferenceDataStoreFactory.create(
@@ -88,6 +91,7 @@ object AnalyticsModule {
         )
     )
 
+    @InstallIn(SingletonComponent::class)
     @Module
     internal interface ResetModule {
 
@@ -104,6 +108,7 @@ object AnalyticsModule {
         fun bindResettableAnalyticsExposureWindowsSettings(resettable: AnalyticsExposureWindowsSettings): Resettable
     }
 
+    @InstallIn(SingletonComponent::class)
     @Module
     internal interface BindsModule {
 

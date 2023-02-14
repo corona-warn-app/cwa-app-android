@@ -9,6 +9,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.Reusable
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import dagger.multibindings.IntoSet
 import de.rki.coronawarnapp.dccticketing.core.allowlist.repo.DccTicketingAllowListRepository
@@ -21,7 +22,6 @@ import de.rki.coronawarnapp.environment.download.DownloadCDNServerUrl
 import de.rki.coronawarnapp.http.HttpClientDefault
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
-import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.reset.Resettable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.plus
@@ -43,7 +43,7 @@ object DccTicketingCoreModule {
     @Provides
     @DccTicketingDataStore
     fun provideDataStore(
-        @AppContext context: Context,
+        @ApplicationContext context: Context,
         @AppScope appScope: CoroutineScope,
         dispatcherProvider: DispatcherProvider
     ) = PreferenceDataStoreFactory.create(
@@ -98,14 +98,14 @@ object DccTicketingCoreModule {
     @DccTicketing
     // Create in files dir to be in line with tech spec
     fun localStorageDir(
-        @AppContext context: Context
+        @ApplicationContext context: Context
     ): File = File(context.filesDir, "dcc_ticketing_local_storage")
 
     @Singleton
     @Provides
     @DccTicketing
     fun httpCache(
-        @AppContext context: Context
+        @ApplicationContext context: Context
     ): Cache = Cache(File(context.cacheDir, "dcc_ticketing"), DEFAULT_CACHE_SIZE)
 
     @InstallIn(SingletonComponent::class)

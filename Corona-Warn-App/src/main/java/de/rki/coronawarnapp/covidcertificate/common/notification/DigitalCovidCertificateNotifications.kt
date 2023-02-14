@@ -7,10 +7,10 @@ import androidx.core.app.NotificationChannelCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import dagger.Reusable
+import dagger.hilt.android.qualifiers.ApplicationContext
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.util.BuildVersionWrap
-import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.hasAPILevel
 import de.rki.coronawarnapp.util.notifications.NavDeepLinkBuilderFactory
 import de.rki.coronawarnapp.util.notifications.setContentTextExpandable
@@ -24,7 +24,7 @@ import javax.inject.Inject
  */
 @Reusable
 class DigitalCovidCertificateNotifications @Inject constructor(
-    @AppContext private val context: Context,
+    @ApplicationContext private val context: Context,
     private val navDeepLinkBuilderFactory: NavDeepLinkBuilderFactory,
     private val notificationManagerCompat: NotificationManagerCompat,
 ) {

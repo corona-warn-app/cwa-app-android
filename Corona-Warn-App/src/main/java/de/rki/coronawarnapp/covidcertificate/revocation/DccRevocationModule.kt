@@ -9,6 +9,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import dagger.multibindings.IntoSet
 import de.rki.coronawarnapp.covidcertificate.revocation.server.DccRevocationApi
@@ -16,7 +17,6 @@ import de.rki.coronawarnapp.environment.download.DownloadCDNHttpClient
 import de.rki.coronawarnapp.environment.download.DownloadCDNServerUrl
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
-import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.reset.Resettable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.plus
@@ -34,7 +34,7 @@ object DccRevocationModule {
     @Singleton
     @DccRevocationCache
     @Provides
-    fun provideCache(@AppContext context: Context): Cache {
+    fun provideCache(@ApplicationContext context: Context): Cache {
         val cacheDir = File(context.cacheDir, CACHE_DIR)
         return Cache(cacheDir, CACHE_SIZE)
     }
@@ -57,7 +57,7 @@ object DccRevocationModule {
     @Provides
     @DccRevocationDataStore
     fun provideRevocationDataStore(
-        @AppContext context: Context,
+        @ApplicationContext context: Context,
         @AppScope scope: CoroutineScope,
         dispatcherProvider: DispatcherProvider
     ): DataStore<Preferences> = PreferenceDataStoreFactory.create(

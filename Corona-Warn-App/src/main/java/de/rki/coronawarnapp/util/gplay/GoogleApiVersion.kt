@@ -4,12 +4,12 @@ import android.content.Context
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import dagger.Reusable
-import de.rki.coronawarnapp.util.di.AppContext
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 @Reusable
 class GoogleApiVersion @Inject constructor(
-    @AppContext private val context: Context
+    @ApplicationContext private val context: Context
 ) {
 
     private val apiAvailability = GoogleApiAvailability.getInstance()

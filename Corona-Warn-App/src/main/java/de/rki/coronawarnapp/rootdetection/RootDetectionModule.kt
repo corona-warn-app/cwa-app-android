@@ -5,13 +5,13 @@ import com.scottyab.rootbeer.RootBeer
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import de.rki.coronawarnapp.util.di.AppContext
 
 @InstallIn(SingletonComponent::class)
 @Module
 class RootDetectionModule {
 
     @Provides
-    fun provideRootBeer(@AppContext context: Context): RootBeer = RootBeer(context)
+    fun provideRootBeer(@ApplicationContext context: Context): RootBeer = RootBeer(context)
 }

@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import dagger.hilt.android.qualifiers.ApplicationContext
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
@@ -17,7 +18,6 @@ import de.rki.coronawarnapp.presencetracing.checkins.qrcode.Template
 import de.rki.coronawarnapp.presencetracing.storage.repo.TraceLocationRepository
 import de.rki.coronawarnapp.util.coil.loadQrCode
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
-import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.files.FileSharing
 import de.rki.coronawarnapp.util.qrcode.QrCodeOptions
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
@@ -36,7 +36,7 @@ class QrCodePosterTestViewModel @AssistedInject constructor(
     private val traceLocationRepository: TraceLocationRepository,
     private val appConfigProvider: AppConfigProvider,
     private val fileSharing: FileSharing,
-    @AppContext private val context: Context,
+    @ApplicationContext private val context: Context,
 ) : CWAViewModel(dispatcher) {
 
     private val posterLiveData = MutableLiveData<Poster>()

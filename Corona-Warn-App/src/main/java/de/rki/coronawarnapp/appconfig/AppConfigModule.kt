@@ -5,6 +5,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import dagger.multibindings.IntoSet
 import de.rki.coronawarnapp.appconfig.download.AppConfigApiV2
@@ -21,7 +22,6 @@ import de.rki.coronawarnapp.appconfig.mapping.SelfReportSubmissionConfigMapper
 import de.rki.coronawarnapp.appconfig.mapping.SurveyConfigMapper
 import de.rki.coronawarnapp.environment.download.DownloadCDNHttpClient
 import de.rki.coronawarnapp.environment.download.DownloadCDNServerUrl
-import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.reset.Resettable
 import okhttp3.Cache
 import okhttp3.OkHttpClient
@@ -66,7 +66,7 @@ object AppConfigModule {
     @RemoteAppConfigCache
     @Provides
     @Singleton
-    fun remoteAppConfigHttpCache(@AppContext context: Context): Cache {
+    fun remoteAppConfigHttpCache(@ApplicationContext context: Context): Cache {
         val cacheDir = File(context.cacheDir, "http_app-config")
         return Cache(cacheDir, DEFAULT_CACHE_SIZE)
     }

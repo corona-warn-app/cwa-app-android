@@ -5,14 +5,14 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import dagger.Reusable
-import de.rki.coronawarnapp.util.di.AppContext
+import dagger.hilt.android.qualifiers.ApplicationContext
 import de.rki.coronawarnapp.util.serialization.BaseJackson
 import timber.log.Timber
 import javax.inject.Inject
 
 @Reusable
 class Districts @Inject constructor(
-    @AppContext private val context: Context,
+    @ApplicationContext private val context: Context,
     @BaseJackson private val mapper: ObjectMapper,
 ) {
     fun loadDistricts(): List<District> {

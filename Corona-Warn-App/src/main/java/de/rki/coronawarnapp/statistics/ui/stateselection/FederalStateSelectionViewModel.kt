@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import dagger.hilt.android.qualifiers.ApplicationContext
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.datadonation.analytics.common.Districts
 import de.rki.coronawarnapp.datadonation.analytics.common.federalStateShortName
@@ -14,7 +15,6 @@ import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.statistics.local.storage.LocalStatisticsConfigStorage
 import de.rki.coronawarnapp.statistics.local.storage.SelectedStatisticsLocation
 import de.rki.coronawarnapp.util.TimeStamper
-import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.ui.toLazyString
 import de.rki.coronawarnapp.util.ui.toResolvingString
@@ -31,7 +31,7 @@ import timber.log.Timber
 @SuppressLint("StaticFieldLeak")
 class FederalStateSelectionViewModel @AssistedInject constructor(
     @Assisted val selectedFederalState: PpaData.PPAFederalState?,
-    @AppContext private val context: Context,
+    @ApplicationContext private val context: Context,
     private val districtsSource: Districts,
     private val localStatisticsConfigStorage: LocalStatisticsConfigStorage,
     private val timeStamper: TimeStamper

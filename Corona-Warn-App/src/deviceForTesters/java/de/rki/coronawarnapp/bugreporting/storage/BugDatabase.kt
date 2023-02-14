@@ -5,10 +5,10 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import dagger.hilt.android.qualifiers.ApplicationContext
 import de.rki.coronawarnapp.bugreporting.event.BugEventEntity
 import de.rki.coronawarnapp.bugreporting.storage.dao.DefaultBugDao
 import de.rki.coronawarnapp.util.database.CommonConverters
-import de.rki.coronawarnapp.util.di.AppContext
 import javax.inject.Inject
 
 @Database(
@@ -21,7 +21,7 @@ abstract class BugDatabase : RoomDatabase() {
 
     abstract fun defaultBugDao(): DefaultBugDao
 
-    class Factory @Inject constructor(@AppContext private val context: Context) {
+    class Factory @Inject constructor(@ApplicationContext private val context: Context) {
         fun create(): BugDatabase = Room
             .databaseBuilder(context, BugDatabase::class.java, BUG_DATABASE_NAME)
             .build()

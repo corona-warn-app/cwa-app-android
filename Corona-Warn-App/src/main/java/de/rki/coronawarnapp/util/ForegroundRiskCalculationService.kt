@@ -3,12 +3,12 @@ package de.rki.coronawarnapp.util
 import android.content.Context
 import android.net.wifi.WifiManager
 import android.os.PowerManager
+import dagger.hilt.android.qualifiers.ApplicationContext
 import de.rki.coronawarnapp.initializer.Initializer
 import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.storage.TracingRepository
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.device.ForegroundState
-import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.di.ProcessLifecycleScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.combine
@@ -32,7 +32,7 @@ import javax.inject.Singleton
 * */
 @Singleton
 class ForegroundRiskCalculationService @Inject constructor(
-    @AppContext private val context: Context,
+    @ApplicationContext private val context: Context,
     @ProcessLifecycleScope private val processLifecycleScope: CoroutineScope,
     private val tracingRepository: TracingRepository,
     private val foregroundState: ForegroundState,

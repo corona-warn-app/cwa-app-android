@@ -10,6 +10,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import dagger.multibindings.IntoMap
 import dagger.multibindings.IntoSet
@@ -20,7 +21,6 @@ import de.rki.coronawarnapp.task.TaskFactory
 import de.rki.coronawarnapp.task.TaskTypeKey
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
-import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.reset.Resettable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.plus
@@ -64,7 +64,7 @@ interface RiskModule {
         @RiskLevelSettingsDataStore
         @Provides
         fun provideRiskLevelSettingsDataStore(
-            @AppContext context: Context,
+            @ApplicationContext context: Context,
             @AppScope appScope: CoroutineScope,
             dispatcherProvider: DispatcherProvider
         ): DataStore<Preferences> = PreferenceDataStoreFactory.create(

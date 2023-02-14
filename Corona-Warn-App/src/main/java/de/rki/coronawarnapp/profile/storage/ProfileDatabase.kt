@@ -17,10 +17,10 @@ import androidx.room.Transaction
 import androidx.room.TypeConverters
 import androidx.room.Update
 import androidx.sqlite.db.SupportSQLiteDatabase
+import dagger.hilt.android.qualifiers.ApplicationContext
 import de.rki.coronawarnapp.profile.legacy.RATProfile
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.database.CommonConverters
-import de.rki.coronawarnapp.util.di.AppContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
@@ -41,7 +41,7 @@ abstract class ProfileDatabase : RoomDatabase() {
     abstract fun profileDao(): ProfileDao
 
     class Factory @Inject constructor(
-        @AppContext private val context: Context,
+        @ApplicationContext private val context: Context,
         @AppScope private val scope: CoroutineScope,
         private val settings: ProfileSettingsDataStore,
     ) {

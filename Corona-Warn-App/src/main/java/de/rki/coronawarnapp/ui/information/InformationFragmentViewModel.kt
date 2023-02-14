@@ -4,13 +4,13 @@ import android.annotation.SuppressLint
 import android.content.Context
 import androidx.lifecycle.asLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import de.rki.coronawarnapp.BuildConfig
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.ccl.configuration.storage.CclConfigurationRepository
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.nearby.modules.version.ENFVersion
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
-import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
@@ -22,7 +22,7 @@ import javax.inject.Inject
 class InformationFragmentViewModel @Inject constructor(
     dispatcherProvider: DispatcherProvider,
     enfClient: ENFClient,
-    @AppContext private val context: Context,
+    @ApplicationContext private val context: Context,
     cclConfigurationRepository: CclConfigurationRepository,
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
