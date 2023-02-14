@@ -36,7 +36,7 @@ import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
-@Module(includes = [CertificateValueSetModule.ResetModule::class])
+@Module
 object CertificateValueSetModule {
 
     @Reusable

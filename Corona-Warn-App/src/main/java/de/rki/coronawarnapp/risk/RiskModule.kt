@@ -28,7 +28,7 @@ import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
-@Module(includes = [RiskModule.ResetModule::class, RiskModule.RiskLevelSettingsDataStoreModule::class])
+@Module
 interface RiskModule {
 
     @Binds

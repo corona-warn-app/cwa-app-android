@@ -30,11 +30,7 @@ import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
-@Module(
-    includes = [
-        DiagnosisKeysModule.ResetModule::class
-    ]
-)
+@Module
 object DiagnosisKeysModule {
 
     @Singleton

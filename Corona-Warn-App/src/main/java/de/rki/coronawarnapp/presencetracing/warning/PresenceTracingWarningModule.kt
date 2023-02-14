@@ -23,12 +23,7 @@ import retrofit2.converter.jackson.JacksonConverterFactory
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
-@Module(
-    includes = [
-        PresenceTracingWarningModule.BindsModule::class,
-        PresenceTracingWarningModule.ResetModule::class
-    ]
-)
+@Module
 object PresenceTracingWarningModule {
 
     @Singleton

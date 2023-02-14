@@ -22,7 +22,7 @@ import de.rki.coronawarnapp.util.reset.Resettable
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
-@Module(includes = [ProfileModule.ResetModule::class])
+@Module
 object ProfileModule {
     @Singleton
     @Provides

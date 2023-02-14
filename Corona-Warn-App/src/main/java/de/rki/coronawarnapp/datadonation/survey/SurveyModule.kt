@@ -29,11 +29,7 @@ import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
-@Module(
-    includes = [
-        SurveyModule.ResetModule::class
-    ]
-)
+@Module
 object SurveyModule {
 
     @Singleton

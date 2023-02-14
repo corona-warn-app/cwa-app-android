@@ -26,7 +26,7 @@ import timber.log.Timber
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
-@Module(includes = [UploadHistoryStorageModule.ResetModule::class])
+@Module
 object UploadHistoryStorageModule {
 
     @Singleton

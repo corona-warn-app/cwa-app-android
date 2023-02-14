@@ -36,7 +36,7 @@ import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
-@Module(includes = [DccTicketingCoreModule.ResetModule::class])
+@Module
 object DccTicketingCoreModule {
 
     @Singleton

@@ -28,11 +28,7 @@ import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
-@Module(
-    includes = [
-        SrsDevSettingsModule::class
-    ]
-)
+@Module
 object SrsSubmissionModule {
 
     @Singleton

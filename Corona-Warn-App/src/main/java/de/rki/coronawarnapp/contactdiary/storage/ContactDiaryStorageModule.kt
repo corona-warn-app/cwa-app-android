@@ -27,12 +27,7 @@ import timber.log.Timber
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
-@Module(
-    includes = [
-        ContactDiaryStorageModule.BindsModule::class,
-        ContactDiaryStorageModule.ResetModule::class
-    ]
-)
+@Module
 object ContactDiaryStorageModule {
 
     @Singleton

@@ -12,7 +12,6 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import dagger.multibindings.IntoSet
-import de.rki.coronawarnapp.ccl.configuration.CclConfigurationModule
 import de.rki.coronawarnapp.ccl.configuration.storage.CclConfigurationRepository
 import de.rki.coronawarnapp.ccl.configuration.storage.DownloadedCclConfigurationStorage
 import de.rki.coronawarnapp.ccl.configuration.update.CclSettings
@@ -24,7 +23,7 @@ import de.rki.coronawarnapp.util.reset.Resettable
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
-@Module(includes = [CclConfigurationModule::class, CclModule.ResetModule::class])
+@Module
 object CclModule {
 
     @Singleton

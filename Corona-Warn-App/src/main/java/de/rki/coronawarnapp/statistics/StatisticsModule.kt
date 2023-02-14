@@ -38,7 +38,7 @@ import kotlinx.coroutines.plus
 import retrofit2.converter.jackson.JacksonConverterFactory
 
 @InstallIn(SingletonComponent::class)
-@Module(includes = [StatisticsModule.ResetModule::class])
+@Module
 object StatisticsModule {
 
     @Singleton

@@ -28,7 +28,7 @@ import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
-@Module(includes = [DccRevocationModule.ResetModule::class])
+@Module
 object DccRevocationModule {
 
     @Singleton

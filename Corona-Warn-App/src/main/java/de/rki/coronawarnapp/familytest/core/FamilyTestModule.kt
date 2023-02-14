@@ -13,7 +13,7 @@ import de.rki.coronawarnapp.util.reset.Resettable
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
-@Module(includes = [FamilyTestModule.ResetModule::class])
+@Module
 object FamilyTestModule {
     @Singleton
     @Provides

@@ -19,18 +19,12 @@ import de.rki.coronawarnapp.ccl.dccwalletinfo.notification.DccWalletInfoNotifica
 import de.rki.coronawarnapp.covidcertificate.booster.BoosterNotificationService
 import de.rki.coronawarnapp.covidcertificate.booster.BoosterRulesRepository
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccJsonSchema
-import de.rki.coronawarnapp.covidcertificate.pdf.core.ExportCertificateModule
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesSettings
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRepository
-import de.rki.coronawarnapp.covidcertificate.revocation.DccRevocationModule
 import de.rki.coronawarnapp.covidcertificate.signature.core.DscRepository
-import de.rki.coronawarnapp.covidcertificate.signature.core.server.DscServerModule
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
-import de.rki.coronawarnapp.covidcertificate.test.core.server.TestCertificateServerModule
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationCertificateRepository
-import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationModule
-import de.rki.coronawarnapp.covidcertificate.valueset.CertificateValueSetModule
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.reset.Resettable
@@ -44,18 +38,7 @@ import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
-@Module(
-    includes = [
-        CertificateValueSetModule::class,
-        TestCertificateServerModule::class,
-        DccValidationModule::class,
-        DscServerModule::class,
-        ExportCertificateModule::class,
-        DccRevocationModule::class,
-        DigitalCovidCertificateModule.BindsModule::class,
-        DigitalCovidCertificateModule.ResetModule::class
-    ]
-)
+@Module
 object DigitalCovidCertificateModule {
     @Provides
     @Reusable

@@ -13,12 +13,9 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import dagger.multibindings.IntoSet
-import de.rki.coronawarnapp.environment.presencetracing.qrcodeposter.QrCodePosterTemplateModule
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
-import de.rki.coronawarnapp.presencetracing.organizer.submission.OrganizerSubmissionModule
 import de.rki.coronawarnapp.presencetracing.storage.repo.DefaultTraceLocationRepository
 import de.rki.coronawarnapp.presencetracing.storage.repo.TraceLocationRepository
-import de.rki.coronawarnapp.presencetracing.warning.PresenceTracingWarningModule
 import de.rki.coronawarnapp.ui.presencetracing.TraceLocationPreferences
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -29,15 +26,7 @@ import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
-@Module(
-    includes = [
-        QrCodePosterTemplateModule::class,
-        PresenceTracingWarningModule::class,
-        OrganizerSubmissionModule::class,
-        PresenceTracingModule.PresenceTracingDataStoreModule::class,
-        PresenceTracingModule.ResetModule::class,
-    ]
-)
+@Module
 interface PresenceTracingModule {
 
     @Binds

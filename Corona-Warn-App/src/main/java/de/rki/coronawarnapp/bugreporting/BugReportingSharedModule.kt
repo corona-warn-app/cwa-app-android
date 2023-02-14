@@ -29,7 +29,6 @@ import de.rki.coronawarnapp.bugreporting.censors.submission.RACoronaTestCensor
 import de.rki.coronawarnapp.bugreporting.censors.submission.RapidQrCodeCensor
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.DebugLoggerScope
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.DebuggerScope
-import de.rki.coronawarnapp.bugreporting.debuglog.upload.history.storage.UploadHistoryStorageModule
 import de.rki.coronawarnapp.bugreporting.debuglog.upload.server.LogUploadApiV1
 import de.rki.coronawarnapp.bugreporting.debuglog.upload.server.auth.LogUploadAuthApiV1
 import de.rki.coronawarnapp.environment.bugreporting.LogUploadHttpClient
@@ -46,12 +45,7 @@ import javax.inject.Singleton
 
 @Suppress("TooManyFunctions")
 @InstallIn(SingletonComponent::class)
-@Module(
-    includes = [
-        BugReportingSharedModule.BindsModule::class,
-        UploadHistoryStorageModule::class
-    ]
-)
+@Module
 object BugReportingSharedModule {
 
     @Reusable

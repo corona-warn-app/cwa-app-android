@@ -40,7 +40,7 @@ import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
-@Module(includes = [ENFModule.BindsModule::class])
+@Module
 object ENFModule {
 
     @Singleton

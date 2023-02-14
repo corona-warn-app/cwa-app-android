@@ -13,11 +13,9 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import dagger.multibindings.IntoSet
-import de.rki.coronawarnapp.coronatest.server.VerificationModule
 import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTestProcessor
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRTestProcessor
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RATestProcessor
-import de.rki.coronawarnapp.profile.ProfileModule
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.reset.Resettable
@@ -27,14 +25,7 @@ import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
-@Module(
-    includes = [
-        CoronaTestModule.ResetModule::class,
-        CoronaTestModule.CoronaTestStorageModule::class,
-        VerificationModule::class,
-        ProfileModule::class
-    ]
-)
+@Module
 interface CoronaTestModule {
 
     @Binds

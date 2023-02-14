@@ -38,12 +38,7 @@ import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
-@Module(
-    includes = [
-        SubmissionModule.ResetModule::class,
-        SubmissionModule.BindsModule::class
-    ]
-)
+@Module
 object SubmissionModule {
 
     @Reusable

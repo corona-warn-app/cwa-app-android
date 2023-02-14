@@ -32,12 +32,7 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
-@Module(
-    includes = [
-        AppConfigModule.BindsModule::class,
-        AppConfigModule.ResetModule::class
-    ]
-)
+@Module
 object AppConfigModule {
 
     @Singleton
