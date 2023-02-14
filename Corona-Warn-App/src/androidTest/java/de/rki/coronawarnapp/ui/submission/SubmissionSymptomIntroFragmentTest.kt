@@ -6,8 +6,6 @@ import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import dagger.Module
-import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
@@ -69,10 +67,7 @@ class SubmissionSymptomIntroFragmentTest : BaseUITest() {
         )
     }
 
-    @After
-    fun teardown() {
-        clearAllViewModels()
-    }
+
 
     @Test
     fun launch_fragment() {
@@ -107,10 +102,4 @@ class SubmissionSymptomIntroFragmentTest : BaseUITest() {
             .perform(scrollTo())
         takeScreenshot<SubmissionSymptomIntroductionFragment>("2")
     }
-}
-
-@Module
-abstract class SubmissionSymptomIntroFragmentTestModule {
-    @ContributesAndroidInjector
-    abstract fun submissionSymptomIntroScreen(): SubmissionSymptomIntroductionFragment
 }

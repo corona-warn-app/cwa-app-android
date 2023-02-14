@@ -9,8 +9,6 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.internal.runner.junit4.statement.UiThreadStatement.runOnUiThread
-import dagger.Module
-import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.presencetracing.locations.TraceLocationCreator
 import de.rki.coronawarnapp.presencetracing.storage.repo.TraceLocationRepository
@@ -66,10 +64,7 @@ class TraceLocationCreateFragmentTest : BaseUITest() {
         )
     }
 
-    @After
-    fun teardown() {
-        clearAllViewModels()
-    }
+
 
     @Test
     fun duplicateEventWithSameDatesTest() {
@@ -134,10 +129,4 @@ class TraceLocationCreateFragmentTest : BaseUITest() {
             traceLocationCreator = traceLocationCreator,
             dispatcherProvider = TestDispatcherProvider()
         )
-}
-
-@Module
-abstract class CreateEventTestModule {
-    @ContributesAndroidInjector
-    abstract fun traceLocationCreateFragment(): TraceLocationCreateFragment
 }

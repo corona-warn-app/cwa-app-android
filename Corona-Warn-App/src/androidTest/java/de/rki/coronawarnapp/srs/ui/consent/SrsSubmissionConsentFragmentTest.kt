@@ -8,8 +8,6 @@ import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.internal.runner.junit4.statement.UiThreadStatement
-import dagger.Module
-import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.srs.ui.vm.TeksSharedViewModel
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -63,10 +61,7 @@ class SrsSubmissionConsentFragmentTest : BaseUITest() {
         )
     }
 
-    @After
-    fun teardown() {
-        clearAllViewModels()
-    }
+
 
     @Test
     @Screenshot
@@ -86,10 +81,4 @@ class SrsSubmissionConsentFragmentTest : BaseUITest() {
         onView(withId(R.id.srs_submission_consent_more_info)).perform(scrollTo())
         takeScreenshot<SrsSubmissionConsentFragment>("4")
     }
-}
-
-@Module
-abstract class SrsSubmissionConsentFragmentTestModule {
-    @ContributesAndroidInjector
-    abstract fun srsSubmissionConsentScreen(): SrsSubmissionConsentFragment
 }

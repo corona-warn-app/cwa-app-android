@@ -10,8 +10,6 @@ import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.internal.runner.junit4.statement.UiThreadStatement.runOnUiThread
-import dagger.Module
-import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
@@ -87,10 +85,7 @@ class SubmissionTestResultConsentGivenFragmentTest : BaseUITest() {
         )
     }
 
-    @After
-    fun teardown() {
-        clearAllViewModels()
-    }
+
 
     @Test
     fun launch_fragment() {
@@ -150,10 +145,4 @@ class SubmissionTestResultConsentGivenFragmentTest : BaseUITest() {
         launchFragmentInContainer2<SubmissionTestResultConsentGivenFragment>(fragmentArgs = consentGivenFragmentArgs)
         takeScreenshot<SubmissionTestResultConsentGivenFragment>()
     }
-}
-
-@Module
-abstract class SubmissionTestResultConsentGivenTestModule {
-    @ContributesAndroidInjector
-    abstract fun submissionTestResultScreen(): SubmissionTestResultConsentGivenFragment
 }

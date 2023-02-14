@@ -5,8 +5,6 @@ import androidx.navigation.testing.TestNavHostController
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.internal.runner.junit4.statement.UiThreadStatement
-import dagger.Module
-import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.ui.onboarding.CovidCertificateOnboardingFragment
 import de.rki.coronawarnapp.covidcertificate.ui.onboarding.CovidCertificateOnboardingFragmentArgs
@@ -54,10 +52,7 @@ class CovidCertificateOnboardingFragmentTest : BaseUITest() {
         )
     }
 
-    @After
-    fun teardown() {
-        clearAllViewModels()
-    }
+
 
     @Test
     fun launch_fragment() {
@@ -76,10 +71,4 @@ class CovidCertificateOnboardingFragmentTest : BaseUITest() {
         )
         takeScreenshot<CovidCertificateOnboardingFragment>()
     }
-}
-
-@Module
-abstract class CovidCertificateInfoFragmentTestModule {
-    @ContributesAndroidInjector
-    abstract fun covidCertificateInfoFragment(): CovidCertificateOnboardingFragment
 }

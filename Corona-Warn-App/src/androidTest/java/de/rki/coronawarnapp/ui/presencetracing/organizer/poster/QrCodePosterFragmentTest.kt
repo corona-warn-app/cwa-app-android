@@ -2,8 +2,6 @@ package de.rki.coronawarnapp.ui.presencetracing.organizer.poster
 
 import androidx.lifecycle.MutableLiveData
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import dagger.Module
-import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.ui.presencetracing.organizer.details.QrCodeDetailFragmentArgs
 import io.mockk.MockKAnnotations
 import io.mockk.every
@@ -41,10 +39,7 @@ class QrCodePosterFragmentTest : BaseUITest() {
         )
     }
 
-    @After
-    fun teardown() {
-        clearAllViewModels()
-    }
+
 
     @Screenshot
     @Test
@@ -57,10 +52,4 @@ class QrCodePosterFragmentTest : BaseUITest() {
 
         takeScreenshot<QrCodePosterFragment>()
     }
-}
-
-@Module
-abstract class QrCodePosterFragmentTestModule {
-    @ContributesAndroidInjector
-    abstract fun qrCodePosterFragment(): QrCodePosterFragment
 }

@@ -4,8 +4,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import dagger.Module
-import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.datadonation.survey.Surveys
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
@@ -71,10 +69,7 @@ class TracingDetailsFragmentTest : BaseUITest() {
         )
     }
 
-    @After
-    fun teardown() {
-        clearAllViewModels()
-    }
+
 
     @Test
     fun launch_tracing_details() {
@@ -151,10 +146,4 @@ class TracingDetailsFragmentTest : BaseUITest() {
         launchFragmentInContainer2<TracingDetailsFragment>()
         takeScreenshot<TracingDetailsFragment>(suffix)
     }
-}
-
-@Module
-abstract class TracingDetailsFragmentTestTestModule {
-    @ContributesAndroidInjector
-    abstract fun tracingDetailsFragment(): TracingDetailsFragment
 }

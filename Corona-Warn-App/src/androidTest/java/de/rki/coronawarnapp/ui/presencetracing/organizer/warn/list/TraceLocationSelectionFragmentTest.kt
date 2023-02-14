@@ -1,8 +1,6 @@
 package de.rki.coronawarnapp.ui.presencetracing.organizer.warn.list
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import dagger.Module
-import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.storage.repo.TraceLocationRepository
 import de.rki.coronawarnapp.ui.eventregistration.organizer.TraceLocationData
@@ -56,10 +54,4 @@ class TraceLocationSelectionFragmentTest : BaseUITest() {
         traceLocationRepository = traceLocationRepository,
         dispatcherProvider = TestDispatcherProvider()
     )
-}
-
-@Module
-abstract class TraceLocationSelectionFragmentTestModule {
-    @ContributesAndroidInjector
-    abstract fun traceLocationSelectionFragment(): TraceLocationSelectionFragment
 }

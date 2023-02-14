@@ -1,8 +1,6 @@
 package de.rki.coronawarnapp.ui.onboarding
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import dagger.Module
-import dagger.android.ContributesAndroidInjector
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -18,17 +16,10 @@ class OnboardingTestFragmentTest : BaseUITest() {
 
     @Before
     fun setup() {
-        setupMockViewModel(
-            object : OnboardingTestViewModel.Factory {
-                override fun create(): OnboardingTestViewModel = OnboardingTestViewModel()
-            }
-        )
+
     }
 
-    @After
-    fun teardown() {
-        clearAllViewModels()
-    }
+
 
     @Test
     fun launch_fragment() {
@@ -41,10 +32,4 @@ class OnboardingTestFragmentTest : BaseUITest() {
         launchFragmentInContainer2<OnboardingTestFragment>()
         takeScreenshot<OnboardingTestFragment>()
     }
-}
-
-@Module
-abstract class OnboardingTestFragmentModule {
-    @ContributesAndroidInjector
-    abstract fun onboardingTestFragment(): OnboardingTestFragment
 }

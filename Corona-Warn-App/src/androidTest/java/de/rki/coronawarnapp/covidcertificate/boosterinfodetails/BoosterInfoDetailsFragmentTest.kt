@@ -5,8 +5,6 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.swipeUp
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import dagger.Module
-import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
 import io.mockk.MockKAnnotations
 import io.mockk.every
@@ -78,14 +76,5 @@ class BoosterInfoDetailsFragmentTest : BaseUITest() {
         takeScreenshot<BoosterInfoDetailsFragment>("2")
     }
 
-    @After
-    fun tearDown() {
-        clearAllViewModels()
-    }
-}
 
-@Module
-abstract class BoosterInfoDetailsFragmentTestModule {
-    @ContributesAndroidInjector
-    abstract fun boosterInfoDetailsFragment(): BoosterInfoDetailsFragment
 }

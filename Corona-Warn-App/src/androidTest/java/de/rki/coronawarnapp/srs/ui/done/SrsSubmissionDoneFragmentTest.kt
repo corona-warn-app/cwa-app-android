@@ -4,8 +4,6 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.swipeDown
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import dagger.Module
-import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -26,10 +24,4 @@ class SrsSubmissionDoneFragmentTest : BaseUITest() {
         onView(withId(R.id.scrollview)).perform(swipeDown())
         takeScreenshot<SrsSubmissionDoneFragment>("1")
     }
-}
-
-@Module
-abstract class SrsSubmissionDoneFragmentTestModule {
-    @ContributesAndroidInjector
-    abstract fun srsSubmissionDoneScreen(): SrsSubmissionDoneFragment
 }

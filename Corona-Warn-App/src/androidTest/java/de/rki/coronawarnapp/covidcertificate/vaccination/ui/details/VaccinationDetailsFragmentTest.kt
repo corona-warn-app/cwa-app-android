@@ -6,8 +6,6 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.swipeUp
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import dagger.Module
-import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.ScreenshotCertificateTestData
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
@@ -171,14 +169,5 @@ class VaccinationDetailsFragmentTest : BaseUITest() {
         }
     }
 
-    @After
-    fun tearDown() {
-        clearAllViewModels()
-    }
-}
 
-@Module
-abstract class VaccinationDetailsFragmentTestModule {
-    @ContributesAndroidInjector
-    abstract fun vaccinationDetailsFragment(): VaccinationDetailsFragment
 }

@@ -4,17 +4,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import dagger.Module
-import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.contactdiary.ui.day.ContactDiaryDayFragment
 import de.rki.coronawarnapp.contactdiary.ui.day.ContactDiaryDayFragmentArgs
 import de.rki.coronawarnapp.contactdiary.ui.day.ContactDiaryDayViewModel
-import de.rki.coronawarnapp.contactdiary.ui.day.tabs.location.ContactDiaryLocationListFragment
 import de.rki.coronawarnapp.contactdiary.ui.day.tabs.location.ContactDiaryLocationListViewModel
 import de.rki.coronawarnapp.contactdiary.ui.day.tabs.location.DiaryLocationListItem
-import de.rki.coronawarnapp.contactdiary.ui.day.tabs.person.ContactDiaryPersonListFragment
 import de.rki.coronawarnapp.contactdiary.ui.day.tabs.person.ContactDiaryPersonListViewModel
 import de.rki.coronawarnapp.contactdiary.ui.day.tabs.person.DiaryPersonListItem
 import de.rki.coronawarnapp.contactdiary.util.toFormattedDay
@@ -64,10 +60,7 @@ class ContactDiaryDayFragmentTest : BaseUITest() {
         )
     }
 
-    @After
-    fun teardown() {
-        clearAllViewModels()
-    }
+
 
     @Test
     fun launch_fragment() {
@@ -153,22 +146,4 @@ class ContactDiaryDayFragmentTest : BaseUITest() {
             }
         )
     }
-}
-
-@Module
-abstract class ContactDiaryDayFragmentTestModule {
-    @ContributesAndroidInjector
-    abstract fun contactDiaryDayFragment(): ContactDiaryDayFragment
-}
-
-@Module
-abstract class ContactDiaryPersonListFragmentTestModule {
-    @ContributesAndroidInjector
-    abstract fun contactDiaryPersonListFragment(): ContactDiaryPersonListFragment
-}
-
-@Module
-abstract class ContactDiaryLocationListFragmentTestModule {
-    @ContributesAndroidInjector
-    abstract fun contactDiaryLocationListFragment(): ContactDiaryLocationListFragment
 }

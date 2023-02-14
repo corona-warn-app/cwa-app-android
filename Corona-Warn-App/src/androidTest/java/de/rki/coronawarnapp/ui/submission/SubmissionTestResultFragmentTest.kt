@@ -5,8 +5,6 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import dagger.Module
-import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.CoronaTestProvider
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
@@ -90,10 +88,7 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
         )
     }
 
-    @After
-    fun teardown() {
-        clearAllViewModels()
-    }
+
 
     @Test
     fun launch_fragment() {
@@ -154,10 +149,4 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
         launchFragmentInContainer2<SubmissionTestResultPendingFragment>(fragmentArgs = pendingFragmentArgs)
         takeScreenshot<SubmissionTestResultPendingFragment>()
     }
-}
-
-@Module
-abstract class SubmissionTestResultTestModule {
-    @ContributesAndroidInjector
-    abstract fun submissionTestResultScreen(): SubmissionTestResultPendingFragment
 }

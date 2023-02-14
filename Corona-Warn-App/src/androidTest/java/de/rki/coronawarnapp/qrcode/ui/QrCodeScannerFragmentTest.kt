@@ -1,8 +1,6 @@
 package de.rki.coronawarnapp.qrcode.ui
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import dagger.Module
-import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import io.mockk.MockKAnnotations
 import io.mockk.every
@@ -62,14 +60,5 @@ class QrCodeScannerFragmentTest : BaseUITest() {
         launchFragmentInContainer2<QrCodeScannerFragment>()
     }
 
-    @After
-    fun teardown() {
-        clearAllViewModels()
-    }
-}
 
-@Module
-abstract class QrCodeScannerFragmentTestModule {
-    @ContributesAndroidInjector
-    abstract fun qrcodeScannerFragment(): QrCodeScannerFragment
 }

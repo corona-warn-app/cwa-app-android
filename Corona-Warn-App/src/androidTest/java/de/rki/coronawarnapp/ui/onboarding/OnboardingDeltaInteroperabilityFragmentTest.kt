@@ -1,8 +1,6 @@
 package de.rki.coronawarnapp.ui.onboarding
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import dagger.Module
-import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
@@ -37,10 +35,7 @@ class OnboardingDeltaInteroperabilityFragmentTest : BaseUITest() {
         )
     }
 
-    @After
-    fun teardown() {
-        clearAllViewModels()
-    }
+
 
     @Test
     fun launch_fragment() {
@@ -53,10 +48,4 @@ class OnboardingDeltaInteroperabilityFragmentTest : BaseUITest() {
         launchFragmentInContainer2<OnboardingDeltaInteroperabilityFragment>()
         takeScreenshot<OnboardingDeltaInteroperabilityFragment>()
     }
-}
-
-@Module
-abstract class OnboardingDeltaInteroperabilityFragmentTestModule {
-    @ContributesAndroidInjector
-    abstract fun onboardingDeltaInteroperabilityFragment(): OnboardingDeltaInteroperabilityFragment
 }

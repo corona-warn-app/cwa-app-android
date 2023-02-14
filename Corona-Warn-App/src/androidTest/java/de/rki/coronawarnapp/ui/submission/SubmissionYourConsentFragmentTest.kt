@@ -1,8 +1,6 @@
 package de.rki.coronawarnapp.ui.submission
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import dagger.Module
-import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
 import de.rki.coronawarnapp.submission.SubmissionRepository
@@ -50,10 +48,7 @@ class SubmissionYourConsentFragmentTest : BaseUITest() {
         )
     }
 
-    @After
-    fun teardown() {
-        clearAllViewModels()
-    }
+
 
     @Test
     @Screenshot
@@ -66,10 +61,4 @@ class SubmissionYourConsentFragmentTest : BaseUITest() {
         )
         takeScreenshot<SubmissionYourConsentFragment>()
     }
-}
-
-@Module
-abstract class SubmissionYourConsentFragmentTestModule {
-    @ContributesAndroidInjector
-    abstract fun submissionYourConsentScreen(): SubmissionYourConsentFragment
 }

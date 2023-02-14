@@ -5,8 +5,6 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import dagger.Module
-import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
@@ -69,10 +67,7 @@ class SubmissionSymptomCalendarFragmentTest : BaseUITest() {
         )
     }
 
-    @After
-    fun teardown() {
-        clearAllViewModels()
-    }
+
 
     @Test
     @Screenshot
@@ -91,10 +86,4 @@ class SubmissionSymptomCalendarFragmentTest : BaseUITest() {
 
         takeScreenshot<SubmissionSymptomCalendarFragment>("2")
     }
-}
-
-@Module
-abstract class SubmissionSymptomCalendarFragmentTestModule {
-    @ContributesAndroidInjector
-    abstract fun submissionSymptomIntroScreen(): SubmissionSymptomCalendarFragment
 }

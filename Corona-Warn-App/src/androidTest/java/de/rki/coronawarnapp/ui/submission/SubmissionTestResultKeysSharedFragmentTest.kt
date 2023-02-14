@@ -2,8 +2,6 @@ package de.rki.coronawarnapp.ui.submission
 
 import androidx.lifecycle.MutableLiveData
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import dagger.Module
-import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
@@ -44,10 +42,7 @@ class SubmissionTestResultKeysSharedFragmentTest : BaseUITest() {
         )
     }
 
-    @After
-    fun teardown() {
-        clearAllViewModels()
-    }
+
 
     @Test
     @Screenshot
@@ -69,10 +64,4 @@ class SubmissionTestResultKeysSharedFragmentTest : BaseUITest() {
         )
         takeScreenshot<SubmissionTestResultKeysSharedFragment>()
     }
-}
-
-@Module
-abstract class SubmissionTestResultKeysSharedFragmentModule {
-    @ContributesAndroidInjector
-    abstract fun submissionTestResultKeysSharedScreen(): SubmissionTestResultKeysSharedFragment
 }

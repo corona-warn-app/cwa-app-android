@@ -6,8 +6,6 @@ import androidx.navigation.testing.TestNavHostController
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.internal.runner.junit4.statement.UiThreadStatement
-import dagger.Module
-import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.qrcode.ui.QrcodeSharedViewModel
@@ -88,10 +86,7 @@ class ConfirmCheckInFragmentTest : BaseUITest() {
         )
     }
 
-    @After
-    fun teardown() {
-        clearAllViewModels()
-    }
+
 
     @Test
     @Screenshot
@@ -103,10 +98,4 @@ class ConfirmCheckInFragmentTest : BaseUITest() {
         )
         takeScreenshot<ConfirmCheckInFragment>()
     }
-}
-
-@Module
-abstract class ConfirmCheckInFragmentModule {
-    @ContributesAndroidInjector
-    abstract fun confirmCheckInFragmentTest(): ConfirmCheckInFragment
 }

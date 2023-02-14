@@ -11,8 +11,6 @@ import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.internal.runner.junit4.statement.UiThreadStatement
-import dagger.Module
-import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.censors.family.FamilyTestCensor
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
@@ -69,10 +67,7 @@ class FamilyTestConsentFragmentTest : BaseUITest() {
         )
     }
 
-    @After
-    fun teardown() {
-        clearAllViewModels()
-    }
+
 
     @Test
     @Screenshot
@@ -91,10 +86,4 @@ class FamilyTestConsentFragmentTest : BaseUITest() {
 
         takeScreenshot<FamilyTestConsentFragment>("with_data")
     }
-}
-
-@Module
-abstract class FamilyTestConsentFragmentTestModule {
-    @ContributesAndroidInjector
-    abstract fun familyTestConsentScreen(): FamilyTestConsentFragment
 }

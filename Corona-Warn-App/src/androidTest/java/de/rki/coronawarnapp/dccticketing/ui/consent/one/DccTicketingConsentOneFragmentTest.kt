@@ -8,8 +8,6 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.internal.runner.junit4.statement.UiThreadStatement
-import dagger.Module
-import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.dccticketing.ui.consent.one.DccTicketingConsentOneViewModel.UiState
 import de.rki.coronawarnapp.dccticketing.ui.shared.DccTicketingSharedViewModel
@@ -62,10 +60,7 @@ class DccTicketingConsentOneFragmentTest : BaseUITest() {
         )
     }
 
-    @After
-    fun teardown() {
-        clearAllViewModels()
-    }
+
 
     @Screenshot
     @Test
@@ -95,10 +90,4 @@ class DccTicketingConsentOneFragmentTest : BaseUITest() {
         onView(ViewMatchers.withId(R.id.privacy_information)).perform(betterScrollTo())
         takeScreenshot<DccTicketingConsentOneFragment>("4")
     }
-}
-
-@Module
-abstract class DccTicketingConsentOneFragmentTestModule {
-    @ContributesAndroidInjector
-    abstract fun dccTicketingConsentOneFragment(): DccTicketingConsentOneFragment
 }

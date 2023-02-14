@@ -6,8 +6,6 @@ import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.swipeUp
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import dagger.Module
-import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.TestRegistrationRequest
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
@@ -104,14 +102,5 @@ class RequestCovidCertificateFragmentTest : BaseUITest() {
         takeScreenshot<RequestCovidCertificateFragment>("rat_2")
     }
 
-    @After
-    fun teardown() {
-        clearAllViewModels()
-    }
-}
 
-@Module
-abstract class RequestCovidCertificateFragmentTestModule {
-    @ContributesAndroidInjector
-    abstract fun requestCovidCertificateFragment(): RequestCovidCertificateFragment
 }

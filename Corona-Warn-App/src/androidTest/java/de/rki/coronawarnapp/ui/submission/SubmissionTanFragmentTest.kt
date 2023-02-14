@@ -8,8 +8,6 @@ import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.FlakyTest
-import dagger.Module
-import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.ui.submission.tan.SubmissionTanFragment
 import de.rki.coronawarnapp.ui.submission.tan.SubmissionTanViewModel
@@ -41,10 +39,7 @@ class SubmissionTanFragmentTest : BaseUITest() {
         )
     }
 
-    @After
-    fun teardown() {
-        clearAllViewModels()
-    }
+
 
     @Test
     fun launch_fragment() {
@@ -85,10 +80,4 @@ class SubmissionTanFragmentTest : BaseUITest() {
             .perform(click(), typeText("AC9U0"), closeSoftKeyboard())
         takeScreenshot<SubmissionTanFragment>("invalid")
     }
-}
-
-@Module
-abstract class SubmissionTanTestModule {
-    @ContributesAndroidInjector
-    abstract fun submissionTanScreen(): SubmissionTanFragment
 }

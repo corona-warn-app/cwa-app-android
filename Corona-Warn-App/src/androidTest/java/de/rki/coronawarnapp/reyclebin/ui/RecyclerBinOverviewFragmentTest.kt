@@ -6,8 +6,6 @@ import androidx.test.espresso.Espresso
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import dagger.Module
-import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
@@ -209,10 +207,4 @@ class RecyclerBinOverviewFragmentTest : BaseUITest() {
         every { registeredAt } returns Instant.parse("2021-06-01T11:35:00.000Z")
         every { recycledAt } returns Instant.parse("2021-11-12T15:21:00.000Z")
     }
-}
-
-@Module
-abstract class RecyclerBinOverviewFragmentTestModule {
-    @ContributesAndroidInjector
-    abstract fun recyclerBinOverviewFragment(): RecyclerBinOverviewFragment
 }

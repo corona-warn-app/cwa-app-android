@@ -11,8 +11,6 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.internal.runner.junit4.statement.UiThreadStatement
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import dagger.Module
-import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.person.ui.admission.AdmissionScenariosSharedViewModel
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonOverviewViewModel.UiState
@@ -233,10 +231,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
         takeScreenshot<PersonOverviewFragment>("many_persons_2")
     }
 
-    @After
-    fun teardown() {
-        clearAllViewModels()
-    }
+
 
     private fun takeSelfieWithBottomNavBadge(suffix: String, @IdRes badgeId: Int, count: Int) {
         val activityScenario = launchInMainActivity<PersonOverviewFragment>(
@@ -256,10 +251,4 @@ class PersonOverviewFragmentTest : BaseUITest() {
         onView(withId(R.id.fake_bottom_navigation)).perform(selectBottomNavTab(R.id.covid_certificates_graph))
         takeScreenshot<PersonOverviewFragment>(suffix)
     }
-}
-
-@Module
-abstract class PersonOverviewFragmentTestModule {
-    @ContributesAndroidInjector
-    abstract fun personOverviewFragment(): PersonOverviewFragment
 }

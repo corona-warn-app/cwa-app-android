@@ -161,10 +161,7 @@ class PersonOverviewFragmentTest2 : BaseUITest() {
         )
     }
 
-    @After
-    fun teardown() {
-        clearAllViewModels()
-    }
+
 
     private fun takeSelfieWithBottomNavBadge(suffix: String, @IdRes badgeId: Int) {
         val activityScenario = launchInMainActivity<PersonOverviewFragment>(

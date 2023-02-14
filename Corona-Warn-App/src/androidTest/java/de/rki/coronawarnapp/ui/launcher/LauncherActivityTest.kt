@@ -5,9 +5,6 @@ import android.net.Uri
 import androidx.test.core.app.launchActivity
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import dagger.Module
-import dagger.android.ContributesAndroidInjector
-import de.rki.coronawarnapp.rootdetection.ui.RootDetectionDialogFragment
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import io.mockk.MockKAnnotations
 import io.mockk.every
@@ -36,10 +33,7 @@ class LauncherActivityTest : BaseUITest() {
         )
     }
 
-    @After
-    fun teardown() {
-        clearAllViewModels()
-    }
+
 
     @Test
     fun testDeepLinkLowercase() {
@@ -76,13 +70,4 @@ class LauncherActivityTest : BaseUITest() {
         addCategory(Intent.CATEGORY_BROWSABLE)
         addCategory(Intent.CATEGORY_DEFAULT)
     }
-}
-
-@Module
-abstract class LauncherActivityTestModule {
-    @ContributesAndroidInjector
-    abstract fun launcherActivity(): LauncherActivity
-
-    @ContributesAndroidInjector
-    abstract fun rootDetectionDialogFragment(): RootDetectionDialogFragment
 }

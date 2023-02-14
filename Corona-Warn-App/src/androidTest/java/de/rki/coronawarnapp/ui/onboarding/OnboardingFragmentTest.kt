@@ -4,8 +4,6 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import dagger.Module
-import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
@@ -58,10 +56,4 @@ class OnboardingFragmentTest : BaseUITest() {
         onView(withId(R.id.onboarding_easy_language)).perform(scrollTo())
         takeScreenshot<OnboardingFragment>("2")
     }
-}
-
-@Module
-abstract class OnboardingFragmentTestModule {
-    @ContributesAndroidInjector
-    abstract fun onboardingFragment(): OnboardingFragment
 }

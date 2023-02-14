@@ -7,8 +7,6 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
-import dagger.Module
-import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
@@ -58,10 +56,7 @@ class TraceLocationsFragmentTest : BaseUITest() {
         )
     }
 
-    @After
-    fun teardown() {
-        clearAllViewModels()
-    }
+
 
     @Test
     fun itemWithSameDatesTest() {
@@ -126,10 +121,4 @@ class TraceLocationsFragmentTest : BaseUITest() {
         traceLocationRepository = traceLocationRepository,
         settings = traceLocationSettings
     )
-}
-
-@Module
-abstract class TraceLocationsFragmentTestModule {
-    @ContributesAndroidInjector
-    abstract fun traceLocationsFragment(): TraceLocationsFragment
 }

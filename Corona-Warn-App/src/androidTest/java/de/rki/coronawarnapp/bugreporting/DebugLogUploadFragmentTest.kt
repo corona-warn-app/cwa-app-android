@@ -1,8 +1,6 @@
 package de.rki.coronawarnapp.bugreporting
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import dagger.Module
-import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.bugreporting.debuglog.ui.upload.DebugLogUploadFragment
 import de.rki.coronawarnapp.bugreporting.debuglog.ui.upload.DebugLogUploadViewModel
 import de.rki.coronawarnapp.bugreporting.debuglog.upload.SnapshotUploader
@@ -44,10 +42,7 @@ class DebugLogUploadFragmentTest : BaseUITest() {
         )
     }
 
-    @After
-    fun teardown() {
-        clearAllViewModels()
-    }
+
 
     @Test
     fun launch_fragment() {
@@ -60,10 +55,4 @@ class DebugLogUploadFragmentTest : BaseUITest() {
         launchFragmentInContainer2<DebugLogUploadFragment>()
         takeScreenshot<DebugLogUploadFragment>()
     }
-}
-
-@Module
-abstract class DebugLogUploadTestModule {
-    @ContributesAndroidInjector
-    abstract fun debugLogUploadFragment(): DebugLogUploadFragment
 }

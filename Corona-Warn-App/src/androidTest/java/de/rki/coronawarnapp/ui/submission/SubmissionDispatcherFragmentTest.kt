@@ -10,8 +10,6 @@ import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.internal.runner.junit4.statement.UiThreadStatement.runOnUiThread
-import dagger.Module
-import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.profile.storage.ProfileSettingsDataStore
 import de.rki.coronawarnapp.srs.core.SrsLocalChecker
@@ -69,10 +67,7 @@ class SubmissionDispatcherFragmentTest : BaseUITest() {
         )
     }
 
-    @After
-    fun teardown() {
-        clearAllViewModels()
-    }
+
 
     @Test
     fun launch_fragment() {
@@ -126,10 +121,4 @@ class SubmissionDispatcherFragmentTest : BaseUITest() {
         onView(withId(R.id.profile_card)).perform(scrollTo())
         takeScreenshot<SubmissionDispatcherFragment>("2")
     }
-}
-
-@Module
-abstract class SubmissionDispatcherTestModule {
-    @ContributesAndroidInjector
-    abstract fun submissionDispatcherScreen(): SubmissionDispatcherFragment
 }

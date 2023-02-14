@@ -6,8 +6,6 @@ import androidx.navigation.testing.TestNavHostController
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.internal.runner.junit4.statement.UiThreadStatement
-import dagger.Module
-import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.VaccinationDccV1
@@ -99,10 +97,7 @@ class DccReissuanceAccCertsFragmentTest : BaseUITest() {
         )
     }
 
-    @After
-    fun tearDown() {
-        clearAllViewModels()
-    }
+
 
     @Test
     fun launch_fragment() {
@@ -118,10 +113,4 @@ class DccReissuanceAccCertsFragmentTest : BaseUITest() {
         )
         takeScreenshot<DccReissuanceAccCertsFragment>("1")
     }
-}
-
-@Module
-abstract class DccReissuanceAccCertsFragmentTestModule {
-    @ContributesAndroidInjector
-    abstract fun dccReissuanceAccCertsFragment(): DccReissuanceAccCertsFragment
 }

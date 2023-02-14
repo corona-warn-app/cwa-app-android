@@ -1,8 +1,6 @@
 package de.rki.coronawarnapp.ui.onboarding
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import dagger.Module
-import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.nearby.TracingPermissionHelper
 import de.rki.coronawarnapp.storage.TracingSettings
@@ -57,10 +55,7 @@ class OnboardingTracingFragmentTest : BaseUITest() {
         )
     }
 
-    @After
-    fun teardown() {
-        clearAllViewModels()
-    }
+
 
     @Test
     fun launch_fragment() {
@@ -73,10 +68,4 @@ class OnboardingTracingFragmentTest : BaseUITest() {
         launchFragmentInContainer2<OnboardingTracingFragment>()
         takeScreenshot<OnboardingTracingFragment>()
     }
-}
-
-@Module
-abstract class OnboardingTracingFragmentTestModule {
-    @ContributesAndroidInjector
-    abstract fun onboardingTracingFragment(): OnboardingTracingFragment
 }

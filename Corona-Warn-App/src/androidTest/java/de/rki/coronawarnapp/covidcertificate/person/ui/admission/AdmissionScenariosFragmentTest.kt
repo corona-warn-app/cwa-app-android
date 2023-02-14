@@ -6,8 +6,6 @@ import androidx.navigation.testing.TestNavHostController
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.internal.runner.junit4.statement.UiThreadStatement
-import dagger.Module
-import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
 import io.mockk.MockKAnnotations
 import io.mockk.every
@@ -137,14 +135,5 @@ class AdmissionScenariosFragmentTest : BaseUITest() {
         takeScreenshot<AdmissionScenariosFragment>()
     }
 
-    @After
-    fun tearDown() {
-        clearAllViewModels()
-    }
-}
 
-@Module
-abstract class AdmissionScenariosFragmentTestModule {
-    @ContributesAndroidInjector
-    abstract fun admissionScenariosFragmentTest(): AdmissionScenariosFragment
 }

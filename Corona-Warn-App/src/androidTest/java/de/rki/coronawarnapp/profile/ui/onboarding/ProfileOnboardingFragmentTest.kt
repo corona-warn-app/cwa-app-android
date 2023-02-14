@@ -1,7 +1,5 @@
 package de.rki.coronawarnapp.profile.ui.onboarding
 
-import dagger.Module
-import dagger.android.ContributesAndroidInjector
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
 import org.junit.After
@@ -40,14 +38,5 @@ class ProfileOnboardingFragmentTest : BaseUITest() {
         takeScreenshot<ProfileOnboardingFragment>()
     }
 
-    @After
-    fun teardown() {
-        clearAllViewModels()
-    }
-}
 
-@Module
-abstract class ProfileOnboardingFragmentTestModule {
-    @ContributesAndroidInjector
-    abstract fun profileOnboardingFragment(): ProfileOnboardingFragment
 }

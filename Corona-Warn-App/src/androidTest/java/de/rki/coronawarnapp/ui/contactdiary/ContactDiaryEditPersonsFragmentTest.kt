@@ -2,8 +2,6 @@ package de.rki.coronawarnapp.ui.contactdiary
 
 import androidx.lifecycle.MutableLiveData
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import dagger.Module
-import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.contactdiary.ui.edit.ContactDiaryEditPersonsFragment
 import de.rki.coronawarnapp.contactdiary.ui.edit.ContactDiaryEditPersonsViewModel
@@ -47,10 +45,7 @@ class ContactDiaryEditPersonsFragmentTest : BaseUITest() {
         )
     }
 
-    @After
-    fun teardown() {
-        clearAllViewModels()
-    }
+
 
     @Test
     fun launch_fragment() {
@@ -64,10 +59,4 @@ class ContactDiaryEditPersonsFragmentTest : BaseUITest() {
         launchFragmentInContainer2<ContactDiaryEditPersonsFragment>()
         takeScreenshot<ContactDiaryEditPersonsFragment>()
     }
-}
-
-@Module
-abstract class ContactDiaryEditPersonsFragmentTestModule {
-    @ContributesAndroidInjector
-    abstract fun contactDiaryEditPersonsFragment(): ContactDiaryEditPersonsFragment
 }

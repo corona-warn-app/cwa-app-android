@@ -3,8 +3,6 @@ package de.rki.coronawarnapp.profile.ui.list
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import dagger.Module
-import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.profile.model.Profile
 import de.rki.coronawarnapp.profile.ui.list.items.ProfileCard
 import de.rki.coronawarnapp.profile.ui.list.items.ProfileListItem
@@ -37,10 +35,7 @@ class ProfileListFragmentTest : BaseUITest() {
         )
     }
 
-    @After
-    fun teardown() {
-        clearAllViewModels()
-    }
+
 
     @Test
     @Screenshot
@@ -111,10 +106,4 @@ class ProfileListFragmentTest : BaseUITest() {
                 )
             )
         )
-}
-
-@Module
-abstract class ProfileListFragmentTestModule {
-    @ContributesAndroidInjector
-    abstract fun profileListFragment(): ProfileListFragment
 }

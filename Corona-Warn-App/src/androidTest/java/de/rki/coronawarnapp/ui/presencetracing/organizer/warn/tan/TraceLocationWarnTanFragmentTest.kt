@@ -4,8 +4,6 @@ import androidx.test.espresso.Espresso
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import dagger.Module
-import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.presencetracing.organizer.submission.OrganizerSubmissionRepository
 import de.rki.coronawarnapp.ui.eventregistration.organizer.TraceLocationData
@@ -45,10 +43,7 @@ class TraceLocationWarnTanFragmentTest : BaseUITest() {
         )
     }
 
-    @After
-    fun teardown() {
-        clearAllViewModels()
-    }
+
 
     private fun createViewModel() = TraceLocationWarnTanViewModel(
         dispatcherProvider = TestDispatcherProvider(),
@@ -65,10 +60,4 @@ class TraceLocationWarnTanFragmentTest : BaseUITest() {
             .perform(ViewActions.typeText("AC9UHD65AF"))
         takeScreenshot<TraceLocationWarnTanFragment>()
     }
-}
-
-@Module
-abstract class TraceLocationWarnTanFragmentTestModule {
-    @ContributesAndroidInjector
-    abstract fun traceLocationWarnTanFragment(): TraceLocationWarnTanFragment
 }

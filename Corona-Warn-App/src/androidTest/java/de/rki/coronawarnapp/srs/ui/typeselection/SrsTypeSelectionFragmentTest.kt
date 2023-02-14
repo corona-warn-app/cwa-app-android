@@ -2,8 +2,6 @@ package de.rki.coronawarnapp.srs.ui.typeselection
 
 import androidx.lifecycle.MutableLiveData
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import dagger.Module
-import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.srs.core.model.SrsSubmissionType
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import io.mockk.MockKAnnotations
@@ -43,21 +41,10 @@ class SrsTypeSelectionFragmentTest : BaseUITest() {
         )
     }
 
-    @After
-    fun teardown() {
-        clearAllViewModels()
-    }
-
     @Test
     @Screenshot
     fun capture_fragment() {
         launchFragmentInContainer2<SrsTypeSelectionFragment>()
         takeScreenshot<SrsTypeSelectionFragment>()
     }
-}
-
-@Module
-abstract class SrsTypeSelectionFragmentTestModule {
-    @ContributesAndroidInjector
-    abstract fun srsTypeSelectionScreen(): SrsTypeSelectionFragment
 }

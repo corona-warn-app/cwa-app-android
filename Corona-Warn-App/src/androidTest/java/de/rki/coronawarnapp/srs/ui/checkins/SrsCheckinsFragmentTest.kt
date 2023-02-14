@@ -3,8 +3,6 @@ package de.rki.coronawarnapp.srs.ui.checkins
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import dagger.Module
-import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
 import de.rki.coronawarnapp.srs.core.model.SrsSubmissionType
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.consent.SelectableCheckInVH.Item
@@ -66,10 +64,7 @@ class SrsCheckinsFragmentTest : BaseUITest() {
         )
     }
 
-    @After
-    fun teardown() {
-        clearAllViewModels()
-    }
+
 
     @Test
     @Screenshot
@@ -92,10 +87,4 @@ class SrsCheckinsFragmentTest : BaseUITest() {
         every { checkInStart } returns Instant.ofEpochSecond(1624291200L)
         every { checkInEnd } returns Instant.ofEpochSecond(1624302000L)
     }
-}
-
-@Module
-abstract class SrsCheckinsFragmentTestModule {
-    @ContributesAndroidInjector
-    abstract fun srsCheckinsScreen(): SrsCheckinsFragment
 }

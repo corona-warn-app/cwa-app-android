@@ -1,8 +1,6 @@
 package de.rki.coronawarnapp.ui.onboarding
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import dagger.Module
-import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.main.CWASettings
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
@@ -31,10 +29,7 @@ class OnboardingNotificationsFragmentTest : BaseUITest() {
         )
     }
 
-    @After
-    fun teardown() {
-        clearAllViewModels()
-    }
+
 
     @Test
     fun launch_fragment() {
@@ -47,10 +42,4 @@ class OnboardingNotificationsFragmentTest : BaseUITest() {
         launchFragmentInContainer2<OnboardingNotificationsFragment>()
         takeScreenshot<OnboardingNotificationsFragment>()
     }
-}
-
-@Module
-abstract class OnboardingNotificationsTestModule {
-    @ContributesAndroidInjector
-    abstract fun onboardingNotificationsFragment(): OnboardingNotificationsFragment
 }

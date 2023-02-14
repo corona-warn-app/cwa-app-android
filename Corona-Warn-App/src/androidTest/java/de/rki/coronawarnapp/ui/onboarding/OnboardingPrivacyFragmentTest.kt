@@ -3,8 +3,6 @@ package de.rki.coronawarnapp.ui.onboarding
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import dagger.Module
-import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
 import org.junit.After
 import org.junit.Before
@@ -29,10 +27,7 @@ class OnboardingPrivacyFragmentTest : BaseUITest() {
         )
     }
 
-    @After
-    fun teardown() {
-        clearAllViewModels()
-    }
+
 
     @Test
     fun launch_fragment() {
@@ -46,10 +41,4 @@ class OnboardingPrivacyFragmentTest : BaseUITest() {
         Espresso.onView(ViewMatchers.withId(R.id.onboarding_privacy_container)).perform(setViewVisibility(true))
         takeScreenshot<OnboardingPrivacyFragment>()
     }
-}
-
-@Module
-abstract class OnboardingPrivacyTestModule {
-    @ContributesAndroidInjector
-    abstract fun onboardingPrivacyFragment(): OnboardingPrivacyFragment
 }

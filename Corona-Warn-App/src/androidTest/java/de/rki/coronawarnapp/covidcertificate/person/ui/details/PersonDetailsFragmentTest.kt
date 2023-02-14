@@ -6,8 +6,6 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.swipeUp
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import dagger.Module
-import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.MaskState
 import de.rki.coronawarnapp.covidcertificate.ScreenshotCertificateTestData
@@ -482,14 +480,5 @@ class PersonDetailsFragmentTest : BaseUITest() {
         lastNameStandardized = "lastNameStandardized",
     )
 
-    @After
-    fun tearDown() {
-        clearAllViewModels()
-    }
-}
 
-@Module
-abstract class PersonDetailsFragmentTestModule {
-    @ContributesAndroidInjector
-    abstract fun personDetailsFragment(): PersonDetailsFragment
 }

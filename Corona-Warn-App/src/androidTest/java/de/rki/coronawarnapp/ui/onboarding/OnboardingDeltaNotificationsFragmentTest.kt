@@ -1,8 +1,6 @@
 package de.rki.coronawarnapp.ui.onboarding
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import dagger.Module
-import dagger.android.ContributesAndroidInjector
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
 import org.junit.After
@@ -30,10 +28,7 @@ class OnboardingDeltaNotificationsFragmentTest : BaseUITest() {
         )
     }
 
-    @After
-    fun teardown() {
-        clearAllViewModels()
-    }
+
 
     @Screenshot
     @Test
@@ -41,10 +36,4 @@ class OnboardingDeltaNotificationsFragmentTest : BaseUITest() {
         launchFragmentInContainer2<OnboardingDeltaNotificationsFragment>()
         takeScreenshot<OnboardingDeltaNotificationsFragment>()
     }
-}
-
-@Module
-abstract class OnboardingDeltaNotificationsFragmentTestModule {
-    @ContributesAndroidInjector
-    abstract fun onboardingDeltaNotificationsFragment(): OnboardingDeltaNotificationsFragment
 }

@@ -9,8 +9,6 @@ import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.internal.runner.junit4.statement.UiThreadStatement.runOnUiThread
-import dagger.Module
-import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.ui.submission.fragment.SubmissionContactFragment
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionContactViewModel
@@ -40,10 +38,7 @@ class SubmissionContactFragmentTest : BaseUITest() {
         )
     }
 
-    @After
-    fun teardown() {
-        clearAllViewModels()
-    }
+
 
     @Test
     fun launch_fragment() {
@@ -72,10 +67,4 @@ class SubmissionContactFragmentTest : BaseUITest() {
         launchFragmentInContainer2<SubmissionContactFragment>()
         takeScreenshot<SubmissionContactFragment>()
     }
-}
-
-@Module
-abstract class SubmissionContactTestModule {
-    @ContributesAndroidInjector
-    abstract fun submissionContactScreen(): SubmissionContactFragment
 }

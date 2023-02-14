@@ -2,8 +2,6 @@ package de.rki.coronawarnapp.bugreporting
 
 import androidx.lifecycle.MutableLiveData
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import dagger.Module
-import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.bugreporting.debuglog.DebugLogger
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.LogSnapshotter
 import de.rki.coronawarnapp.bugreporting.debuglog.ui.DebugLogFragment
@@ -42,17 +40,9 @@ class DebugLogFragmentTest : BaseUITest() {
         inactiveViewModel = setupViewModels(false, 0)
         activeViewModel = setupViewModels(true, 9410)
 
-        setupMockViewModel(
-            object : DebugLogViewModel.Factory {
-                override fun create(): DebugLogViewModel = inactiveViewModel
-            }
-        )
     }
 
-    @After
-    fun teardown() {
-        clearAllViewModels()
-    }
+
 
     @Test
     fun launch_fragment() {
@@ -105,10 +95,4 @@ class DebugLogFragmentTest : BaseUITest() {
         }
         return vm
     }
-}
-
-@Module
-abstract class DebugLogTestModule {
-    @ContributesAndroidInjector
-    abstract fun debugLogFragment(): DebugLogFragment
 }

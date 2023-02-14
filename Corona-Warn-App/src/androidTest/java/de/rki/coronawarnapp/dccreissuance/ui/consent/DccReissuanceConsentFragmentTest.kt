@@ -8,8 +8,6 @@ import androidx.test.espresso.Espresso
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.internal.runner.junit4.statement.UiThreadStatement
-import dagger.Module
-import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.RecoveryDccV1
@@ -107,10 +105,7 @@ class DccReissuanceConsentFragmentTest : BaseUITest() {
         )
     }
 
-    @After
-    fun tearDown() {
-        clearAllViewModels()
-    }
+
 
     @Test
     fun launch_fragment() {
@@ -134,10 +129,4 @@ class DccReissuanceConsentFragmentTest : BaseUITest() {
         Espresso.onView(ViewMatchers.withId(R.id.privacy_information)).perform(betterScrollTo())
         takeScreenshot<DccReissuanceConsentFragment>("3")
     }
-}
-
-@Module
-abstract class DccReissuanceConsentFragmentTestModule {
-    @ContributesAndroidInjector
-    abstract fun dccReissuanceConsentFragment(): DccReissuanceConsentFragment
 }

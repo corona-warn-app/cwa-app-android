@@ -5,8 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import dagger.Module
-import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.ui.overview.ContactDiaryOverviewFragment
 import de.rki.coronawarnapp.contactdiary.ui.overview.ContactDiaryOverviewViewModel
@@ -46,10 +44,7 @@ class ContactDiaryOverviewFragmentTest : BaseUITest() {
         )
     }
 
-    @After
-    fun teardown() {
-        clearAllViewModels()
-    }
+
 
     @Test
     fun launch_fragment() {
@@ -135,10 +130,4 @@ class ContactDiaryOverviewFragmentTest : BaseUITest() {
 
         return MutableLiveData(data)
     }
-}
-
-@Module
-abstract class ContactDiaryOverviewFragmentTestModule {
-    @ContributesAndroidInjector
-    abstract fun contactContactDiaryOverviewFragment(): ContactDiaryOverviewFragment
 }

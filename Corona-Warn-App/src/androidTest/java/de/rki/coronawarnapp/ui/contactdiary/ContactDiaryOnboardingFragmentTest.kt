@@ -1,8 +1,6 @@
 package de.rki.coronawarnapp.ui.contactdiary
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import dagger.Module
-import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.contactdiary.ui.ContactDiaryUiSettings
 import de.rki.coronawarnapp.contactdiary.ui.onboarding.ContactDiaryOnboardingFragment
 import de.rki.coronawarnapp.contactdiary.ui.onboarding.ContactDiaryOnboardingFragmentArgs
@@ -44,10 +42,7 @@ class ContactDiaryOnboardingFragmentTest : BaseUITest() {
         )
     }
 
-    @After
-    fun teardown() {
-        clearAllViewModels()
-    }
+
 
     @Test
     fun launch_fragment() {
@@ -60,10 +55,4 @@ class ContactDiaryOnboardingFragmentTest : BaseUITest() {
         launchFragmentInContainer2<ContactDiaryOnboardingFragment>(fragmentArgs)
         takeScreenshot<ContactDiaryOnboardingFragment>()
     }
-}
-
-@Module
-abstract class ContactDiaryOnboardingFragmentTestModule {
-    @ContributesAndroidInjector
-    abstract fun contactDiaryOnboardingFragment(): ContactDiaryOnboardingFragment
 }

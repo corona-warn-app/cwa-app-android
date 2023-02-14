@@ -1,8 +1,6 @@
 package de.rki.coronawarnapp.familytest.ui.selection
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import dagger.Module
-import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import io.mockk.MockKAnnotations
@@ -46,10 +44,7 @@ class TestRegistrationSelectionFragmentTest : BaseUITest() {
         )
     }
 
-    @After
-    fun teardown() {
-        clearAllViewModels()
-    }
+
 
     @Test
     @Screenshot
@@ -57,10 +52,4 @@ class TestRegistrationSelectionFragmentTest : BaseUITest() {
         launchFragmentInContainer2<TestRegistrationSelectionFragment>(fragmentArgs = fragmentArgs)
         takeScreenshot<TestRegistrationSelectionFragment>()
     }
-}
-
-@Module
-abstract class TestRegistrationSelectionFragmentTestModule {
-    @ContributesAndroidInjector
-    abstract fun testRegistrationSelectionScreen(): TestRegistrationSelectionFragment
 }

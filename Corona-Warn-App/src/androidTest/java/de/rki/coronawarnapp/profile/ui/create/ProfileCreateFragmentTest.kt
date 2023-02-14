@@ -1,8 +1,6 @@
 package de.rki.coronawarnapp.profile.ui.create
 
 import androidx.lifecycle.MutableLiveData
-import dagger.Module
-import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.profile.model.Profile
 import de.rki.coronawarnapp.profile.model.ProfileId
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -58,14 +56,5 @@ class ProfileCreateFragmentTest : BaseUITest() {
         takeScreenshot<ProfileCreateFragment>()
     }
 
-    @After
-    fun teardown() {
-        clearAllViewModels()
-    }
-}
 
-@Module
-abstract class ProfileCreateFragmentTestModule {
-    @ContributesAndroidInjector
-    abstract fun profileCreateFragment(): ProfileCreateFragment
 }

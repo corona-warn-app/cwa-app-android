@@ -2,8 +2,6 @@ package de.rki.coronawarnapp.ui.submission
 
 import androidx.lifecycle.MutableLiveData
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import dagger.Module
-import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.coronatest.CoronaTestProvider
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
@@ -76,10 +74,7 @@ class SubmissionTestResultAvailableFragmentTest : BaseUITest() {
         )
     }
 
-    @After
-    fun teardown() {
-        clearAllViewModels()
-    }
+
 
     @Test
     @Screenshot
@@ -100,10 +95,4 @@ class SubmissionTestResultAvailableFragmentTest : BaseUITest() {
         )
         takeScreenshot<SubmissionTestResultAvailableFragment>(suffix = "_no_consent")
     }
-}
-
-@Module
-abstract class SubmissionTestResultTestAvailableModule {
-    @ContributesAndroidInjector
-    abstract fun submissionTestResultScreen(): SubmissionTestResultAvailableFragment
 }

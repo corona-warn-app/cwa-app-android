@@ -6,8 +6,6 @@ import androidx.navigation.testing.TestNavHostController
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.internal.runner.junit4.statement.UiThreadStatement
-import dagger.Module
-import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
@@ -119,10 +117,4 @@ class DccTicketingCertificateSelectionFragmentTest : BaseUITest() {
         )
         takeScreenshot<DccTicketingCertificateSelectionFragment>("certificates")
     }
-}
-
-@Module
-abstract class DccTicketingCertificateSelectionFragmentModule {
-    @ContributesAndroidInjector
-    abstract fun dccTicketingCertificateSelectionFragment(): DccTicketingCertificateSelectionFragment
 }

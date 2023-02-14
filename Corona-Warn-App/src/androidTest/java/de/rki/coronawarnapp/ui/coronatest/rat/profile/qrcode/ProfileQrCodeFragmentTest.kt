@@ -1,8 +1,6 @@
 package de.rki.coronawarnapp.ui.coronatest.rat.profile.qrcode
 
 import androidx.lifecycle.MutableLiveData
-import dagger.Module
-import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.profile.model.Profile
 import de.rki.coronawarnapp.profile.ui.create.ProfileCreateFragmentArgs
 import de.rki.coronawarnapp.profile.ui.qrcode.PersonProfile
@@ -84,14 +82,5 @@ class ProfileQrCodeFragmentTest : BaseUITest() {
         takeScreenshot<ProfileQrCodeFragment>()
     }
 
-    @After
-    fun teardown() {
-        clearAllViewModels()
-    }
-}
 
-@Module
-abstract class ProfileQrCodeFragmentTestModule {
-    @ContributesAndroidInjector
-    abstract fun profileQrCodeFragment(): ProfileQrCodeFragment
 }

@@ -2,8 +2,6 @@ package de.rki.coronawarnapp.ui.onboarding
 
 import androidx.lifecycle.asLiveData
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import dagger.Module
-import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.datadonation.analytics.Analytics
 import de.rki.coronawarnapp.datadonation.analytics.common.Districts
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
@@ -71,10 +69,7 @@ class OnboardingAnalyticsFragmentTest : BaseUITest() {
         )
     )
 
-    @After
-    fun teardown() {
-        clearAllViewModels()
-    }
+
 
     @Test
     fun launch_fragment() {
@@ -87,10 +82,4 @@ class OnboardingAnalyticsFragmentTest : BaseUITest() {
         launchFragmentInContainer2<OnboardingAnalyticsFragment>()
         takeScreenshot<OnboardingAnalyticsFragment>()
     }
-}
-
-@Module
-abstract class OnboardingAnalyticsFragmentTestModule {
-    @ContributesAndroidInjector
-    abstract fun onboardingAnalyticsFragment(): OnboardingAnalyticsFragment
 }

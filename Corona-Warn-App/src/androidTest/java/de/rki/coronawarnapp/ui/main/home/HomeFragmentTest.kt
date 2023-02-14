@@ -9,8 +9,6 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.internal.runner.junit4.statement.UiThreadStatement
-import dagger.Module
-import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.rampdown.ui.RampDownNoticeCard
 import de.rki.coronawarnapp.statistics.ui.homecards.StatisticsHomeCard
@@ -375,10 +373,7 @@ class HomeFragmentTest : BaseUITest() {
         takeScreenshot<HomeFragment>("submission_test_card")
     }
 
-    @After
-    fun teardown() {
-        clearAllViewModels()
-    }
+
 
     @Test
     fun onResumeCallsRefresh() {
@@ -438,10 +433,4 @@ class HomeFragmentTest : BaseUITest() {
             faqUrl = null
         )
     )
-}
-
-@Module
-abstract class HomeFragmentTestModule {
-    @ContributesAndroidInjector
-    abstract fun homeScreen(): HomeFragment
 }

@@ -1,8 +1,6 @@
 package de.rki.coronawarnapp.ui.settings.notifications
 
 import androidx.lifecycle.asLiveData
-import dagger.Module
-import dagger.android.ContributesAndroidInjector
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -30,10 +28,7 @@ class NotificationSettingsFragmentTest : BaseUITest() {
         )
     }
 
-    @After
-    fun teardown() {
-        clearAllViewModels()
-    }
+
 
     @Screenshot
     @Test
@@ -52,10 +47,4 @@ class NotificationSettingsFragmentTest : BaseUITest() {
         launchFragmentInContainer2<NotificationSettingsFragment>()
         takeScreenshot<NotificationSettingsFragment>("disabled")
     }
-}
-
-@Module
-abstract class NotificationSettingsFragmentTestModule {
-    @ContributesAndroidInjector
-    abstract fun notificationSettingsFragment(): NotificationSettingsFragment
 }

@@ -7,8 +7,6 @@ import androidx.navigation.testing.TestNavHostController
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.internal.runner.junit4.statement.UiThreadStatement
-import dagger.Module
-import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.CheckInsFragment
@@ -61,10 +59,7 @@ class CheckInsFragmentTest : BaseUITest() {
         )
     }
 
-    @After
-    fun teardown() {
-        clearAllViewModels()
-    }
+
 
     @Test
     @Screenshot
@@ -173,10 +168,4 @@ class CheckInsFragmentTest : BaseUITest() {
         onRemoveItem = {},
         onSwipeItem = { _, _ -> },
     )
-}
-
-@Module
-abstract class CheckInsFragmentTestModule {
-    @ContributesAndroidInjector
-    abstract fun checkInsFragmentTest(): CheckInsFragment
 }

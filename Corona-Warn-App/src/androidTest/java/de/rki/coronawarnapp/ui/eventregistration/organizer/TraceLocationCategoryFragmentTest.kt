@@ -1,8 +1,6 @@
 package de.rki.coronawarnapp.ui.eventregistration.organizer
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import dagger.Module
-import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.ui.presencetracing.organizer.category.TraceLocationCategoryFragment
 import de.rki.coronawarnapp.ui.presencetracing.organizer.category.TraceLocationCategoryViewModel
 import io.mockk.MockKAnnotations
@@ -31,10 +29,7 @@ class TraceLocationCategoryFragmentTest : BaseUITest() {
         )
     }
 
-    @After
-    fun teardown() {
-        clearAllViewModels()
-    }
+
 
     @Screenshot
     @Test
@@ -44,10 +39,4 @@ class TraceLocationCategoryFragmentTest : BaseUITest() {
     }
 
     private fun createViewModel() = TraceLocationCategoryViewModel()
-}
-
-@Module
-abstract class TraceLocationCategoryFragmentTestModule {
-    @ContributesAndroidInjector
-    abstract fun traceLocationsCategoryFragment(): TraceLocationCategoryFragment
 }
