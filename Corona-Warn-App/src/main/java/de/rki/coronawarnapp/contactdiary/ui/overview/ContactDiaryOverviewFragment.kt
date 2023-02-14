@@ -16,7 +16,6 @@ import de.rki.coronawarnapp.databinding.ContactDiaryOverviewFragmentBinding
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.addMenuId
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -57,19 +56,19 @@ class ContactDiaryOverviewFragment : Fragment(R.layout.contact_diary_overview_fr
             }
         }
 
-        vm.listItems.observe2(this) {
+        vm.listItems.observe(viewLifecycleOwner) {
             adapter.update(it)
         }
 
-        vm.locations.observe2(this) {
+        vm.locations.observe(viewLifecycleOwner) {
             binding.toolbar.menu.findItem(R.id.menu_contact_diary_edit_locations)?.isEnabled = it.isNotEmpty()
         }
 
-        vm.people.observe2(this) {
+        vm.people.observe(viewLifecycleOwner) {
             binding.toolbar.menu.findItem(R.id.menu_contact_diary_edit_persons)?.isEnabled = it.isNotEmpty()
         }
 
-        vm.routeToScreen.observe2(this) {
+        vm.routeToScreen.observe(viewLifecycleOwner) {
             when (it) {
                 ContactDiaryOverviewNavigationEvents.NavigateToMainActivity -> {
                     requireActivity().finish()
@@ -83,7 +82,7 @@ class ContactDiaryOverviewFragment : Fragment(R.layout.contact_diary_overview_fr
                 }
             }
         }
-        vm.exportLocationsAndPersons.observe2(this) {
+        vm.exportLocationsAndPersons.observe(viewLifecycleOwner) {
             exportLocationsAndPersons(it)
         }
     }

@@ -17,7 +17,6 @@ import de.rki.coronawarnapp.databinding.FragmentTestRiskLevelCalculationBinding
 import de.rki.coronawarnapp.storage.TestSettings
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
@@ -50,26 +49,26 @@ class TestRiskLevelCalculationFragment :
         binding.buttonResetRiskLevel.setOnClickListener { vm.resetRiskLevel() }
         binding.buttonExposureWindowsShare.setOnClickListener { vm.shareExposureWindows() }
 
-        vm.dataResetEvent.observe2(this) { Snackbar.make(requireView(), it, Snackbar.LENGTH_SHORT).show() }
+        vm.dataResetEvent.observe(viewLifecycleOwner) { Snackbar.make(requireView(), it, Snackbar.LENGTH_SHORT).show() }
 
-        vm.additionalRiskCalcInfo.observe2(this) {
+        vm.additionalRiskCalcInfo.observe(viewLifecycleOwner) {
             binding.labelRiskAdditionalInfo.text = it
         }
-        vm.aggregatedRiskResult.observe2(this) {
+        vm.aggregatedRiskResult.observe(viewLifecycleOwner) {
             binding.labelAggregatedRiskResult.text = it
         }
 
-        vm.exposureWindowCount.observe2(this) { exposureWindowCount ->
+        vm.exposureWindowCount.observe(viewLifecycleOwner) { exposureWindowCount ->
             binding.labelExposureWindowCount.text = "Retrieved $exposureWindowCount Exposure Windows"
             binding.buttonExposureWindowsShare.visibility = when (exposureWindowCount > 0) {
                 true -> View.VISIBLE
                 false -> View.GONE
             }
         }
-        vm.shareFileEvent.observe2(this) {
+        vm.shareFileEvent.observe(viewLifecycleOwner) {
             shareExposureWindowsFile(it)
         }
-        vm.fakeWindowsState.observe2(this) { currentType ->
+        vm.fakeWindowsState.observe(viewLifecycleOwner) { currentType ->
             binding.apply {
                 if (fakeWindowsToggleGroup.childCount != TestSettings.FakeExposureWindowTypes.values().size) {
                     fakeWindowsToggleGroup.removeAllViews()

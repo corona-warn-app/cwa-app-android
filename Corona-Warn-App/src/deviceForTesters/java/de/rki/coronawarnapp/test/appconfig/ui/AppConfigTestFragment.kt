@@ -9,7 +9,6 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestAppconfigBinding
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -33,7 +32,7 @@ class AppConfigTestFragment : Fragment(R.layout.fragment_test_appconfig), AutoIn
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        vm.currentConfig.observe2(this) { data ->
+        vm.currentConfig.observe(viewLifecycleOwner) { data ->
             binding.currentConfiguration.text = data.toString()
             binding.lastUpdate.text = timeFormatter.format(data.updatedAt)
             binding.timeOffset.text =
@@ -44,14 +43,14 @@ class AppConfigTestFragment : Fragment(R.layout.fragment_test_appconfig), AutoIn
                 """.trimIndent()
         }
 
-        vm.errorEvent.observe2(this) {
+        vm.errorEvent.observe(viewLifecycleOwner) {
             Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_LONG).show()
         }
 
         binding.downloadAction.setOnClickListener { vm.download() }
         binding.deleteAction.setOnClickListener { vm.clearConfig() }
 
-        vm.isDeviceTimeFaked.observe2(this) {
+        vm.isDeviceTimeFaked.observe(viewLifecycleOwner) {
             binding.fakeCorrectDevicetimeToggle.isChecked = it
         }
         binding.fakeCorrectDevicetimeToggle.setOnClickListener {

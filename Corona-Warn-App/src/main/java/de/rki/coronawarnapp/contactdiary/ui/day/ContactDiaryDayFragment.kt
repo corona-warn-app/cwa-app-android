@@ -18,7 +18,6 @@ import de.rki.coronawarnapp.contactdiary.util.hideKeyboard
 import de.rki.coronawarnapp.contactdiary.util.registerOnPageChangeCallback
 import de.rki.coronawarnapp.databinding.ContactDiaryDayFragmentBinding
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -76,14 +75,14 @@ class ContactDiaryDayFragment : Fragment(R.layout.contact_diary_day_fragment), A
             }
         }
 
-        viewModel.uiState.observe2(this) { uiState ->
+        viewModel.uiState.observe(viewLifecycleOwner) { uiState ->
             binding.contactDiaryDayHeader.apply {
                 title = uiState.dayText(context)
                 contentDescription = uiState.dayTextContentDescription(context)
             }
         }
 
-        viewModel.routeToScreen.observe2(this) {
+        viewModel.routeToScreen.observe(viewLifecycleOwner) {
             when (it) {
                 ContactDiaryDayNavigationEvents.NavigateToOverviewFragment -> popBackStack()
                 ContactDiaryDayNavigationEvents.NavigateToAddPersonFragment ->

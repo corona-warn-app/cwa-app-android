@@ -13,7 +13,6 @@ import de.rki.coronawarnapp.ui.main.home.HomeAdapter
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.update
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.setCWAContentDescription
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -40,7 +39,7 @@ class HomeTestCardsFragment : Fragment(R.layout.fragment_test_home_test_cards_la
             adapter = homeAdapter
         }
 
-        viewModel.homeItems.observe2(this) {
+        viewModel.homeItems.observe(viewLifecycleOwner) {
             homeAdapter.update(it)
         }
     }

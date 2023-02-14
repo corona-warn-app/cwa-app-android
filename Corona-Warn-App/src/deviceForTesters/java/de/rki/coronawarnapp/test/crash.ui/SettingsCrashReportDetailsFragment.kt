@@ -7,7 +7,6 @@ import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSettingsCrashReportDetailsBinding
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -25,12 +24,12 @@ class SettingsCrashReportDetailsFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        vm.selectedCrashReport.observe2(this) {
+        vm.selectedCrashReport.observe(viewLifecycleOwner) {
             fragmentSettingsCrashReportDetailsBinding.buttonCrashReportShare.visibility = View.VISIBLE
             fragmentSettingsCrashReportDetailsBinding.buttonCrashReportShare.setOnClickListener { shareCrashReport() }
         }
 
-        vm.selectedCrashReportFormattedText.observe2(this) {
+        vm.selectedCrashReportFormattedText.observe(viewLifecycleOwner) {
             fragmentSettingsCrashReportDetailsBinding.textViewCrashReportDetails.text = it
         }
     }

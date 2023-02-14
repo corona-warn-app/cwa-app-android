@@ -12,7 +12,6 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentInformationBinding
 import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -33,17 +32,17 @@ class InformationFragment : Fragment(R.layout.fragment_information), AutoInject 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        vm.currentENFVersion.observe2(this) {
+        vm.currentENFVersion.observe(viewLifecycleOwner) {
             binding.informationEnfVersion.apply {
                 isGone = it == null
                 text = it
             }
         }
-        vm.appVersion.observe2(this) {
+        vm.appVersion.observe(viewLifecycleOwner) {
             binding.informationVersion.text = it
         }
 
-        vm.cclConfigVersion.observe2(this) {
+        vm.cclConfigVersion.observe(viewLifecycleOwner) {
             binding.cclVersion.text = it
         }
 

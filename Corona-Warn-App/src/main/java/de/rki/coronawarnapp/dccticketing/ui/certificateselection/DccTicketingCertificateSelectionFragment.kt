@@ -13,7 +13,6 @@ import de.rki.coronawarnapp.dccticketing.ui.shared.DccTicketingSharedViewModel
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.update
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -49,8 +48,8 @@ class DccTicketingCertificateSelectionFragment :
             }
         }
         viewModel.apply {
-            events.observe2(this@DccTicketingCertificateSelectionFragment) { event -> navigate(event) }
-            items.observe2(this@DccTicketingCertificateSelectionFragment) { certificatesAdapter.update(it) }
+            events.observe(viewLifecycleOwner) { event -> navigate(event) }
+            items.observe(viewLifecycleOwner) { certificatesAdapter.update(it) }
         }
         activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner) { viewModel.onUserCancel() }
     }

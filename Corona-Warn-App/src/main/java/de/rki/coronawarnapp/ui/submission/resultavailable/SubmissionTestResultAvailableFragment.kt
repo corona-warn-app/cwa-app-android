@@ -15,7 +15,6 @@ import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.ui.submission.SubmissionBlockingDialog
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -54,7 +53,7 @@ class SubmissionTestResultAvailableFragment : Fragment(R.layout.fragment_submiss
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backCallback)
 
-        viewModel.consent.observe2(this) {
+        viewModel.consent.observe(viewLifecycleOwner) {
             if (it) {
                 binding.submissionTestResultAvailableText.setText(
                     R.string.submission_test_result_available_text_consent_given
@@ -67,7 +66,7 @@ class SubmissionTestResultAvailableFragment : Fragment(R.layout.fragment_submiss
             binding.submissionTestResultAvailableConsentStatus.consent = it
         }
 
-        viewModel.showKeysRetrievalProgress.observe2(this) { show ->
+        viewModel.showKeysRetrievalProgress.observe(viewLifecycleOwner) { show ->
             Timber.i("SubmissionTestResult:showKeyRetrievalProgress:$show")
             keyRetrievalProgress.setState(show)
             binding.submissionTestResultAvailableProceedButton.isEnabled = !show
@@ -79,18 +78,18 @@ class SubmissionTestResultAvailableFragment : Fragment(R.layout.fragment_submiss
             toolbar.setNavigationOnClickListener { viewModel.goBack() }
         }
 
-        viewModel.showCloseDialog.observe2(this) {
+        viewModel.showCloseDialog.observe(viewLifecycleOwner) {
             showCloseDialog()
         }
 
-        viewModel.routeToScreen.observe2(this) {
+        viewModel.routeToScreen.observe(viewLifecycleOwner) {
             findNavController().navigate(it)
         }
 
-        viewModel.showPermissionRequest.observe2(this) { permissionRequest ->
+        viewModel.showPermissionRequest.observe(viewLifecycleOwner) { permissionRequest ->
             permissionRequest.invoke(requireActivity())
         }
-        viewModel.showTracingConsentDialog.observe2(this) { onConsentResult ->
+        viewModel.showTracingConsentDialog.observe(viewLifecycleOwner) { onConsentResult ->
             tracingConsentDialog(
                 positiveButton = { onConsentResult(true) },
                 negativeButton = { onConsentResult(false) }

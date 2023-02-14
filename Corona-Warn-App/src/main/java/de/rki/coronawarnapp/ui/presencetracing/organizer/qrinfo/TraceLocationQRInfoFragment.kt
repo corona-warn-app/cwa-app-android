@@ -10,7 +10,6 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TraceLocationOrganizerQrCodeInfoFragmentBinding
 import de.rki.coronawarnapp.ui.presencetracing.TraceLocationPreferences
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -41,7 +40,7 @@ class TraceLocationQRInfoFragment : Fragment(R.layout.trace_location_organizer_q
             traceLocationQrInfoUnderstandButton.setOnClickListener { vm.navigateToMyQRCodes() }
         }
 
-        vm.routeToScreen.observe2(this) {
+        vm.routeToScreen.observe(viewLifecycleOwner) {
             when (it) {
                 is TraceLocationQRInfoNavigationEvents.NavigateToDataPrivacy ->
                     findNavController().navigate("coronawarnapp://contactdiary/dataPrivacy".toUri())
