@@ -27,13 +27,6 @@ class SubmissionDoneFragmentTest : BaseUITest() {
         viewModel = SubmissionDoneViewModel(
             testType
         )
-        setupMockViewModel(
-            object : SubmissionDoneViewModel.Factory {
-                override fun create(
-                    testType: BaseCoronaTest.Type
-                ): SubmissionDoneViewModel = viewModel
-            }
-        )
     }
 
 

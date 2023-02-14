@@ -30,16 +30,6 @@ class ContactDiaryOnboardingFragmentTest : BaseUITest() {
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
-
-        setupMockViewModel(
-            object : ContactDiaryOnboardingFragmentViewModel.Factory {
-                override fun create(): ContactDiaryOnboardingFragmentViewModel =
-                    ContactDiaryOnboardingFragmentViewModel(
-                        dispatcherProvider = TestDispatcherProvider(),
-                        settings = settings
-                    )
-            }
-        )
     }
 
 

@@ -41,15 +41,6 @@ class CovidCertificateOnboardingFragmentTest : BaseUITest() {
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
-
-        setupMockViewModel(
-            object : CovidCertificateOnboardingViewModel.Factory {
-                override fun create(
-                    certIdentifier: String?,
-                    qrcodeSharedViewModel: QrcodeSharedViewModel
-                ): CovidCertificateOnboardingViewModel = viewModel
-            }
-        )
     }
 
 

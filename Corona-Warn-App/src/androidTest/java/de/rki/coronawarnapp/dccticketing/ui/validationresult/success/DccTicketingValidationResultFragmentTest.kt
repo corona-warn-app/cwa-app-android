@@ -32,17 +32,6 @@ class DccTicketingValidationResultFragmentTest : BaseUITest() {
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
-
-        setupMockViewModel(
-            object : DccTicketingValidationResultViewModel.Factory {
-                override fun create(dccTicketingSharedViewModel: DccTicketingSharedViewModel) =
-                    DccTicketingValidationResultViewModel(
-                        mockSharedViewModel,
-                        ValidationResultItemCreator(),
-                        TestDispatcherProvider()
-                    )
-            }
-        )
     }
 
     private val navController = TestNavHostController(

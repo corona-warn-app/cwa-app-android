@@ -31,12 +31,6 @@ class QrCodePosterFragmentTest : BaseUITest() {
                 infoText = "Some Info Text"
             )
         )
-
-        setupMockViewModel(
-            object : QrCodePosterViewModel.Factory {
-                override fun create(traceLocationId: Long): QrCodePosterViewModel = viewModel
-            }
-        )
     }
 
 

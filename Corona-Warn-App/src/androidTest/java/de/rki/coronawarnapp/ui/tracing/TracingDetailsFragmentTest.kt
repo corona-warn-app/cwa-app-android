@@ -61,12 +61,6 @@ class TracingDetailsFragmentTest : BaseUITest() {
                 surveys = surveys
             )
         )
-
-        setupMockViewModel(
-            object : TracingDetailsFragmentViewModel.Factory {
-                override fun create(): TracingDetailsFragmentViewModel = viewModel
-            }
-        )
     }
 
 

@@ -114,16 +114,6 @@ class AdmissionScenariosFragmentTest : BaseUITest() {
         MockKAnnotations.init(this, relaxed = true)
 
         every { viewModel.state } returns MutableLiveData(state)
-
-        setupMockViewModel(
-            object : AdmissionScenariosViewModel.Factory {
-                override fun create(
-                    admissionScenariosSharedViewModel: AdmissionScenariosSharedViewModel
-                ): AdmissionScenariosViewModel {
-                    return viewModel
-                }
-            }
-        )
     }
 
     @Test

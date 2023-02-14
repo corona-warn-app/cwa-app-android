@@ -52,19 +52,6 @@ class FamilyTestConsentFragmentTest : BaseUITest() {
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
-        viewModel = FamilyTestConsentViewModel(
-            TestDispatcherProvider(),
-            request,
-            familyTestCensor,
-            registrationStateProcessor
-        )
-        setupMockViewModel(
-            object : FamilyTestConsentViewModel.Factory {
-                override fun create(
-                    coronaTestQRCode: CoronaTestQRCode
-                ): FamilyTestConsentViewModel = viewModel
-            }
-        )
     }
 
 

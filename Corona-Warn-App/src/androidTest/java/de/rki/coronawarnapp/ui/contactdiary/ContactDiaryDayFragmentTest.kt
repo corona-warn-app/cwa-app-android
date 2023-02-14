@@ -127,23 +127,5 @@ class ContactDiaryDayFragmentTest : BaseUITest() {
                 contactDiaryRepository
             )
         )
-
-        setupMockViewModel(
-            object : ContactDiaryDayViewModel.Factory {
-                override fun create(selectedDay: String): ContactDiaryDayViewModel = viewModel
-            }
-        )
-
-        setupMockViewModel(
-            object : ContactDiaryPersonListViewModel.Factory {
-                override fun create(selectedDay: String): ContactDiaryPersonListViewModel = personListViewModel
-            }
-        )
-
-        setupMockViewModel(
-            object : ContactDiaryLocationListViewModel.Factory {
-                override fun create(selectedDay: String): ContactDiaryLocationListViewModel = locationListViewModel
-            }
-        )
     }
 }

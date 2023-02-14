@@ -29,11 +29,6 @@ class ProfileQrCodeFragmentTest : BaseUITest() {
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
-        setupMockViewModel(
-            object : ProfileQrCodeFragmentViewModel.Factory {
-                override fun create(profileId: Int): ProfileQrCodeFragmentViewModel = viewModel
-            }
-        )
 
         viewModel.apply {
             every { events } returns SingleLiveEvent()

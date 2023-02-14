@@ -34,13 +34,6 @@ class TraceLocationWarnTanFragmentTest : BaseUITest() {
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
-
-        setupMockViewModel(
-            object : TraceLocationWarnTanViewModel.Factory {
-                override fun create(traceLocationWarnDuration: TraceLocationWarnDuration):
-                    TraceLocationWarnTanViewModel = createViewModel()
-            }
-        )
     }
 
 

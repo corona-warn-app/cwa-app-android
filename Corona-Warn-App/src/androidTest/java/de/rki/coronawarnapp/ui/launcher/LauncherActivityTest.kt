@@ -25,12 +25,6 @@ class LauncherActivityTest : BaseUITest() {
     @Before
     fun setup() {
         MockKAnnotations.init(this)
-
-        setupMockViewModel(
-            object : LauncherActivityViewModel.Factory {
-                override fun create(): LauncherActivityViewModel = viewModel
-            }
-        )
     }
 
 

@@ -60,14 +60,6 @@ class VaccinationDetailsFragmentTest : BaseUITest() {
         setupFakeImageLoader(
             createFakeImageLoaderForQrCodes()
         )
-        setupMockViewModel(
-            object : VaccinationDetailsViewModel.Factory {
-                override fun create(
-                    containerId: VaccinationCertificateContainerId,
-                    fromScanner: Boolean
-                ): VaccinationDetailsViewModel = vaccinationDetailsViewModel
-            }
-        )
     }
 
     @Test

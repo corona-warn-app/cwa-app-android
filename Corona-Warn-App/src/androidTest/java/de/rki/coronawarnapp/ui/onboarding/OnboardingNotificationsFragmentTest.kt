@@ -22,11 +22,6 @@ class OnboardingNotificationsFragmentTest : BaseUITest() {
     @Before
     fun setup() {
         MockKAnnotations.init(this)
-        setupMockViewModel(
-            object : OnboardingNotificationsViewModel.Factory {
-                override fun create(): OnboardingNotificationsViewModel = OnboardingNotificationsViewModel(cwaSettings)
-            }
-        )
     }
 
 

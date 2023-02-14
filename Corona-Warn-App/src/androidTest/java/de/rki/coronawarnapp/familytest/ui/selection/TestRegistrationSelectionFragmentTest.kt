@@ -30,18 +30,6 @@ class TestRegistrationSelectionFragmentTest : BaseUITest() {
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
-        viewModel = TestRegistrationSelectionViewModel(
-            TestDispatcherProvider(),
-            submissionRepository,
-            request
-        )
-        setupMockViewModel(
-            object : TestRegistrationSelectionViewModel.Factory {
-                override fun create(
-                    coronaTestQRCode: CoronaTestQRCode
-                ): TestRegistrationSelectionViewModel = viewModel
-            }
-        )
     }
 
 

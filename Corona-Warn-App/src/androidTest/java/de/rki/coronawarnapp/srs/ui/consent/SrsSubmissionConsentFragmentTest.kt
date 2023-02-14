@@ -51,14 +51,6 @@ class SrsSubmissionConsentFragmentTest : BaseUITest() {
             every { event } returns SingleLiveEvent()
         }
 
-        setupMockViewModel(
-            object : SrsSubmissionConsentFragmentViewModel.Factory {
-                override fun create(
-                    openTypeSelection: Boolean,
-                    teksSharedViewModel: TeksSharedViewModel
-                ): SrsSubmissionConsentFragmentViewModel = viewModel
-            }
-        )
     }
 
 

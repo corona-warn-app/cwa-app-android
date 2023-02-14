@@ -34,12 +34,6 @@ class DebugLogUploadFragmentTest : BaseUITest() {
                 snapShotUploader
             )
         )
-
-        setupMockViewModel(
-            object : DebugLogUploadViewModel.Factory {
-                override fun create(): DebugLogUploadViewModel = viewModel
-            }
-        )
     }
 
 

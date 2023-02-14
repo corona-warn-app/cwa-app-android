@@ -41,11 +41,6 @@ class SubmissionYourConsentFragmentTest : BaseUITest() {
                 submissionRepository,
                 testType
             )
-        setupMockViewModel(
-            object : SubmissionYourConsentViewModel.Factory {
-                override fun create(testType: BaseCoronaTest.Type): SubmissionYourConsentViewModel = viewModel
-            }
-        )
     }
 
 

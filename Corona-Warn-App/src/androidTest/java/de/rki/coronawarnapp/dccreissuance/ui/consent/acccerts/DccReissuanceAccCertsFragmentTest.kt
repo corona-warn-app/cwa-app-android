@@ -89,12 +89,6 @@ class DccReissuanceAccCertsFragmentTest : BaseUITest() {
         MockKAnnotations.init(this)
 
         every { viewModel.certificatesLiveData } returns liveData { emit(certificateList) }
-
-        setupMockViewModel(
-            factory = object : DccReissuanceAccCertsViewModel.Factory {
-                override fun create(personIdentifierCode: String): DccReissuanceAccCertsViewModel = viewModel
-            }
-        )
     }
 
 

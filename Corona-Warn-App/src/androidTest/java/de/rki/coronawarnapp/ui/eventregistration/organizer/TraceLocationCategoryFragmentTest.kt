@@ -19,14 +19,6 @@ class TraceLocationCategoryFragmentTest : BaseUITest() {
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
-
-        setupMockViewModel(
-            object : TraceLocationCategoryViewModel.Factory {
-                override fun create(): TraceLocationCategoryViewModel {
-                    return createViewModel()
-                }
-            }
-        )
     }
 
 

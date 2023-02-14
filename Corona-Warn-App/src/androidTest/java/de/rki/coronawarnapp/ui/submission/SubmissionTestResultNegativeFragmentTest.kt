@@ -63,14 +63,6 @@ class SubmissionTestResultNegativeFragmentTest : BaseUITest() {
                 coronaTestProvider = coronaTestProvider
             )
         )
-
-        setupMockViewModel(
-            object : SubmissionTestResultNegativeViewModel.Factory {
-                override fun create(
-                    testIdentifier: TestIdentifier
-                ): SubmissionTestResultNegativeViewModel = viewModel
-            }
-        )
     }
 
 

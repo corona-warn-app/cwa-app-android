@@ -35,16 +35,6 @@ class SubmissionTestResultPendingFragmentTest : BaseUITest() {
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
-
-        setupMockViewModel(
-            object : SubmissionTestResultPendingViewModel.Factory {
-                override fun create(
-                    testIdentifier: TestIdentifier,
-                    @Assisted("initialUpdate") initialUpdate: Boolean,
-                    @Assisted("comesFromDispatcherFragment") comesFromDispatcherFragment: Boolean
-                ): SubmissionTestResultPendingViewModel = viewModel
-            }
-        )
     }
 
 

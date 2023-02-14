@@ -26,12 +26,6 @@ class ProfileCreateFragmentTest : BaseUITest() {
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
-        setupMockViewModel(
-            object : ProfileCreateFragmentViewModel.Factory {
-                override fun create(formatter: DateTimeFormatter, profileId: ProfileId?): ProfileCreateFragmentViewModel =
-                    viewModel
-            }
-        )
 
         viewModel.apply {
             every { events } returns SingleLiveEvent()

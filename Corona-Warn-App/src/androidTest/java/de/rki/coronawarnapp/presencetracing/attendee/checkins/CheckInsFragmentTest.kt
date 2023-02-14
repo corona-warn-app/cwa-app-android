@@ -47,16 +47,6 @@ class CheckInsFragmentTest : BaseUITest() {
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
-
-        setupMockViewModel(
-            object : CheckInsViewModel.Factory {
-                override fun create(
-                    savedState: SavedStateHandle,
-                    deepLink: String?,
-                    cleanHistory: Boolean
-                ): CheckInsViewModel = viewModel
-            }
-        )
     }
 
 

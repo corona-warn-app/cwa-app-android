@@ -71,14 +71,6 @@ class PersonDetailsFragmentTest : BaseUITest() {
         setupFakeImageLoader(
             createFakeImageLoaderForQrCodes()
         )
-        setupMockViewModel(
-            object : PersonDetailsViewModel.Factory {
-                override fun create(
-                    groupKey: String,
-                    colorShade: PersonColorShade
-                ): PersonDetailsViewModel = viewModel
-            }
-        )
     }
 
     @Test

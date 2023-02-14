@@ -38,12 +38,6 @@ class QrCodeDetailFragmentTest : BaseUITest() {
     fun setup() {
         TimeZone.setDefault(timeZone)
         MockKAnnotations.init(this, relaxed = true)
-
-        setupMockViewModel(
-            object : QrCodeDetailViewModel.Factory {
-                override fun create(traceLocationId: Long): QrCodeDetailViewModel = viewModel
-            }
-        )
     }
 
 

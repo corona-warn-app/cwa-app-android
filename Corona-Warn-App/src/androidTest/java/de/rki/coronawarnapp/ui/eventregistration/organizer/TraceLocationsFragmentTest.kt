@@ -46,14 +46,6 @@ class TraceLocationsFragmentTest : BaseUITest() {
         every { checkInsRepository.allCheckIns } returns flowOf(listOf())
         every { traceLocationSettings.onboardingStatus } returns
             flowOf(TraceLocationSettings.OnboardingStatus.ONBOARDED_2_0)
-
-        setupMockViewModel(
-            object : TraceLocationsViewModel.Factory {
-                override fun create(): TraceLocationsViewModel {
-                    return createViewModel()
-                }
-            }
-        )
     }
 
 

@@ -54,14 +54,6 @@ class TraceLocationCreateFragmentTest : BaseUITest() {
         MockKAnnotations.init(this, relaxed = true)
 
         coEvery { traceLocationRepository.addTraceLocation(any()) } returns TraceLocationData.traceLocationSameDate
-
-        setupMockViewModel(
-            object : TraceLocationCreateViewModel.Factory {
-                override fun create(category: TraceLocationCategory): TraceLocationCreateViewModel {
-                    return createViewModel(category)
-                }
-            }
-        )
     }
 
 

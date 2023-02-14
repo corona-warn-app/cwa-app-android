@@ -65,16 +65,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
         setupFakeImageLoader(
             createFakeImageLoaderForQrCodes()
         )
-        setupMockViewModel(
-            object : PersonOverviewViewModel.Factory {
-                override fun create(
-                    admissionScenariosSharedViewModel: AdmissionScenariosSharedViewModel,
-                    savedStateHandle: SavedStateHandle
-                ): PersonOverviewViewModel {
-                    return viewModel
-                }
-            }
-        )
+
     }
 
     @Test

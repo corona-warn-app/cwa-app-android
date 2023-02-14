@@ -20,12 +20,6 @@ class NotificationSettingsFragmentTest : BaseUITest() {
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
-
-        setupMockViewModel(
-            object : NotificationSettingsFragmentViewModel.Factory {
-                override fun create(): NotificationSettingsFragmentViewModel = viewModel
-            }
-        )
     }
 
 

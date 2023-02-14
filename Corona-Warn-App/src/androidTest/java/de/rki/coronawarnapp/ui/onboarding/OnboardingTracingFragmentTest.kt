@@ -47,12 +47,6 @@ class OnboardingTracingFragmentTest : BaseUITest() {
 
         every { viewModelSpy.disableTracingIfEnabled() } just Runs
         every { interopRepo.countryList } returns flowOf()
-
-        setupMockViewModel(
-            object : OnboardingTracingFragmentViewModel.Factory {
-                override fun create(): OnboardingTracingFragmentViewModel = viewModelSpy
-            }
-        )
     }
 
 

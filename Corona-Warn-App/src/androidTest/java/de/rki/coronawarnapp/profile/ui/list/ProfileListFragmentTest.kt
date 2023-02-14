@@ -27,12 +27,6 @@ class ProfileListFragmentTest : BaseUITest() {
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
-
-        setupMockViewModel(
-            object : ProfileListViewModel.Factory {
-                override fun create(): ProfileListViewModel = viewModel
-            }
-        )
     }
 
 

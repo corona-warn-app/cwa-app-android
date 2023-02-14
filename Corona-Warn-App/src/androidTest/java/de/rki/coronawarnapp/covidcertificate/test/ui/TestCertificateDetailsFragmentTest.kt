@@ -57,12 +57,6 @@ class TestCertificateDetailsFragmentTest : BaseUITest() {
         setupFakeImageLoader(
             createFakeImageLoaderForQrCodes()
         )
-        setupMockViewModel(
-            object : TestCertificateDetailsViewModel.Factory {
-                override fun create(containerId: TestCertificateContainerId, fromScanner: Boolean):
-                    TestCertificateDetailsViewModel = testCertificateDetailsViewModel
-            }
-        )
     }
 
     @Test

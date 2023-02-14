@@ -35,12 +35,6 @@ class OnboardingFragmentTest : BaseUITest() {
                 every { maxEncounterAgeInDays } returns 10
             }
         )
-
-        setupMockViewModel(
-            object : OnboardingViewModel.Factory {
-                override fun create(): OnboardingViewModel = OnboardingViewModel(appConfigProvider)
-            }
-        )
     }
 
     @Test

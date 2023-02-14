@@ -60,11 +60,6 @@ class SubmissionDispatcherFragmentTest : BaseUITest() {
         MockKAnnotations.init(this, relaxed = true)
         every { profileSettings.profileFlow } returns flowOf(null)
         coEvery { srsLocalChecker.check() } just Runs
-        setupMockViewModel(
-            object : SubmissionDispatcherViewModel.Factory {
-                override fun create(): SubmissionDispatcherViewModel = createViewModel()
-            }
-        )
     }
 
 

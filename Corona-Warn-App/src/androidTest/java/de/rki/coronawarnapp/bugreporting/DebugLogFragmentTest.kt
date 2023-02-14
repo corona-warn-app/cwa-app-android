@@ -59,11 +59,7 @@ class DebugLogFragmentTest : BaseUITest() {
     @Screenshot
     @Test
     fun capture_active_screenshot() {
-        setupMockViewModel(
-            object : DebugLogViewModel.Factory {
-                override fun create(): DebugLogViewModel = activeViewModel
-            }
-        )
+
         launchFragmentInContainer2<DebugLogFragment>()
         takeScreenshot<DebugLogFragment>()
     }

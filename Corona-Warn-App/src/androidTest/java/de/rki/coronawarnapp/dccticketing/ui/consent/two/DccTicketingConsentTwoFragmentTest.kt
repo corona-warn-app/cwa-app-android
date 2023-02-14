@@ -67,14 +67,6 @@ class DccTicketingConsentTwoFragmentTest : BaseUITest() {
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
-        setupMockViewModel(
-            object : DccTicketingConsentTwoViewModel.Factory {
-                override fun create(
-                    dccTicketingSharedViewModel: DccTicketingSharedViewModel,
-                    containerId: CertificateContainerId
-                ): DccTicketingConsentTwoViewModel = viewModel
-            }
-        )
     }
 
     @Screenshot

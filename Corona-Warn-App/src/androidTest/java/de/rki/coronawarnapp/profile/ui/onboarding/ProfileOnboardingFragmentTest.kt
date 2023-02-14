@@ -19,11 +19,6 @@ class ProfileOnboardingFragmentTest : BaseUITest() {
     @Before
     fun setup() {
         MockKAnnotations.init(this, true)
-        setupMockViewModel(
-            object : ProfileOnboardingFragmentViewModel.Factory {
-                override fun create(): ProfileOnboardingFragmentViewModel = viewModel
-            }
-        )
     }
 
     @Test

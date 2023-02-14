@@ -76,14 +76,6 @@ class ConfirmCheckInFragmentTest : BaseUITest() {
             )
         )
 
-        setupMockViewModel(
-            object : ConfirmCheckInViewModel.Factory {
-                override fun create(
-                    verifiedTraceLocationId: String,
-                    qrcodeSharedViewModel: QrcodeSharedViewModel
-                ): ConfirmCheckInViewModel = viewModel
-            }
-        )
     }
 
 

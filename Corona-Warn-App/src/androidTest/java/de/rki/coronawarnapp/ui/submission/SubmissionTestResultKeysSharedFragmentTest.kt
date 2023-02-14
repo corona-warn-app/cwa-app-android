@@ -35,11 +35,6 @@ class SubmissionTestResultKeysSharedFragmentTest : BaseUITest() {
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
 
-        setupMockViewModel(
-            object : SubmissionTestResultKeysSharedViewModel.Factory {
-                override fun create(testIdentifier: TestIdentifier): SubmissionTestResultKeysSharedViewModel = viewModel
-            }
-        )
     }
 
 

@@ -23,11 +23,6 @@ class QrCodeScannerFragmentTest : BaseUITest() {
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
-        setupMockViewModel(
-            object : QrCodeScannerViewModel.Factory {
-                override fun create(): QrCodeScannerViewModel = qrcodeScannerViewModel
-            }
-        )
     }
 
     @Screenshot

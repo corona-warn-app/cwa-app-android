@@ -33,12 +33,6 @@ class SrsTypeSelectionFragmentTest : BaseUITest() {
                 }
             )
         }
-
-        setupMockViewModel(
-            object : SrsTypeSelectionFragmentViewModel.Factory {
-                override fun create(): SrsTypeSelectionFragmentViewModel = viewModel
-            }
-        )
     }
 
     @Test

@@ -77,12 +77,6 @@ class SubmissionTestResultConsentGivenFragmentTest : BaseUITest() {
                     TestDispatcherProvider()
                 )
             )
-        setupMockViewModel(
-            object : SubmissionTestResultConsentGivenViewModel.Factory {
-                override fun create(testType: BaseCoronaTest.Type): SubmissionTestResultConsentGivenViewModel =
-                    viewModel
-            }
-        )
     }
 
 

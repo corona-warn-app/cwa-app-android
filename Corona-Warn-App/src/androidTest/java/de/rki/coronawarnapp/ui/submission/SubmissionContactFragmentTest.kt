@@ -31,11 +31,6 @@ class SubmissionContactFragmentTest : BaseUITest() {
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
-        setupMockViewModel(
-            object : SubmissionContactViewModel.Factory {
-                override fun create(): SubmissionContactViewModel = createViewModel()
-            }
-        )
     }
 
 

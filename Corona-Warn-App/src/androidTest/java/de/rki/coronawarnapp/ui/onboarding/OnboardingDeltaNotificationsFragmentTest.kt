@@ -20,12 +20,6 @@ class OnboardingDeltaNotificationsFragmentTest : BaseUITest() {
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
-
-        setupMockViewModel(
-            object : OnboardingDeltaNotificationsViewModel.Factory {
-                override fun create(): OnboardingDeltaNotificationsViewModel = viewModel
-            }
-        )
     }
 
 

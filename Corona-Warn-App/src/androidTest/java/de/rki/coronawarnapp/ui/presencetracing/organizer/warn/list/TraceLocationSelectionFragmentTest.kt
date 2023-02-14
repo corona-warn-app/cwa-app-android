@@ -33,13 +33,6 @@ class TraceLocationSelectionFragmentTest : BaseUITest() {
                 TraceLocationData.traceLocationDifferentDate
             )
         )
-        setupMockViewModel(
-            object : TraceLocationSelectionViewModel.Factory {
-                override fun create(): TraceLocationSelectionViewModel {
-                    return createViewModel()
-                }
-            }
-        )
     }
 
     @Screenshot

@@ -69,13 +69,6 @@ class DccTicketingCertificateSelectionFragmentTest : BaseUITest() {
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
-        setupMockViewModel(
-            object : DccTicketingCertificateSelectionViewModel.Factory {
-                override fun create(
-                    dccTicketingSharedViewModel: DccTicketingSharedViewModel
-                ): DccTicketingCertificateSelectionViewModel = viewModel
-            }
-        )
     }
 
     @Screenshot

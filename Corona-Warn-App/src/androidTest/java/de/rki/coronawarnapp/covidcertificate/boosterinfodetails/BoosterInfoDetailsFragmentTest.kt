@@ -35,13 +35,6 @@ class BoosterInfoDetailsFragmentTest : BaseUITest() {
         setupFakeImageLoader(
             createFakeImageLoaderForQrCodes()
         )
-        setupMockViewModel(
-            object : BoosterInfoDetailsViewModel.Factory {
-                override fun create(
-                    groupKey: String
-                ): BoosterInfoDetailsViewModel = viewModel
-            }
-        )
     }
 
     @Test

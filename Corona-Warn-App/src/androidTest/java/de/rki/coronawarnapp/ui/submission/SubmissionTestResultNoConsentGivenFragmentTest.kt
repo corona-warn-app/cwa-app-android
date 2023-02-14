@@ -38,12 +38,6 @@ class SubmissionTestResultNoConsentGivenFragmentTest : BaseUITest() {
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
         every { coronaTestProvider.getTestForIdentifier(any()) } returns flowOf()
-
-        setupMockViewModel(
-            object : SubmissionTestResultNoConsentViewModel.Factory {
-                override fun create(testIdentifier: TestIdentifier): SubmissionTestResultNoConsentViewModel = viewModel
-            }
-        )
     }
 
 

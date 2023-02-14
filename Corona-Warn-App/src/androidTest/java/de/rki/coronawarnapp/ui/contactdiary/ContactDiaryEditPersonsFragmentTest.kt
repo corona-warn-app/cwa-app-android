@@ -38,11 +38,6 @@ class ContactDiaryEditPersonsFragmentTest : BaseUITest() {
                 TestDispatcherProvider()
             )
         )
-        setupMockViewModel(
-            object : ContactDiaryEditPersonsViewModel.Factory {
-                override fun create(): ContactDiaryEditPersonsViewModel = viewModel
-            }
-        )
     }
 
 

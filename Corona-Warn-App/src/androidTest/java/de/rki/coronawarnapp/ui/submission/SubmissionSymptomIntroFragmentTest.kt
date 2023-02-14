@@ -57,14 +57,6 @@ class SubmissionSymptomIntroFragmentTest : BaseUITest() {
         with(viewModel) {
             every { symptomIndication } returns MutableLiveData(Symptoms.Indication.POSITIVE)
         }
-        setupMockViewModel(
-            object : SubmissionSymptomIntroductionViewModel.Factory {
-                override fun create(
-                    testType: BaseCoronaTest.Type,
-                    comesFromDispatcherFragment: Boolean
-                ): SubmissionSymptomIntroductionViewModel = viewModel
-            }
-        )
     }
 
 

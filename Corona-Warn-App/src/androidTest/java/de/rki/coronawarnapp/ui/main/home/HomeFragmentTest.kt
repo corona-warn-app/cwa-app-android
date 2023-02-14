@@ -68,12 +68,6 @@ class HomeFragmentTest : BaseUITest() {
             every { showPopUps() } just Runs
             every { initAppShortcuts() } just Runs
         }
-
-        setupMockViewModel(
-            object : HomeFragmentViewModel.Factory {
-                override fun create(): HomeFragmentViewModel = homeFragmentViewModel
-            }
-        )
     }
 
     @Screenshot

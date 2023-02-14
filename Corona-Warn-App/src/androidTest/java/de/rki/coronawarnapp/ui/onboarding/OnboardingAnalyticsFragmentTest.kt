@@ -51,12 +51,6 @@ class OnboardingAnalyticsFragmentTest : BaseUITest() {
             every { federalState } returns flowOf(PpaData.PPAFederalState.FEDERAL_STATE_BE).asLiveData()
             every { district } returns flow { emit(districts.loadDistricts().first()) }.asLiveData()
         }
-
-        setupMockViewModel(
-            object : OnboardingAnalyticsViewModel.Factory {
-                override fun create(): OnboardingAnalyticsViewModel = viewModel
-            }
-        )
     }
 
     private fun onboardingAnalyticsViewModelSpy() = spyk(

@@ -77,11 +77,6 @@ class RecyclerBinOverviewFragmentTest : BaseUITest() {
     @Before
     fun setUp() {
         MockKAnnotations.init(this, relaxed = true)
-        setupMockViewModel(
-            object : RecyclerBinOverviewViewModel.Factory {
-                override fun create(): RecyclerBinOverviewViewModel = viewModel
-            }
-        )
     }
 
     @Test

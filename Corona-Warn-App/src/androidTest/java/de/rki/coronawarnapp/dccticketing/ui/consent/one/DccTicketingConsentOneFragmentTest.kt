@@ -48,16 +48,6 @@ class DccTicketingConsentOneFragmentTest : BaseUITest() {
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
-
-        setupMockViewModel(
-            object : DccTicketingConsentOneViewModel.Factory {
-                override fun create(
-                    dccTicketingSharedViewModel: DccTicketingSharedViewModel,
-                    qrcodeSharedViewModel: QrcodeSharedViewModel,
-                    transactionContextIdentifier: String
-                ): DccTicketingConsentOneViewModel = viewModel
-            }
-        )
     }
 
 

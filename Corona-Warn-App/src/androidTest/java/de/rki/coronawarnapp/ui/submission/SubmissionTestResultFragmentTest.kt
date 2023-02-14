@@ -76,16 +76,6 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
                 )
             )
         }
-
-        setupMockViewModel(
-            object : SubmissionTestResultPendingViewModel.Factory {
-                override fun create(
-                    testIdentifier: TestIdentifier,
-                    initialUpdate: Boolean,
-                    comesFromDispatcherFragment: Boolean
-                ): SubmissionTestResultPendingViewModel = viewModel
-            }
-        )
     }
 
 

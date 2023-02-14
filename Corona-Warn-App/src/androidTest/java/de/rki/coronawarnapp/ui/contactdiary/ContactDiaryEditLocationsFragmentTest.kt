@@ -31,18 +31,7 @@ class ContactDiaryEditLocationsFragmentTest : BaseUITest() {
     @Before
     fun setUp() {
         MockKAnnotations.init(this, relaxed = true)
-        viewModel = spyk(
-            ContactDiaryEditLocationsViewModel(
-                TestScope(),
-                contactDiaryRepository,
-                TestDispatcherProvider()
-            )
-        )
-        setupMockViewModel(
-            object : ContactDiaryEditLocationsViewModel.Factory {
-                override fun create(): ContactDiaryEditLocationsViewModel = viewModel
-            }
-        )
+
     }
 
 

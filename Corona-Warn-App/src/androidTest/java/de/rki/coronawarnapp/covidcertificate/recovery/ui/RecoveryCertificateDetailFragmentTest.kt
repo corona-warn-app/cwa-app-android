@@ -54,14 +54,6 @@ class RecoveryCertificateDetailFragmentTest : BaseUITest() {
         setupFakeImageLoader(
             createFakeImageLoaderForQrCodes()
         )
-        setupMockViewModel(
-            object : RecoveryCertificateDetailsViewModel.Factory {
-                override fun create(
-                    containerId: RecoveryCertificateContainerId,
-                    fromScanner: Boolean
-                ): RecoveryCertificateDetailsViewModel = recoveryDetailsViewModel
-            }
-        )
     }
 
     @Test

@@ -53,15 +53,6 @@ class SrsCheckinsFragmentTest : BaseUITest() {
                 )
             )
         }
-
-        setupMockViewModel(
-            object : SrsCheckinsFragmentViewModel.Factory {
-                override fun create(
-                    savedState: SavedStateHandle,
-                    submissionType: SrsSubmissionType
-                ): SrsCheckinsFragmentViewModel = viewModel
-            }
-        )
     }
 
 

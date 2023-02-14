@@ -36,17 +36,6 @@ class RequestCovidCertificateFragmentTest : BaseUITest() {
         every { viewModel.registrationState } returns MutableLiveData(
             TestRegistrationStateProcessor.State.Idle
         )
-
-        setupMockViewModel(
-            object : RequestCovidCertificateViewModel.Factory {
-                override fun create(
-                    testRegistrationRequest: TestRegistrationRequest,
-                    coronaTestConsent: Boolean,
-                    allowTestReplacement: Boolean,
-                    personName: String?
-                ): RequestCovidCertificateViewModel = viewModel
-            }
-        )
     }
 
     @Test

@@ -43,22 +43,6 @@ class SubmissionConsentFragmentTest : BaseUITest() {
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
         every { interoperabilityRepository.countryList } returns flowOf()
-        viewModel = SubmissionConsentViewModel(
-            TestDispatcherProvider(),
-            interoperabilityRepository,
-            request,
-            allowReplacement,
-            tekHistoryProvider,
-            testRegistrationStateProcessor
-        )
-        setupMockViewModel(
-            object : SubmissionConsentViewModel.Factory {
-                override fun create(
-                    coronaTestQRCode: CoronaTestQRCode,
-                    allowReplacement: Boolean
-                ): SubmissionConsentViewModel = viewModel
-            }
-        )
     }
 
 

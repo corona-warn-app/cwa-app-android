@@ -63,15 +63,6 @@ class SubmissionTestResultAvailableFragmentTest : BaseUITest() {
                 testIdentifier = ""
             )
         )
-
-        setupMockViewModel(
-            object : SubmissionTestResultAvailableViewModel.Factory {
-                override fun create(
-                    testIdentifier: TestIdentifier,
-                    comesFromDispatcherFragment: Boolean
-                ): SubmissionTestResultAvailableViewModel = viewModel
-            }
-        )
     }
 
 

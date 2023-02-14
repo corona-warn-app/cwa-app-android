@@ -95,14 +95,7 @@ class DccReissuanceConsentFragmentTest : BaseUITest() {
     @Before
     fun setup() {
         MockKAnnotations.init(this)
-
         every { viewModel.stateLiveData } returns liveData { emit(state) }
-
-        setupMockViewModel(
-            factory = object : DccReissuanceConsentViewModel.Factory {
-                override fun create(groupKey: String): DccReissuanceConsentViewModel = viewModel
-            }
-        )
     }
 
 
