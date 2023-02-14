@@ -6,6 +6,6 @@ import dagger.hilt.components.SingletonComponent
 
 @InstallIn(SingletonComponent::class)
 @EntryPoint
-interface DebugEntryPoint{
+interface DebugEntryPoint {
     fun inject(debugLogger: DebugLogger)
 }

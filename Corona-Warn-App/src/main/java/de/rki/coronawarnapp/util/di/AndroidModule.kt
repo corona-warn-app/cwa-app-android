@@ -64,7 +64,9 @@ class AndroidModule {
     ): WorkManager = workManagerProvider.workManager
 
     @Provides
-    fun navDeepLinkBuilder(@ApplicationContext context: Context): SafeNavDeepLinkBuilder = SafeNavDeepLinkBuilder(context)
+    fun navDeepLinkBuilder(
+        @ApplicationContext context: Context
+    ): SafeNavDeepLinkBuilder = SafeNavDeepLinkBuilder(context)
 
     @Provides
     @Singleton
