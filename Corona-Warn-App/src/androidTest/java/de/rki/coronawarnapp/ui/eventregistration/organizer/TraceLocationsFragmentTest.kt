@@ -94,7 +94,29 @@ class TraceLocationsFragmentTest : BaseUITest() {
 
         launchFragmentInContainer2<TraceLocationsFragment>()
         openActionBarOverflowOrOptionsMenu(getInstrumentation().targetContext)
-        takeScreenshot<TraceLocationsFragment>("_menu")
+        takeScreenshot<TraceLocationsFragment>("menu")
+    }
+
+    @Screenshot
+    @Test
+    fun screenshot_empty() {
+        every { traceLocationRepository.traceLocationsWithinRetention } returns flowOf(listOf())
+
+        launchFragmentInContainer2<TraceLocationsFragment>()
+        takeScreenshot<TraceLocationsFragment>("empty")
+    }
+
+    @Screenshot
+    @Test
+    fun screenshot_one_qr() {
+        every { traceLocationRepository.traceLocationsWithinRetention } returns flowOf(
+            listOf(
+                TraceLocationData.traceLocationTestData
+            )
+        )
+
+        launchFragmentInContainer2<TraceLocationsFragment>()
+        takeScreenshot<TraceLocationsFragment>("one_qr")
     }
 
     private fun createViewModel() = TraceLocationsViewModel(
