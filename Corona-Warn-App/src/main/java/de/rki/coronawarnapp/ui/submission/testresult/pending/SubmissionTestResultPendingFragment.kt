@@ -19,8 +19,6 @@ import de.rki.coronawarnapp.exception.http.CwaServerError
 import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.reyclebin.ui.dialog.recycleTestDialog
 import de.rki.coronawarnapp.ui.dialog.displayDialog
-import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.observeOnce
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding

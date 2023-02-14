@@ -12,8 +12,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestStateValidationDccBinding
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
-import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
 
 @AndroidEntryPoint

@@ -14,7 +14,6 @@ import de.rki.coronawarnapp.srs.ui.vm.TeksSharedViewModel
 import de.rki.coronawarnapp.tracing.ui.tracingConsentDialog
 import de.rki.coronawarnapp.ui.submission.SubmissionBlockingDialog
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import timber.log.Timber

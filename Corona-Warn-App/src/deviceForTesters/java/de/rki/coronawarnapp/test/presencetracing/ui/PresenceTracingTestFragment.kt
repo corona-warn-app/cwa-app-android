@@ -20,8 +20,6 @@ import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
 import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
-import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
 
 @SuppressLint("SetTextI18n")

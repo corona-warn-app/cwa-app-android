@@ -18,7 +18,6 @@ import de.rki.coronawarnapp.contactdiary.util.hideKeyboard
 import de.rki.coronawarnapp.contactdiary.util.registerOnPageChangeCallback
 import de.rki.coronawarnapp.databinding.ContactDiaryDayFragmentBinding
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted

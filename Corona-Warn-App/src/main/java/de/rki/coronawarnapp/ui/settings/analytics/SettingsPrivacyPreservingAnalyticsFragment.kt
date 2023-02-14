@@ -11,8 +11,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSettingsPrivacyPreservingAnalyticsBinding
 import de.rki.coronawarnapp.datadonation.analytics.ui.input.AnalyticsUserInputFragment
-import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 

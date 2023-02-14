@@ -10,8 +10,6 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSettingsBackgroundPriorityBinding
 import de.rki.coronawarnapp.ui.base.startActivitySafely
 import de.rki.coronawarnapp.ui.main.MainActivity
-import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 

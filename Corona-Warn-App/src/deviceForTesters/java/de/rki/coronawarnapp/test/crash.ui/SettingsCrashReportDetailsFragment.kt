@@ -8,8 +8,6 @@ import androidx.fragment.app.activityViewModels
 import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSettingsCrashReportDetailsBinding
-import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
 
 @AndroidEntryPoint

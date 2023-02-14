@@ -14,7 +14,6 @@ import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultInvalidBindi
 import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.reyclebin.ui.dialog.recycleTestDialog
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted

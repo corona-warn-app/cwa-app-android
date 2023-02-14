@@ -10,7 +10,6 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionYourConsentBinding
 import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted

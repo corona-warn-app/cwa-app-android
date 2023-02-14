@@ -15,8 +15,6 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestCclBinding
 import de.rki.coronawarnapp.test.ccl.CclTestViewModel.ForceUpdateUiState.Loading
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
-import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
 
 @AndroidEntryPoint

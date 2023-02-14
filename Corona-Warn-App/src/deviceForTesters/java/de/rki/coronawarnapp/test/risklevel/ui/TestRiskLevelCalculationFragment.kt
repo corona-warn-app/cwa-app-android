@@ -17,7 +17,6 @@ import de.rki.coronawarnapp.databinding.FragmentTestRiskLevelCalculationBinding
 import de.rki.coronawarnapp.storage.TestSettings
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import timber.log.Timber

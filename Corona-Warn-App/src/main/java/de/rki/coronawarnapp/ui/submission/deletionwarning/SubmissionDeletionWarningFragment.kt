@@ -15,7 +15,6 @@ import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.databinding.FragmentSubmissionDeletionWarningBinding
 import de.rki.coronawarnapp.submission.TestRegistrationStateProcessor.State
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted

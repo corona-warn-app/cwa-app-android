@@ -7,11 +7,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.ui.main.MainActivity
-import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
-import javax.inject.Inject
-import de.rki.coronawarnapp.util.ui.observe2
 
 class OnboardingLoadingFragment : Fragment(R.layout.onboaring_loading_layout) {
 

@@ -12,8 +12,6 @@ import de.rki.coronawarnapp.databinding.FragmentOnboardingPpaBinding
 import de.rki.coronawarnapp.datadonation.analytics.common.labelStringRes
 import de.rki.coronawarnapp.datadonation.analytics.ui.input.AnalyticsUserInputFragment
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
-import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 

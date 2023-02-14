@@ -19,8 +19,6 @@ import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.ui.submission.tan.SubmissionTanViewModel.TanApiRequestState
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
-import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 
