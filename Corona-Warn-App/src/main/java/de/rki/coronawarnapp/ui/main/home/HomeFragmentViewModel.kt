@@ -20,6 +20,7 @@ import de.rki.coronawarnapp.coronatest.type.pcr.toSubmissionState
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.SubmissionStateRAT
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.toSubmissionState
+import de.rki.coronawarnapp.eol.ifNotEol
 import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.familytest.core.repository.FamilyTestRepository
 import de.rki.coronawarnapp.familytest.ui.homecard.FamilyTestCard
@@ -207,19 +208,21 @@ class HomeFragmentViewModel @AssistedInject constructor(
     ) { testsData, tracingItem, statsData, rampDownNotice ->
         mutableListOf<HomeItem>().apply {
             Timber.d("rampDownNotice=%s", rampDownNotice)
-            if (rampDownNotice?.visible == true) {
-                addRampDownCard(rampDownNotice)
+            ifNotEol {
+                if (rampDownNotice?.visible == true) {
+                    addRampDownCard(rampDownNotice)
+                }
+                addRiskLevelCard(tracingItem)
+                addIncompatibleCard()
+                addTestCards(
+                    testsData.coronaTests.latestOf<PCRCoronaTest>(),
+                    testsData.coronaTests.latestOf<RACoronaTest>(),
+                    testsData.coronaTestParameters,
+                    testsData.familyTests
+                )
             }
-            addRiskLevelCard(tracingItem)
-            addIncompatibleCard()
-            addTestCards(
-                testsData.coronaTests.latestOf<PCRCoronaTest>(),
-                testsData.coronaTests.latestOf<RACoronaTest>(),
-                testsData.coronaTestParameters,
-                testsData.familyTests
-            )
             addStatisticsCard(statsData)
-            addTraceLocationCard()
+            ifNotEol { addTraceLocationCard() }
             addFaqCard()
         }
     }.distinctUntilChanged().asLiveData2()
