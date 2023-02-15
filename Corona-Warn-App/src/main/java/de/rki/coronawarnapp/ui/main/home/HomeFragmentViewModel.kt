@@ -20,6 +20,7 @@ import de.rki.coronawarnapp.coronatest.type.pcr.toSubmissionState
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.SubmissionStateRAT
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.toSubmissionState
+import de.rki.coronawarnapp.eol.AppEol
 import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.familytest.core.repository.FamilyTestRepository
 import de.rki.coronawarnapp.familytest.ui.homecard.FamilyTestCard
@@ -69,7 +70,6 @@ import de.rki.coronawarnapp.tracing.ui.homecards.TracingDisabledCard
 import de.rki.coronawarnapp.tracing.ui.homecards.TracingFailedCard
 import de.rki.coronawarnapp.tracing.ui.homecards.TracingProgressCard
 import de.rki.coronawarnapp.tracing.ui.homecards.TracingStateItem
-import de.rki.coronawarnapp.tracing.ui.statusbar.TracingHeaderState
 import de.rki.coronawarnapp.tracing.ui.statusbar.toHeaderState
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowErrorResetDialog
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowTracingExplanation
@@ -99,6 +99,7 @@ import timber.log.Timber
 
 @Suppress("LongParameterList")
 class HomeFragmentViewModel @AssistedInject constructor(
+    appEol: AppEol,
     dispatcherProvider: DispatcherProvider,
     tracingStatus: GeneralTracingStatus,
     tracingStateProviderFactory: TracingStateProvider.Factory,
@@ -118,7 +119,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
     private val localStatisticsConfigStorage: LocalStatisticsConfigStorage,
     private val recycledTestProvider: RecycledCoronaTestsProvider,
     private val riskCardDisplayInfo: RiskCardDisplayInfo,
-    private val familyTestRepository: FamilyTestRepository
+    private val familyTestRepository: FamilyTestRepository,
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     private val tracingStateProvider by lazy { tracingStateProviderFactory.create(isDetailsMode = false) }
@@ -153,7 +154,12 @@ class HomeFragmentViewModel @AssistedInject constructor(
             .launchInViewModel()
     }
 
-    val tracingHeaderState: LiveData<TracingHeaderState> = tracingStatus.generalStatus.map { it.toHeaderState() }
+    val tracingHeaderState = combine(
+        tracingStatus.generalStatus,
+        appEol.isEol,
+    ) { generalStatus, isEol ->
+        isEol to generalStatus.toHeaderState()
+    }
         .asLiveData(dispatcherProvider.Default)
     val coronaTestErrors = coronaTestRepository.testErrorsSingleEvent
         .asLiveData(dispatcherProvider.Default)
@@ -204,23 +210,26 @@ class HomeFragmentViewModel @AssistedInject constructor(
         tracingCardItems,
         combinedStatisticsProvider.statistics,
         rampDownDataProvider.rampDownNotice,
-    ) { testsData, tracingItem, statsData, rampDownNotice ->
+        appEol.isEol,
+    ) { testsData, tracingItem, statsData, rampDownNotice, isEol ->
         mutableListOf<HomeItem>().apply {
             Timber.d("rampDownNotice=%s", rampDownNotice)
-            if (rampDownNotice?.visible == true) {
-                addRampDownCard(rampDownNotice)
+            if (!isEol) {
+                if (rampDownNotice?.visible == true) {
+                    addRampDownCard(rampDownNotice)
+                }
+                addRiskLevelCard(tracingItem)
+                addIncompatibleCard()
+                addTestCards(
+                    testsData.coronaTests.latestOf<PCRCoronaTest>(),
+                    testsData.coronaTests.latestOf<RACoronaTest>(),
+                    testsData.coronaTestParameters,
+                    testsData.familyTests
+                )
             }
-            addRiskLevelCard(tracingItem)
-            addIncompatibleCard()
-            addTestCards(
-                testsData.coronaTests.latestOf<PCRCoronaTest>(),
-                testsData.coronaTests.latestOf<RACoronaTest>(),
-                testsData.coronaTestParameters,
-                testsData.familyTests
-            )
 
             addStatisticsCard(statsData)
-            addTraceLocationCard()
+            if (!isEol) addTraceLocationCard()
             addFaqCard()
         }
     }.distinctUntilChanged().asLiveData2()

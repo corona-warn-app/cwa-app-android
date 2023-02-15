@@ -8,6 +8,7 @@ import android.text.style.ImageSpan
 import android.view.Menu
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
+import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.onNavDestinationSelected
@@ -97,10 +98,11 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         viewModel.errorEvent.observe(viewLifecycleOwner) { displayDialog { setError(it) } }
         viewModel.tracingHeaderState.observe(viewLifecycleOwner) {
             with(binding) {
-                mainTracingHeadline.contentDescription = it.getTracingContentDescription(requireContext())
-                mainTracingHeadline.text = it.getTracingDescription(requireContext())
-                mainTracingIcon.setLottieAnimation(it.getTracingAnimation(requireContext()))
-                mainTracingIcon.setLottieAnimationColor(it.getTracingTint(requireContext()))
+                mainTracing.isGone = it.first
+                mainTracingHeadline.contentDescription = it.second.getTracingContentDescription(requireContext())
+                mainTracingHeadline.text = it.second.getTracingDescription(requireContext())
+                mainTracingIcon.setLottieAnimation(it.second.getTracingAnimation(requireContext()))
+                mainTracingIcon.setLottieAnimationColor(it.second.getTracingTint(requireContext()))
             }
         }
         viewModel.showIncorrectDeviceTimeDialog.observe(viewLifecycleOwner) { showDialog ->

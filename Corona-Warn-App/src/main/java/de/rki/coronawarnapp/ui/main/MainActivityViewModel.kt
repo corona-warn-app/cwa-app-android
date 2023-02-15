@@ -15,6 +15,7 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSe
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
 import de.rki.coronawarnapp.environment.BuildConfigWrap
 import de.rki.coronawarnapp.environment.EnvironmentSetup
+import de.rki.coronawarnapp.eol.AppEol
 import de.rki.coronawarnapp.familytest.core.repository.FamilyTestRepository
 import de.rki.coronawarnapp.main.CWASettings.Companion.DEFAULT_APP_VERSION
 import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
@@ -57,15 +58,17 @@ class MainActivityViewModel @AssistedInject constructor(
     personCertificatesProvider: PersonCertificatesProvider,
     valueSetRepository: ValueSetsRepository,
     tracingSettings: TracingSettings,
+    appEol: AppEol,
 ) : CWAViewModel(
     dispatcherProvider = dispatcherProvider
 ) {
 
     val isToolTipVisible: LiveData<Boolean> = combine(
         onboardingSettings.fabScannerOnboardingDone,
-        onboardingSettings.fabUqsLogVersion
-    ) { done, version ->
-        !done && version != DEFAULT_APP_VERSION && version < BuildConfigWrap.VERSION_CODE
+        onboardingSettings.fabUqsLogVersion,
+        appEol.isEol
+    ) { done, version, isEol ->
+        !isEol && !done && version != DEFAULT_APP_VERSION && version < BuildConfigWrap.VERSION_CODE
     }.asLiveData2()
     val showEnvironmentHint = SingleLiveEvent<String>()
     val event = SingleLiveEvent<MainActivityEvent>()
@@ -150,6 +153,7 @@ class MainActivityViewModel @AssistedInject constructor(
             CheckInsFragment.canHandle(uriString) -> event.postValue(
                 MainActivityEvent.GoToCheckInsFragment(uriString)
             )
+
             raExtractor.canHandle(uriString) -> raExtractor.handleCoronaTestQr(uriString = uriString)
             rPcrExtractor.canHandle(uriString) -> rPcrExtractor.handleCoronaTestQr(uriString = uriString)
         }

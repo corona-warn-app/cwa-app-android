@@ -4,6 +4,7 @@ import android.content.Context
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.environment.BuildConfigWrap
+import de.rki.coronawarnapp.eol.AppEol
 import de.rki.coronawarnapp.familytest.core.repository.FamilyTestRepository
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
@@ -75,6 +76,7 @@ class HomeFragmentViewModelTest : BaseTest() {
     @MockK lateinit var riskCardDisplayInfo: RiskCardDisplayInfo
     @MockK lateinit var combinedStatisticsProvider: CombinedStatisticsProvider
     @MockK lateinit var rampDownDataProvider: RampDownDataProvider
+    @MockK lateinit var eol: AppEol
 
     private val dataStore = FakeDataStore()
     private val tracingSettings = TracingSettings(dataStore)
@@ -110,6 +112,7 @@ class HomeFragmentViewModelTest : BaseTest() {
                 faqUrl = null
             )
         )
+        every { eol.isEol } returns flowOf(false)
     }
 
     @AfterEach
@@ -138,6 +141,7 @@ class HomeFragmentViewModelTest : BaseTest() {
         familyTestRepository = familyTestRepository,
         combinedStatisticsProvider = combinedStatisticsProvider,
         rampDownDataProvider = rampDownDataProvider,
+        appEol = eol
     )
 
     @Test
@@ -146,7 +150,7 @@ class HomeFragmentViewModelTest : BaseTest() {
 
         createInstance().apply {
             tracingHeaderState.observeForTesting {
-                tracingHeaderState.value shouldBe TracingHeaderState.BluetoothDisabled
+                tracingHeaderState.value shouldBe false to TracingHeaderState.BluetoothDisabled
             }
         }
 
@@ -154,7 +158,7 @@ class HomeFragmentViewModelTest : BaseTest() {
 
         createInstance().apply {
             tracingHeaderState.observeForTesting {
-                tracingHeaderState.value shouldBe TracingHeaderState.LocationDisabled
+                tracingHeaderState.value shouldBe false to TracingHeaderState.LocationDisabled
             }
         }
 
@@ -162,7 +166,7 @@ class HomeFragmentViewModelTest : BaseTest() {
 
         createInstance().apply {
             tracingHeaderState.observeForTesting {
-                tracingHeaderState.value shouldBe TracingHeaderState.TracingInActive
+                tracingHeaderState.value shouldBe false to TracingHeaderState.TracingInActive
             }
         }
 
@@ -170,7 +174,7 @@ class HomeFragmentViewModelTest : BaseTest() {
 
         createInstance().apply {
             tracingHeaderState.observeForTesting {
-                tracingHeaderState.value shouldBe TracingHeaderState.TracingActive
+                tracingHeaderState.value shouldBe false to TracingHeaderState.TracingActive
             }
         }
     }
