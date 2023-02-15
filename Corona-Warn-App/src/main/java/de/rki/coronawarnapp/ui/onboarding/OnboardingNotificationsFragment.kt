@@ -10,7 +10,6 @@ import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentOnboardingNotificationsBinding
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -36,7 +35,7 @@ class OnboardingNotificationsFragment :
             onboardingButtonNext.setOnClickListener { vm.onNextButtonClick() }
             onboardingNotificationsToolbar.setNavigationOnClickListener { requireActivity().onBackPressed() }
         }
-        vm.routeToScreen.observe2(this) {
+        vm.routeToScreen.observe(viewLifecycleOwner) {
             when (it) {
                 is OnboardingNavigationEvents.NavigateToOnboardingAnalytics ->
                     findNavController().navigate(

@@ -14,7 +14,6 @@ import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultPositiveKeys
 import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.reyclebin.ui.dialog.recycleTestDialog
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -59,7 +58,7 @@ class SubmissionTestResultKeysSharedFragment :
             viewModel.onShowDeleteTestDialog()
         }
 
-        viewModel.uiState.observe2(this) {
+        viewModel.uiState.observe(viewLifecycleOwner) {
             binding.apply {
                 submissionTestResultSection.setTestResultSection(it.coronaTest)
                 submissionDonePcrValidation.isVisible = it.coronaTest.type == BaseCoronaTest.Type.RAPID_ANTIGEN
@@ -75,11 +74,11 @@ class SubmissionTestResultKeysSharedFragment :
             }
         }
 
-        viewModel.showDeleteTestDialog.observe2(this) {
+        viewModel.showDeleteTestDialog.observe(viewLifecycleOwner) {
             showMoveToRecycleBinDialog()
         }
 
-        viewModel.routeToScreen.observe2(this) {
+        viewModel.routeToScreen.observe(viewLifecycleOwner) {
             navigateBackToFlowStart()
         }
     }

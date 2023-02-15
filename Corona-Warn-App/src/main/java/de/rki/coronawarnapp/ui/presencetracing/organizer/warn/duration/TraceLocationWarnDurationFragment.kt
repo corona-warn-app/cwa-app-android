@@ -21,7 +21,6 @@ import de.rki.coronawarnapp.ui.durationpicker.format
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.toLocalDateTimeUserTz
 import de.rki.coronawarnapp.util.ui.addTitleId
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -59,7 +58,7 @@ class TraceLocationWarnDurationFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.state.observe2(this) { uiState ->
+        viewModel.state.observe(viewLifecycleOwner) { uiState ->
             with(binding) {
                 eventDescription.text = uiState.description
                 eventAddress.text = uiState.address

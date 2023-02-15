@@ -10,7 +10,6 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentOnboardingDeltaInteroperabilityBinding
 import de.rki.coronawarnapp.util.convertToHyperlink
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -27,7 +26,7 @@ class OnboardingDeltaInteroperabilityFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        vm.countryList.observe2(this) {
+        vm.countryList.observe(viewLifecycleOwner) {
             binding.deltaInteroperabilityCountryList.setCountryList(it)
             if (it.isEmpty()) {
                 binding.countryListGroup.isVisible = false
@@ -51,7 +50,7 @@ class OnboardingDeltaInteroperabilityFragment :
         binding.onboardingDeltaToolbar.setNavigationOnClickListener { vm.onBackPressed() }
         binding.onboardingButtonNext.setOnClickListener { vm.onBackPressed() }
 
-        vm.navigateBack.observe2(this) {
+        vm.navigateBack.observe(viewLifecycleOwner) {
             if (it) {
                 popBackStack()
             }

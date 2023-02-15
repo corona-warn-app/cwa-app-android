@@ -10,7 +10,6 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.BugreportingDebuglogUploadFragmentBinding
 import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -40,22 +39,22 @@ class DebugLogUploadFragment : Fragment(R.layout.bugreporting_debuglog_upload_fr
             toolbar.setNavigationOnClickListener { popBackStack() }
         }
 
-        vm.routeToScreen.observe2(this) {
+        vm.routeToScreen.observe(viewLifecycleOwner) {
             when (it) {
                 null -> popBackStack()
                 else -> findNavController().navigate(it)
             }
         }
 
-        vm.errorEvent.observe2(this) {
+        vm.errorEvent.observe(viewLifecycleOwner) {
             displayDialog {
                 title(getString(R.string.errors_generic_headline))
                 message(R.string.debugging_debuglog_share_try_again_later)
             }
         }
 
-        vm.uploadInProgress.observe2(this) { uploadDialog.setState(it) }
-        vm.uploadSuccess.observe2(this) {
+        vm.uploadInProgress.observe(viewLifecycleOwner) { uploadDialog.setState(it) }
+        vm.uploadSuccess.observe(viewLifecycleOwner) {
             Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
         }
     }

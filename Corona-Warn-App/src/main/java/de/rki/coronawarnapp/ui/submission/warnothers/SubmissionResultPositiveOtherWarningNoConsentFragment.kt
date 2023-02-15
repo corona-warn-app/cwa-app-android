@@ -15,7 +15,6 @@ import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.ui.submission.SubmissionBlockingDialog
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -55,7 +54,7 @@ class SubmissionResultPositiveOtherWarningNoConsentFragment :
             viewModel.onBackPressed()
         }
 
-        viewModel.navigateBack.observe2(this) {
+        viewModel.navigateBack.observe(viewLifecycleOwner) {
             goBack()
         }
 
@@ -64,20 +63,20 @@ class SubmissionResultPositiveOtherWarningNoConsentFragment :
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backCallback)
 
-        viewModel.routeToScreen.observe2(this) {
+        viewModel.routeToScreen.observe(viewLifecycleOwner) {
             findNavController().navigate(it)
         }
 
-        viewModel.showKeysRetrievalProgress.observe2(this) { show ->
+        viewModel.showKeysRetrievalProgress.observe(viewLifecycleOwner) { show ->
             keysRetrievalProgress.setState(show)
             binding.submissionPositiveOtherWarningNoConsentButtonNext.isEnabled = !show
         }
 
-        viewModel.showPermissionRequest.observe2(this) { permissionRequest ->
+        viewModel.showPermissionRequest.observe(viewLifecycleOwner) { permissionRequest ->
             permissionRequest.invoke(requireActivity())
         }
 
-        viewModel.showEnableTracingEvent.observe2(this) {
+        viewModel.showEnableTracingEvent.observe(viewLifecycleOwner) {
             displayDialog {
                 title(R.string.submission_test_result_dialog_tracing_required_title)
                 message(R.string.submission_test_result_dialog_tracing_required_message)
@@ -89,11 +88,11 @@ class SubmissionResultPositiveOtherWarningNoConsentFragment :
             viewModel.onDataPrivacyClick()
         }
 
-        viewModel.countryList.observe2(this) {
+        viewModel.countryList.observe(viewLifecycleOwner) {
             binding.countryList.countries = it
         }
 
-        viewModel.showTracingConsentDialog.observe2(this) { onConsentResult ->
+        viewModel.showTracingConsentDialog.observe(viewLifecycleOwner) { onConsentResult ->
             tracingConsentDialog(
                 positiveButton = { onConsentResult(true) },
                 negativeButton = { onConsentResult(false) }

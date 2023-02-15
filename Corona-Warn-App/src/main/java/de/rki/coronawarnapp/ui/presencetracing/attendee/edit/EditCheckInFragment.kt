@@ -13,7 +13,6 @@ import com.google.android.material.transition.MaterialContainerTransform
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentEditCheckInBinding
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -81,14 +80,14 @@ class EditCheckInFragment : Fragment(R.layout.fragment_edit_check_in), AutoInjec
             root.transitionName = navArgs.editCheckInId.toString()
         }
 
-        viewModel.events.observe2(this) { navEvent ->
+        viewModel.events.observe(viewLifecycleOwner) { navEvent ->
             when (navEvent) {
                 EditCheckInNavigation.BackNavigation -> popBackStack()
                 EditCheckInNavigation.ConfirmNavigation -> popBackStack()
             }
         }
 
-        viewModel.uiState.observe2(this) { uiState ->
+        viewModel.uiState.observe(viewLifecycleOwner) { uiState ->
             with(binding) {
                 editCheckinInfoCardHeader.text = getString(uiState.typeRes)
                 editCheckinInfoCardTitle.text = uiState.description
@@ -108,7 +107,7 @@ class EditCheckInFragment : Fragment(R.layout.fragment_edit_check_in), AutoInjec
             }
         }
 
-        viewModel.openStartPickerEvent.observe2(this) { event ->
+        viewModel.openStartPickerEvent.observe(viewLifecycleOwner) { event ->
             when (event) {
                 is EditCheckInViewModel.DateTimePickerEvent.DatePickerEvent ->
                     showDatePicker(event.localDate) {
@@ -126,7 +125,7 @@ class EditCheckInFragment : Fragment(R.layout.fragment_edit_check_in), AutoInjec
             }
         }
 
-        viewModel.openEndPickerEvent.observe2(this) { event ->
+        viewModel.openEndPickerEvent.observe(viewLifecycleOwner) { event ->
             when (event) {
                 is EditCheckInViewModel.DateTimePickerEvent.DatePickerEvent ->
                     showDatePicker(event.localDate) {

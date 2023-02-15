@@ -10,7 +10,6 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestRegistrationSelectionBinding
 import de.rki.coronawarnapp.ui.submission.qrcode.consent.SubmissionConsentBackNavArg.BackToTestRegistrationSelection
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -34,7 +33,7 @@ class TestRegistrationSelectionFragment : Fragment(R.layout.fragment_test_regist
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.routeToScreen.observe2(this) {
+        viewModel.routeToScreen.observe(viewLifecycleOwner) {
             when (it) {
                 is TestRegistrationSelectionNavigationEvents.NavigateBack -> {
                     popBackStack()

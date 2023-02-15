@@ -29,7 +29,6 @@ import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.tryHumanReadableError
 import de.rki.coronawarnapp.util.ui.LazyString
 import de.rki.coronawarnapp.util.ui.addMenuId
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
@@ -61,12 +60,12 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
         super.onViewCreated(view, savedInstanceState)
         setupMenu(binding.toolbar)
         bindRecycler()
-        viewModel.checkins.observe2(this) { items ->
+        viewModel.checkins.observe(viewLifecycleOwner) { items ->
             updateViews(items)
             binding.toolbar.menu.findItem(R.id.menu_remove_all)?.isEnabled = items.isNotEmpty()
         }
-        viewModel.events.observe2(this) { it?.let { onNavigationEvent(it) } }
-        viewModel.errorEvent.observe2(this) {
+        viewModel.events.observe(viewLifecycleOwner) { it?.let { onNavigationEvent(it) } }
+        viewModel.errorEvent.observe(viewLifecycleOwner) {
             val errorForHumans = it.tryHumanReadableError(requireContext())
             Toast.makeText(requireContext(), errorForHumans.description, Toast.LENGTH_LONG).show()
         }

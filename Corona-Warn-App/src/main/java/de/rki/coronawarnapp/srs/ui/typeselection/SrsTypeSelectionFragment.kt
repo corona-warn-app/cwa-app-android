@@ -9,7 +9,6 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSrsTypeSelectionBinding
 import de.rki.coronawarnapp.srs.ui.dialogs.showCloseDialog
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -27,7 +26,7 @@ class SrsTypeSelectionFragment : Fragment(R.layout.fragment_srs_type_selection),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.navigation.observe2(this) {
+        viewModel.navigation.observe(viewLifecycleOwner) {
             when (it) {
                 SrsTypeSelectionNavigationEvents.NavigateToCloseDialog -> showCloseDialog {
                     viewModel.onCancelConfirmed()
