@@ -28,16 +28,8 @@ Files: **
 Copyright: 2020-2021 SAP SE or an SAP affiliate company and cwa-app-android contributors
 License: Apache-2.0
 
-Files: Corona-Warn-App/src/main/java/de/rki/coronawarnapp/util/serialization/adapter/RuntimeTypeAdapterFactory.java
-Copyright: 2011 Google Inc.
-License: Apache-2.0
-
-Files: Corona-Warn-App/src/main/java/de/rki/coronawarnapp/ui/SingleLiveEvent.kt Corona-Warn-App/src/main/java/de/rki/coronawarnapp/util/ui/SingleLiveEvent.kt
+Files: Corona-Warn-App/src/main/java/de/rki/coronawarnapp/util/ui/SingleLiveEvent.kt
 Copyright:  2017 Google Inc.
-License: Apache-2.0
-
-Files: Corona-Warn-App/src/main/java/de/rki/coronawarnapp/util/viewmodel/ViewModelLazyKeyed.kt
-Copyright: 2018 The Android Open Source Project
 License: Apache-2.0
 
 Files: Corona-Warn-App/src/main/java/de/rki/coronawarnapp/util/coroutine/ListenableFuture.kt
