@@ -1,19 +1,20 @@
 package de.rki.coronawarnapp.diagnosiskeys.execution
 
 import android.content.Context
+import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import dagger.assisted.Assisted
-import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.bugreporting.reportProblem
 import de.rki.coronawarnapp.diagnosiskeys.download.DownloadDiagnosisKeysTask
+import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.task.common.DefaultTaskRequest
 import de.rki.coronawarnapp.task.submitBlocking
-import de.rki.coronawarnapp.util.worker.InjectedWorkerFactory
 import timber.log.Timber
 
+@HiltWorker
 class DiagnosisKeyRetrievalWorker @AssistedInject constructor(
     @Assisted val context: Context,
     @Assisted workerParams: WorkerParameters,
@@ -48,10 +49,7 @@ class DiagnosisKeyRetrievalWorker @AssistedInject constructor(
         Result.retry()
     }
 
-    @AssistedFactory
-    interface Factory : InjectedWorkerFactory<DiagnosisKeyRetrievalWorker>
-
     companion object {
-        private val TAG = DiagnosisKeyRetrievalWorker::class.java.simpleName
+        private val TAG = tag<DiagnosisKeyRetrievalWorker>()
     }
 }

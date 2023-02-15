@@ -1,19 +1,20 @@
 package de.rki.coronawarnapp.familytest.worker
 
 import android.content.Context
+import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import dagger.assisted.Assisted
-import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.familytest.core.repository.FamilyTestRepository
-import de.rki.coronawarnapp.util.worker.InjectedWorkerFactory
 import de.rki.coronawarnapp.worker.BackgroundConstants
 import timber.log.Timber
 
 /**
  * Family test result retrieval every 2h for all test types
  */
+
+@HiltWorker
 class FamilyTestResultRetrievalWorker @AssistedInject constructor(
     @Assisted val context: Context,
     @Assisted workerParams: WorkerParameters,
@@ -39,7 +40,4 @@ class FamilyTestResultRetrievalWorker @AssistedInject constructor(
             Result.retry()
         }
     }
-
-    @AssistedFactory
-    interface Factory : InjectedWorkerFactory<FamilyTestResultRetrievalWorker>
 }

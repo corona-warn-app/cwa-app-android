@@ -92,7 +92,7 @@ class WorkerBinderTest : BaseTest() {
 }
 
 @Singleton
-@Component(modules = [WorkerBinder::class, MockProvider::class])
+@Component(modules = [ MockProvider::class])
 interface WorkerTestComponent {
 
     val factories:

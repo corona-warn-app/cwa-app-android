@@ -1,17 +1,17 @@
 package de.rki.coronawarnapp.presencetracing.checkins.checkout.auto
 
 import android.content.Context
+import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.google.android.gms.common.api.ApiException
 import dagger.assisted.Assisted
-import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.bugreporting.reportProblem
 import de.rki.coronawarnapp.presencetracing.checkins.checkout.CheckOutNotification
-import de.rki.coronawarnapp.util.worker.InjectedWorkerFactory
 import timber.log.Timber
 
+@HiltWorker
 class AutoCheckOutWorker @AssistedInject constructor(
     @Assisted val context: Context,
     @Assisted workerParams: WorkerParameters,
@@ -59,9 +59,6 @@ class AutoCheckOutWorker @AssistedInject constructor(
         e.reportProblem(TAG, "Failed to perform auto checkout.")
         Result.failure()
     }
-
-    @AssistedFactory
-    interface Factory : InjectedWorkerFactory<AutoCheckOutWorker>
 
     companion object {
         const val ARGKEY_CHECKIN_ID = "autoCheckout.checkInId"

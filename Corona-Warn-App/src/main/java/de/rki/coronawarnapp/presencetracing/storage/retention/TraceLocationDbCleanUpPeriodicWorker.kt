@@ -1,14 +1,14 @@
 package de.rki.coronawarnapp.presencetracing.storage.retention
 
 import android.content.Context
+import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import dagger.assisted.Assisted
-import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.util.worker.InjectedWorkerFactory
 import timber.log.Timber
 
+@HiltWorker
 class TraceLocationDbCleanUpPeriodicWorker @AssistedInject constructor(
     @Assisted private val context: Context,
     @Assisted private val workerParams: WorkerParameters,
@@ -28,7 +28,4 @@ class TraceLocationDbCleanUpPeriodicWorker @AssistedInject constructor(
         Timber.d("Work in TraceLocationDbCleanUpPeriodicWorker successfully completed!")
         return Result.success()
     }
-
-    @AssistedFactory
-    interface Factory : InjectedWorkerFactory<TraceLocationDbCleanUpPeriodicWorker>
 }

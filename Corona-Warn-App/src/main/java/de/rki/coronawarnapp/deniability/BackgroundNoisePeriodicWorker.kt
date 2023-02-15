@@ -1,14 +1,14 @@
 package de.rki.coronawarnapp.deniability
 
 import android.content.Context
+import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import dagger.assisted.Assisted
-import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
+import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.TimeStamper
-import de.rki.coronawarnapp.util.worker.InjectedWorkerFactory
 import de.rki.coronawarnapp.worker.BackgroundConstants
 import kotlinx.coroutines.flow.first
 import timber.log.Timber
@@ -18,6 +18,8 @@ import java.time.Instant
 /**
  * Periodic background noise worker
  */
+
+@HiltWorker
 class BackgroundNoisePeriodicWorker @AssistedInject constructor(
     @Assisted val context: Context,
     @Assisted workerParams: WorkerParameters,
@@ -64,11 +66,8 @@ class BackgroundNoisePeriodicWorker @AssistedInject constructor(
         Timber.tag(TAG).d("$id: worker stopped")
     }
 
-    @AssistedFactory
-    interface Factory : InjectedWorkerFactory<BackgroundNoisePeriodicWorker>
-
     companion object {
-        private val TAG = BackgroundNoisePeriodicWorker::class.java.simpleName
+        private val TAG = tag<BackgroundNoisePeriodicWorker>()
         private const val NUMBER_OF_DAYS_TO_RUN_PLAYBOOK = BackgroundConstants.NUMBER_OF_DAYS_TO_RUN_PLAYBOOK.toLong()
     }
 }

@@ -7,6 +7,7 @@ import androidx.lifecycle.AbstractSavedStateViewModelFactory
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 
+@Suppress("UNCHECKED_CAST")
 @MainThread
 inline fun <reified T : ViewModel> Fragment.assistedViewModel(
     crossinline viewModelProducer: (SavedStateHandle) -> T

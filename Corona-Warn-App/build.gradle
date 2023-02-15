@@ -375,8 +375,13 @@ dependencies {
     // DAGGER
     def hilt_version = "2.45"
 
+    // Hilt base
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
+    // Hilt worker
+    implementation("androidx.hilt:hilt-work:1.0.0")
+    kapt("androidx.hilt:hilt-compiler:1.0.0")
+    // Hilt testing
     kaptTest("com.google.dagger:hilt-android-compiler:$hilt_version")
     androidTestImplementation("com.google.dagger:hilt-android-testing:$hilt_version")
     kaptAndroidTest("com.google.dagger:hilt-android-compiler:$hilt_version")

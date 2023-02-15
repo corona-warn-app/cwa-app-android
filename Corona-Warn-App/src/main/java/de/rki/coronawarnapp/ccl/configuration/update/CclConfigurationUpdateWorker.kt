@@ -1,14 +1,14 @@
 package de.rki.coronawarnapp.ccl.configuration.update
 
 import android.content.Context
+import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import dagger.assisted.Assisted
-import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.util.worker.InjectedWorkerFactory
 import timber.log.Timber
 
+@HiltWorker
 class CclConfigurationUpdateWorker @AssistedInject constructor(
     @Assisted val context: Context,
     @Assisted val workerParams: WorkerParameters,
@@ -21,7 +21,4 @@ class CclConfigurationUpdateWorker @AssistedInject constructor(
         Timber.d("Finished updating the ccl configuration.")
         return Result.success()
     }
-
-    @AssistedFactory
-    interface Factory : InjectedWorkerFactory<CclConfigurationUpdateWorker>
 }

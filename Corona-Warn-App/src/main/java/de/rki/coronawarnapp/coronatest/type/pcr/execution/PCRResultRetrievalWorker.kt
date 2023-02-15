@@ -1,15 +1,15 @@
 package de.rki.coronawarnapp.coronatest.type.pcr.execution
 
 import android.content.Context
+import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import dagger.assisted.Assisted
-import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.latestPCRT
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
-import de.rki.coronawarnapp.util.worker.InjectedWorkerFactory
+import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.worker.BackgroundConstants
 import kotlinx.coroutines.flow.first
 import timber.log.Timber
@@ -17,6 +17,7 @@ import timber.log.Timber
 /**
  * Diagnosis test result retrieval by periodic polling
  */
+@HiltWorker
 class PCRResultRetrievalWorker @AssistedInject constructor(
     @Assisted val context: Context,
     @Assisted workerParams: WorkerParameters,
@@ -52,10 +53,7 @@ class PCRResultRetrievalWorker @AssistedInject constructor(
         }
     }
 
-    @AssistedFactory
-    interface Factory : InjectedWorkerFactory<PCRResultRetrievalWorker>
-
     companion object {
-        private val TAG = PCRResultRetrievalWorker::class.java.simpleName
+        private val TAG = tag<PCRResultRetrievalWorker>()
     }
 }

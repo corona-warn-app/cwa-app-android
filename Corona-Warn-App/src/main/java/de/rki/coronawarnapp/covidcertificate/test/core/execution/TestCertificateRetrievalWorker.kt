@@ -1,18 +1,19 @@
 package de.rki.coronawarnapp.covidcertificate.test.core.execution
 
 import android.content.Context
+import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import dagger.assisted.Assisted
-import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
-import de.rki.coronawarnapp.util.worker.InjectedWorkerFactory
+import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.worker.BackgroundConstants
 import kotlinx.coroutines.CancellationException
 
 import timber.log.Timber
 
+@HiltWorker
 class TestCertificateRetrievalWorker @AssistedInject constructor(
     @Assisted val context: Context,
     @Assisted workerParams: WorkerParameters,
@@ -47,10 +48,7 @@ class TestCertificateRetrievalWorker @AssistedInject constructor(
         }
     }
 
-    @AssistedFactory
-    interface Factory : InjectedWorkerFactory<TestCertificateRetrievalWorker>
-
     companion object {
-        private val TAG = TestCertificateRetrievalWorker::class.java.simpleName
+        private val TAG = tag<TestCertificateRetrievalWorker>()
     }
 }

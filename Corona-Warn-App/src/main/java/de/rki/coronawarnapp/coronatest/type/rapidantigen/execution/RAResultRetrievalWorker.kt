@@ -1,18 +1,18 @@
 package de.rki.coronawarnapp.coronatest.type.rapidantigen.execution
 
 import android.content.Context
+import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import dagger.assisted.Assisted
-import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.latestRAT
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.execution.RAResultScheduler.RatPollingMode.PHASE1
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.execution.RAResultScheduler.RatPollingMode.PHASE2
+import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.TimeStamper
-import de.rki.coronawarnapp.util.worker.InjectedWorkerFactory
 import de.rki.coronawarnapp.worker.BackgroundConstants
 import kotlinx.coroutines.flow.first
 import timber.log.Timber
@@ -21,6 +21,8 @@ import java.time.Duration
 /**
  * RAT result retrieval by periodic polling
  */
+
+@HiltWorker
 class RAResultRetrievalWorker @AssistedInject constructor(
     @Assisted val context: Context,
     @Assisted workerParams: WorkerParameters,
@@ -69,11 +71,8 @@ class RAResultRetrievalWorker @AssistedInject constructor(
         }
     }
 
-    @AssistedFactory
-    interface Factory : InjectedWorkerFactory<RAResultRetrievalWorker>
-
     companion object {
-        private val TAG = RAResultRetrievalWorker::class.java.simpleName
+        private val TAG = tag<RAResultRetrievalWorker>()
 
         /**
          * The time when rat polling is switched to a larger interval

@@ -1,12 +1,12 @@
 package de.rki.coronawarnapp.deadman
 
 import android.content.Context
+import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import dagger.assisted.Assisted
-import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.util.worker.InjectedWorkerFactory
+import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.worker.BackgroundConstants
 import timber.log.Timber
 
@@ -15,6 +15,8 @@ import timber.log.Timber
  *
  * @see DeadmanNotificationScheduler
  */
+
+@HiltWorker
 class DeadmanNotificationOneTimeWorker @AssistedInject constructor(
     @Assisted val context: Context,
     @Assisted workerParams: WorkerParameters,
@@ -40,10 +42,7 @@ class DeadmanNotificationOneTimeWorker @AssistedInject constructor(
         return result
     }
 
-    @AssistedFactory
-    interface Factory : InjectedWorkerFactory<DeadmanNotificationOneTimeWorker>
-
     companion object {
-        private val TAG = DeadmanNotificationOneTimeWorker::class.java.simpleName
+        private val TAG = tag<DeadmanNotificationOneTimeWorker>()
     }
 }

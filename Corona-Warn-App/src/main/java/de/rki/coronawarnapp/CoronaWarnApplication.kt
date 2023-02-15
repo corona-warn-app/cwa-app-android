@@ -39,8 +39,13 @@ open class CoronaWarnApplication : Application() {
     @Inject lateinit var foregroundState: ForegroundState
     @Inject lateinit var encryptedPreferencesMigration: Lazy<EncryptedPreferencesMigration>
     @Inject lateinit var initializers: Provider<Set<@JvmSuppressWildcards Initializer>>
-    @AppScope @Inject lateinit var appScope: CoroutineScope
-    @LogHistoryTree @Inject lateinit var rollingLogHistory: Timber.Tree
+
+    @AppScope
+    @Inject lateinit var appScope: CoroutineScope
+
+    @LogHistoryTree
+    @Inject lateinit var rollingLogHistory: Timber.Tree
+
     override fun onCreate() {
         instance = this
         super.onCreate()

@@ -1,15 +1,16 @@
 package de.rki.coronawarnapp.covidcertificate.common.statecheck
 
 import android.content.Context
+import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import dagger.assisted.Assisted
-import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.covidcertificate.expiration.DccValidityStateNotificationService
-import de.rki.coronawarnapp.util.worker.InjectedWorkerFactory
+import de.rki.coronawarnapp.tag
 import timber.log.Timber
 
+@HiltWorker
 class DccStateCheckWorker @AssistedInject constructor(
     @Assisted val context: Context,
     @Assisted workerParams: WorkerParameters,
@@ -25,10 +26,7 @@ class DccStateCheckWorker @AssistedInject constructor(
         Result.retry()
     }
 
-    @AssistedFactory
-    interface Factory : InjectedWorkerFactory<DccStateCheckWorker>
-
     companion object {
-        private val TAG = DccStateCheckWorker::class.java.simpleName
+        private val TAG = tag<DccStateCheckWorker>()
     }
 }
