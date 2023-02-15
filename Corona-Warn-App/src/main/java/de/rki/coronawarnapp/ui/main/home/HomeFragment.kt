@@ -8,7 +8,6 @@ import android.text.style.ImageSpan
 import android.view.Menu
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
-import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.onNavDestinationSelected
@@ -19,7 +18,6 @@ import de.rki.coronawarnapp.NavGraphDirections
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.databinding.HomeFragmentLayoutBinding
-import de.rki.coronawarnapp.eol.isEol
 import de.rki.coronawarnapp.reyclebin.ui.dialog.recycleTestDialog
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.ui.dialog.displayDialog
