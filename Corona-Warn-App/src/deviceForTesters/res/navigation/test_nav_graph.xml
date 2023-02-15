@@ -179,4 +179,9 @@
         android:name="de.rki.coronawarnapp.test.ccl.CclTestFragment"
         android:label="CclTestFragment" />
 
+    <fragment
+        android:id="@+id/eolTestFragment"
+        android:name="de.rki.coronawarnapp.test.eol.EolTestFragment"
+        android:label="EolTestFragment" />
+
 </navigation>
