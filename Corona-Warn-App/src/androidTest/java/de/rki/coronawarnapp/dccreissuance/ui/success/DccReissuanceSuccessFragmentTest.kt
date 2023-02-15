@@ -1,16 +1,20 @@
 package de.rki.coronawarnapp.dccreissuance.ui.success
 
-import androidx.test.ext.junit.runners.AndroidJUnit4
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
+import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
 import testhelpers.launchFragment2
 import testhelpers.launchFragmentInContainer2
 import testhelpers.takeScreenshot
 
-@RunWith(AndroidJUnit4::class)
+@HiltAndroidTest
 class DccReissuanceSuccessFragmentTest : BaseUITest() {
+
+    @get:Rule
+    val hiltRule = HiltAndroidRule(this)
 
     @Test
     fun launch_fragment() {

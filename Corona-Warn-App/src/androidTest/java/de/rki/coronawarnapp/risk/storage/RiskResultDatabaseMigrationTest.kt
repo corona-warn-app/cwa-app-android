@@ -13,11 +13,9 @@ import de.rki.coronawarnapp.risk.storage.internal.migrations.RiskResultDatabaseM
 import de.rki.coronawarnapp.risk.storage.internal.migrations.RiskResultDatabaseMigration2To3
 import de.rki.coronawarnapp.risk.storage.internal.riskresults.PersistedRiskLevelResultDao
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass
-import de.rki.coronawarnapp.util.di.ApplicationComponent
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.mockk.every
-import io.mockk.mockk
 import io.mockk.mockkObject
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
@@ -43,13 +41,6 @@ class RiskResultDatabaseMigrationTest : BaseTestInstrumentation() {
     @Before
     fun setup() {
         mockkObject(CoronaWarnApplication)
-        mockkObject(AppInjector)
-        every { AppInjector.component } returns mockk<ApplicationComponent>(relaxed = true)
-            .apply {
-                every { bugReporter } returns mockk(
-                    relaxed = true
-                )
-            }
         every { CoronaWarnApplication.getAppContext() } returns ApplicationProvider.getApplicationContext()
     }
 

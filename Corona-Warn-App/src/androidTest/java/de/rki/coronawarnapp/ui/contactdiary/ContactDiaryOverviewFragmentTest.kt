@@ -16,7 +16,6 @@ import de.rki.coronawarnapp.ui.contactdiary.DiaryData.SUBMISSION_ITEM
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -38,8 +37,6 @@ class ContactDiaryOverviewFragmentTest : BaseUITest() {
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
     }
-
-
 
     @Test
     fun launch_fragment() {

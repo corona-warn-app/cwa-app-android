@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.ui.presencetracing.organizer.warn.duration
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.ui.eventregistration.organizer.TraceLocationData
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.toLocalDateTimeUserTz

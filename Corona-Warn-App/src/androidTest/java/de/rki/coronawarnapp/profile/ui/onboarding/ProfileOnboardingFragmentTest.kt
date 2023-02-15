@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.profile.ui.onboarding
 
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
-import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import testhelpers.BaseUITest
@@ -32,6 +31,4 @@ class ProfileOnboardingFragmentTest : BaseUITest() {
         launchFragmentInContainer2<ProfileOnboardingFragment>(fragmentArgs = args)
         takeScreenshot<ProfileOnboardingFragment>()
     }
-
-
 }

@@ -7,8 +7,10 @@ import androidx.navigation.testing.TestNavHostController
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.internal.runner.junit4.statement.UiThreadStatement
+import dagger.hilt.android.testing.BindValue
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.rampdown.ui.RampDownNoticeCard
 import de.rki.coronawarnapp.statistics.ui.homecards.StatisticsHomeCard
@@ -27,13 +29,12 @@ import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.every
-import io.mockk.impl.annotations.MockK
 import io.mockk.just
+import io.mockk.mockk
 import io.mockk.verify
-import org.junit.After
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
 import testhelpers.launchInMainActivity
@@ -42,10 +43,15 @@ import testhelpers.setViewVisibility
 import testhelpers.takeScreenshot
 import timber.log.Timber
 
-@RunWith(AndroidJUnit4::class)
+@HiltAndroidTest
 class HomeFragmentTest : BaseUITest() {
 
-    @MockK lateinit var homeFragmentViewModel: HomeFragmentViewModel
+    @get:Rule
+    val hiltRule = HiltAndroidRule(this)
+
+    @BindValue
+    @JvmField
+    val homeFragmentViewModel = mockk<HomeFragmentViewModel>(relaxed = true)
 
     private val navController = TestNavHostController(
         context = ApplicationProvider.getApplicationContext()
@@ -366,8 +372,6 @@ class HomeFragmentTest : BaseUITest() {
         onView(withId(R.id.recycler_view)).perform(recyclerScrollTo(2, additionalY = -900))
         takeScreenshot<HomeFragment>("submission_test_card")
     }
-
-
 
     @Test
     fun onResumeCallsRefresh() {

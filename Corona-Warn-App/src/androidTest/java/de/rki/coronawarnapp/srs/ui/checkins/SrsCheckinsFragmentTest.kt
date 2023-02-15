@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.srs.ui.checkins
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.SavedStateHandle
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
 import de.rki.coronawarnapp.srs.core.model.SrsSubmissionType
@@ -11,7 +10,6 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
-import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -54,8 +52,6 @@ class SrsCheckinsFragmentTest : BaseUITest() {
             )
         }
     }
-
-
 
     @Test
     @Screenshot

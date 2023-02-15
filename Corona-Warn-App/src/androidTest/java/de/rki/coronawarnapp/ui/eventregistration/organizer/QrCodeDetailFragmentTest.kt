@@ -15,7 +15,6 @@ import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -39,8 +38,6 @@ class QrCodeDetailFragmentTest : BaseUITest() {
         TimeZone.setDefault(timeZone)
         MockKAnnotations.init(this, relaxed = true)
     }
-
-
 
     @Test
     fun eventDetailForSameDatesTest() {

@@ -1,27 +1,26 @@
 package de.rki.coronawarnapp.familytest.ui.selection
 
-import androidx.test.ext.junit.runners.AndroidJUnit4
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
-import de.rki.coronawarnapp.submission.SubmissionRepository
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
-import org.junit.After
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
-import testhelpers.TestDispatcherProvider
 import testhelpers.launchFragmentInContainer2
 import testhelpers.takeScreenshot
 
-@RunWith(AndroidJUnit4::class)
+@HiltAndroidTest
 class TestRegistrationSelectionFragmentTest : BaseUITest() {
 
-    @MockK lateinit var submissionRepository: SubmissionRepository
+    @get:Rule
+    val hiltRule = HiltAndroidRule(this)
 
     private val request = CoronaTestQRCode.PCR(qrCodeGUID = "qrCodeGUID", rawQrCode = "rawQrCode")
-    private lateinit var viewModel: TestRegistrationSelectionViewModel
+    @MockK lateinit var viewModel: TestRegistrationSelectionViewModel
 
     private val fragmentArgs = TestRegistrationSelectionFragmentArgs(
         coronaTestQrCode = request
@@ -31,8 +30,6 @@ class TestRegistrationSelectionFragmentTest : BaseUITest() {
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
     }
-
-
 
     @Test
     @Screenshot

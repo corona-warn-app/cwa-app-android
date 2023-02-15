@@ -14,7 +14,6 @@ import io.mockk.spyk
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
-import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -62,8 +61,6 @@ class OnboardingAnalyticsFragmentTest : BaseUITest() {
             analytics = analytics
         )
     )
-
-
 
     @Test
     fun launch_fragment() {

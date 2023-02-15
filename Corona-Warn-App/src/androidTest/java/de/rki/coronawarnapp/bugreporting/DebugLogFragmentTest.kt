@@ -12,7 +12,6 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.spyk
-import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -39,10 +38,7 @@ class DebugLogFragmentTest : BaseUITest() {
         MockKAnnotations.init(this, relaxed = true)
         inactiveViewModel = setupViewModels(false, 0)
         activeViewModel = setupViewModels(true, 9410)
-
     }
-
-
 
     @Test
     fun launch_fragment() {

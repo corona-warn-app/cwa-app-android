@@ -22,7 +22,6 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import kotlinx.coroutines.flow.flowOf
-import org.junit.After
 import org.junit.Before
 import org.junit.Ignore
 import org.junit.Test
@@ -61,8 +60,6 @@ class SubmissionDispatcherFragmentTest : BaseUITest() {
         every { profileSettings.profileFlow } returns flowOf(null)
         coEvery { srsLocalChecker.check() } just Runs
     }
-
-
 
     @Test
     fun launch_fragment() {

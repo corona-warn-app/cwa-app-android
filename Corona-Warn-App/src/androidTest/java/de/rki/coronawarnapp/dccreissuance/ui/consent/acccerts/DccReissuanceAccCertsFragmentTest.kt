@@ -4,8 +4,9 @@ import androidx.lifecycle.ViewModelStore
 import androidx.lifecycle.liveData
 import androidx.navigation.testing.TestNavHostController
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.internal.runner.junit4.statement.UiThreadStatement
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.VaccinationDccV1
@@ -15,10 +16,9 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.mockk
-import org.junit.After
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
 import testhelpers.launchFragment2
@@ -26,10 +26,13 @@ import testhelpers.launchFragmentInContainer2
 import testhelpers.takeScreenshot
 import java.time.LocalDate
 
-@RunWith(AndroidJUnit4::class)
+@HiltAndroidTest
 class DccReissuanceAccCertsFragmentTest : BaseUITest() {
 
     @RelaxedMockK lateinit var viewModel: DccReissuanceAccCertsViewModel
+
+    @get:Rule
+    val hiltRule = HiltAndroidRule(this)
 
     private val navController = TestNavHostController(
         context = ApplicationProvider.getApplicationContext()
@@ -90,8 +93,6 @@ class DccReissuanceAccCertsFragmentTest : BaseUITest() {
 
         every { viewModel.certificatesLiveData } returns liveData { emit(certificateList) }
     }
-
-
 
     @Test
     fun launch_fragment() {

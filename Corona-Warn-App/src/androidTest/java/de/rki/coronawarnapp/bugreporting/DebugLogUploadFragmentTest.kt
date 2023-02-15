@@ -7,7 +7,6 @@ import de.rki.coronawarnapp.bugreporting.debuglog.upload.SnapshotUploader
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
 import io.mockk.spyk
-import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -35,8 +34,6 @@ class DebugLogUploadFragmentTest : BaseUITest() {
             )
         )
     }
-
-
 
     @Test
     fun launch_fragment() {

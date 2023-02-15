@@ -9,7 +9,6 @@ import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.RelaxedMockK
-import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -26,8 +25,6 @@ class LauncherActivityTest : BaseUITest() {
     fun setup() {
         MockKAnnotations.init(this)
     }
-
-
 
     @Test
     fun testDeepLinkLowercase() {

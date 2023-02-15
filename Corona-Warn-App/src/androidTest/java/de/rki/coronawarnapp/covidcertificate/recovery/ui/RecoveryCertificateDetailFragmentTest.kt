@@ -4,11 +4,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.swipeUp
 import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.ext.junit.runners.AndroidJUnit4
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.ScreenshotCertificateTestData
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
-import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.recovery.ui.details.RecoveryCertificateDetailsFragment
 import de.rki.coronawarnapp.covidcertificate.recovery.ui.details.RecoveryCertificateDetailsFragmentArgs
@@ -18,10 +18,9 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
-import org.junit.After
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
 import testhelpers.createFakeImageLoaderForQrCodes
@@ -35,10 +34,13 @@ import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
-@RunWith(AndroidJUnit4::class)
+@HiltAndroidTest
 class RecoveryCertificateDetailFragmentTest : BaseUITest() {
 
     @MockK lateinit var recoveryDetailsViewModel: RecoveryCertificateDetailsViewModel
+
+    @get:Rule
+    val hiltRule = HiltAndroidRule(this)
 
     private val args = RecoveryCertificateDetailsFragmentArgs(certIdentifier = "recoveryCertificateId").toBundle()
 
@@ -133,6 +135,4 @@ class RecoveryCertificateDetailFragmentTest : BaseUITest() {
         every { headerExpiresAt } returns expirationDate
         every { isNotScreened } returns true
     }
-
-
 }

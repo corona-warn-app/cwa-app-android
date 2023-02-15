@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.ui.submission.submissiondone
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import io.mockk.MockKAnnotations
-import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -28,8 +27,6 @@ class SubmissionDoneFragmentTest : BaseUITest() {
             testType
         )
     }
-
-
 
     @Test
     @Screenshot

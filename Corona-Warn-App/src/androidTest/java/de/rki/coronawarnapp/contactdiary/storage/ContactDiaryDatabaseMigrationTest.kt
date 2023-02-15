@@ -18,11 +18,9 @@ import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryPersonEntity
 import de.rki.coronawarnapp.contactdiary.storage.internal.migrations.ContactDiaryDatabaseMigration1To2
 import de.rki.coronawarnapp.contactdiary.storage.internal.migrations.ContactDiaryDatabaseMigration2To3
 import de.rki.coronawarnapp.contactdiary.storage.internal.migrations.ContactDiaryDatabaseMigration3To4
-import de.rki.coronawarnapp.util.di.ApplicationComponent
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.mockk.every
-import io.mockk.mockk
 import io.mockk.mockkObject
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
@@ -50,13 +48,6 @@ class ContactDiaryDatabaseMigrationTest : BaseTestInstrumentation() {
     @Before
     fun setup() {
         mockkObject(CoronaWarnApplication)
-        mockkObject(AppInjector)
-        every { AppInjector.component } returns mockk<ApplicationComponent>(relaxed = true)
-            .apply {
-                every { bugReporter } returns mockk(
-                    relaxed = true
-                )
-            }
         every { CoronaWarnApplication.getAppContext() } returns ApplicationProvider.getApplicationContext()
     }
 

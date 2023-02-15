@@ -20,7 +20,6 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.spyk
-import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -62,8 +61,6 @@ class TracingDetailsFragmentTest : BaseUITest() {
             )
         )
     }
-
-
 
     @Test
     fun launch_tracing_details() {

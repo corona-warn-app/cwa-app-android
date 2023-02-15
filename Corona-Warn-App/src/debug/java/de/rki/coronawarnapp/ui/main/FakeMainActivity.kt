@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.ui.main
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 
 /**
@@ -10,4 +11,5 @@ import de.rki.coronawarnapp.R
  * actual [MainActivity] to avoid mocking dependencies of all first level fragments in [MainActivity]
  * and test the required fragment in isolation.
  */
+@AndroidEntryPoint
 class FakeMainActivity : AppCompatActivity(R.layout.activity_fake_main)

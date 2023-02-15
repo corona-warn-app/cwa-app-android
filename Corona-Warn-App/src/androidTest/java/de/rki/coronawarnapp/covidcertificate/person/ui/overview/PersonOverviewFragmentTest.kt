@@ -2,17 +2,16 @@ package de.rki.coronawarnapp.covidcertificate.person.ui.overview
 
 import androidx.annotation.IdRes
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModelStore
 import androidx.navigation.testing.TestNavHostController
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.internal.runner.junit4.statement.UiThreadStatement
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.covidcertificate.person.ui.admission.AdmissionScenariosSharedViewModel
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonOverviewViewModel.UiState
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.AdmissionTileProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -20,10 +19,9 @@ import de.rki.coronawarnapp.util.ui.updateCountBadge
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import org.junit.After
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
 import testhelpers.createFakeImageLoaderForQrCodes
@@ -33,10 +31,12 @@ import testhelpers.selectBottomNavTab
 import testhelpers.setupFakeImageLoader
 import testhelpers.takeScreenshot
 
-@RunWith(AndroidJUnit4::class)
+@HiltAndroidTest
 class PersonOverviewFragmentTest : BaseUITest() {
 
     @MockK lateinit var viewModel: PersonOverviewViewModel
+    @get:Rule
+    val hiltRule = HiltAndroidRule(this)
 
     private val navController = TestNavHostController(
         ApplicationProvider.getApplicationContext()
@@ -65,7 +65,6 @@ class PersonOverviewFragmentTest : BaseUITest() {
         setupFakeImageLoader(
             createFakeImageLoaderForQrCodes()
         )
-
     }
 
     @Test
@@ -221,8 +220,6 @@ class PersonOverviewFragmentTest : BaseUITest() {
         onView(withId(R.id.recycler_view)).perform(recyclerScrollTo(2))
         takeScreenshot<PersonOverviewFragment>("many_persons_2")
     }
-
-
 
     private fun takeSelfieWithBottomNavBadge(suffix: String, @IdRes badgeId: Int, count: Int) {
         val activityScenario = launchInMainActivity<PersonOverviewFragment>(

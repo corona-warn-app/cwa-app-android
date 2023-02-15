@@ -20,7 +20,6 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.spyk
 import kotlinx.coroutines.test.TestScope
-import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -58,8 +57,6 @@ class SubmissionSymptomIntroFragmentTest : BaseUITest() {
             every { symptomIndication } returns MutableLiveData(Symptoms.Indication.POSITIVE)
         }
     }
-
-
 
     @Test
     fun launch_fragment() {

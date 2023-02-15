@@ -6,7 +6,6 @@ import de.rki.coronawarnapp.coronatest.CoronaTestProvider
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
-import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState
 import de.rki.coronawarnapp.ui.submission.testresult.positive.SubmissionTestResultNoConsentFragment
 import de.rki.coronawarnapp.ui.submission.testresult.positive.SubmissionTestResultNoConsentFragmentArgs
@@ -16,7 +15,6 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
-import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -39,8 +37,6 @@ class SubmissionTestResultNoConsentGivenFragmentTest : BaseUITest() {
         MockKAnnotations.init(this, relaxed = true)
         every { coronaTestProvider.getTestForIdentifier(any()) } returns flowOf()
     }
-
-
 
     @Test
     @Screenshot

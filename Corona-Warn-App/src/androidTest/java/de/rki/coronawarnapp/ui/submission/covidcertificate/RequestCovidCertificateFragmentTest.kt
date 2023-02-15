@@ -7,13 +7,11 @@ import androidx.test.espresso.action.ViewActions.swipeUp
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.coronatest.TestRegistrationRequest
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.submission.TestRegistrationStateProcessor
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -90,6 +88,4 @@ class RequestCovidCertificateFragmentTest : BaseUITest() {
         onView(withId(R.id.scrollview)).perform(swipeUp())
         takeScreenshot<RequestCovidCertificateFragment>("rat_2")
     }
-
-
 }

@@ -10,7 +10,6 @@ import de.rki.coronawarnapp.ui.eventregistration.organizer.TraceLocationData
 import de.rki.coronawarnapp.ui.presencetracing.organizer.warn.TraceLocationWarnDuration
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
-import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -35,8 +34,6 @@ class TraceLocationWarnTanFragmentTest : BaseUITest() {
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
     }
-
-
 
     private fun createViewModel() = TraceLocationWarnTanViewModel(
         dispatcherProvider = TestDispatcherProvider(),

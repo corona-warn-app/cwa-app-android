@@ -29,7 +29,6 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import io.mockk.spyk
-import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -78,8 +77,6 @@ class SubmissionTestResultConsentGivenFragmentTest : BaseUITest() {
                 )
             )
     }
-
-
 
     @Test
     fun launch_fragment() {

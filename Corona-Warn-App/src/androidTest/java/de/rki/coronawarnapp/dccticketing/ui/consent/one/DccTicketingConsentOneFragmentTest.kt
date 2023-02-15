@@ -10,13 +10,10 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.internal.runner.junit4.statement.UiThreadStatement
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.dccticketing.ui.consent.one.DccTicketingConsentOneViewModel.UiState
-import de.rki.coronawarnapp.dccticketing.ui.shared.DccTicketingSharedViewModel
-import de.rki.coronawarnapp.qrcode.ui.QrcodeSharedViewModel
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
-import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -49,8 +46,6 @@ class DccTicketingConsentOneFragmentTest : BaseUITest() {
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
     }
-
-
 
     @Screenshot
     @Test

@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.ui.onboarding
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -16,10 +15,7 @@ class OnboardingTestFragmentTest : BaseUITest() {
 
     @Before
     fun setup() {
-
     }
-
-
 
     @Test
     fun launch_fragment() {

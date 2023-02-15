@@ -2,12 +2,10 @@ package de.rki.coronawarnapp.profile.ui.create
 
 import androidx.lifecycle.MutableLiveData
 import de.rki.coronawarnapp.profile.model.Profile
-import de.rki.coronawarnapp.profile.model.ProfileId
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import testhelpers.BaseUITest
@@ -15,7 +13,6 @@ import testhelpers.Screenshot
 import testhelpers.launchFragment2
 import testhelpers.launchFragmentInContainer2
 import testhelpers.takeScreenshot
-import java.time.format.DateTimeFormatter
 
 class ProfileCreateFragmentTest : BaseUITest() {
 
@@ -49,6 +46,4 @@ class ProfileCreateFragmentTest : BaseUITest() {
         )
         takeScreenshot<ProfileCreateFragment>()
     }
-
-
 }

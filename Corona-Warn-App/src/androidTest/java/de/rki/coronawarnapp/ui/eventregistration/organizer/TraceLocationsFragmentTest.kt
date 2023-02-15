@@ -18,7 +18,6 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.TestScope
-import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -47,8 +46,6 @@ class TraceLocationsFragmentTest : BaseUITest() {
         every { traceLocationSettings.onboardingStatus } returns
             flowOf(TraceLocationSettings.OnboardingStatus.ONBOARDED_2_0)
     }
-
-
 
     @Test
     fun itemWithSameDatesTest() {

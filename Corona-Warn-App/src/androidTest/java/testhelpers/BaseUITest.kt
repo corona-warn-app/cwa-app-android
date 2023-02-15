@@ -2,8 +2,6 @@ package testhelpers
 
 import android.Manifest
 import androidx.test.rule.GrantPermissionRule
-import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import org.junit.Rule
 
 abstract class BaseUITest : BaseTestInstrumentation() {

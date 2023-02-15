@@ -4,25 +4,38 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelStore
 import androidx.navigation.testing.TestNavHostController
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.internal.runner.junit4.statement.UiThreadStatement
+import dagger.hilt.android.testing.BindValue
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 import de.rki.coronawarnapp.R
 import io.mockk.MockKAnnotations
 import io.mockk.every
-import io.mockk.impl.annotations.MockK
-import org.junit.After
+import io.mockk.mockk
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
 import testhelpers.launchFragmentInContainer2
 import testhelpers.takeScreenshot
 
-@RunWith(AndroidJUnit4::class)
+@HiltAndroidTest
 class AdmissionScenariosFragmentTest : BaseUITest() {
 
-    @MockK lateinit var viewModel: AdmissionScenariosViewModel
+    @BindValue
+    val factory = object : AdmissionScenariosViewModel.Factory {
+        override fun create(
+            admissionScenariosSharedViewModel: AdmissionScenariosSharedViewModel
+        ): AdmissionScenariosViewModel {
+            return viewModel
+        }
+    }
+
+    val viewModel = mockk<AdmissionScenariosViewModel>(relaxed = true)
+
+    @get:Rule
+    val hiltRule = HiltAndroidRule(this)
 
     private val navController = TestNavHostController(
         ApplicationProvider.getApplicationContext()
@@ -112,7 +125,6 @@ class AdmissionScenariosFragmentTest : BaseUITest() {
     @Before
     fun setUp() {
         MockKAnnotations.init(this, relaxed = true)
-
         every { viewModel.state } returns MutableLiveData(state)
     }
 
@@ -124,6 +136,4 @@ class AdmissionScenariosFragmentTest : BaseUITest() {
         )
         takeScreenshot<AdmissionScenariosFragment>()
     }
-
-
 }

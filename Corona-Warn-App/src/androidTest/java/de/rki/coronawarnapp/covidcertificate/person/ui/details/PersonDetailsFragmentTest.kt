@@ -5,7 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.swipeUp
 import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.ext.junit.runners.AndroidJUnit4
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.MaskState
 import de.rki.coronawarnapp.covidcertificate.ScreenshotCertificateTestData
@@ -39,10 +40,9 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
-import org.junit.After
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
 import testhelpers.createFakeImageLoaderForQrCodes
@@ -53,9 +53,11 @@ import testhelpers.takeScreenshot
 import java.time.Instant
 import java.util.Locale
 
-@RunWith(AndroidJUnit4::class)
+@HiltAndroidTest
 class PersonDetailsFragmentTest : BaseUITest() {
     @MockK lateinit var viewModel: PersonDetailsViewModel
+    @get:Rule val hiltRule = HiltAndroidRule(this)
+
     private val args = PersonDetailsFragmentArgs("code").toBundle()
     private val vcContainerId = VaccinationCertificateContainerId("1")
     private val tcsContainerId = TestCertificateContainerId("2")
@@ -188,6 +190,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
                         faqAnchor = "FAQ",
                         longTextWithBadge = "Ihr Status hat sich geändert. Ihre Zertifikate erfüllen jetzt die 2G-Regel. Wenn Sie Ihren aktuellen Status vorweisen müssen, schließen Sie diese Ansicht und zeigen Sie den QR-Code auf der Zertifikatsübersicht."
                     )
+
                     else -> AdmissionStatusCard.Item(
                         colorShade = colorShade,
                         titleText = "Proof of Status",
@@ -224,6 +227,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
                             longText = "Sie haben nun alle derzeit geplanten Impfungen erhalten. Ihr Impfschutz ist vollständig.",
                             faqAnchor = "FAQ"
                         )
+
                     else -> VaccinationInfoCard.Item(
                         titleText = "Vaccination Status",
                         subtitleText = "Last vaccination 14 days ago",
@@ -315,6 +319,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
                         faqAnchor = "FAQ",
                         longTextWithBadge = "Ihr Status hat sich geändert. Ihre Zertifikate erfüllen jetzt die 2G-Regel. Wenn Sie Ihren aktuellen Status vorweisen müssen, schließen Sie diese Ansicht und zeigen Sie den QR-Code auf der Zertifikatsübersicht."
                     )
+
                     else -> AdmissionStatusCard.Item(
                         colorShade = PersonColorShade.COLOR_1,
                         titleText = "Proof of Status",
@@ -351,6 +356,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
                             longText = "Sie haben nun alle derzeit geplanten Impfungen erhalten. Ihr Impfschutz ist vollständig.",
                             faqAnchor = "FAQ"
                         )
+
                     else -> VaccinationInfoCard.Item(
                         titleText = "Vaccination Status",
                         subtitleText = "Last vaccination 14 days ago",
@@ -471,6 +477,4 @@ class PersonDetailsFragmentTest : BaseUITest() {
         firstNameStandardized = "firstNameStandardized",
         lastNameStandardized = "lastNameStandardized",
     )
-
-
 }

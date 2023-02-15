@@ -9,7 +9,6 @@ import de.rki.coronawarnapp.R
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -68,6 +67,4 @@ class BoosterInfoDetailsFragmentTest : BaseUITest() {
         onView(withId(R.id.coordinator_layout)).perform(swipeUp())
         takeScreenshot<BoosterInfoDetailsFragment>("2")
     }
-
-
 }

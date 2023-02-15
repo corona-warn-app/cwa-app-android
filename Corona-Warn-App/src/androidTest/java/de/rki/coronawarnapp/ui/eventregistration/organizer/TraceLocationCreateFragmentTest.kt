@@ -20,7 +20,6 @@ import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
-import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -55,8 +54,6 @@ class TraceLocationCreateFragmentTest : BaseUITest() {
 
         coEvery { traceLocationRepository.addTraceLocation(any()) } returns TraceLocationData.traceLocationSameDate
     }
-
-
 
     @Test
     fun duplicateEventWithSameDatesTest() {

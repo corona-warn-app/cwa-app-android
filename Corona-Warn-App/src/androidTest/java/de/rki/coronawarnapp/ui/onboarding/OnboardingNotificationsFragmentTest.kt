@@ -4,7 +4,6 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import de.rki.coronawarnapp.main.CWASettings
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
-import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -23,8 +22,6 @@ class OnboardingNotificationsFragmentTest : BaseUITest() {
     fun setup() {
         MockKAnnotations.init(this)
     }
-
-
 
     @Test
     fun launch_fragment() {

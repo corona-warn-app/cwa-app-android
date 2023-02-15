@@ -13,7 +13,6 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.ui.submission.fragment.SubmissionContactFragment
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionContactViewModel
 import io.mockk.MockKAnnotations
-import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -32,8 +31,6 @@ class SubmissionContactFragmentTest : BaseUITest() {
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
     }
-
-
 
     @Test
     fun launch_fragment() {

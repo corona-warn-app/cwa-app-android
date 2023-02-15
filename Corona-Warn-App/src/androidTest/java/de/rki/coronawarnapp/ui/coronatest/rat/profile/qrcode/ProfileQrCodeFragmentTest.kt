@@ -11,7 +11,6 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import java.time.LocalDate
-import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import testhelpers.BaseUITest
@@ -76,6 +75,4 @@ class ProfileQrCodeFragmentTest : BaseUITest() {
         )
         takeScreenshot<ProfileQrCodeFragment>()
     }
-
-
 }

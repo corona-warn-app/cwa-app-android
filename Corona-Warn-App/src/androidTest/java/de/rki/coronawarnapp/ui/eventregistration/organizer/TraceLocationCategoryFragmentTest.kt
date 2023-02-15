@@ -4,7 +4,6 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import de.rki.coronawarnapp.ui.presencetracing.organizer.category.TraceLocationCategoryFragment
 import de.rki.coronawarnapp.ui.presencetracing.organizer.category.TraceLocationCategoryViewModel
 import io.mockk.MockKAnnotations
-import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -20,8 +19,6 @@ class TraceLocationCategoryFragmentTest : BaseUITest() {
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
     }
-
-
 
     @Screenshot
     @Test

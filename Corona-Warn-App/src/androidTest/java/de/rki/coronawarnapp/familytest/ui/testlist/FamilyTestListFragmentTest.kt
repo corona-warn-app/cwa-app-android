@@ -5,7 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.matcher.ViewMatchers
-import androidx.test.ext.junit.runners.AndroidJUnit4
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
@@ -22,19 +23,21 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
-import org.junit.After
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
 import testhelpers.launchFragmentInContainer2
 import testhelpers.takeScreenshot
 
-@RunWith(AndroidJUnit4::class)
+@HiltAndroidTest
 class FamilyTestListFragmentTest : BaseUITest() {
 
     @MockK lateinit var viewModel: FamilyTestListViewModel
+
+    @get:Rule
+    val hiltRule = HiltAndroidRule(this)
 
     @Before
     fun setup() {

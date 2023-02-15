@@ -3,31 +3,31 @@ package de.rki.coronawarnapp.dccticketing.ui.validationresult.success
 import androidx.lifecycle.ViewModelStore
 import androidx.navigation.testing.TestNavHostController
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.internal.runner.junit4.statement.UiThreadStatement
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.dccticketing.ui.shared.DccTicketingSharedViewModel
 import de.rki.coronawarnapp.dccticketing.ui.validationresult.DccTicketingValidationResultFragment
-import de.rki.coronawarnapp.dccticketing.ui.validationresult.DccTicketingValidationResultViewModel
-import de.rki.coronawarnapp.dccticketing.ui.validationresult.ValidationResultItemCreator
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.flow.flowOf
-import org.junit.After
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
-import testhelpers.TestDispatcherProvider
 import testhelpers.launchFragmentInContainer2
 import testhelpers.takeScreenshot
 
-@RunWith(AndroidJUnit4::class)
+@HiltAndroidTest
 class DccTicketingValidationResultFragmentTest : BaseUITest() {
 
     @MockK lateinit var mockSharedViewModel: DccTicketingSharedViewModel
+
+    @get:Rule
+    val hiltRule = HiltAndroidRule(this)
 
     @Before
     fun setUp() {
@@ -67,6 +67,4 @@ class DccTicketingValidationResultFragmentTest : BaseUITest() {
         launchFragmentInContainer2<DccTicketingValidationResultFragment>(testNavHostController = navController)
         takeScreenshot<DccTicketingValidationResultFragment>("fail")
     }
-
-
 }

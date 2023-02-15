@@ -27,7 +27,6 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import io.mockk.spyk
 import kotlinx.coroutines.flow.flowOf
-import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -64,8 +63,6 @@ class SubmissionTestResultNegativeFragmentTest : BaseUITest() {
             )
         )
     }
-
-
 
     @Test
     @Screenshot

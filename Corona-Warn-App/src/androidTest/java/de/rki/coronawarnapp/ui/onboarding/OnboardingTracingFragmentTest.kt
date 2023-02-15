@@ -12,7 +12,6 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.spyk
 import kotlinx.coroutines.flow.flowOf
-import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -48,8 +47,6 @@ class OnboardingTracingFragmentTest : BaseUITest() {
         every { viewModelSpy.disableTracingIfEnabled() } just Runs
         every { interopRepo.countryList } returns flowOf()
     }
-
-
 
     @Test
     fun launch_fragment() {
