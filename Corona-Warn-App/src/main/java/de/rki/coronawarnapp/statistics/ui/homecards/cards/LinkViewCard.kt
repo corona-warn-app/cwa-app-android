@@ -25,6 +25,11 @@ class LinkViewCard(parent: ViewGroup) :
         payloads: List<Any>
     ) -> Unit = { item, payloads ->
         val curItem = payloads.filterIsInstance<LinkCardItem>().lastOrNull() ?: item
+        if (curItem.isEol) {
+            itemView.layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT
+        } else {
+            itemView.layoutParams.width = context.resources.getDimensionPixelSize(R.dimen.width_300)
+        }
         infoStatistics.isGone = curItem.isEol
         infoStatistics.setOnClickListener { curItem.onClickListener(curItem.linkStats) }
         linkButton.setOnClickListener { curItem.openLink(curItem.linkStats.url) }
