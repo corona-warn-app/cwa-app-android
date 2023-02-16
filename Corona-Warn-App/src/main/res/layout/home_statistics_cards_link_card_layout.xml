@@ -6,10 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:contentDescription="@string/pandemic_radar_card_title"
-    tools:ignore="MissingConstraints"
     tools:layout_height="wrap_content"
-    tools:layout_width="@dimen/width_300"
-    tools:showIn="@layout/home_statistics_cards_basecard_layout">
+    tools:layout_width="@dimen/width_300">
 
     <ImageButton
         android:id="@+id/info_statistics"
@@ -80,6 +78,7 @@
         app:icon="@drawable/ic_link"
         app:iconGravity="textStart"
         app:iconPadding="@dimen/padding_8"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/background_image"

@@ -228,7 +228,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
                 )
             }
 
-            addStatisticsCard(statsData)
+            addStatisticsCard(statsData, isEol)
             if (!isEol) addTraceLocationCard()
             addFaqCard()
         }
@@ -304,11 +304,12 @@ class HomeFragmentViewModel @AssistedInject constructor(
         )
     }
 
-    private fun MutableList<HomeItem>.addStatisticsCard(statsData: StatisticsData) {
+    private fun MutableList<HomeItem>.addStatisticsCard(statsData: StatisticsData, isEol: Boolean) {
         if (statsData.isDataAvailable) {
             add(
                 StatisticsHomeCard.Item(
                     data = statsData,
+                    isEol = isEol,
                     onClickListener = {
                         when (it) {
                             is AddStatsItem -> events.postValue(HomeFragmentEvents.GoToFederalStateSelection)

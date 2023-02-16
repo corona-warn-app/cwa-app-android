@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.statistics.ui.homecards.cards
 
 import android.view.ViewGroup
+import androidx.core.view.isGone
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.HomeStatisticsCardsLinkCardLayoutBinding
 import de.rki.coronawarnapp.statistics.ui.homecards.StatisticsCardAdapter
@@ -24,6 +25,7 @@ class LinkViewCard(parent: ViewGroup) :
         payloads: List<Any>
     ) -> Unit = { item, payloads ->
         val curItem = payloads.filterIsInstance<LinkCardItem>().lastOrNull() ?: item
+        infoStatistics.isGone = curItem.isEol
         infoStatistics.setOnClickListener { curItem.onClickListener(curItem.linkStats) }
         linkButton.setOnClickListener { curItem.openLink(curItem.linkStats.url) }
     }

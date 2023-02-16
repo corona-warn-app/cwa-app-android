@@ -50,7 +50,7 @@ class EolTestFragment : Fragment(R.layout.fragment_test_eol), AutoInject {
                                 .atZone(ZoneId.systemDefault())
                                 .toLocalDate()
                                 .atTime(time.hour, time.minute)
-                                .atZone(ZoneId.systemDefault())
+                                .atZone(ZoneId.of("CET"))
                         )
                     }
                 }
