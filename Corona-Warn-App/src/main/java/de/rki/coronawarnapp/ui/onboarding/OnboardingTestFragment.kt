@@ -8,7 +8,6 @@ import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentOnboardingTestBinding
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -28,15 +27,16 @@ class OnboardingTestFragment : Fragment(R.layout.fragment_onboarding_test), Auto
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
             onboardingButtonNext.setOnClickListener { vm.onNextButtonClick() }
-            onboardingButtonBack.buttonIcon.setOnClickListener { vm.onBackButtonClick() }
+            onboardingTestToolbar.setNavigationOnClickListener { vm.onBackButtonClick() }
         }
-        vm.routeToScreen.observe2(this) {
+        vm.routeToScreen.observe(viewLifecycleOwner) {
             when (it) {
                 is OnboardingNavigationEvents.NavigateToOnboardingNotifications ->
                     findNavController().navigate(
                         OnboardingTestFragmentDirections
                             .actionOnboardingTestFragmentToOnboardingNotificationsFragment()
                     )
+
                 is OnboardingNavigationEvents.NavigateToOnboardingTracing -> popBackStack()
 
                 else -> Unit

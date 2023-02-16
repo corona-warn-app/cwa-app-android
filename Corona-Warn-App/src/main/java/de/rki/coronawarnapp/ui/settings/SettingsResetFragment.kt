@@ -9,7 +9,6 @@ import de.rki.coronawarnapp.databinding.FragmentSettingsResetBinding
 import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.ui.onboarding.OnboardingActivity
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -33,7 +32,7 @@ class SettingsResetFragment : Fragment(R.layout.fragment_settings_reset), AutoIn
             settingsResetButtonCancel.setOnClickListener { vm.goBack() }
             binding.toolbar.setNavigationOnClickListener { popBackStack() }
         }
-        vm.clickEvent.observe2(this) {
+        vm.clickEvent.observe(viewLifecycleOwner) {
             when (it) {
                 is SettingsEvents.ResetApp -> showConfirmResetDialog()
                 is SettingsEvents.GoBack -> popBackStack()

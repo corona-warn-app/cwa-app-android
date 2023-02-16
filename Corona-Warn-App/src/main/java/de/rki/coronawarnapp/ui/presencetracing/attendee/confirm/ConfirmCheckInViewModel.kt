@@ -7,8 +7,8 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
-import de.rki.coronawarnapp.presencetracing.checkins.qrcode.VerifiedTraceLocation
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.getDefaultAutoCheckoutLengthInMinutes
+import de.rki.coronawarnapp.qrcode.ui.QrcodeSharedViewModel
 import de.rki.coronawarnapp.ui.durationpicker.format
 import de.rki.coronawarnapp.ui.durationpicker.toReadableDuration
 import de.rki.coronawarnapp.ui.presencetracing.attendee.TraceLocationAttendeeSettings
@@ -26,11 +26,13 @@ import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
 class ConfirmCheckInViewModel @AssistedInject constructor(
-    @Assisted private val verifiedTraceLocation: VerifiedTraceLocation,
+    @Assisted private val verifiedTraceLocationId: String,
+    @Assisted private val qrcodeSharedViewModel: QrcodeSharedViewModel,
     private val checkInRepository: CheckInRepository,
     private val timeStamper: TimeStamper,
     private val traceLocationAttendeeSettings: TraceLocationAttendeeSettings
 ) : CWAViewModel() {
+    private val verifiedTraceLocation = qrcodeSharedViewModel.verifiedTraceLocation(verifiedTraceLocationId)
     private val traceLocation = MutableStateFlow(verifiedTraceLocation.traceLocation)
     private val createJournalEntry = traceLocationAttendeeSettings.createJournalEntryCheckedState
 
@@ -116,7 +118,8 @@ class ConfirmCheckInViewModel @AssistedInject constructor(
     @AssistedFactory
     interface Factory : CWAViewModelFactory<ConfirmCheckInViewModel> {
         fun create(
-            verifiedTraceLocation: VerifiedTraceLocation
+            verifiedTraceLocationId: String,
+            qrcodeSharedViewModel: QrcodeSharedViewModel
         ): ConfirmCheckInViewModel
     }
 

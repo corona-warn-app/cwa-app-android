@@ -1,85 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/risk_details_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorSurface"
+    android:contentDescription="@string/risk_details_accessibility_title">
 
-    <data>
-        <variable
-            name="tracingDetailsState"
-            type="de.rki.coronawarnapp.tracing.ui.details.TracingDetailsState" />
-    </data>
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        style="@style/CWAMaterialToolbar.Close"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="@string/risk_details_title" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toTopOf="@id/risk_details_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/risk_details_container"
-        invisible="@{tracingDetailsState == null}"
+        android:id="@+id/risk_details_button"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@color/colorSurface"
-        android:contentDescription="@string/risk_details_accessibility_title">
+        android:paddingStart="@dimen/padding_24"
+        android:paddingTop="@dimen/padding_16"
+        android:paddingEnd="@dimen/padding_24"
+        android:paddingBottom="@dimen/padding_16"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
-            style="@style/CWAMaterialToolbar.Close"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@{tracingDetailsState.getRiskColor(context)}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:title="@string/risk_details_title"
-            app:titleTextColor="@{tracingDetailsState.getStableTextColor(context)}" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view"
+        <Button
+            android:id="@+id/risk_details_button_enable_tracing"
+            style="@style/buttonPrimary"
             android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:fillViewport="true"
-            app:layout_constraintBottom_toTopOf="@id/risk_details_button"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/toolbar" />
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/risk_details_button"
-            gone="@{!tracingDetailsState.isRiskLevelButtonGroupVisible()}"
-            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorSurface"
-            android:paddingStart="@dimen/padding_24"
-            android:paddingTop="@dimen/padding_16"
-            android:paddingEnd="@dimen/padding_24"
-            android:paddingBottom="@dimen/padding_16"
+            android:text="@string/risk_card_button_enable_tracing"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="@string/risk_card_button_enable_tracing" />
 
-            <Button
-                android:id="@+id/risk_details_button_enable_tracing"
-                style="@style/buttonPrimary"
-                gone="@{!tracingDetailsState.isRiskDetailsEnableTracingButtonVisible()}"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="@string/risk_card_button_enable_tracing"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                tools:text="@string/risk_card_button_enable_tracing" />
-
-            <Button
-                android:id="@+id/risk_details_button_update"
-                style="@style/buttonPrimary"
-                gone="@{!tracingDetailsState.isRiskDetailsUpdateButtonVisible()}"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:enabled="@{tracingDetailsState.isUpdateButtonEnabled()}"
-                android:text="@{tracingDetailsState.getUpdateButtonText(context)}"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                tools:text="@string/risk_details_button_update" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        <Button
+            android:id="@+id/risk_details_button_update"
+            style="@style/buttonPrimary"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="@string/risk_details_button_update" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</layout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -28,7 +28,22 @@ class BehaviorNormalRiskBox(
         item: Item,
         payloads: List<Any>
     ) -> Unit = { item, _ ->
-        state = item
+        item.apply {
+            firstBehaviorRow.setBackgroundTint(getBackgroundColor(context))
+            firstBehaviorRow.setForegroundTint(getIconColor(context))
+            secondBehaviorRow.setBackgroundTint(getBackgroundColor(context))
+            secondBehaviorRow.setForegroundTint(getIconColor(context))
+            thirdBehaviorRow.setBackgroundTint(getBackgroundColor(context))
+            thirdBehaviorRow.setForegroundTint(getIconColor(context))
+            fourthBehaviorRow.setBackgroundTint(getBackgroundColor(context))
+            fourthBehaviorRow.setForegroundTint(getIconColor(context))
+            fifthBehaviorRow.setBackgroundTint(getBackgroundColor(context))
+            fifthBehaviorRow.setForegroundTint(getIconColor(context))
+            sixthBehaviorRow.setBackgroundTint(getBackgroundColor(context))
+            sixthBehaviorRow.setForegroundTint(getIconColor(context))
+            seventhBehaviorRow.setBackgroundTint(getBackgroundColor(context))
+            seventhBehaviorRow.setForegroundTint(getIconColor(context))
+        }
     }
 
     data class Item(

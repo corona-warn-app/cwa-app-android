@@ -19,7 +19,6 @@ import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.reyclebin.ui.dialog.recycleTestDialog
 import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.observeOnce
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -49,7 +48,7 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.consentGiven.observe2(this) {
+        viewModel.consentGiven.observe(viewLifecycleOwner) {
             binding.consentStatus.consent = it
         }
 
@@ -58,7 +57,7 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backCallback)
 
-        viewModel.testState.observe2(this) { result ->
+        viewModel.testState.observe(viewLifecycleOwner) { result ->
             val isPcr = result.coronaTest.type == BaseCoronaTest.Type.PCR
             binding.apply {
                 when (result.coronaTest) {
@@ -122,7 +121,7 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
             }
         }
 
-        viewModel.testCertResultInfo.observe2(this) { result ->
+        viewModel.testCertResultInfo.observe(viewLifecycleOwner) { result ->
             binding.testResultPendingStepsCertificateInfo.setEntryText(result.get(requireContext()))
         }
 
@@ -139,7 +138,7 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
             consentStatus.setOnClickListener { viewModel.onConsentClicked() }
         }
 
-        viewModel.showRedeemedTokenWarning.observe2(this) {
+        viewModel.showRedeemedTokenWarning.observe(viewLifecycleOwner) {
             displayDialog {
                 title(R.string.submission_error_dialog_web_tan_redeemed_title)
                 message(R.string.submission_error_dialog_web_tan_redeemed_body)
@@ -147,18 +146,18 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
             }
         }
 
-        viewModel.testCertResultInfo.observe2(this) {
+        viewModel.testCertResultInfo.observe(viewLifecycleOwner) {
             binding.testResultPendingStepsCertificateInfo.apply {
                 setEntryText(it.get(context))
             }
         }
 
-        viewModel.routeToScreen.observe2(this) {
+        viewModel.routeToScreen.observe(viewLifecycleOwner) {
             it?.let {
                 findNavController().navigate(it)
             } ?: navigateBackToFlowStart()
         }
-        viewModel.errorEvent.observe2(this) { displayDialog { setError(it) } }
+        viewModel.errorEvent.observe(viewLifecycleOwner) { displayDialog { setError(it) } }
     }
 
     override fun onResume() {

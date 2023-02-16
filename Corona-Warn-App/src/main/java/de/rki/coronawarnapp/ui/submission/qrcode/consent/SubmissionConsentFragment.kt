@@ -18,7 +18,6 @@ import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.ui.submission.qrcode.consent.SubmissionConsentBackNavArg.BackToTestRegistrationSelection
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -41,11 +40,9 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.viewModel = viewModel
         binding.submissionConsentHeader.setNavigationOnClickListener { viewModel.onNavigateClose() }
-        binding.submissionConsentMoreInfo.setOnClickListener {
-            viewModel.onDataPrivacyClick()
-        }
+        binding.submissionConsentMoreInfo.setOnClickListener { viewModel.onDataPrivacyClick() }
+        binding.submissionConsentButton.setOnClickListener { viewModel.onConsentButtonClick() }
 
         requireActivity().onBackPressedDispatcher.addCallback(
             viewLifecycleOwner,
@@ -59,7 +56,7 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
             }
         )
 
-        viewModel.routeToScreen.observe2(this) {
+        viewModel.routeToScreen.observe(viewLifecycleOwner) {
             when (it) {
                 is SubmissionNavigationEvents.NavigateToDataPrivacy -> findNavController().navigate(
                     SubmissionConsentFragmentDirections.actionSubmissionConsentFragmentToInformationPrivacyFragment()
@@ -99,15 +96,15 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
                 else -> Unit
             }
         }
-        viewModel.countries.observe2(this) {
-            binding.countries = it
+        viewModel.countries.observe(viewLifecycleOwner) {
+            binding.countryList.setCountryList(it)
         }
 
-        viewModel.qrCodeError.observe2(this) {
+        viewModel.qrCodeError.observe(viewLifecycleOwner) {
             showInvalidQrCodeDialog()
         }
 
-        viewModel.registrationState.observe2(this) { state ->
+        viewModel.registrationState.observe(viewLifecycleOwner) { state ->
             val isWorking = state is State.Working
             binding.apply {
                 submissionConsentButton.isLoading = isWorking

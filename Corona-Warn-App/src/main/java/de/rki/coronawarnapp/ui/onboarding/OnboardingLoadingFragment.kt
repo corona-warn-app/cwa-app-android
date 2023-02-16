@@ -7,7 +7,6 @@ import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import javax.inject.Inject
@@ -23,7 +22,7 @@ class OnboardingLoadingFragment : Fragment(R.layout.onboaring_loading_layout), A
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.navigationEvents.observe2(this) { event ->
+        viewModel.navigationEvents.observe(viewLifecycleOwner) { event ->
             when (event) {
                 OnboardingFragmentEvents.ShowInteropDeltaOnboarding ->
                     findNavController().navigate(

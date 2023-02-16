@@ -93,10 +93,9 @@
         app:layout_constraintTop_toTopOf="@id/title"
         app:srcCompat="@drawable/ic_test_result_illustration_positive_card" />
 
-    <include
+    <de.rki.coronawarnapp.ui.view.DividerView
         android:id="@+id/divider"
-        layout="@layout/include_divider"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_32"
         app:layout_constraintEnd_toEndOf="parent"

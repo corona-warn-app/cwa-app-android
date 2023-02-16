@@ -1,105 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:bind="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorSurface"
+    android:contentDescription="@string/main_title"
+    android:orientation="vertical"
+    tools:context=".ui.main.MainActivity">
 
-    <data>
-
-        <variable
-            name="tracingHeader"
-            type="de.rki.coronawarnapp.tracing.ui.statusbar.TracingHeaderState" />
-    </data>
-
-    <LinearLayout
-        android:id="@+id/container"
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        style="@style/CWAMaterialToolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorSurface"
-        android:contentDescription="@string/main_title"
-        android:orientation="vertical"
-        tools:context=".ui.main.MainActivity">
+        android:layout_height="wrap_content"
+        android:touchscreenBlocksFocus="false"
+        app:menu="@menu/menu_main">
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
-            style="@style/CWAMaterialToolbar"
+        <ImageView
+            android:id="@+id/main_header_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start|center_vertical"
+            android:focusable="true"
+            android:scaleType="fitStart"
+            app:srcCompat="@drawable/ic_main_header"
+            tools:ignore="ContentDescription" />
+    </com.google.android.material.appbar.MaterialToolbar>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/main_tracing_app_bar_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:touchscreenBlocksFocus="false"
-            app:menu="@menu/menu_main">
+            android:touchscreenBlocksFocus="false">
 
-            <ImageView
-                android:id="@+id/main_header_logo"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="start|center_vertical"
-                android:focusable="true"
-                android:scaleType="fitStart"
-                app:srcCompat="@drawable/ic_main_header"
-                bind:cwaContentDescription="@{@string/accessibility_logo}"
-                tools:ignore="ContentDescription" />
-        </com.google.android.material.appbar.MaterialToolbar>
-
-        <androidx.coordinatorlayout.widget.CoordinatorLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <com.google.android.material.appbar.AppBarLayout
-                android:id="@+id/main_tracing_app_bar_layout"
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/main_tracing"
+                style="@style/CWAMaterialToolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:touchscreenBlocksFocus="false">
+                android:clickable="true"
+                android:elevation="@dimen/elevation_8"
+                android:focusable="true"
+                android:foreground="?selectableItemBackground"
+                android:touchscreenBlocksFocus="false"
+                app:layout_scrollFlags="scroll|snap|enterAlways">
 
-                <com.google.android.material.appbar.MaterialToolbar
-                    android:id="@+id/main_tracing"
-                    style="@style/CWAMaterialToolbar"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/main_tracing_headline"
+                    style="@style/bodyButton"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:clickable="true"
-                    android:elevation="@dimen/elevation_8"
-                    android:focusable="true"
-                    android:foreground="?selectableItemBackground"
-                    android:touchscreenBlocksFocus="false"
-                    app:layout_scrollFlags="scroll|snap|enterAlways">
+                    android:layout_marginEnd="@dimen/margin_72"
+                    android:background="@color/colorTransparent"
+                    android:focusable="false"
+                    android:gravity="start|center_vertical"
+                    tools:text="@string/settings_tracing_body_inactive_location" />
 
-                    <TextView
-                        android:id="@+id/main_tracing_headline"
-                        style="@style/bodyButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/margin_72"
-                        android:background="@color/colorTransparent"
-                        android:contentDescription="@{tracingHeader.getTracingContentDescription(context)}"
-                        android:focusable="false"
-                        android:gravity="start|center_vertical"
-                        android:text="@{tracingHeader.getTracingDescription(context)}"
-                        tools:text="@string/settings_tracing_body_inactive_location" />
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/main_tracing_icon"
+                    android:layout_width="@dimen/width_40"
+                    android:layout_height="@dimen/height_40"
+                    android:layout_gravity="end|center_vertical"
+                    android:layout_marginEnd="@dimen/margin_16"
+                    android:importantForAccessibility="no" />
 
-                    <com.airbnb.lottie.LottieAnimationView
-                        android:id="@+id/main_tracing_icon"
-                        android:layout_width="@dimen/width_40"
-                        android:layout_height="@dimen/height_40"
-                        android:layout_gravity="end|center_vertical"
-                        android:layout_marginEnd="@dimen/margin_16"
-                        android:importantForAccessibility="no"
-                        app:animation="@{tracingHeader.getTracingAnimation(context)}"
-                        app:animation_tint="@{tracingHeader.getTracingTint(context)}" />
+            </com.google.android.material.appbar.MaterialToolbar>
 
-                </com.google.android.material.appbar.MaterialToolbar>
+        </com.google.android.material.appbar.AppBarLayout>
 
-            </com.google.android.material.appbar.AppBarLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingBottom="@dimen/padding_80"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            tools:itemCount="3"
+            tools:listitem="@layout/home_submission_register_test_card" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:clipToPadding="false"
-                android:paddingBottom="@dimen/padding_80"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                tools:itemCount="3"
-                tools:listitem="@layout/home_submission_register_test_card" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-        </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
-    </LinearLayout>
-</layout>
+</LinearLayout>

@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
@@ -13,7 +14,6 @@ import de.rki.coronawarnapp.tracing.ui.tracingConsentDialog
 import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.ExternalActionHelper.openDeviceSettings
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -36,25 +36,46 @@ class TracingSettingsFragment : Fragment(R.layout.fragment_tracing_settings), Au
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.loggingPeriod.observe2(this) {
-            binding.loggedPeriod = it
+        viewModel.loggingPeriod.observe(viewLifecycleOwner) {
+            with(binding) {
+                riskDetailsPeriodLoggedBodyNotice.text = it.getExposureLoggingPeriod(requireContext())
+                riskDetailsPeriodLoggedDays.text = it.getInstallTimePeriodLogged(requireContext())
+            }
         }
-        viewModel.tracingSettingsState.observe2(this) { state ->
-            binding.settingsTracingState = state
+        viewModel.tracingSettingsState.observe(viewLifecycleOwner) { state ->
+            with(binding) {
+                illustration.apply {
+                    contentDescription = state.getTracingIllustrationText(requireContext())
+                    setImageDrawable(state.getTracingStatusImage(requireContext()))
+                }
 
-            binding.switchRow.apply {
-                when (state) {
-                    TracingSettingsState.BluetoothDisabled,
-                    TracingSettingsState.LocationDisabled -> setOnClickListener(null)
-                    TracingSettingsState.TracingInactive,
-                    TracingSettingsState.TracingActive -> setOnClickListener {
-                        onTracingToggled(!binding.switchRow.isChecked)
+                switchRow.apply {
+                    setChecked(state.isTracingSwitchChecked())
+                    setSubtitle(state.getTracingStatusText(requireContext()))
+                    setSwitchEnabled(state.isTracingSwitchEnabled())
+                }
+                settingsTracingStatusLocation.isVisible = state.isLocationCardVisible()
+                settingsTracingStatusBluetooth.isVisible = state.isBluetoothCardVisible()
+                riskDetailsPeriodLoggedHeadline.isVisible = state.isTracingStatusTextVisible()
+                riskDetailsPeriodLoggedSubtitle.isVisible = state.isTracingStatusTextVisible()
+                riskDetailsPeriodLoggedBodyNotice.isVisible = state.isTracingStatusTextVisible()
+                riskDetailsPeriodLoggedDays.isVisible = state.isTracingStatusTextVisible()
+
+                switchRow.apply {
+                    when (state) {
+                        TracingSettingsState.BluetoothDisabled,
+                        TracingSettingsState.LocationDisabled -> setOnClickListener(null)
+
+                        TracingSettingsState.TracingInactive,
+                        TracingSettingsState.TracingActive -> setOnClickListener {
+                            onTracingToggled(!switchRow.isChecked)
+                        }
                     }
                 }
             }
         }
 
-        viewModel.events.observe2(this) {
+        viewModel.events.observe(viewLifecycleOwner) {
             when (it) {
                 is Event.RequestPermissions -> it.permissionRequest.invoke(requireActivity())
                 is Event.ManualCheckingDialog -> showManualCheckingRequiredDialog()
@@ -65,11 +86,11 @@ class TracingSettingsFragment : Fragment(R.layout.fragment_tracing_settings), Au
             }
         }
 
-        viewModel.isTracingSwitchChecked.observe2(this) { checked ->
+        viewModel.isTracingSwitchChecked.observe(viewLifecycleOwner) { checked ->
             binding.switchRow.setChecked(checked)
         }
 
-        viewModel.ensErrorEvents.observe2(this) { error -> displayDialog { setError(error) } }
+        viewModel.ensErrorEvents.observe(viewLifecycleOwner) { error -> displayDialog { setError(error) } }
 
         setButtonOnClickListener()
     }
@@ -88,11 +109,11 @@ class TracingSettingsFragment : Fragment(R.layout.fragment_tracing_settings), Au
             popBackStack()
         }
 
-        settingsTracingStatusBluetooth.tracingStatusCardButton.setOnClickListener {
+        settingsTracingStatusBluetooth.setOnClickListener {
             openDeviceSettings()
         }
 
-        settingsTracingStatusLocation.tracingStatusCardButton.setOnClickListener {
+        settingsTracingStatusLocation.setOnClickListener {
             openDeviceSettings()
         }
 

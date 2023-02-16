@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.ui.submission.tan
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
+import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -17,9 +18,7 @@ import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.ui.submission.tan.SubmissionTanViewModel.TanApiRequestState
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
-import de.rki.coronawarnapp.util.ui.setGone
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -40,20 +39,20 @@ class SubmissionTanFragment : Fragment(R.layout.fragment_submission_tan), AutoIn
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.state.observe2(this) {
+        viewModel.state.observe(viewLifecycleOwner) {
             binding.apply {
-                uiState = it
+                submissionTanButtonEnter.isEnabled = it.isTanValid
 
-                submissionTanContent.submissionTanCharacterError.setGone(it.areCharactersCorrect)
+                submissionTanContent.submissionTanCharacterError.isGone = it.areCharactersCorrect
                 if (it.isCorrectLength) {
-                    submissionTanContent.submissionTanError.setGone(it.isTanValid)
+                    submissionTanContent.submissionTanError.isGone = it.isTanValid
                 } else {
-                    submissionTanContent.submissionTanError.setGone(true)
+                    submissionTanContent.submissionTanError.isGone = true
                 }
             }
         }
 
-        viewModel.routeToScreen.observe2(this) {
+        viewModel.routeToScreen.observe(viewLifecycleOwner) {
             when (it) {
                 is SubmissionNavigationEvents.NavigateToDeletionWarningFragmentFromTan ->
                     findNavController().navigate(
@@ -62,6 +61,7 @@ class SubmissionTanFragment : Fragment(R.layout.fragment_submission_tan), AutoIn
                             comesFromDispatcherFragment = navArgs.comesFromDispatcherFragment
                         )
                     )
+
                 else -> Unit
             }
         }
@@ -81,7 +81,7 @@ class SubmissionTanFragment : Fragment(R.layout.fragment_submission_tan), AutoIn
             toolbar.setNavigationOnClickListener { goBack() }
         }
 
-        viewModel.registrationState.observe2(this) {
+        viewModel.registrationState.observe(viewLifecycleOwner) {
             binding.submissionTanSpinner.visibility = when (it) {
                 TanApiRequestState.InProgress -> View.VISIBLE
                 else -> View.GONE
@@ -96,6 +96,7 @@ class SubmissionTanFragment : Fragment(R.layout.fragment_submission_tan), AutoIn
                                 comesFromDispatcherFragment = navArgs.comesFromDispatcherFragment
                             )
                     )
+
                 is TanApiRequestState.SuccessPendingResult ->
                     findNavController().navigate(
                         SubmissionTanFragmentDirections
@@ -104,11 +105,12 @@ class SubmissionTanFragment : Fragment(R.layout.fragment_submission_tan), AutoIn
                                 comesFromDispatcherFragment = navArgs.comesFromDispatcherFragment
                             )
                     )
+
                 else -> Unit
             }
         }
 
-        viewModel.registrationError.observe2(this) { buildErrorDialog(it) }
+        viewModel.registrationError.observe(viewLifecycleOwner) { buildErrorDialog(it) }
     }
 
     override fun onResume() {
@@ -128,11 +130,13 @@ class SubmissionTanFragment : Fragment(R.layout.fragment_submission_tan), AutoIn
                 message(R.string.submission_error_dialog_web_test_paired_body_tan)
                 negativeButton(R.string.submission_error_dialog_web_test_paired_button_positive) { goBack() }
             }
+
             is CwaClientError, is CwaServerError -> displayDialog {
                 title(R.string.submission_error_dialog_web_generic_error_title)
                 message(R.string.submission_error_dialog_web_generic_network_error_body)
                 negativeButton(R.string.submission_error_dialog_web_generic_error_button_positive) { goBack() }
             }
+
             else -> displayDialog {
                 title(R.string.submission_error_dialog_web_generic_error_title)
                 message(R.string.submission_error_dialog_web_generic_error_body)

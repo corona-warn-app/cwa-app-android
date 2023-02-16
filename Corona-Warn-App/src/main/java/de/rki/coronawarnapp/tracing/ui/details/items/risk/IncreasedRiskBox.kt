@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.tracing.ui.details.items.risk
 
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
+import androidx.core.view.isGone
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TracingContentIncreasedViewBinding
 import de.rki.coronawarnapp.tracing.states.IncreasedRisk
@@ -27,7 +28,11 @@ class IncreasedRiskBox(
         item: Item,
         payloads: List<Any>
     ) -> Unit = { item, _ ->
-        state = item.state
+        item.state.apply {
+            detailsIcon.isGone = isInDetailsMode
+            rowTracingDays.isGone = !isInDetailsMode
+            updateAction.isGone = !showUpdateButton
+        }
     }
 
     data class Item(

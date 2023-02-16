@@ -9,7 +9,6 @@ import de.rki.coronawarnapp.bugreporting.event.BugEvent
 import de.rki.coronawarnapp.databinding.FragmentCrashreporterOverviewBinding
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -37,7 +36,7 @@ class SettingsCrashReportFragment : Fragment(R.layout.fragment_crashreporter_ove
         super.onViewCreated(view, savedInstanceState)
         fragmentCrashreporterOverviewBinding.list.adapter = adapter
 
-        vm.crashReports.observe2(this) {
+        vm.crashReports.observe(viewLifecycleOwner) {
             adapter.updateCrashReports(it)
         }
 

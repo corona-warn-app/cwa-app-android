@@ -1,51 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/information_privacy_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorSurface"
+    android:contentDescription="@string/information_privacy_title"
+    android:focusable="true"
+    android:orientation="vertical">
 
-    <data>
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        style="@style/CWAMaterialToolbar.BackArrow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        app:title="@string/information_privacy_title" />
 
-        <import type="de.rki.coronawarnapp.util.formatter.FormatterHelper" />
-
-        <import type="de.rki.coronawarnapp.R" />
-
-    </data>
-
-    <LinearLayout
-        android:id="@+id/information_privacy_container"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:contentDescription="@string/information_privacy_title"
-        android:focusable="true"
-        android:background="@color/colorSurface"
-        android:orientation="vertical">
+        android:clipToPadding="false"
+        android:fillViewport="true"
+        android:paddingBottom="@dimen/padding_24"
+        android:scrollbarStyle="outsideOverlay">
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
-            style="@style/CWAMaterialToolbar.BackArrow"
+        <de.rki.coronawarnapp.ui.view.InformationDetailsView
+            android:id="@+id/information_privacy_details"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:focusable="true"
-            app:title="@string/information_privacy_title" />
+            android:contentDescription="@string/information_privacy_illustration_description"
+            android:src="@drawable/ic_illustration_privacy"
+            android:subtitle="@string/information_privacy_html_path" />
 
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fillViewport="true"
-            android:paddingBottom="@dimen/padding_24"
-            android:clipToPadding="false"
-            android:scrollbarStyle="outsideOverlay">
-
-            <include
-                android:id="@+id/information_privacy_header_details"
-                layout="@layout/include_information_details"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:body="@{FormatterHelper.parseHtmlFromAssets(context, @string/information_privacy_html_path)}"
-                app:illustration="@{@drawable/ic_illustration_privacy}"
-                app:illustrationDescription="@{@string/information_privacy_illustration_description}" />
-
-        </ScrollView>
-
-    </LinearLayout>
-
-</layout>
+    </ScrollView>
+</LinearLayout>

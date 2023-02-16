@@ -8,10 +8,8 @@ import android.widget.LinearLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import coil.loadAny
 import com.google.android.material.appbar.AppBarLayout
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.common.certificate.getValidQrCode
@@ -27,8 +25,6 @@ import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
-import de.rki.coronawarnapp.util.bindValidityViews
-import de.rki.coronawarnapp.util.coil.loadingView
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.mutateDrawable
 import de.rki.coronawarnapp.util.toLocalDateTimeUserTz
@@ -91,11 +87,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
 
                 qrCodeCard.apply {
                     val request = it.getValidQrCode(showBlocked = true)
-                    image.loadAny(request) {
-                        crossfade(true)
-                        loadingView(image, progressBar)
-                    }
-                    image.setOnClickListener { viewModel.openFullScreen() }
+                    setQrImage(request) { viewModel.openFullScreen() }
                 }
             }
 
@@ -112,7 +104,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
 
             viewModel.errors.observe(viewLifecycleOwner) {
                 startValidationCheck.isLoading = false
-                qrCodeCard.progressBar.hide()
+                qrCodeCard.hideProgressBar()
                 if (it is DccValidationException && it.errorCode == DccValidationException.ErrorCode.NO_NETWORK) {
                     dccValidationNoInternetDialog()
                 } else {
@@ -131,12 +123,13 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
                             )
                         } else popBackStack()
                     }
+
                     is VaccinationDetailsNavigation.FullQrCode -> findNavController().navigate(
                         R.id.action_global_qrCodeFullScreenFragment,
                         QrCodeFullScreenFragmentArgs(event.qrCode).toBundle(),
-                        null,
-                        FragmentNavigatorExtras(qrCodeCard.image to qrCodeCard.image.transitionName)
+                        null
                     )
+
                     is VaccinationDetailsNavigation.ValidationStart -> {
                         startValidationCheck.isLoading = false
                         findNavController().navigate(
@@ -144,12 +137,14 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
                                 .actionVaccinationDetailsFragmentToValidationStartFragment(event.containerId)
                         )
                     }
+
                     is VaccinationDetailsNavigation.Export -> {
                         findNavController().navigate(
                             VaccinationDetailsFragmentDirections
                                 .actionVaccinationDetailsFragmentToCertificatePdfExportInfoFragment(event.containerId)
                         )
                     }
+
                     VaccinationDetailsNavigation.OpenCovPassInfo ->
                         findNavController().navigate(
                             VaccinationDetailsFragmentDirections.actionVaccinationDetailsFragmentToCovPassInfoFragment()
@@ -173,10 +168,12 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
                     showCertificateDeletionRequest()
                     true
                 }
+
                 R.id.menu_covid_certificate_export -> {
                     viewModel.onExport()
                     true
                 }
+
                 else -> false
             }
         }
@@ -208,10 +205,12 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
         certificateIssuer.text = certificate.certificateIssuer
         certificateId.text = certificate.uniqueCertificateIdentifier
         val localDateTime = certificate.headerExpiresAt.toLocalDateTimeUserTz()
-        expirationNotice.expirationDate.text = getString(
-            R.string.expiration_date,
-            localDateTime.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)),
-            localDateTime.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
+        expirationNotice.setText(
+            getString(
+                R.string.expiration_date,
+                localDateTime.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)),
+                localDateTime.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
+            )
         )
     }
 

@@ -1,163 +1,159 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:ignore="MissingConstraints">
+    android:id="@+id/incidence_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:ignore="MissingConstraints"
+    tools:layout_height="wrap_content"
+    tools:layout_width="@dimen/width_300"
+    tools:showIn="@layout/home_statistics_cards_basecard_layout">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/incidence_container"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/title"
+        style="@style/headline5"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        tools:layout_height="wrap_content"
-        tools:layout_width="@dimen/width_300"
-        tools:showIn="@layout/home_statistics_cards_basecard_layout">
+        android:layout_marginStart="@dimen/margin_24"
+        android:layout_marginTop="@dimen/margin_24"
+        android:maxLines="2"
+        android:text="@string/statistics_explanation_seven_day_incidence_title"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintEnd_toStartOf="@id/info_statistics"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/title"
-            style="@style/headline5"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_24"
-            android:layout_marginTop="@dimen/margin_24"
-            android:maxLines="2"
-            android:text="@string/statistics_explanation_seven_day_incidence_title"
-            app:autoSizeTextType="uniform"
-            app:layout_constraintEnd_toStartOf="@id/info_statistics"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:id="@+id/nationwide_text"
+        style="@style/StatisticsCardValueLabel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_24"
+        android:layout_marginBottom="@dimen/margin_16"
+        android:text="@string/statistics_nationwide_text"
+        android:textSize="@dimen/font_14"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintEnd_toStartOf="@id/info_statistics"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title" />
 
-        <TextView
-            android:id="@+id/nationwide_text"
-            style="@style/StatisticsCardValueLabel"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_24"
-            android:layout_marginBottom="@dimen/margin_16"
-            android:text="@string/statistics_nationwide_text"
-            android:textSize="@dimen/font_14"
-            app:autoSizeTextType="uniform"
-            app:layout_constraintEnd_toStartOf="@id/info_statistics"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/title" />
+    <ImageButton
+        android:id="@+id/info_statistics"
+        style="@style/StatisticsCardInfoButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/statistics_info_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageButton
-            android:id="@+id/info_statistics"
-            style="@style/StatisticsCardInfoButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/statistics_info_button"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <ImageView
+        android:id="@+id/background_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_36"
+        android:contentDescription="@null"
+        android:importantForAccessibility="no"
+        android:paddingStart="0dp"
+        android:paddingEnd="@dimen/margin_16"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/nationwide_text"
+        app:srcCompat="@drawable/ic_statistics_incidence" />
 
-        <ImageView
-            android:id="@+id/background_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_36"
-            android:contentDescription="@null"
-            android:importantForAccessibility="no"
-            android:paddingStart="0dp"
-            android:paddingEnd="@dimen/margin_16"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/nationwide_text"
-            app:srcCompat="@drawable/ic_statistics_incidence" />
+    <TextView
+        android:id="@+id/primary_label"
+        style="@style/StatisticsCardValueLabel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_40"
+        android:textSize="@dimen/font_14"
+        app:layout_constraintEnd_toStartOf="@id/background_image"
+        app:layout_constraintStart_toStartOf="@id/nationwide_text"
+        app:layout_constraintTop_toBottomOf="@id/nationwide_text"
+        tools:text="Bis gestern" />
 
-        <TextView
-            android:id="@+id/primary_label"
-            style="@style/StatisticsCardValueLabel"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_40"
-            android:textSize="@dimen/font_14"
-            app:layout_constraintEnd_toStartOf="@id/background_image"
-            app:layout_constraintStart_toStartOf="@id/nationwide_text"
-            app:layout_constraintTop_toBottomOf="@id/nationwide_text"
-            tools:text="Bis gestern" />
+    <TextView
+        android:id="@+id/primary_value"
+        style="@style/StatisticsCardPrimaryValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:includeFontPadding="false"
+        android:maxLines="1"
+        app:autoSizeTextType="uniform"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintEnd_toStartOf="@id/primary_trend_arrow"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="@id/primary_label"
+        app:layout_constraintTop_toBottomOf="@id/primary_label"
+        tools:text="98,9" />
 
-        <TextView
-            android:id="@+id/primary_value"
-            style="@style/StatisticsCardPrimaryValue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:focusable="true"
-            android:includeFontPadding="false"
-            android:maxLines="1"
-            app:autoSizeTextType="uniform"
-            app:layout_constrainedWidth="true"
-            app:layout_constraintEnd_toStartOf="@id/primary_trend_arrow"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toStartOf="@id/primary_label"
-            app:layout_constraintTop_toBottomOf="@id/primary_label"
-            tools:text="98,9" />
+    <de.rki.coronawarnapp.statistics.ui.TrendArrowView
+        android:id="@+id/primary_trend_arrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_8"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintBottom_toBottomOf="@id/primary_value"
+        app:layout_constraintEnd_toStartOf="@id/background_image"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@id/primary_value"
+        app:layout_constraintTop_toTopOf="@id/primary_value" />
 
-        <de.rki.coronawarnapp.statistics.ui.TrendArrowView
-            android:id="@+id/primary_trend_arrow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_8"
-            app:layout_constrainedWidth="true"
-            app:layout_constraintBottom_toBottomOf="@id/primary_value"
-            app:layout_constraintEnd_toStartOf="@id/background_image"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@id/primary_value"
-            app:layout_constraintTop_toTopOf="@id/primary_value" />
+    <TextView
+        android:id="@+id/primary_description"
+        style="@style/StatisticsCardValueLabel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/statistics_primary_value_description"
+        android:textSize="@dimen/font_14"
+        app:layout_constraintEnd_toStartOf="@id/background_image"
+        app:layout_constraintStart_toStartOf="@id/primary_value"
+        app:layout_constraintTop_toBottomOf="@id/primary_value" />
 
-        <TextView
-            android:id="@+id/primary_description"
-            style="@style/StatisticsCardValueLabel"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/statistics_primary_value_description"
-            android:textSize="@dimen/font_14"
-            app:layout_constraintEnd_toStartOf="@id/background_image"
-            app:layout_constraintStart_toStartOf="@id/primary_value"
-            app:layout_constraintTop_toBottomOf="@id/primary_value" />
+    <TextView
+        android:id="@+id/secondary_label"
+        style="@style/StatisticsCardValueLabel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_16"
+        android:textSize="@dimen/font_14"
+        app:layout_constraintStart_toStartOf="@id/primary_description"
+        app:layout_constraintTop_toBottomOf="@id/primary_description"
+        tools:text="Bis gestern" />
 
-        <TextView
-            android:id="@+id/secondary_label"
-            style="@style/StatisticsCardValueLabel"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_16"
-            android:textSize="@dimen/font_14"
-            app:layout_constraintStart_toStartOf="@id/primary_description"
-            app:layout_constraintTop_toBottomOf="@id/primary_description"
-            tools:text="Bis gestern" />
+    <TextView
+        android:id="@+id/secondary_value"
+        style="@style/StatisticsCardPrimaryValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:includeFontPadding="false"
+        android:maxLines="1"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintStart_toStartOf="@id/secondary_label"
+        app:layout_constraintTop_toBottomOf="@id/secondary_label"
+        tools:text="98,9" />
 
-        <TextView
-            android:id="@+id/secondary_value"
-            style="@style/StatisticsCardPrimaryValue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:focusable="true"
-            android:includeFontPadding="false"
-            android:maxLines="1"
-            app:autoSizeTextType="uniform"
-            app:layout_constraintStart_toStartOf="@id/secondary_label"
-            app:layout_constraintTop_toBottomOf="@id/secondary_label"
-            tools:text="98,9" />
+    <de.rki.coronawarnapp.statistics.ui.TrendArrowView
+        android:id="@+id/secondary_trend_arrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_8"
+        app:layout_constraintBottom_toBottomOf="@id/secondary_value"
+        app:layout_constraintStart_toEndOf="@id/secondary_value"
+        app:layout_constraintTop_toTopOf="@id/secondary_value" />
 
-        <de.rki.coronawarnapp.statistics.ui.TrendArrowView
-            android:id="@+id/secondary_trend_arrow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_8"
-            app:layout_constraintBottom_toBottomOf="@id/secondary_value"
-            app:layout_constraintStart_toEndOf="@id/secondary_value"
-            app:layout_constraintTop_toTopOf="@id/secondary_value" />
+    <TextView
+        android:id="@+id/secondary_description"
+        style="@style/StatisticsCardValueLabel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/padding_16"
+        android:text="@string/statistics_secondary_value_description"
+        android:textSize="@dimen/font_14"
+        app:layout_constraintStart_toStartOf="@id/secondary_value"
+        app:layout_constraintTop_toBottomOf="@id/secondary_value" />
 
-        <TextView
-            android:id="@+id/secondary_description"
-            style="@style/StatisticsCardValueLabel"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/padding_16"
-            android:text="@string/statistics_secondary_value_description"
-            android:textSize="@dimen/font_14"
-            app:layout_constraintStart_toStartOf="@id/secondary_value"
-            app:layout_constraintTop_toBottomOf="@id/secondary_value" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-</layout>
+</androidx.constraintlayout.widget.ConstraintLayout>

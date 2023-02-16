@@ -1,111 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="@dimen/padding_24">
 
-    <data>
-        <variable
-            name="state"
-            type="de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorNormalRiskBox.Item" />
-    </data>
+    <TextView
+        style="@style/headline5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:accessibilityHeading="true"
+        android:focusable="true"
+        android:text="@string/risk_details_headline_behavior" />
 
-    <LinearLayout
+    <TextView
+        style="@style/body2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:text="@string/risk_details_subtitle_behavior" />
+
+    <de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorInfoRow
+        android:id="@+id/first_behavior_row"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/margin_24"
+        android:focusable="true"
+        android:icon="@drawable/ic_vaccination_arm"
+        android:text="@string/risk_details_normal_risk_faq_vaccination"
+        tools:backgroundTint="@color/colorSurface2"
+        tools:foregroundTint="@color/colorTextSemanticNeutral" />
+
+    <de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorInfoRow
+        android:id="@+id/second_behavior_row"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="@dimen/padding_24">
+        android:focusable="true"
+        android:icon="@drawable/ic_risk_details_mask"
+        android:text="@string/risk_details_behavior_body_wear_mask"
+        tools:backgroundTint="@color/colorSurface2"
+        tools:foregroundTint="@color/colorTextSemanticNeutral" />
 
-        <TextView
-            style="@style/headline5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:accessibilityHeading="true"
-            android:focusable="true"
-            android:text="@string/risk_details_headline_behavior" />
+    <de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorInfoRow
+        android:id="@+id/third_behavior_row"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:icon="@drawable/ic_risk_details_distance"
+        android:text="@string/risk_details_behavior_body_stay_away"
+        tools:backgroundTint="@color/colorSurface2"
+        tools:foregroundTint="@color/colorTextSemanticNeutral" />
 
-        <TextView
-            style="@style/body2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:focusable="true"
-            android:text="@string/risk_details_subtitle_behavior" />
+    <de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorInfoRow
+        android:id="@+id/fourth_behavior_row"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:icon="@drawable/ic_risk_details_sneeze"
+        android:text="@string/risk_details_behavior_body_cough_sneeze"
+        tools:backgroundTint="@color/colorSurface2"
+        tools:foregroundTint="@color/colorTextSemanticNeutral" />
 
-        <de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorInfoRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/margin_24"
-            android:backgroundTint="@{state.getBackgroundColor(context)}"
-            android:focusable="true"
-            android:foregroundTint="@{state.getIconColor(context)}"
-            android:icon="@drawable/ic_vaccination_arm"
-            android:text="@string/risk_details_normal_risk_faq_vaccination"
-            tools:backgroundTint="@color/colorSurface2"
-            tools:foregroundTint="@color/colorTextSemanticNeutral" />
+    <de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorInfoRow
+        android:id="@+id/fifth_behavior_row"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:icon="@drawable/ic_risk_details_wash"
+        android:text="@string/risk_details_behavior_body_wash_hands"
+        tools:backgroundTint="@color/colorSurface2"
+        tools:foregroundTint="@color/colorTextSemanticNeutral" />
 
-        <de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorInfoRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@{state.getBackgroundColor(context)}"
-            android:focusable="true"
-            android:foregroundTint="@{state.getIconColor(context)}"
-            android:icon="@drawable/ic_risk_details_mask"
-            android:text="@string/risk_details_behavior_body_wear_mask"
-            tools:backgroundTint="@color/colorSurface2"
-            tools:foregroundTint="@color/colorTextSemanticNeutral" />
+    <de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorInfoRow
+        android:id="@+id/sixth_behavior_row"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:icon="@drawable/ic_risk_details_ventilation"
+        android:text="@string/risk_details_behavior_body_ventilation"
+        tools:backgroundTint="@color/colorSurface2"
+        tools:foregroundTint="@color/colorTextSemanticNeutral" />
 
-        <de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorInfoRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@{state.getBackgroundColor(context)}"
-            android:focusable="true"
-            android:foregroundTint="@{state.getIconColor(context)}"
-            android:icon="@drawable/ic_risk_details_distance"
-            android:text="@string/risk_details_behavior_body_stay_away"
-            tools:backgroundTint="@color/colorSurface2"
-            tools:foregroundTint="@color/colorTextSemanticNeutral" />
+    <de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorInfoRow
+        android:id="@+id/seventh_behavior_row"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:focusable="true"
+        android:icon="@drawable/ic_thermometer"
+        android:text="@string/risk_details_faq_symptoms"
+        tools:backgroundTint="@color/colorSurface2"
+        tools:foregroundTint="@color/colorTextSemanticNeutral" />
 
-        <de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorInfoRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@{state.getBackgroundColor(context)}"
-            android:focusable="true"
-            android:foregroundTint="@{state.getIconColor(context)}"
-            android:icon="@drawable/ic_risk_details_sneeze"
-            android:text="@string/risk_details_behavior_body_cough_sneeze"
-            tools:backgroundTint="@color/colorSurface2"
-            tools:foregroundTint="@color/colorTextSemanticNeutral" />
-
-        <de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorInfoRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@{state.getBackgroundColor(context)}"
-            android:focusable="true"
-            android:foregroundTint="@{state.getIconColor(context)}"
-            android:icon="@drawable/ic_risk_details_wash"
-            android:text="@string/risk_details_behavior_body_wash_hands"
-            tools:backgroundTint="@color/colorSurface2"
-            tools:foregroundTint="@color/colorTextSemanticNeutral" />
-
-        <de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorInfoRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@{state.getBackgroundColor(context)}"
-            android:focusable="true"
-            android:foregroundTint="@{state.getIconColor(context)}"
-            android:icon="@drawable/ic_risk_details_ventilation"
-            android:text="@string/risk_details_behavior_body_ventilation"
-            tools:backgroundTint="@color/colorSurface2"
-            tools:foregroundTint="@color/colorTextSemanticNeutral" />
-
-        <de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorInfoRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:backgroundTint="@{state.getBackgroundColor(context)}"
-            android:focusable="true"
-            android:foregroundTint="@{state.getIconColor(context)}"
-            android:icon="@drawable/ic_thermometer"
-            android:text="@string/risk_details_faq_symptoms"
-            tools:backgroundTint="@color/colorSurface2"
-            tools:foregroundTint="@color/colorTextSemanticNeutral" />
-
-    </LinearLayout>
-</layout>
+</LinearLayout>

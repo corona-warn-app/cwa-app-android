@@ -17,7 +17,6 @@ import de.rki.coronawarnapp.databinding.FragmentFamilyTestConsentBinding
 import de.rki.coronawarnapp.qrcode.ui.QrcodeSharedViewModel
 import de.rki.coronawarnapp.submission.TestRegistrationStateProcessor
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -51,7 +50,7 @@ class FamilyTestConsentFragment : Fragment(R.layout.fragment_family_test_consent
             }
         )
 
-        viewModel.routeToScreen.observe2(this) {
+        viewModel.routeToScreen.observe(viewLifecycleOwner) {
             when (it) {
                 is FamilyTestConsentNavigationEvents.NavigateBack -> {
                     binding.root.hideKeyboard()
@@ -87,7 +86,7 @@ class FamilyTestConsentFragment : Fragment(R.layout.fragment_family_test_consent
             }
         }
 
-        viewModel.registrationState.observe2(this) { state ->
+        viewModel.registrationState.observe(viewLifecycleOwner) { state ->
             val isWorking = state is TestRegistrationStateProcessor.State.Working
             binding.apply {
                 consentButton.isLoading = isWorking
@@ -138,7 +137,7 @@ class FamilyTestConsentFragment : Fragment(R.layout.fragment_family_test_consent
             }
         }
 
-        viewModel.isSubmittable.observe2(this) {
+        viewModel.isSubmittable.observe(viewLifecycleOwner) {
             binding.consentButton.isActive = it
         }
     }

@@ -28,8 +28,10 @@ import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.addMenuId
 import de.rki.coronawarnapp.util.ui.findNestedGraph
-import de.rki.coronawarnapp.util.ui.observe2
+import de.rki.coronawarnapp.util.ui.setCWAContentDescription
 import de.rki.coronawarnapp.util.ui.setItemContentDescription
+import de.rki.coronawarnapp.util.ui.setLottieAnimation
+import de.rki.coronawarnapp.util.ui.setLottieAnimationColor
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -56,6 +58,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
     private val homeAdapter = HomeAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        binding.mainHeaderLogo.setCWAContentDescription(getString(R.string.accessibility_logo))
         with(binding.toolbar) {
             addMenuId(R.id.home_fragment_menu_id)
             setupMenuIcons(menu)
@@ -89,11 +92,18 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         }
 
         viewModel.showPopUps()
-        viewModel.events.observe2(this) { event -> navigate(event) }
-        viewModel.homeItems.observe2(this) { homeAdapter.update(it) }
-        viewModel.errorEvent.observe2(this) { displayDialog { setError(it) } }
-        viewModel.tracingHeaderState.observe2(this) { binding.tracingHeader = it }
-        viewModel.showIncorrectDeviceTimeDialog.observe2(this) { showDialog ->
+        viewModel.events.observe(viewLifecycleOwner) { event -> navigate(event) }
+        viewModel.homeItems.observe(viewLifecycleOwner) { homeAdapter.update(it) }
+        viewModel.errorEvent.observe(viewLifecycleOwner) { displayDialog { setError(it) } }
+        viewModel.tracingHeaderState.observe(viewLifecycleOwner) {
+            with(binding) {
+                mainTracingHeadline.contentDescription = it.getTracingContentDescription(requireContext())
+                mainTracingHeadline.text = it.getTracingDescription(requireContext())
+                mainTracingIcon.setLottieAnimation(it.getTracingAnimation(requireContext()))
+                mainTracingIcon.setLottieAnimationColor(it.getTracingTint(requireContext()))
+            }
+        }
+        viewModel.showIncorrectDeviceTimeDialog.observe(viewLifecycleOwner) { showDialog ->
             if (showDialog) displayDialog {
                 title(R.string.device_time_incorrect_dialog_headline)
                 message(R.string.device_time_incorrect_dialog_body)
@@ -102,7 +112,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
                 }
             }
         }
-        viewModel.coronaTestErrors.observe2(this) { tests ->
+        viewModel.coronaTestErrors.observe(viewLifecycleOwner) { tests ->
             tests.forEach { test ->
                 displayDialog {
                     val testName = when (test.type) {
@@ -115,7 +125,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
             }
         }
 
-        viewModel.markTestBadgesAsSeen.observe2(this) {
+        viewModel.markTestBadgesAsSeen.observe(viewLifecycleOwner) {
             Timber.tag(TAG).d("markTestBadgesAsSeen=${it.size}")
         }
         viewModel.markRiskBadgeAsSeen()

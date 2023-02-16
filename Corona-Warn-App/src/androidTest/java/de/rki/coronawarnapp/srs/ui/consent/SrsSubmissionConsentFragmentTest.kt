@@ -77,10 +77,10 @@ class SrsSubmissionConsentFragmentTest : BaseUITest() {
         )
         takeScreenshot<SrsSubmissionConsentFragment>("1")
 
-        onView(withId(R.id.first_bulletpoint)).perform(scrollTo())
+        onView(withId(R.id.srs_bulletpoint_one)).perform(scrollTo())
         takeScreenshot<SrsSubmissionConsentFragment>("2")
 
-        onView(withId(R.id.third_bulletpoint)).perform(scrollTo())
+        onView(withId(R.id.srs_bulletpoint_three)).perform(scrollTo())
         takeScreenshot<SrsSubmissionConsentFragment>("3")
 
         onView(withId(R.id.srs_submission_consent_more_info)).perform(scrollTo())

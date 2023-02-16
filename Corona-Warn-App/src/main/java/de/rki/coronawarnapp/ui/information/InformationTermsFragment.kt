@@ -19,6 +19,7 @@ class InformationTermsFragment : Fragment(R.layout.fragment_information_terms) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.toolbar.setNavigationOnClickListener { popBackStack() }
+        binding.informationTermsDetails.getInformationDetailsHtml()
     }
 
     override fun onResume() {

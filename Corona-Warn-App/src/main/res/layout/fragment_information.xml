@@ -1,146 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/information_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorSurface"
+    android:contentDescription="@string/information_title">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/information_container"
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/information_header"
+        style="@style/CWAMaterialToolbar.Close"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="@string/information_title" />
+
+    <ScrollView
+        android:id="@+id/scrollview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorSurface"
-        android:contentDescription="@string/information_title">
+        android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:paddingTop="@dimen/padding_24"
+        android:paddingBottom="@dimen/padding_24"
+        android:scrollbarStyle="outsideOverlay"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/information_header">
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/information_header"
-            style="@style/CWAMaterialToolbar.Close"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:title="@string/information_title" />
-
-        <ScrollView
-            android:id="@+id/scrollview"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:clipToPadding="false"
-            android:paddingTop="@dimen/padding_24"
-            android:paddingBottom="@dimen/padding_24"
-            android:scrollbarStyle="outsideOverlay"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/information_header">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <LinearLayout
+            <de.rki.coronawarnapp.ui.view.InformationRowView
+                android:id="@+id/information_release"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:description="@string/release_info_header" />
 
-                <include
-                    android:id="@+id/information_release"
-                    layout="@layout/include_row"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:subtitle="@{@string/release_info_header}" />
+            <de.rki.coronawarnapp.ui.view.InformationRowView
+                android:id="@+id/information_about"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:description="@string/information_about_title" />
 
-                <include
-                    android:id="@+id/information_about"
-                    layout="@layout/include_row"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:subtitle="@{@string/information_about_title}" />
+            <de.rki.coronawarnapp.ui.view.InformationRowView
+                android:id="@+id/information_terms"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:description="@string/information_terms_title" />
 
-                <include
-                    android:id="@+id/information_terms"
-                    layout="@layout/include_row"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:subtitle="@{@string/information_terms_title}" />
+            <de.rki.coronawarnapp.ui.view.InformationRowView
+                android:id="@+id/information_accessibility_statement"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:description="@string/information_accessibility_statement"
+                android:src="@drawable/ic_link" />
 
-                <include
-                    android:id="@+id/information_accessibility_statement"
-                    layout="@layout/include_row"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:icon="@{@drawable/ic_link}"
-                    app:subtitle="@{@string/information_accessibility_statement}" />
+            <de.rki.coronawarnapp.ui.view.InformationRowView
+                android:id="@+id/information_privacy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:description="@string/information_privacy_title" />
 
-                <include
-                    android:id="@+id/information_privacy"
-                    layout="@layout/include_row"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:subtitle="@{@string/information_privacy_title}" />
+            <de.rki.coronawarnapp.ui.view.InformationRowView
+                android:id="@+id/information_technical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:description="@string/information_technical_title" />
 
-                <include
-                    android:id="@+id/information_technical"
-                    layout="@layout/include_row"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:subtitle="@{@string/information_technical_title}" />
+            <de.rki.coronawarnapp.ui.view.InformationRowView
+                android:id="@+id/information_contact"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:description="@string/information_contact_title" />
 
-                <include
-                    android:id="@+id/information_contact"
-                    layout="@layout/include_row"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:subtitle="@{@string/information_contact_title}" />
+            <de.rki.coronawarnapp.ui.view.InformationRowView
+                android:id="@+id/information_debuglog"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:description="@string/debugging_debuglog_title" />
 
-                <include
-                    android:id="@+id/information_debuglog"
-                    layout="@layout/include_row"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:subtitle="@{@string/debugging_debuglog_title}" />
+            <de.rki.coronawarnapp.ui.view.InformationRowView
+                android:id="@+id/information_legal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:description="@string/information_legal_title" />
 
-                <include
-                    android:id="@+id/information_legal"
-                    layout="@layout/include_row"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:subtitle="@{@string/information_legal_title}" />
+            <TextView
+                android:id="@+id/information_version"
+                style="@style/body2Medium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_72"
+                android:layout_marginTop="@dimen/margin_16"
+                android:focusable="true"
+                tools:text="v1.8.0-RC1" />
 
-                <TextView
-                    android:id="@+id/information_version"
-                    style="@style/body2Medium"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_72"
-                    android:layout_marginTop="@dimen/margin_16"
-                    android:focusable="true"
-                    tools:text="v1.8.0-RC1" />
+            <TextView
+                android:id="@+id/information_enf_version"
+                style="@style/body2Medium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_72"
+                android:layout_marginTop="@dimen/margin_8"
+                android:background="?selectableItemBackground"
+                android:focusable="true"
+                tools:text="16000000"
+                tools:visibility="visible" />
 
-                <TextView
-                    android:id="@+id/information_enf_version"
-                    style="@style/body2Medium"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_72"
-                    android:layout_marginTop="@dimen/margin_8"
-                    android:background="?selectableItemBackground"
-                    android:focusable="true"
-                    tools:text="16000000"
-                    tools:visibility="visible" />
+            <TextView
+                android:id="@+id/ccl_version"
+                style="@style/body2Medium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_72"
+                android:layout_marginTop="@dimen/margin_8"
+                android:focusable="true"
+                tools:text="1.0.0" />
 
-                <TextView
-                    android:id="@+id/ccl_version"
-                    style="@style/body2Medium"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_72"
-                    android:layout_marginTop="@dimen/margin_8"
-                    android:focusable="true"
-                    tools:text="1.0.0" />
+            <!-- Workaround for scrolling issue where view is
+            approximately as high as available space-->
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_56" />
+        </LinearLayout>
 
-                <!-- Workaround for scrolling issue where view is
-                approximately as high as available space-->
-                <Space
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/height_56" />
-            </LinearLayout>
-
-        </ScrollView>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

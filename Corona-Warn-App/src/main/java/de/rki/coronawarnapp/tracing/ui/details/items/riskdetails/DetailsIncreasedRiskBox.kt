@@ -30,7 +30,7 @@ class DetailsIncreasedRiskBox(
         item: Item,
         payloads: List<Any>
     ) -> Unit = { item, _ ->
-        info = item
+        riskDetailsInformationBody.text = item.getRiskDetailsRiskLevelBody(context)
     }
 
     data class Item(

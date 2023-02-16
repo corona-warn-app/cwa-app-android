@@ -20,7 +20,7 @@ class SimpleStepEntry @JvmOverloads constructor(
     private lateinit var entryText: TextView
 
     init {
-        inflate(context, R.layout.include_step_entry_simple_body, this)
+        inflate(context, R.layout.simple_step_entry_layout, this)
 
         context.withStyledAttributes(attrs, R.styleable.SimpleStepEntry) {
             entryTitle = findViewById(R.id.simple_step_entry_title)

@@ -8,10 +8,8 @@ import androidx.navigation.navGraphViewModels
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentDccTicketingValidationResultBinding
 import de.rki.coronawarnapp.dccticketing.ui.shared.DccTicketingSharedViewModel
-import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.diffutil.update
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
@@ -39,26 +37,20 @@ class DccTicketingValidationResultFragment : Fragment(R.layout.fragment_dcc_tick
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
             validationResultFragments.apply {
-                list.apply {
-                    adapter = validationResultAdapter
-                }
-
-                toolbar.setNavigationOnClickListener { resultViewModel.onCloseClicked() }
-
-                appBarLayout.onOffsetChange { _, subtitleAlpha ->
-                    headerImage.alpha = subtitleAlpha
-                }
+                populateList(ticketingAdapter = validationResultAdapter)
+                setOnClickListener { resultViewModel.onCloseClicked() }
+                offsetChange()
             }
 
             buttonDone.setOnClickListener { resultViewModel.onDoneClicked() }
         }
 
-        resultViewModel.uiStateFlow.observe2(this) {
+        resultViewModel.uiStateFlow.observe(viewLifecycleOwner) {
             binding.validationResultFragments.setHeaderForState(it.result)
             validationResultAdapter.update(it.listItems)
         }
 
-        resultViewModel.navigation.observe2(this) {
+        resultViewModel.navigation.observe(viewLifecycleOwner) {
             handleNavigation(it)
         }
     }

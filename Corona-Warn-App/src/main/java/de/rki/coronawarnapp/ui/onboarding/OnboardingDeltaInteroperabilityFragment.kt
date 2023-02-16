@@ -3,13 +3,13 @@ package de.rki.coronawarnapp.ui.onboarding
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentOnboardingDeltaInteroperabilityBinding
 import de.rki.coronawarnapp.util.convertToHyperlink
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -26,31 +26,31 @@ class OnboardingDeltaInteroperabilityFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        vm.countryList.observe2(this) {
-            binding.countryData = it
+        vm.countryList.observe(viewLifecycleOwner) {
+            binding.deltaInteroperabilityCountryList.setCountryList(it)
+            if (it.isEmpty()) {
+                binding.countryListGroup.isVisible = false
+                binding.noCountriesGroup.isVisible = true
+            }
         }
         vm.saveInteroperabilityUsed()
 
-        binding.onboardingInclude.onboardingDeltaExpandedTermsTextLink
+        binding.onboardingDeltaExpandedTermsTextLink
             .convertToHyperlink(getString(R.string.information_terms_html_path))
-        binding.onboardingInclude.onboardingDeltaExpandedTermsTextLink
+        binding.onboardingDeltaExpandedTermsTextLink
             .movementMethod = LinkMovementMethod.getInstance()
 
-        binding.onboardingInclude.onboardingDeltaExpandedTermsTextLink.setOnClickListener {
+        binding.onboardingDeltaExpandedTermsTextLink.setOnClickListener {
             findNavController().navigate(
                 OnboardingDeltaInteroperabilityFragmentDirections
                     .actionOnboardingDeltaInteroperabilityFragmentToInformationTermsFragment()
             )
         }
 
-        binding.onboardingButtonBack.buttonIcon.setOnClickListener {
-            vm.onBackPressed()
-        }
-        binding.onboardingButtonNext.setOnClickListener {
-            vm.onBackPressed()
-        }
+        binding.onboardingDeltaToolbar.setNavigationOnClickListener { vm.onBackPressed() }
+        binding.onboardingButtonNext.setOnClickListener { vm.onBackPressed() }
 
-        vm.navigateBack.observe2(this) {
+        vm.navigateBack.observe(viewLifecycleOwner) {
             if (it) {
                 popBackStack()
             }

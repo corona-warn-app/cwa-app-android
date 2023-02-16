@@ -30,8 +30,6 @@ class PpaMoreInfoFragment : Fragment(R.layout.fragment_ppa_more_info) {
     }
 
     private fun setButtonOnClickListener() {
-        binding.buttonBack.buttonIcon.setOnClickListener {
-            activity?.onBackPressed()
-        }
+        binding.onboardingPpaToolbar.setNavigationOnClickListener { activity?.onBackPressed() }
     }
 }
