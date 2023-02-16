@@ -35,6 +35,15 @@ class EolTestFragment : Fragment(R.layout.fragment_test_eol), AutoInject {
             binding.dateTime.text = it.toString()
         }
 
+        viewModel.restart.observe(viewLifecycleOwner) {
+            displayDialog {
+                title("Restarting ↻")
+                message("EOL will be fully effective after restart")
+                setCancelable(false)
+            }
+            ProcessPhoenix.triggerRebirth(context)
+        }
+
         binding.openPicket.setOnClickListener { showDatePicker() }
     }
 
@@ -54,13 +63,6 @@ class EolTestFragment : Fragment(R.layout.fragment_test_eol), AutoInject {
                                 .atTime(time.hour, time.minute)
                                 .atZone(ZoneId.of("CET"))
                         )
-
-                        displayDialog {
-                            title("Restarting ↻")
-                            message("EOL will be fully effective after restart")
-                            setCancelable(false)
-                        }
-                        ProcessPhoenix.triggerRebirth(context)
                     }
                 }
             }
