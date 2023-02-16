@@ -18,9 +18,7 @@ class EolCard(parent: ViewGroup) :
     override val onBindData: HomeEolCardLayoutBinding.(
         item: Item,
         payloads: List<Any>
-    ) -> Unit = { _, _ ->
-
-    }
+    ) -> Unit = { _, _ -> }
 
     class Item : HomeItem {
         override val stableId: Long
