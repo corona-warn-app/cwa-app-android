@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.IntentFilter
 import android.os.Bundle
 import android.view.WindowManager
+import androidx.core.app.NotificationManagerCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.work.WorkManager
 import coil.Coil
@@ -47,6 +48,7 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
     @LogHistoryTree @Inject lateinit var rollingLogHistory: Timber.Tree
 
     @Inject lateinit var appEol: AppEol
+    @Inject lateinit var notificationManager: NotificationManagerCompat
 
     override fun androidInjector(): AndroidInjector<Any> = androidInjector
 
@@ -73,6 +75,8 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
                     initializer.initialize()
                 }
             } else {
+                Timber.d("EOL -> cancel all notification")
+                notificationManager.cancelAll()
                 Timber.d("EOL -> no work scheduled")
             }
         }

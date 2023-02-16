@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.eol
 
+import androidx.core.app.NotificationManagerCompat
 import androidx.work.WorkManager
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.coroutine.AppScope
@@ -23,7 +24,8 @@ import javax.inject.Singleton
 class AppEol @Inject constructor(
     @AppScope private val appScope: CoroutineScope,
     private val workManager: WorkManager,
-    eolSetting: EolSetting
+    private val notificationManager: NotificationManagerCompat,
+    eolSetting: EolSetting,
 ) {
     val isEol = combine(
         intervalFlow(60_000L),
@@ -35,6 +37,9 @@ class AppEol @Inject constructor(
             if (isEol) {
                 Timber.tag(TAG).d("Cancel all works ")
                 workManager.cancelAllWork()
+
+                Timber.tag(TAG).d("Cancel all notifications ")
+                notificationManager.cancelAll()
             }
         }
         .shareLatest(scope = appScope)
