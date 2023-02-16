@@ -229,8 +229,10 @@ class HomeFragmentViewModel @AssistedInject constructor(
             }
 
             addStatisticsCard(statsData, isEol)
-            if (!isEol) addTraceLocationCard()
-            addFaqCard()
+            if (!isEol) {
+                addTraceLocationCard()
+                addFaqCard()
+            }
         }
     }.distinctUntilChanged().asLiveData2()
 
