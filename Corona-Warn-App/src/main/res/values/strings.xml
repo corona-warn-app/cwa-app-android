@@ -2027,5 +2027,5 @@
     <string name="fab_scanner_tip_title">"QR Code Scanner"</string>
     <!-- XTXT: UQS Tooltip subtitle -->
     <string name="fab_scanner_tip_subtitle">"Use this scanner to scan tests, certificates, and check-ins."</string>
-
+    <string name="home_eol_message">Der Betrieb der Corona-Warn-App wurde eingestellt. Vielen Dank für Ihre Nutzung. Mit Ihrer Unterstützung konnten während der Pandemie mehr als xx Millionen Warnungen verschickt werden. Sie können weiterhin auf Ihre bereits vorhandenen Zertifikate und das Kontakt-Tagebuch zugreifen. Alle anderen Funktionen stehen nicht mehr zur Verfügung.</string>
 </resources>

@@ -75,6 +75,7 @@ import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowErrorResetDialog
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowTracingExplanation
 import de.rki.coronawarnapp.ui.main.home.rampdown.RampDownDataProvider
 import de.rki.coronawarnapp.ui.main.home.items.CreateTraceLocationCard
+import de.rki.coronawarnapp.ui.main.home.items.EolCard
 import de.rki.coronawarnapp.ui.main.home.items.FAQCard
 import de.rki.coronawarnapp.ui.main.home.items.HomeItem
 import de.rki.coronawarnapp.ui.main.home.items.IncompatibleCard
@@ -226,6 +227,9 @@ class HomeFragmentViewModel @AssistedInject constructor(
                     testsData.coronaTestParameters,
                     testsData.familyTests
                 )
+            }
+            if (isEol) {
+                add(EolCard.Item())
             }
 
             addStatisticsCard(statsData, isEol)
