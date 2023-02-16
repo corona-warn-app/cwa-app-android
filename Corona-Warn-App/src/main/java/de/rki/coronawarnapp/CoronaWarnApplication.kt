@@ -78,6 +78,7 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
                 Timber.d("EOL -> cancel all notification")
                 notificationManager.cancelAll()
                 Timber.d("EOL -> no work scheduled")
+                workManager.cancelAllWork()
             }
         }
 
