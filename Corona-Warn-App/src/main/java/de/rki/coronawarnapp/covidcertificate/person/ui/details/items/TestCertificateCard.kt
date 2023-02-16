@@ -94,6 +94,7 @@ class TestCertificateCard(parent: ViewGroup) :
         val isCurrentCertificate: Boolean,
         val colorShade: PersonColorShade,
         val isLoading: Boolean = false,
+        val isAppEol: Boolean = false,
         val onClick: () -> Unit,
         val onSwipeItem: (TestCertificate, Int) -> Unit,
         val validateCertificate: (CertificateContainerId) -> Unit,

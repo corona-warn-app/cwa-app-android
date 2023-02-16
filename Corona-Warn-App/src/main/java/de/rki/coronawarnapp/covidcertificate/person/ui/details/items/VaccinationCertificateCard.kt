@@ -95,6 +95,7 @@ class VaccinationCertificateCard(parent: ViewGroup) :
         val colorShade: PersonColorShade,
         val isCurrentCertificate: Boolean,
         val isLoading: Boolean = false,
+        val isAppEol: Boolean = false,
         val onClick: () -> Unit,
         val onSwipeItem: (VaccinationCertificate, Int) -> Unit,
         val validateCertificate: (CertificateContainerId) -> Unit,

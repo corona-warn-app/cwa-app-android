@@ -87,6 +87,7 @@ class RecoveryCertificateCard(parent: ViewGroup) :
         val isCurrentCertificate: Boolean,
         val colorShade: PersonColorShade,
         val isLoading: Boolean = false,
+        val isAppEol: Boolean = false,
         val onClick: () -> Unit,
         val onSwipeItem: (RecoveryCertificate, Int) -> Unit,
         val validateCertificate: (CertificateContainerId) -> Unit,
