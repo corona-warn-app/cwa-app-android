@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvi
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
 import de.rki.coronawarnapp.environment.EnvironmentSetup
+import de.rki.coronawarnapp.eol.AppEol
 import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.familytest.core.repository.FamilyTestRepository
 import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
@@ -67,6 +68,7 @@ class MainActivityViewModelTest2 : BaseTest() {
     @MockK lateinit var coronaTestQRCodeHandler: CoronaTestQRCodeHandler
     @MockK lateinit var coronaTestRestoreHandler: CoronaTestRestoreHandler
     @MockK lateinit var familyTestRepository: FamilyTestRepository
+    @MockK lateinit var appEol: AppEol
 
     private val raExtractor = spyk(RapidAntigenQrCodeExtractor())
     private val rPcrExtractor = spyk(RapidPcrQrCodeExtractor())
@@ -99,6 +101,7 @@ class MainActivityViewModelTest2 : BaseTest() {
         every { familyTestRepository.familyTests } returns flowOf(setOf())
 
         every { diarySettings.isOnboardingDone } returns flowOf(false)
+        every { appEol.isEol } returns flowOf(false)
     }
 
     private fun createInstance(): MainActivityViewModel = MainActivityViewModel(
@@ -119,6 +122,7 @@ class MainActivityViewModelTest2 : BaseTest() {
         coronaTestQRCodeHandler = coronaTestQRCodeHandler,
         coronaTestRestoreHandler = coronaTestRestoreHandler,
         familyTestRepository = familyTestRepository,
+        appEol = appEol
     )
 
     @Test
