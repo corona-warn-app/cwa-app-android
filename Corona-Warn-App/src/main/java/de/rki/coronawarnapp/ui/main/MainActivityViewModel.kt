@@ -36,7 +36,6 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
 import timber.log.Timber
 
 @Suppress("LongParameterList")
@@ -87,18 +86,31 @@ class MainActivityViewModel @AssistedInject constructor(
     private val mutableIsCertificatesOnboardingDone = MutableLiveData<Boolean>()
     val isCertificatesConsentGiven: LiveData<Boolean> = mutableIsCertificatesOnboardingDone
 
-    val activeCheckIns = checkInRepository.checkInsWithinRetention
-        .map { checkins -> checkins.filter { !it.completed }.size }
-        .asLiveData2()
+    val activeCheckIns = combine(
+        checkInRepository.checkInsWithinRetention,
+        appEol.isEol,
+    ) { checkins, isEol ->
+        if (isEol) 0 else checkins.filter { !it.completed }.size
+    }.asLiveData2()
 
-    val personsBadgeCount: LiveData<Int> = personCertificatesProvider.personsBadgeCount.asLiveData2()
+    val personsBadgeCount: LiveData<Int> = combine(
+        personCertificatesProvider.personsBadgeCount,
+        appEol.isEol
+    ) { count, isEol ->
+        if (isEol) 0 else count
+    }.asLiveData2()
 
     val mainBadgeCount: LiveData<Int> = combine(
         coronaTestRepository.coronaTests,
         familyTestRepository.familyTests,
-        tracingSettings.showRiskLevelBadge
-    ) { personalTests, familyTests, showBadge ->
-        personalTests.plus(familyTests).count { it.hasBadge }.plus(if (showBadge) 1 else 0)
+        tracingSettings.showRiskLevelBadge,
+        appEol.isEol,
+    ) { personalTests, familyTests, showBadge, isEol ->
+        if (isEol) {
+            0
+        } else {
+            personalTests.plus(familyTests).count { it.hasBadge }.plus(if (showBadge) 1 else 0)
+        }
     }.asLiveData2()
 
     init {
