@@ -8,7 +8,6 @@ import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.eol.AppEol
 import de.rki.coronawarnapp.initializer.Initializer
 import de.rki.coronawarnapp.notification.GeneralNotifications
-import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.device.ForegroundState
 import de.rki.coronawarnapp.util.di.AppInjector
@@ -24,8 +23,10 @@ import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.mockkStatic
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.TestScope
+import kotlinx.coroutines.test.advanceUntilIdle
+import kotlinx.coroutines.test.runTest
 import org.conscrypt.Conscrypt
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -38,7 +39,6 @@ class CoronaWarnApplicationTest : BaseTest() {
 
     @MockK lateinit var applicationComponent: ApplicationComponent
     @MockK lateinit var androidInjector: DispatchingAndroidInjector<Any>
-    @MockK lateinit var taskController: TaskController
     @MockK lateinit var foregroundState: ForegroundState
     @MockK lateinit var workManager: WorkManager
     @MockK lateinit var notificationHelper: GeneralNotifications
@@ -70,6 +70,9 @@ class CoronaWarnApplicationTest : BaseTest() {
         AppInjector.apply {
             every { init(any()) } returns applicationComponent
         }
+    }
+
+    private fun setupAppComponent(scope: CoroutineScope) {
         applicationComponent.apply {
             every { inject(any<CoronaWarnApplication>()) } answers {
                 val app = arg<CoronaWarnApplication>(0)
@@ -79,7 +82,7 @@ class CoronaWarnApplicationTest : BaseTest() {
                 app.workManager = workManager
                 app.appEol = appEol
                 app.initializers = Provider { initializers }
-                app.appScope = TestScope()
+                app.appScope = scope
                 app.rollingLogHistory = object : Timber.Tree() {
                     override fun log(priority: Int, tag: String?, message: String, t: Throwable?) = Unit
                 }
@@ -89,10 +92,11 @@ class CoronaWarnApplicationTest : BaseTest() {
     }
 
     @Test
-    fun `test initializers`() {
+    fun `test initializers`() = runTest {
+        setupAppComponent(this)
         val app = createInstance()
         app.onCreate()
-
+        advanceUntilIdle()
         val scanResult = ClassGraph()
             .acceptPackages("de.rki.coronawarnapp")
             .enableClassInfo()

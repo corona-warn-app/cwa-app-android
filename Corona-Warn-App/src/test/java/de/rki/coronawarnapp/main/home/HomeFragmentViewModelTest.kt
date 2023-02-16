@@ -150,7 +150,7 @@ class HomeFragmentViewModelTest : BaseTest() {
 
         createInstance().apply {
             tracingHeaderState.observeForTesting {
-                tracingHeaderState.value shouldBe false to TracingHeaderState.BluetoothDisabled
+                tracingHeaderState.value shouldBe (false to TracingHeaderState.BluetoothDisabled)
             }
         }
 
@@ -158,7 +158,7 @@ class HomeFragmentViewModelTest : BaseTest() {
 
         createInstance().apply {
             tracingHeaderState.observeForTesting {
-                tracingHeaderState.value shouldBe false to TracingHeaderState.LocationDisabled
+                tracingHeaderState.value shouldBe (false to TracingHeaderState.LocationDisabled)
             }
         }
 
@@ -166,7 +166,7 @@ class HomeFragmentViewModelTest : BaseTest() {
 
         createInstance().apply {
             tracingHeaderState.observeForTesting {
-                tracingHeaderState.value shouldBe false to TracingHeaderState.TracingInActive
+                tracingHeaderState.value shouldBe (false to TracingHeaderState.TracingInActive)
             }
         }
 
@@ -174,7 +174,7 @@ class HomeFragmentViewModelTest : BaseTest() {
 
         createInstance().apply {
             tracingHeaderState.observeForTesting {
-                tracingHeaderState.value shouldBe false to TracingHeaderState.TracingActive
+                tracingHeaderState.value shouldBe (false to TracingHeaderState.TracingActive)
             }
         }
     }
