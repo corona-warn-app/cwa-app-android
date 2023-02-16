@@ -7,9 +7,11 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
+import com.jakewharton.processphoenix.ProcessPhoenix
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestEolBinding
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
+import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -52,6 +54,13 @@ class EolTestFragment : Fragment(R.layout.fragment_test_eol), AutoInject {
                                 .atTime(time.hour, time.minute)
                                 .atZone(ZoneId.of("CET"))
                         )
+
+                        displayDialog {
+                            title("Restarting ↻")
+                            message("EOL will be fully effective after restart")
+                            setCancelable(false)
+                        }
+                        ProcessPhoenix.triggerRebirth(context)
                     }
                 }
             }

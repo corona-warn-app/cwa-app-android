@@ -5,6 +5,7 @@ import coil.ImageLoaderFactory
 import dagger.android.DispatchingAndroidInjector
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.environment.EnvironmentSetup
+import de.rki.coronawarnapp.eol.AppEol
 import de.rki.coronawarnapp.initializer.Initializer
 import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.task.TaskController
@@ -23,6 +24,7 @@ import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.mockkStatic
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.TestScope
 import org.conscrypt.Conscrypt
 import org.junit.jupiter.api.BeforeEach
@@ -43,6 +45,7 @@ class CoronaWarnApplicationTest : BaseTest() {
     @MockK lateinit var coronaTestRepository: CoronaTestRepository
     @MockK lateinit var environmentSetup: EnvironmentSetup
     @MockK lateinit var imageLoaderFactory: ImageLoaderFactory
+    @MockK lateinit var appEol: AppEol
     private val initializers = DaggerInitializersTestComponent.create().initializers
 
     @BeforeEach
@@ -61,6 +64,8 @@ class CoronaWarnApplicationTest : BaseTest() {
             every { initAfterInjection(any()) } just Runs
         }
 
+        every { appEol.isEol } returns flowOf(false)
+
         mockkObject(AppInjector)
         AppInjector.apply {
             every { init(any()) } returns applicationComponent
@@ -72,6 +77,7 @@ class CoronaWarnApplicationTest : BaseTest() {
                 app.androidInjector = androidInjector
                 app.foregroundState = foregroundState
                 app.workManager = workManager
+                app.appEol = appEol
                 app.initializers = Provider { initializers }
                 app.appScope = TestScope()
                 app.rollingLogHistory = object : Timber.Tree() {
