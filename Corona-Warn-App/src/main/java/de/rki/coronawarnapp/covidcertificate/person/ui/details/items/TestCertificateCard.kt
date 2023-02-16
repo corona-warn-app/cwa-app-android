@@ -59,7 +59,7 @@ class TestCertificateCard(parent: ViewGroup) :
             val bookmarkIcon = if (item.certificate.isDisplayValid)
                 item.colorShade.bookmarkIcon else R.drawable.ic_bookmark
 
-            currentCertificateGroup.isVisible = item.isCurrentCertificate
+            currentCertificateGroup.isVisible = item.isCurrentCertificate && !item.isAppEol
             bookmark.setImageResource(bookmarkIcon)
             val color = when {
                 item.certificate.isDisplayValid -> item.colorShade

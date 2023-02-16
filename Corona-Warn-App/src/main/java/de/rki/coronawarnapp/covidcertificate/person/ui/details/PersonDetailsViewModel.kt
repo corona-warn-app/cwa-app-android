@@ -83,6 +83,7 @@ class PersonDetailsViewModel @AssistedInject constructor(
         createUiState(personSpecificCertificates, isLoading, isAppEol)
     }.asLiveData2()
 
+    @Suppress("NestedBlockDepth")
     private suspend fun createUiState(
         personCertificates: PersonCertificates,
         isLoading: Boolean,
