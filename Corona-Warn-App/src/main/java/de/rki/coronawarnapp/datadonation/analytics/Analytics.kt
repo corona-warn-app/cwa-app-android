@@ -13,6 +13,7 @@ import de.rki.coronawarnapp.datadonation.safetynet.DeviceAttestation
 import de.rki.coronawarnapp.datadonation.safetynet.SafetyNetException
 import de.rki.coronawarnapp.datadonation.safetynet.SafetyNetException.Type.ATTESTATION_REQUEST_FAILED
 import de.rki.coronawarnapp.datadonation.safetynet.SafetyNetException.Type.INTERNAL_ERROR
+import de.rki.coronawarnapp.eol.AppEol
 import de.rki.coronawarnapp.playbook.Playbook
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaDataRequestAndroid
@@ -46,6 +47,7 @@ class Analytics @Inject constructor(
     private val onboardingSettings: OnboardingSettings,
     @RandomStrong private val randomSource: Random,
     private val playbook: Playbook,
+    private val appEol: AppEol,
 ) : Resettable {
     private val submissionLockoutMutex = Mutex()
 
@@ -215,6 +217,11 @@ class Analytics @Inject constructor(
     suspend fun submitIfWanted(): Result = submissionLockoutMutex.withLock {
         Timber.tag(TAG).d("Checking analytics conditions")
         val configData: ConfigData = appConfigProvider.getAppConfig()
+
+        if (appEol.isEol.first()) {
+            Timber.tag(TAG).w("Aborting Analytics submission due to EOL")
+            return@withLock Result(successful = false)
+        }
 
         if (stopDueToNoAnalyticsConfig(configData.analytics)) {
             Timber.tag(TAG).w("Aborting Analytics submission due to noAnalyticsConfig")
