@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertific
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
+import de.rki.coronawarnapp.eol.AppEol
 import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
 import de.rki.coronawarnapp.reyclebin.coronatest.request.toRestoreRecycledTestRequest
 import de.rki.coronawarnapp.reyclebin.covidcertificate.RecycledCertificatesProvider
@@ -29,6 +30,7 @@ import timber.log.Timber
 
 class RecyclerBinOverviewViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
+    appEol: AppEol,
     private val recycledCertificatesProvider: RecycledCertificatesProvider,
     private val recycledCoronaTestsProvider: RecycledCoronaTestsProvider,
     private val submissionRepository: SubmissionRepository,
@@ -42,10 +44,11 @@ class RecyclerBinOverviewViewModel @AssistedInject constructor(
 
     val listItems: LiveData<List<RecyclerBinItem>> = combine(
         recycledCertificates,
-        recycledTests
-    ) { recycledCerts, recycledTests ->
+        recycledTests,
+        appEol.isEol
+    ) { recycledCerts, recycledTests, isEol ->
         recycledCerts
-            .plus(recycledTests)
+            .plus(if (isEol) emptyList() else recycledTests)
             .sortedByDescending { it.recycledAt }
             .toRecyclerBinItems()
     }.asLiveData2()
@@ -105,6 +108,7 @@ class RecyclerBinOverviewViewModel @AssistedInject constructor(
                 currentEvent.postValue(RecyclerBinEvent.ConfirmRestoreCertificate(certificate))
             }
         )
+
         else -> null
     }
 
@@ -144,6 +148,7 @@ class RecyclerBinOverviewViewModel @AssistedInject constructor(
             coronaTest is PersonalCoronaTest && currentCoronaTest != null -> currentEvent.postValue(
                 RecyclerBinEvent.RestoreDuplicateTest(coronaTest.toRestoreRecycledTestRequest(openResult = false))
             )
+
             else -> recycledCoronaTestsProvider.restoreCoronaTest(coronaTest.identifier)
         }
     }
