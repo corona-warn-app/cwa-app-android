@@ -136,10 +136,13 @@ class SubmissionTestResultNegativeFragment : Fragment(R.layout.fragment_submissi
                 toolbar.title = getText(R.string.submission_test_result_headline)
 
                 testResultStepsTestAdded.setEntryText("")
+                testResultStepsRemoveTest.isVisible = false
+                testResultStepsNegativeResult.setIsFinal(true)
             }
             is PersonalCoronaTest -> {
                 familyMemberName.isVisible = false
                 toolbar.title = getText(R.string.submission_test_result_toolbar_text)
+                testResultStepsRemoveTest.setIsFinal(true)
             }
         }
     }
