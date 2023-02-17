@@ -204,7 +204,7 @@
                 app:layout_constraintTop_toBottomOf="@id/test_result_steps_test_added"
                 app:simple_step_entry_text="@string/submission_test_result_negative_steps_negative_body"
                 app:simple_step_entry_title="@string/submission_test_result_negative_steps_negative_heading"
-                app:step_entry_final="true"
+                app:step_entry_final="false"
                 app:step_entry_icon="@drawable/ic_test_result_step_invalid" />
 
             <de.rki.coronawarnapp.ui.view.SimpleStepEntry
