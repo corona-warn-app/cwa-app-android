@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesSettings
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
+import de.rki.coronawarnapp.eol.AppEol
 import io.kotest.assertions.throwables.shouldNotThrow
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -39,6 +40,7 @@ internal class DccWalletInfoUpdateTriggerTest : BaseTest() {
     @MockK lateinit var appConfigProvider: AppConfigProvider
     @MockK lateinit var cclSettings: CclSettings
     @MockK lateinit var personCertificatesSettings: PersonCertificatesSettings
+    @MockK lateinit var appEol: AppEol
 
     private val vc1 = mockk<VaccinationCertificate>().apply {
         every { qrCodeHash } returns "hash1"
@@ -82,6 +84,7 @@ internal class DccWalletInfoUpdateTriggerTest : BaseTest() {
         coEvery { cclSettings.saveAdmissionScenarioId(any()) } returns Job()
 
         coEvery { personCertificatesSettings.cleanSettingsNotIn(any()) } just Runs
+        every { appEol.isEol } returns flowOf(false)
     }
 
     @Test
@@ -257,6 +260,7 @@ internal class DccWalletInfoUpdateTriggerTest : BaseTest() {
         appConfigProvider = appConfigProvider,
         personCertificateProvider = personCertificateProvider,
         personCertificatesSettings = personCertificatesSettings,
-        dccWalletInfoCalculationManager = dccWalletInfoCalculationManager
+        dccWalletInfoCalculationManager = dccWalletInfoCalculationManager,
+        appEol = appEol,
     )
 }

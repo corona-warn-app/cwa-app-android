@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.IntentFilter
 import android.os.Bundle
 import android.view.WindowManager
-import androidx.core.app.NotificationManagerCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.work.WorkManager
 import coil.Coil
@@ -15,10 +14,9 @@ import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import de.rki.coronawarnapp.bugreporting.loghistory.LogHistoryTree
-import de.rki.coronawarnapp.eol.AppEol
 import de.rki.coronawarnapp.exception.reporting.ErrorReportReceiver
 import de.rki.coronawarnapp.exception.reporting.ReportingConstants.ERROR_REPORT_LOCAL_BROADCAST_CHANNEL
-import de.rki.coronawarnapp.initializer.Initializer
+import de.rki.coronawarnapp.initializer.AppStarter
 import de.rki.coronawarnapp.util.BuildVersionWrap
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.coroutine.AppScope
@@ -27,28 +25,21 @@ import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.di.ApplicationComponent
 import de.rki.coronawarnapp.util.hasAPILevel
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
-import javax.inject.Provider
 
 class CoronaWarnApplication : Application(), HasAndroidInjector {
 
+    @Inject lateinit var appStarter: AppStarter
     @Inject lateinit var component: ApplicationComponent
     @Inject lateinit var androidInjector: DispatchingAndroidInjector<Any>
-
     @Inject lateinit var workManager: WorkManager
     @Inject lateinit var imageLoaderFactory: ImageLoaderFactory
     @Inject lateinit var foregroundState: ForegroundState
-    @Inject lateinit var initializers: Provider<Set<@JvmSuppressWildcards Initializer>>
     @AppScope @Inject lateinit var appScope: CoroutineScope
     @LogHistoryTree @Inject lateinit var rollingLogHistory: Timber.Tree
-
-    @Inject lateinit var appEol: AppEol
-    @Inject lateinit var notificationManager: NotificationManagerCompat
 
     override fun androidInjector(): AndroidInjector<Any> = androidInjector
 
@@ -68,19 +59,7 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
             compPreview.inject(this)
         }
 
-        appScope.launch {
-            if (!appEol.isEol.first()) {
-                initializers.get().forEach { initializer ->
-                    Timber.d("initialize => %s", initializer::class.simpleName)
-                    initializer.initialize()
-                }
-            } else {
-                Timber.d("EOL -> cancel all notification")
-                notificationManager.cancelAll()
-                Timber.d("EOL -> no work scheduled")
-                workManager.cancelAllWork()
-            }
-        }
+        appStarter.start()
 
         Timber.plant(rollingLogHistory)
 
