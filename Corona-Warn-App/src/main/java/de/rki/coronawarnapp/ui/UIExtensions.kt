@@ -18,7 +18,7 @@ import java.lang.ref.WeakReference
  * Similar to [setupWithNavController],but it executes the passed action on item selection
  * and shows [BottomNavigationView] on [HomeFragment], [ContactDiaryOverviewFragment] only
  */
-fun ActivityMainBinding.setupWithNavController2(
+fun ActivityMainBinding.setupWithNavController(
     navController: NavController,
     onItemSelected: () -> Unit,
     onDestinationChanged: (Boolean) -> Unit,

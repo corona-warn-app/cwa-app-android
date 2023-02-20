@@ -33,7 +33,6 @@
             android:outlineAmbientShadowColor="@android:color/transparent"
             android:outlineSpotShadowColor="@android:color/transparent"
             android:touchscreenBlocksFocus="false"
-            app:menu="@menu/menu_bottom_nav"
             tools:targetApi="p" />
     </com.google.android.material.bottomappbar.BottomAppBar>
 

@@ -5,15 +5,18 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
 import androidx.core.view.isVisible
+import androidx.core.view.size
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
 import androidx.navigation.navOptions
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.transition.MaterialElevationScale
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
@@ -31,7 +34,7 @@ import de.rki.coronawarnapp.ui.base.startActivitySafely
 import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.ui.main.home.MainActivityEvent
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.CheckInsFragment
-import de.rki.coronawarnapp.ui.setupWithNavController2
+import de.rki.coronawarnapp.ui.setupWithNavController
 import de.rki.coronawarnapp.util.AppShortcuts
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.device.PowerManagement
@@ -99,28 +102,11 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
             }
         }
 
-        with(binding) {
-            setupWithNavController2(
-                navController,
-                onItemSelected = { viewModel.onBottomNavSelected() },
-                onDestinationChanged = { barVisible ->
-                    if (barVisible) resetCurrentFragmentTransition()
-                    binding.checkToolTipVisibility(viewModel.isToolTipVisible.value == true)
-                }
-            )
+        binding.fabTooltip.setOnClickListener { viewModel.dismissTooltip() }
 
-            fabTooltip.setOnClickListener { viewModel.dismissTooltip() }
-
-            scannerFab.apply {
-                setShowMotionSpecResource(R.animator.fab_show)
-                setHideMotionSpecResource(R.animator.fab_hide)
-                setOnClickListener {
-                    val time = System.currentTimeMillis()
-                    if (abs(time - lastFabClickTime) >= 1000) {
-                        lastFabClickTime = time
-                        viewModel.openScanner()
-                    }
-                }
+        viewModel.eolBottomNav.observe(this) { isEol ->
+            if (binding.mainBottomNavigation.menu.size == 0) {
+                binding.setupMenuAndFab(isEol)
             }
         }
 
@@ -177,6 +163,42 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
         if (savedInstanceState == null) {
             processExtraParameters()
         }
+    }
+
+    private fun ActivityMainBinding.setupMenuAndFab(isEol: Boolean) {
+
+        if (isEol) {
+            mainBottomNavigation.inflateMenu(R.menu.menu_bottom_nav_eol)
+
+            scannerFab.remove()
+        } else {
+            mainBottomNavigation.inflateMenu(R.menu.menu_bottom_nav)
+
+            scannerFab.apply {
+                setShowMotionSpecResource(R.animator.fab_show)
+                setHideMotionSpecResource(R.animator.fab_hide)
+                setOnClickListener {
+                    val time = System.currentTimeMillis()
+                    if (abs(time - lastFabClickTime) >= 1000) {
+                        lastFabClickTime = time
+                        viewModel.openScanner()
+                    }
+                }
+            }
+        }
+
+        setupWithNavController(
+            navController,
+            onItemSelected = { viewModel.onBottomNavSelected() },
+            onDestinationChanged = { barVisible ->
+                if (barVisible) resetCurrentFragmentTransition()
+                this.checkToolTipVisibility(viewModel.isToolTipVisible.value == true && !isEol)
+            }
+        )
+    }
+
+    private fun FloatingActionButton.remove() {
+        (parent as ViewGroup).removeView(findViewById(R.id.scanner_fab))
     }
 
     private fun handleCoronaTestResult(coronaTestResult: CoronaTestQRCodeHandler.Result) = when (coronaTestResult) {
