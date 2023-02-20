@@ -8,6 +8,7 @@ import android.widget.LinearLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.net.toUri
 import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -84,6 +85,10 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
                     viewModel.goBack()
                 }
             }
+        }
+
+        viewModel.isAppEol.observe(viewLifecycleOwner) {
+            binding.toggleTravelValidityButton(!it)
         }
     }
 
@@ -236,6 +241,10 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
                 else -> false
             }
         }
+    }
+
+    private fun FragmentTestCertificateDetailsBinding.toggleTravelValidityButton(visible: Boolean) {
+        startValidationCheck.isVisible = visible
     }
 
     private fun setToolbarOverlay() {

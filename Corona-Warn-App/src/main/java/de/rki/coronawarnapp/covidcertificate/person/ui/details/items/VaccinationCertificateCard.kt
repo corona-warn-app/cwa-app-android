@@ -55,7 +55,7 @@ class VaccinationCertificateCard(parent: ViewGroup) :
             )
             val bookmarkIcon = if (item.certificate.isDisplayValid)
                 item.colorShade.bookmarkIcon else R.drawable.ic_bookmark
-            currentCertificateGroup.isVisible = item.isCurrentCertificate
+            currentCertificateGroup.isVisible = item.isCurrentCertificate && !item.isAppEol
             bookmark.setImageResource(bookmarkIcon)
 
             val color = when {
@@ -95,6 +95,7 @@ class VaccinationCertificateCard(parent: ViewGroup) :
         val colorShade: PersonColorShade,
         val isCurrentCertificate: Boolean,
         val isLoading: Boolean = false,
+        val isAppEol: Boolean = false,
         val onClick: () -> Unit,
         val onSwipeItem: (VaccinationCertificate, Int) -> Unit,
         val validateCertificate: (CertificateContainerId) -> Unit,

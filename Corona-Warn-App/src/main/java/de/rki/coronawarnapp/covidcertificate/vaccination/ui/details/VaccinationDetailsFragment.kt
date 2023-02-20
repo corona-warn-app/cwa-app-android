@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.LinearLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.net.toUri
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -151,6 +152,10 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
                         )
                 }
             }
+
+            viewModel.isAppEol.observe(viewLifecycleOwner) {
+                binding.toggleTravelValidityButton(!it)
+            }
         }
 
     override fun onPause() {
@@ -229,6 +234,10 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
 
     private fun showCertificateDeletionRequest() =
         recycleCertificateDialog { viewModel.recycleVaccinationCertificateConfirmed() }
+
+    private fun FragmentVaccinationDetailsBinding.toggleTravelValidityButton(visible: Boolean) {
+        startValidationCheck.isVisible = visible
+    }
 
     companion object {
         private val TAG = tag<VaccinationDetailsFragment>()
