@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificateProvi
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
+import de.rki.coronawarnapp.eol.AppEol
 import de.rki.coronawarnapp.util.toLocalDateUtc
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -32,6 +33,7 @@ class PersonCertificatesProviderTest : BaseTest() {
     @MockK lateinit var certificateProvider: CertificateProvider
     @MockK lateinit var personCertificatesSettings: PersonCertificatesSettings
     @MockK lateinit var dccWalletInfoRepository: DccWalletInfoRepository
+    @MockK lateinit var appEol: AppEol
 
     private val identifierA: CertificatePersonIdentifier = CertificatePersonIdentifier(
         dateOfBirthFormatted = "10.11.1990",
@@ -126,16 +128,18 @@ class PersonCertificatesProviderTest : BaseTest() {
             every { currentCwaUser } returns flowOf(identifierA)
             every { personsSettings } returns flowOf(mapOf())
             coEvery { removeCurrentCwaUser() } just Runs
+            every { appEol.isEol } returns flowOf(false)
         }
 
         every { dccWalletInfoRepository.personWallets } returns flowOf(emptySet())
     }
 
     private fun createInstance(scope: CoroutineScope) = PersonCertificatesProvider(
-        certificatesProvider = certificateProvider,
-        personCertificatesSettings = personCertificatesSettings,
         appScope = scope,
-        dccWalletInfoRepository = dccWalletInfoRepository
+        appEol = appEol,
+        certificatesProvider = certificateProvider,
+        dccWalletInfoRepository = dccWalletInfoRepository,
+        personCertificatesSettings = personCertificatesSettings
     )
 
     @Test
@@ -197,9 +201,7 @@ class PersonCertificatesProviderTest : BaseTest() {
 
         instance.personsBadgeCount.first() shouldBe 4
 
-        verify {
-            certificateProvider.certificateContainer
-        }
+        verify { certificateProvider.certificateContainer }
     }
 
     @Test
