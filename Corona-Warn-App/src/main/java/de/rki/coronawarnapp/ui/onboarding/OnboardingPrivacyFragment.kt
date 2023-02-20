@@ -7,7 +7,6 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentOnboardingPrivacyBinding
-import de.rki.coronawarnapp.databinding.OnboardingScreensLayoutBinding
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -23,12 +22,15 @@ class OnboardingPrivacyFragment : Fragment(R.layout.fragment_onboarding_privacy)
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val vm: OnboardingPrivacyViewModel by cwaViewModels { viewModelFactory }
     private val binding: FragmentOnboardingPrivacyBinding by viewBinding()
-    private val onboardingScreensBinding: OnboardingScreensLayoutBinding by viewBinding()
+    private var isEol = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        vm.isEol.observe(viewLifecycleOwner) {
+            isEol = it
+        }
         binding.apply {
-            onboardingButtonNext.setOnClickListener { vm.onNextButtonClick() }
+            onboardingButtonNext.setOnClickListener { vm.onNextButtonClick(isEol) }
             onboardingPrivacyToolbar.setNavigationOnClickListener { vm.onBackButtonClick() }
             privacyView.getOnboardingHtmlText()
         }
@@ -41,6 +43,11 @@ class OnboardingPrivacyFragment : Fragment(R.layout.fragment_onboarding_privacy)
                     )
 
                 is OnboardingNavigationEvents.NavigateToOnboardingFragment -> popBackStack()
+
+                is OnboardingNavigationEvents.NavigateToMainActivity -> {
+                    (requireActivity() as OnboardingActivity).completeOnboarding()
+                }
+
                 else -> Unit
             }
         }
