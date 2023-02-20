@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.contactdiary.retention.ContactDiaryRetentionCalculat
 import de.rki.coronawarnapp.eol.AppEol
 import de.rki.coronawarnapp.reyclebin.cleanup.RecycleBinCleanUpScheduler
 import io.github.classgraph.ClassGraph
+import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.matchers.collections.shouldContainAll
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -81,6 +82,16 @@ class AppStarterTest : BaseTest() {
             workManager.cancelAllWork()
             notificationManager.cancelAll()
             recycleBinCleanUpScheduler.initialize()
+        }
+    }
+
+    @Test
+    fun `App EOL is activated - no crash`() = runTest {
+        every { appEol.isEol } returns flowOf(true)
+        coEvery { contactDiaryRetentionCalculation.clearOutdatedEntries() } throws Exception("Surprise!!!")
+        shouldNotThrowAny {
+            instance(this).start()
+            advanceUntilIdle()
         }
     }
 
