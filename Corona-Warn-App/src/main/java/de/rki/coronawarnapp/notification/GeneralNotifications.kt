@@ -19,7 +19,6 @@ import dagger.Reusable
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
-import de.rki.coronawarnapp.eol.AppEol
 import de.rki.coronawarnapp.notification.NotificationConstants.NOTIFICATION_ID
 import de.rki.coronawarnapp.notification.NotificationConstants.POSITIVE_LEGACY_RESULT_NOTIFICATION_ID
 import de.rki.coronawarnapp.notification.NotificationConstants.POSITIVE_RESULT_NOTIFICATION_TEST_ID
@@ -40,8 +39,7 @@ import javax.inject.Inject
 @Reusable
 class GeneralNotifications @Inject constructor(
     @AppContext private val context: Context,
-    private val notificationManagerCompat: NotificationManagerCompat,
-    private val appEol: AppEol,
+    private val notificationManagerCompat: NotificationManagerCompat
 ) {
 
     private var isNotificationChannelSetup = false
@@ -161,11 +159,6 @@ class GeneralNotifications @Inject constructor(
             setupNotificationChannel()
         }
         Timber.tag(TAG).i("Showing notification for ID=$notificationId: %s", notification)
-
-        if (appEol.eolBlocking) {
-            Timber.d("EOL -> skip")
-            return
-        }
         notificationManagerCompat.notify(notificationId, notification)
     }
 

@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.core.app.NotificationChannelCompat
 import androidx.core.app.NotificationManagerCompat
 import de.rki.coronawarnapp.covidcertificate.common.notification.DigitalCovidCertificateNotifications
-import de.rki.coronawarnapp.eol.AppEol
 import de.rki.coronawarnapp.util.BuildVersionWrap
 import de.rki.coronawarnapp.util.notifications.NavDeepLinkBuilderFactory
 import io.kotest.matchers.shouldBe
@@ -26,7 +25,6 @@ class DigitalCovidCertificateNotificationsTest : BaseTest() {
     @MockK lateinit var context: Context
     @MockK lateinit var notificationManager: NotificationManagerCompat
     @MockK lateinit var deepLinkBuilderFactory: NavDeepLinkBuilderFactory
-    @MockK lateinit var appEol: AppEol
 
     private val channelSlot = slot<NotificationChannelCompat>()
 
@@ -46,14 +44,12 @@ class DigitalCovidCertificateNotificationsTest : BaseTest() {
             every { createNotificationChannel(capture(channelSlot)) } just Runs
             every { notify(any(), any()) } just Runs
         }
-        every { appEol.eolBlocking } returns false
     }
 
     fun createInstance() = DigitalCovidCertificateNotifications(
         context = context,
         notificationManagerCompat = notificationManager,
-        navDeepLinkBuilderFactory = deepLinkBuilderFactory,
-        appEol = appEol,
+        navDeepLinkBuilderFactory = deepLinkBuilderFactory
     )
 
     @Test

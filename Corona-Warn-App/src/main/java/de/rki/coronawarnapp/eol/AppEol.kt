@@ -14,9 +14,7 @@ import de.rki.coronawarnapp.util.flow.shareLatest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.runBlocking
 import timber.log.Timber
 import java.time.ZoneId
 import java.time.ZonedDateTime
@@ -63,8 +61,6 @@ class AppEol @Inject constructor(
             }
         }
         .shareLatest(scope = appScope)
-
-    val eolBlocking get() = runBlocking { isEol.first() }
 
     companion object {
         private val TAG = tag<AppEol>()
