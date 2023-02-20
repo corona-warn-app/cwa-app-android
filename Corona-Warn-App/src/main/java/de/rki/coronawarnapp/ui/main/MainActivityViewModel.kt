@@ -69,6 +69,7 @@ class MainActivityViewModel @AssistedInject constructor(
     ) { done, version, isEol ->
         !isEol && !done && version != DEFAULT_APP_VERSION && version < BuildConfigWrap.VERSION_CODE
     }.asLiveData2()
+    val eolBottomNav = appEol.isEol.asLiveData2()
     val showEnvironmentHint = SingleLiveEvent<String>()
     val event = SingleLiveEvent<MainActivityEvent>()
 
