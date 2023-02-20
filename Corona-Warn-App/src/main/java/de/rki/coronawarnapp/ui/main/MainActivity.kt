@@ -317,15 +317,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
         Timber.i("Uri:$uriString")
         viewModel.onNavigationUri(uriString)
     }
-
-    /**
-     * Register callbacks.
-     */
-    override fun onResume() {
-        super.onResume()
-        dataDonationAnalyticsScheduler.initialize()
-    }
-
+    
     private fun showEnergyOptimizedEnabledForBackground() = displayDialog {
         title(R.string.onboarding_energy_optimized_dialog_headline)
         message(R.string.onboarding_energy_optimized_dialog_body)
