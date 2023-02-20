@@ -63,19 +63,17 @@ class PersonCertificatesProvider @Inject constructor(
             val hasBoosterBadge = settings.hasBoosterBadge(dccWalletInfo?.boosterNotification)
             val hasDccReissuanceBadge = settings.hasReissuanceBadge(dccWalletInfo)
             val hasNewAdmissionStateBadge = settings.hasAdmissionStateChangedBadge()
-            val personBadges = if (isEol) {
-                0
-            } else {
-                hasBoosterBadge.toInt() + hasDccReissuanceBadge.toInt() + hasNewAdmissionStateBadge.toInt()
-            }
-            val badgeCount = certs.count { it.hasNotificationBadge } + personBadges
+            val badgeCount = certs.count { it.hasNotificationBadge } +
+                hasBoosterBadge.toInt() +
+                hasDccReissuanceBadge.toInt() +
+                hasNewAdmissionStateBadge.toInt()
 
             Timber.tag(TAG).d("Person [code=%s, badgeCount=%s]", identifier.codeSHA256, badgeCount)
 
             PersonCertificates(
                 certificates = sortedCerts,
                 isCwaUser = certs.any { it.personIdentifier.belongsToSamePerson(cwaUser) },
-                badgeCount = badgeCount,
+                badgeCount = if (isEol) 0 else badgeCount,
                 dccWalletInfo = dccWalletInfo,
                 hasBoosterBadge = hasBoosterBadge,
                 hasDccReissuanceBadge = hasDccReissuanceBadge,
