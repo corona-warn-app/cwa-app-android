@@ -23,6 +23,7 @@ import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationRepository
+import de.rki.coronawarnapp.eol.AppEol
 import de.rki.coronawarnapp.reyclebin.covidcertificate.RecycledCertificatesProvider
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
@@ -57,6 +58,7 @@ class PersonDetailsViewModelTest : BaseTest() {
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var recycledCertificatesProvider: RecycledCertificatesProvider
     @MockK lateinit var viewModel: PersonDetailsViewModel
+    @MockK lateinit var appEol: AppEol
     @MockK private lateinit var cclJsonFunctions: CclJsonFunctions
     private val mapper = SerializationModule.jacksonBaseMapper
 
@@ -67,6 +69,7 @@ class PersonDetailsViewModelTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this, true)
+        every { appEol.isEol } returns flowOf(false)
     }
 
     @Test
@@ -162,6 +165,7 @@ class PersonDetailsViewModelTest : BaseTest() {
 
     private fun personDetailsViewModel(personCode: String) = PersonDetailsViewModel(
         dispatcherProvider = TestDispatcherProvider(),
+        appEol = appEol,
         dccValidationRepository = dccValidationRepository,
         personCertificatesProvider = personCertificatesProvider,
         personCertificatesSettings = personCertificatesSettings,
