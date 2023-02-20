@@ -8,6 +8,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import dagger.Reusable
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.eol.AppEol
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.util.BuildVersionWrap
 import de.rki.coronawarnapp.util.di.AppContext
@@ -27,6 +28,7 @@ class DigitalCovidCertificateNotifications @Inject constructor(
     @AppContext private val context: Context,
     private val navDeepLinkBuilderFactory: NavDeepLinkBuilderFactory,
     private val notificationManagerCompat: NotificationManagerCompat,
+    private val appEol: AppEol,
 ) {
 
     private val channelId = "${context.packageName}.notification.digitalCovidCertificateChannelId"
@@ -80,6 +82,11 @@ class DigitalCovidCertificateNotifications @Inject constructor(
             setupChannel()
         }
         Timber.i("Showing notification for ID=$notificationId: %s", notification)
+
+        if (appEol.eolBlocking) {
+            Timber.d("EOL -> skip")
+            return
+        }
         notificationManagerCompat.notify(notificationId, notification)
     }
 }
