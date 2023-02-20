@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertif
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
+import de.rki.coronawarnapp.eol.AppEol
 import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
 import de.rki.coronawarnapp.reyclebin.coronatest.request.toRestoreRecycledTestRequest
 import de.rki.coronawarnapp.reyclebin.covidcertificate.RecycledCertificatesProvider
@@ -48,6 +49,7 @@ class RecyclerBinOverviewViewModelTest : BaseTest() {
     @RelaxedMockK private lateinit var recycledCertificatesProvider: RecycledCertificatesProvider
     @RelaxedMockK private lateinit var recycledCoronaTestsProvider: RecycledCoronaTestsProvider
     @RelaxedMockK private lateinit var submissionRepository: SubmissionRepository
+    @RelaxedMockK private lateinit var appEol: AppEol
 
     private val recycledRAT = RACoronaTest(
         identifier = "rat-identifier",
@@ -114,7 +116,8 @@ class RecyclerBinOverviewViewModelTest : BaseTest() {
             dispatcherProvider = TestDispatcherProvider(),
             recycledCertificatesProvider = recycledCertificatesProvider,
             recycledCoronaTestsProvider = recycledCoronaTestsProvider,
-            submissionRepository = submissionRepository
+            submissionRepository = submissionRepository,
+            appEol = appEol
         )
 
     @BeforeEach
@@ -126,6 +129,7 @@ class RecyclerBinOverviewViewModelTest : BaseTest() {
 
         every { recycledCoronaTestsProvider.tests } returns flowOf(emptySet())
         coEvery { recycledCoronaTestsProvider.restoreCoronaTest(any()) } just Runs
+        every { appEol.isEol } returns flowOf(false)
     }
 
     @Test
