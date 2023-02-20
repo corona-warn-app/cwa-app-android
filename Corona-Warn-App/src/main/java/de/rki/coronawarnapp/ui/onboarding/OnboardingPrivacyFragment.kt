@@ -22,15 +22,11 @@ class OnboardingPrivacyFragment : Fragment(R.layout.fragment_onboarding_privacy)
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val vm: OnboardingPrivacyViewModel by cwaViewModels { viewModelFactory }
     private val binding: FragmentOnboardingPrivacyBinding by viewBinding()
-    private var isEol = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        vm.isEol.observe(viewLifecycleOwner) {
-            isEol = it
-        }
         binding.apply {
-            onboardingButtonNext.setOnClickListener { vm.onNextButtonClick(isEol) }
+            onboardingButtonNext.setOnClickListener { vm.onNextButtonClick() }
             onboardingPrivacyToolbar.setNavigationOnClickListener { vm.onBackButtonClick() }
             privacyView.getOnboardingHtmlText()
         }
