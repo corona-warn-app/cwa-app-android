@@ -182,7 +182,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
             navController,
             onItemSelected = { viewModel.onBottomNavSelected() },
             onDestinationChanged = { barVisible ->
-                scannerFab.isGone = isEol
+                if (isEol) scannerFab.isGone = isEol
                 if (barVisible) resetCurrentFragmentTransition()
                 this.checkToolTipVisibility(viewModel.isToolTipVisible.value == true)
             }
