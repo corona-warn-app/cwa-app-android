@@ -1,14 +1,14 @@
 package de.rki.coronawarnapp.test.eol
 
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import de.rki.coronawarnapp.eol.EolSetting
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import java.time.ZonedDateTime
+import javax.inject.Inject
 
-class EolTestViewModel @AssistedInject constructor(
+@HiltViewModel
+class EolTestViewModel @Inject constructor(
     private val eolSetting: EolSetting
 ) : CWAViewModel() {
 
@@ -20,6 +20,4 @@ class EolTestViewModel @AssistedInject constructor(
         restart.postValue(Unit)
     }
 
-    @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<EolTestViewModel>
 }

@@ -4,28 +4,25 @@ import android.os.Bundle
 import android.text.format.DateFormat
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import com.jakewharton.processphoenix.ProcessPhoenix
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestEolBinding
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
 import de.rki.coronawarnapp.ui.dialog.displayDialog
-import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.viewBinding
-import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import java.time.Instant
 import java.time.LocalTime
 import java.time.ZoneId
-import javax.inject.Inject
 
-class EolTestFragment : Fragment(R.layout.fragment_test_eol), AutoInject {
+@AndroidEntryPoint
+class EolTestFragment : Fragment(R.layout.fragment_test_eol) {
 
-    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-
-    private val viewModel: EolTestViewModel by cwaViewModels { viewModelFactory }
+    private val viewModel: EolTestViewModel by viewModels()
     private val binding: FragmentTestEolBinding by viewBinding()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
