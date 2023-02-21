@@ -30,27 +30,16 @@ import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
 import javax.inject.Inject
 
-class CoronaWarnApplication : Application(), HasAndroidInjector {
-
-    @Inject lateinit var appStarter: AppStarter
-    @Inject lateinit var component: ApplicationComponent
-    @Inject lateinit var androidInjector: DispatchingAndroidInjector<Any>
 @HiltAndroidApp
 open class CoronaWarnApplication : Application() {
 
+    @Inject lateinit var appStarter: AppStarter
     @Inject lateinit var workManager: WorkManager
     @Inject lateinit var imageLoaderFactory: ImageLoaderFactory
     @Inject lateinit var foregroundState: ForegroundState
     @AppScope @Inject lateinit var appScope: CoroutineScope
     @LogHistoryTree @Inject lateinit var rollingLogHistory: Timber.Tree
     @Inject lateinit var encryptedPreferencesMigration: Lazy<EncryptedPreferencesMigration>
-    @Inject lateinit var initializers: Provider<Set<@JvmSuppressWildcards Initializer>>
-
-    @AppScope
-    @Inject lateinit var appScope: CoroutineScope
-
-    @LogHistoryTree
-    @Inject lateinit var rollingLogHistory: Timber.Tree
 
     override fun onCreate() {
         instance = this
