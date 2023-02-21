@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.eol
 
 import android.app.AlarmManager
 import androidx.core.app.NotificationManagerCompat
-import androidx.work.Logger
 import androidx.work.WorkManager
 import de.rki.coronawarnapp.bugreporting.debuglog.DebugLogger
 import de.rki.coronawarnapp.coronatest.notification.ShareTestResultNotification
