@@ -73,12 +73,12 @@ import de.rki.coronawarnapp.tracing.ui.homecards.TracingStateItem
 import de.rki.coronawarnapp.tracing.ui.statusbar.toHeaderState
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowErrorResetDialog
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowTracingExplanation
-import de.rki.coronawarnapp.ui.main.home.rampdown.RampDownDataProvider
 import de.rki.coronawarnapp.ui.main.home.items.CreateTraceLocationCard
 import de.rki.coronawarnapp.ui.main.home.items.EolCard
 import de.rki.coronawarnapp.ui.main.home.items.FAQCard
 import de.rki.coronawarnapp.ui.main.home.items.HomeItem
 import de.rki.coronawarnapp.ui.main.home.items.IncompatibleCard
+import de.rki.coronawarnapp.ui.main.home.rampdown.RampDownDataProvider
 import de.rki.coronawarnapp.ui.main.home.rampdown.RampDownNotice
 import de.rki.coronawarnapp.ui.presencetracing.TraceLocationPreferences
 import de.rki.coronawarnapp.util.TimeStamper
@@ -128,6 +128,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
 
     val errorEvent = SingleLiveEvent<Throwable>()
     val events = SingleLiveEvent<HomeFragmentEvents>()
+    val isEol = appEol.isEol.asLiveData(context = dispatcherProvider.Default)
 
     init {
         tracingSettings

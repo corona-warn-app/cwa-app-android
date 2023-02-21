@@ -60,12 +60,17 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.mainHeaderLogo.setCWAContentDescription(getString(R.string.accessibility_logo))
-        with(binding.toolbar) {
-            addMenuId(R.id.home_fragment_menu_id)
-            setupMenuIcons(menu)
-            setupDebugMenu(menu)
-            setupMenuItemClickListener()
-            menu.setItemContentDescription(requireContext())
+        viewModel.isEol.observe(viewLifecycleOwner) {
+            with(binding.toolbar) {
+                addMenuId(R.id.home_fragment_menu_id)
+                menu.findItem(R.id.mainSharingFragment).isVisible = !it
+                menu.findItem(R.id.settingsFragment).isVisible = !it
+                menu.findItem(R.id.mainOverviewFragment).isVisible = !it
+                setupMenuIcons(menu)
+                setupDebugMenu(menu)
+                setupMenuItemClickListener()
+                menu.setItemContentDescription(requireContext())
+            }
         }
 
         binding.recyclerView.apply {
