@@ -2,14 +2,14 @@ package de.rki.coronawarnapp
 
 import androidx.work.WorkManager
 import coil.ImageLoaderFactory
+import dagger.Lazy
+import de.rki.coronawarnapp.bugreporting.loghistory.LogHistoryTree
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.initializer.AppStarter
-import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.device.ForegroundState
-import de.rki.coronawarnapp.util.di.AppInjector
-import de.rki.coronawarnapp.util.di.ApplicationComponent
+import de.rki.coronawarnapp.util.encryptionmigration.EncryptedPreferencesMigration
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.every
@@ -18,27 +18,24 @@ import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.mockkStatic
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.conscrypt.Conscrypt
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import timber.log.Timber
 import java.security.Security
+import javax.inject.Inject
 
 class CoronaWarnApplicationTest : BaseTest() {
 
-    @MockK lateinit var applicationComponent: ApplicationComponent
-    @MockK lateinit var androidInjector: DispatchingAndroidInjector<Any>
-    @MockK lateinit var taskController: TaskController
-    @MockK lateinit var foregroundState: ForegroundState
-    @MockK lateinit var workManager: WorkManager
-    @MockK lateinit var notificationHelper: GeneralNotifications
-    @MockK lateinit var coronaTestRepository: CoronaTestRepository
-    @MockK lateinit var environmentSetup: EnvironmentSetup
-    @MockK lateinit var imageLoaderFactory: ImageLoaderFactory
-    @MockK lateinit var appStarter: AppStarter
+    @MockK lateinit var fState: ForegroundState
+    @MockK lateinit var wManager: WorkManager
+    @MockK lateinit var imageFactory: ImageLoaderFactory
+    @MockK lateinit var starter: AppStarter
+    @MockK lateinit var logHistory: Timber.Tree
+    @MockK lateinit var encryptedMigration: EncryptedPreferencesMigration
 
     @BeforeEach
     fun setup() {
@@ -56,36 +53,23 @@ class CoronaWarnApplicationTest : BaseTest() {
             every { initAfterInjection(any()) } just Runs
         }
 
-        mockkObject(AppInjector)
-        AppInjector.apply {
-            every { init(any()) } returns applicationComponent
-        }
-        every { appStarter.start() } returns mockk()
-    }
-
-    private fun setupAppComponent(scope: CoroutineScope) {
-        applicationComponent.apply {
-            every { inject(any<CoronaWarnApplication>()) } answers {
-                val app = arg<CoronaWarnApplication>(0)
-                app.component = applicationComponent
-                app.androidInjector = androidInjector
-                app.foregroundState = foregroundState
-                app.workManager = workManager
-                app.appScope = scope
-                app.appStarter = appStarter
-                app.rollingLogHistory = object : Timber.Tree() {
-                    override fun log(priority: Int, tag: String?, message: String, t: Throwable?) = Unit
-                }
-                app.imageLoaderFactory = imageLoaderFactory
-            }
-        }
+        every { starter.start() } returns mockk()
     }
 
     @Test
     fun `test app starter`() = runTest {
-        setupAppComponent(this)
+        createInstance().apply {
+            appStarter = Lazy { starter }
+            appScope = this@runTest
+            imageLoaderFactory = imageFactory
+            workManager = wManager
+            foregroundState = fState
+            rollingLogHistory = logHistory
+            encryptedPreferencesMigration = Lazy { encryptedMigration }
+            onCreate()
+        }
         advanceUntilIdle()
-        appStarter.start()
+        starter.start()
     }
 
     private fun createInstance() = CoronaWarnApplication()
