@@ -87,9 +87,14 @@ class SubmissionTestResultNegativeFragment : Fragment(R.layout.fragment_submissi
     ) {
         when (coronaTest.type) {
             BaseCoronaTest.Type.PCR -> {
-                testResultStepsTestAdded.setEntryTitle(
-                    getText(R.string.submission_family_test_result_steps_added_pcr_heading)
-                )
+                when (coronaTest) {
+                    is FamilyCoronaTest -> testResultStepsTestAdded.setEntryTitle(
+                        getText(R.string.submission_family_test_result_steps_added_pcr_heading)
+                    )
+                    is PersonalCoronaTest -> testResultStepsTestAdded.setEntryTitle(
+                        getText(R.string.submission_test_result_steps_added_heading)
+                    )
+                }
 
                 testResultStepsNegativeResult.setEntryText(
                     getText(R.string.submission_test_result_negative_steps_negative_body)
