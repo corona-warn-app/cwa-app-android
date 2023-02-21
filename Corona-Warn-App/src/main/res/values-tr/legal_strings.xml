@@ -27,7 +27,7 @@
     <!-- YTXT: Body for your consent screen agreement share symptoms with additional hint for test result-->
     <string name="submission_your_consent_agreement_share_symptoms_2">"<b>Hızlı test durumunda sadece Korona Uyarı Uygulamasının kullanıcıları uyarılır. Semptomlarınızın başladığına ilişkin ek bilgiler verirseniz bu veriler de paylaşılır.</b>\n\nYukarıdaki “Diğer Kullanıcıları Uyarın” seçeneğini devre dışı bırakarak, verdiğiniz rıza beyanını geri alabilirsiniz. Bunun ardından test sonucunuz size görüntülenir.</string>
     <!-- YTXT: Body for keys submission no consent text first part-->
-    <string name="submission_no_consent_your_consent_subsection_body_first_part">"„Kabul ediyorum“ seçeneğine dokunarak aşağıdakileri onaylarsınız:"</string>
+    <string name="submission_no_consent_your_consent_subsection_body_first_part">"„Kabul et“ seçeneğine dokunarak aşağıdakileri onaylarsınız:"</string>
     <!-- YTXT: Body for keys submission no consent text second part-->
     <string name="submission_no_consent_your_consent_subsection_body_second_part">"<b>Uygulama test sonucunuzu, karşılaştığınız kullanıcıları uyarmak için paylaşır. Bu yukarıda belirtilen ülkelerdeki Korona Uygulamasının kullanıcıları ve aynı zamanda aynı etkinlikte ya da yerde bulunduğunuz kullanıcılar için geçerlidir. Hızlı test durumunda sadece Korona Uyarı Uygulamasının kullanıcıları uyarılır. Semptomlarınızın başladığına ilişkin ek bilgiler verirseniz bu veriler de paylaşılır.</b>"</string>
     <!-- YTXT: Body for keys submission no consent text third part-->
