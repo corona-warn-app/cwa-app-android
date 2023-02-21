@@ -31,6 +31,7 @@ import javax.inject.Singleton
  */
 
 @Singleton
+@Suppress("LongParameterList")
 class AppEol @Inject constructor(
     eolSetting: EolSetting,
     private val enfClient: ENFClient,
