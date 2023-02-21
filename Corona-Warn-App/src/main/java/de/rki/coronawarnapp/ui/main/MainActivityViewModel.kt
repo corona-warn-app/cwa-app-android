@@ -128,9 +128,8 @@ class MainActivityViewModel @AssistedInject constructor(
             }
         }
 
-        valueSetRepository.triggerUpdateValueSet()
-
         launch {
+            if (!appEol.isEol.first()) valueSetRepository.triggerUpdateValueSet()
             if (!onboardingSettings.isBackgroundCheckDone.first()) {
                 onboardingSettings.updateBackgroundCheckDone(isDone = true)
                 if (backgroundModeStatus.isBackgroundRestricted.first()) {
