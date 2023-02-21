@@ -40,24 +40,24 @@ import timber.log.Timber
 
 @Suppress("LongParameterList")
 class MainActivityViewModel @AssistedInject constructor(
+    tracingSettings: TracingSettings,
+    checkInRepository: CheckInRepository,
     dispatcherProvider: DispatcherProvider,
-    private val environmentSetup: EnvironmentSetup,
-    private val backgroundModeStatus: BackgroundModeStatus,
+    valueSetRepository: ValueSetsRepository,
+    familyTestRepository: FamilyTestRepository,
+    coronaTestRepository: CoronaTestRepository,
     contactDiaryUiSettings: ContactDiaryUiSettings,
+    personCertificatesProvider: PersonCertificatesProvider,
+    private val appEol: AppEol,
+    private val environmentSetup: EnvironmentSetup,
+    private val rPcrExtractor: RapidPcrQrCodeExtractor,
     private val onboardingSettings: OnboardingSettings,
+    private val raExtractor: RapidAntigenQrCodeExtractor,
+    private val backgroundModeStatus: BackgroundModeStatus,
     private val traceLocationSettings: TraceLocationSettings,
     private val covidCertificateSettings: CovidCertificateSettings,
-    private val raExtractor: RapidAntigenQrCodeExtractor,
-    private val rPcrExtractor: RapidPcrQrCodeExtractor,
     private val coronaTestQRCodeHandler: CoronaTestQRCodeHandler,
     private val coronaTestRestoreHandler: CoronaTestRestoreHandler,
-    private val appEol: AppEol,
-    coronaTestRepository: CoronaTestRepository,
-    familyTestRepository: FamilyTestRepository,
-    checkInRepository: CheckInRepository,
-    personCertificatesProvider: PersonCertificatesProvider,
-    valueSetRepository: ValueSetsRepository,
-    tracingSettings: TracingSettings,
 ) : CWAViewModel(
     dispatcherProvider = dispatcherProvider
 ) {
@@ -155,7 +155,7 @@ class MainActivityViewModel @AssistedInject constructor(
     }
 
     private suspend fun checkForEnergyOptimizedEnabled() {
-        if (!backgroundModeStatus.isIgnoringBatteryOptimizations.first()) {
+        if (!backgroundModeStatus.isIgnoringBatteryOptimizations.first() && !appEol.isEol.first()) {
             showEnergyOptimizedEnabledForBackground.postValue(Unit)
         }
     }

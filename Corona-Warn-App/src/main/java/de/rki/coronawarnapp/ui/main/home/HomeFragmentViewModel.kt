@@ -100,13 +100,13 @@ import timber.log.Timber
 
 @Suppress("LongParameterList")
 class HomeFragmentViewModel @AssistedInject constructor(
-    appEol: AppEol,
     dispatcherProvider: DispatcherProvider,
     tracingStatus: GeneralTracingStatus,
     tracingStateProviderFactory: TracingStateProvider.Factory,
     coronaTestRepository: CoronaTestRepository,
     combinedStatisticsProvider: CombinedStatisticsProvider,
     rampDownDataProvider: RampDownDataProvider,
+    private val appEol: AppEol,
     private val errorResetTool: EncryptionErrorResetTool,
     private val tracingRepository: TracingRepository,
     private val submissionRepository: SubmissionRepository,
@@ -245,6 +245,10 @@ class HomeFragmentViewModel @AssistedInject constructor(
     }
 
     fun refreshTests() = launch {
+        if (appEol.isEol.first()) {
+            Timber.d("EOL -> Skip refreshTests")
+            return@launch
+        }
         try {
             submissionRepository.refreshTest()
             familyTestRepository.refresh()
@@ -255,6 +259,11 @@ class HomeFragmentViewModel @AssistedInject constructor(
     }
 
     fun showPopUps() = launch {
+        if (appEol.isEol.first()) {
+            Timber.d("EOL -> Skip dialogs")
+            return@launch
+        }
+
         if (errorResetTool.isResetNoticeToBeShown.first()) events.postValue(ShowErrorResetDialog)
         if (!cwaSettings.wasTracingExplanationDialogShown.first()) events.postValue(
             ShowTracingExplanation(appConfigProvider.getAppConfig().maxEncounterAgeInDays)
