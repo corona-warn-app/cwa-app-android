@@ -101,7 +101,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
         }
 
         binding.fabTooltip.setOnClickListener { viewModel.dismissTooltip() }
-
+        binding.setupMenuAndFab(false)
         viewModel.eolBottomNav.observe(this) { isEol ->
             binding.setupMenuAndFab(isEol)
         }
