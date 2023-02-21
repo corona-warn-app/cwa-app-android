@@ -271,8 +271,8 @@ class HomeFragmentViewModel @AssistedInject constructor(
         )
     }
 
-    fun initAppShortcuts() {
-        appShortcutsHelper.initShortcuts()
+    fun initAppShortcuts() = launch {
+        appShortcutsHelper.initShortcuts(appEol.isEol.first())
     }
 
     fun userHasAcknowledgedTheLoweredRiskLevel() = launch {

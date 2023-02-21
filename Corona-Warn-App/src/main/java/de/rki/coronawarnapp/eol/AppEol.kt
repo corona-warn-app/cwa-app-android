@@ -14,6 +14,7 @@ import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.flow.intervalFlow
 import de.rki.coronawarnapp.util.flow.shareLatest
+import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
@@ -37,6 +38,7 @@ class AppEol @Inject constructor(
     private val debugLogger: DebugLogger,
     private val alarmManager: AlarmManager,
     @AppScope private val appScope: CoroutineScope,
+    private val appShortcutsHelper: AppShortcutsHelper,
     private val intentFactory: AutoCheckOutIntentFactory,
     private val notification: ShareTestResultNotification,
     private val notificationManager: NotificationManagerCompat,
@@ -48,6 +50,7 @@ class AppEol @Inject constructor(
         ZonedDateTime.now(ZoneId.of("CET")) >= dateTime
     }.distinctUntilChanged()
         .onEach { isEol ->
+            appShortcutsHelper.initShortcuts(isEol)
             if (isEol) {
                 Timber.tag(TAG).d("Cancel all works")
                 workManager.cancelAllWork()
