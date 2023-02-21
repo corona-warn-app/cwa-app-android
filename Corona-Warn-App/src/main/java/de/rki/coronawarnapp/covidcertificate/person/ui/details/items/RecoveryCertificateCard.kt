@@ -68,7 +68,7 @@ class RecoveryCertificateCard(parent: ViewGroup) :
                 else -> color.defaultCertificateBg
             }.also { certificateBg.setImageResource(it) }
 
-            notificationBadge.isVisible = item.certificate.hasNotificationBadge
+            notificationBadge.isVisible = item.certificate.hasNotificationBadge && !item.isAppEol
 
             certificateExpiration.displayExpirationState(item.certificate)
 

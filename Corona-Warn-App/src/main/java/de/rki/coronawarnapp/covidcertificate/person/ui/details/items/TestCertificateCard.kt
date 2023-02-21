@@ -76,7 +76,7 @@ class TestCertificateCard(parent: ViewGroup) :
                 else -> color.defaultCertificateBg
             }
             certificateBg.setImageResource(background)
-            notificationBadge.isVisible = item.certificate.hasNotificationBadge
+            notificationBadge.isVisible = item.certificate.hasNotificationBadge && !item.isAppEol
             certificateExpiration.displayExpirationState(item.certificate)
 
             startValidationCheckButton.apply {
