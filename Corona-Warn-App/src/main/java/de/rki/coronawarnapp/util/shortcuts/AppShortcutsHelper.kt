@@ -67,14 +67,14 @@ class AppShortcutsHelper @Inject constructor(
 
     private val allShortcuts = listOf(scannerShortcut, certificatesShortcut, checkInShortcut, diaryShortcut)
 
-    fun initShortcuts() = appScope.launch {
+    fun initShortcuts(isEol: Boolean = false) = appScope.launch {
         Timber.d("initShortcuts()")
 
         if (!shortcutsAdded()) {
             addShortcuts()
         }
 
-        maybeDisableShortcuts()
+        maybeDisableShortcuts(isEol)
     }
 
     private fun shortcutsAdded() = ShortcutManagerCompat.getDynamicShortcuts(context).containsAll(allShortcuts)
@@ -85,16 +85,20 @@ class AppShortcutsHelper @Inject constructor(
         }
     }
 
-    private suspend fun maybeDisableShortcuts() {
+    private suspend fun maybeDisableShortcuts(isEol: Boolean) {
         if (!isOnboarded()) {
             Timber.i("User is not onboarded yet")
             disableAllShortcuts()
         }
 
-        if (isCameraPermissionGranted()) {
+        if (isCameraPermissionGranted() && !isEol) {
             enableQrCodeScannerShortcut()
         } else {
             disableQrCodeScannerShortcut()
+        }
+
+        if (isEol) {
+            disableCheckInsShortcut()
         }
     }
 
@@ -132,6 +136,13 @@ class AppShortcutsHelper @Inject constructor(
         ShortcutManagerCompat.disableShortcuts(context, listOf(QR_CODE_SCANNER_SHORTCUT_ID), null)
     }.onFailure { throwable ->
         Timber.e(throwable, "Failed to disable QrCodeScanner Shortcut")
+    }
+
+    private fun disableCheckInsShortcut() = runCatching {
+        Timber.d("Disable CheckIns Shortcut")
+        ShortcutManagerCompat.disableShortcuts(context, listOf(CHECK_INS_SHORTCUT_ID), null)
+    }.onFailure { throwable ->
+        Timber.e(throwable, "Failed to disable CheckIns Shortcut")
     }
 
     private fun createShortcutIntent(shortcut: String) = Intent(context, LauncherActivity::class.java).apply {

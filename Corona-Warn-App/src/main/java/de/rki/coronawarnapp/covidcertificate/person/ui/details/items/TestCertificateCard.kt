@@ -59,7 +59,7 @@ class TestCertificateCard(parent: ViewGroup) :
             val bookmarkIcon = if (item.certificate.isDisplayValid)
                 item.colorShade.bookmarkIcon else R.drawable.ic_bookmark
 
-            currentCertificateGroup.isVisible = item.isCurrentCertificate
+            currentCertificateGroup.isVisible = item.isCurrentCertificate && !item.isAppEol
             bookmark.setImageResource(bookmarkIcon)
             val color = when {
                 item.certificate.isDisplayValid -> item.colorShade
@@ -76,7 +76,7 @@ class TestCertificateCard(parent: ViewGroup) :
                 else -> color.defaultCertificateBg
             }
             certificateBg.setImageResource(background)
-            notificationBadge.isVisible = item.certificate.hasNotificationBadge
+            notificationBadge.isVisible = item.certificate.hasNotificationBadge && !item.isAppEol
             certificateExpiration.displayExpirationState(item.certificate)
 
             startValidationCheckButton.apply {
@@ -94,6 +94,7 @@ class TestCertificateCard(parent: ViewGroup) :
         val isCurrentCertificate: Boolean,
         val colorShade: PersonColorShade,
         val isLoading: Boolean = false,
+        val isAppEol: Boolean = false,
         val onClick: () -> Unit,
         val onSwipeItem: (TestCertificate, Int) -> Unit,
         val validateCertificate: (CertificateContainerId) -> Unit,

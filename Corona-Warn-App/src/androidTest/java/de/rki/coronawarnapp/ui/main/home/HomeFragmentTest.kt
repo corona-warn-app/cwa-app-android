@@ -68,7 +68,7 @@ class HomeFragmentTest : BaseUITest() {
         MockKAnnotations.init(this, relaxed = true)
         with(homeFragmentViewModel) {
             every { refreshTests() } just Runs
-            every { tracingHeaderState } returns MutableLiveData(TracingHeaderState.TracingActive)
+            every { tracingHeaderState } returns MutableLiveData(false to TracingHeaderState.TracingActive)
             every { homeItems } returns homeFragmentItemsLiveData()
             every { events } returns SingleLiveEvent()
             every { showPopUps() } just Runs
@@ -132,7 +132,7 @@ class HomeFragmentTest : BaseUITest() {
     @Screenshot
     @Test
     fun captureHomeFragmentTracingDisabled() {
-        every { homeFragmentViewModel.tracingHeaderState } returns MutableLiveData(TracingHeaderState.TracingInActive)
+        every { homeFragmentViewModel.tracingHeaderState } returns MutableLiveData(false to TracingHeaderState.TracingInActive)
         every { homeFragmentViewModel.homeItems } returns homeFragmentItemsLiveData(
             HomeData.Tracing.TRACING_DISABLED_ITEM
         )

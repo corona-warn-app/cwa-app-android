@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.statistics
 
 import de.rki.coronawarnapp.datadonation.analytics.common.Districts
+import de.rki.coronawarnapp.eol.AppEol
 import de.rki.coronawarnapp.server.protocols.internal.stats.KeyFigureCardOuterClass
 import de.rki.coronawarnapp.statistics.local.source.LocalStatisticsProvider
 import de.rki.coronawarnapp.statistics.local.storage.SelectedStatisticsLocation
@@ -24,6 +25,7 @@ internal class CombinedStatisticsProviderTest : BaseTest() {
     @MockK lateinit var statisticsProvider: StatisticsProvider
     @MockK lateinit var localStatisticsProvider: LocalStatisticsProvider
     @MockK lateinit var networkStateProvider: NetworkStateProvider
+    @MockK lateinit var appEol: AppEol
 
     private val localIncidenceAndHospitalizationStats = LocalIncidenceAndHospitalizationStats(
         Instant.EPOCH, keyFigures = emptyList(), Instant.EPOCH,
@@ -87,6 +89,7 @@ internal class CombinedStatisticsProviderTest : BaseTest() {
             )
         )
         every { networkStateProvider.networkState } returns flowOf(NetworkStateProvider.FallbackState)
+        every { appEol.isEol } returns flowOf(false)
     }
 
     @Test
@@ -241,5 +244,6 @@ internal class CombinedStatisticsProviderTest : BaseTest() {
         statisticsProvider = statisticsProvider,
         localStatisticsProvider = localStatisticsProvider,
         networkStateProvider = networkStateProvider,
+        appEol = appEol
     )
 }

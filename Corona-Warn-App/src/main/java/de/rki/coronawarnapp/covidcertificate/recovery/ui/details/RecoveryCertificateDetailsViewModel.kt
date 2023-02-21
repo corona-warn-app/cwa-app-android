@@ -6,6 +6,7 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationRepository
+import de.rki.coronawarnapp.eol.AppEol
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
@@ -18,6 +19,7 @@ import timber.log.Timber
 
 class RecoveryCertificateDetailsViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
+    appEol: AppEol,
     @Assisted private val containerId: RecoveryCertificateContainerId,
     @Assisted private val fromScanner: Boolean,
     private val recoveryCertificateRepository: RecoveryCertificateRepository,
@@ -30,6 +32,7 @@ class RecoveryCertificateDetailsViewModel @AssistedInject constructor(
     val recoveryCertificate = recoveryCertificateRepository.findCertificateDetails(containerId).map { certificate ->
         certificate?.also { qrCode = it.qrCodeToDisplay }
     }.asLiveData2()
+    val isAppEol = appEol.isEol.asLiveData2()
 
     fun goBack() = events.postValue(RecoveryCertificateDetailsNavigation.Back)
 

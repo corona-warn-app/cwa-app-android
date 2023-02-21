@@ -14,6 +14,7 @@ import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.datadonation.analytics.storage.LastAnalyticsSubmissionLogger
 import de.rki.coronawarnapp.datadonation.safetynet.DeviceAttestation
 import de.rki.coronawarnapp.datadonation.safetynet.SafetyNetException
+import de.rki.coronawarnapp.eol.AppEol
 import de.rki.coronawarnapp.playbook.Playbook
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaDataRequestAndroid
@@ -54,6 +55,7 @@ class AnalyticsTest : BaseTest() {
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var onboardingSettings: OnboardingSettings
     @MockK lateinit var playbook: Playbook
+    @MockK lateinit var appEol: AppEol
 
     private val baseTime: Instant = Instant.ofEpochMilli(0)
 
@@ -78,6 +80,7 @@ class AnalyticsTest : BaseTest() {
         every { analyticsConfig.safetyNetRequirements } returns SafetyNetRequirementsContainer()
         every { onboardingSettings.onboardingCompletedTimestamp } returns flowOf(twoDaysAgo)
         coEvery { dataDonationAnalyticsServer.uploadAnalyticsData(any()) } just Runs
+        every { appEol.isEol } returns flowOf(false)
     }
 
     private fun createInstance(modules: Set<DonorModule> = setOf(exposureRiskMetadataDonor)) = spyk(
@@ -91,7 +94,8 @@ class AnalyticsTest : BaseTest() {
             timeStamper = timeStamper,
             onboardingSettings = onboardingSettings,
             playbook = playbook,
-            randomSource = Random
+            randomSource = Random,
+            appEol = appEol,
         )
     )
 

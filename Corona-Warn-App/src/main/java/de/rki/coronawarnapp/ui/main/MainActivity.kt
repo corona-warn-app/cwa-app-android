@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
+import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -30,7 +31,7 @@ import de.rki.coronawarnapp.ui.base.startActivitySafely
 import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.ui.main.home.MainActivityEvent
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.CheckInsFragment
-import de.rki.coronawarnapp.ui.setupWithNavController2
+import de.rki.coronawarnapp.ui.setupWithNavController
 import de.rki.coronawarnapp.util.AppShortcuts
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.device.PowerManagement
@@ -87,29 +88,10 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        with(binding) {
-            setupWithNavController2(
-                navController,
-                onItemSelected = { viewModel.onBottomNavSelected() },
-                onDestinationChanged = { barVisible ->
-                    if (barVisible) resetCurrentFragmentTransition()
-                    binding.checkToolTipVisibility(viewModel.isToolTipVisible.value == true)
-                }
-            )
-
-            fabTooltip.setOnClickListener { viewModel.dismissTooltip() }
-
-            scannerFab.apply {
-                setShowMotionSpecResource(R.animator.fab_show)
-                setHideMotionSpecResource(R.animator.fab_hide)
-                setOnClickListener {
-                    val time = System.currentTimeMillis()
-                    if (abs(time - lastFabClickTime) >= 1000) {
-                        lastFabClickTime = time
-                        viewModel.openScanner()
-                    }
-                }
-            }
+        binding.fabTooltip.setOnClickListener { viewModel.dismissTooltip() }
+        binding.setupMenuAndFab(false)
+        viewModel.eolBottomNav.observe(this) { isEol ->
+            binding.setupMenuAndFab(isEol)
         }
 
         viewModel.isToolTipVisible.observe(this) { showTooltip ->
@@ -165,6 +147,34 @@ class MainActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             processExtraParameters()
         }
+    }
+
+    private fun ActivityMainBinding.setupMenuAndFab(isEol: Boolean) {
+        mainBottomNavigation.menu.apply {
+            findItem(R.id.scan_item).isVisible = !isEol
+            findItem(R.id.trace_location_attendee_nav_graph).isVisible = !isEol
+        }
+        scannerFab.apply {
+            setShowMotionSpecResource(R.animator.fab_show)
+            setHideMotionSpecResource(R.animator.fab_hide)
+            setOnClickListener {
+                val time = System.currentTimeMillis()
+                if (abs(time - lastFabClickTime) >= 1000) {
+                    lastFabClickTime = time
+                    viewModel.openScanner()
+                }
+            }
+        }
+
+        setupWithNavController(
+            navController,
+            onItemSelected = { viewModel.onBottomNavSelected() },
+            onDestinationChanged = { barVisible ->
+                if (isEol) scannerFab.isGone = isEol
+                if (barVisible) resetCurrentFragmentTransition()
+                this.checkToolTipVisibility(viewModel.isToolTipVisible.value == true)
+            }
+        )
     }
 
     private fun handleCoronaTestResult(coronaTestResult: CoronaTestQRCodeHandler.Result) = when (coronaTestResult) {
@@ -304,14 +314,6 @@ class MainActivity : AppCompatActivity() {
         val uriString = intent?.data?.toString() ?: return
         Timber.i("Uri:$uriString")
         viewModel.onNavigationUri(uriString)
-    }
-
-    /**
-     * Register callbacks.
-     */
-    override fun onResume() {
-        super.onResume()
-        dataDonationAnalyticsScheduler.initialize()
     }
 
     private fun showEnergyOptimizedEnabledForBackground() = displayDialog {

@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.ccl.dccwalletinfo.storage.DccWalletInfoRepository
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificateProvider
 import de.rki.coronawarnapp.covidcertificate.person.model.PersonSettings
+import de.rki.coronawarnapp.eol.AppEol
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.dcc.findCertificatesForPerson
@@ -22,17 +23,19 @@ import javax.inject.Inject
 // Aggregate the certificates and sort them
 @Reusable
 class PersonCertificatesProvider @Inject constructor(
-    private val personCertificatesSettings: PersonCertificatesSettings,
+    appEol: AppEol,
     certificatesProvider: CertificateProvider,
     dccWalletInfoRepository: DccWalletInfoRepository,
     @AppScope private val appScope: CoroutineScope,
+    private val personCertificatesSettings: PersonCertificatesSettings,
 ) {
     val personCertificates: Flow<Set<PersonCertificates>> = combine(
         certificatesProvider.certificateContainer,
         personCertificatesSettings.currentCwaUser,
         dccWalletInfoRepository.personWallets,
-        personCertificatesSettings.personsSettings
-    ) { certificateContainer, cwaUser, personWallets, personsSettings ->
+        personCertificatesSettings.personsSettings,
+        appEol.isEol,
+    ) { certificateContainer, cwaUser, personWallets, personsSettings, isEol ->
 
         val wallets = personWallets.associateBy { it.personGroupKey }
         val groupedCerts = certificateContainer.allCwaCertificates.groupByPerson().filterNot { it.isEmpty() }
@@ -49,11 +52,12 @@ class PersonCertificatesProvider @Inject constructor(
             val settings = sortedCerts.findSettings(personsSettings, identifier)
 
             Timber.tag(TAG).v(
-                "Person [code=%s, certsCount=%d, walletExist=%s, settings=%s]",
+                "Person [code=%s, certsCount=%d, walletExist=%s, settings=%s, isEol=%s]",
                 identifier.codeSHA256,
                 certs.size,
                 dccWalletInfo != null,
-                settings
+                settings,
+                isEol
             )
 
             val hasBoosterBadge = settings.hasBoosterBadge(dccWalletInfo?.boosterNotification)
@@ -69,7 +73,7 @@ class PersonCertificatesProvider @Inject constructor(
             PersonCertificates(
                 certificates = sortedCerts,
                 isCwaUser = certs.any { it.personIdentifier.belongsToSamePerson(cwaUser) },
-                badgeCount = badgeCount,
+                badgeCount = if (isEol) 0 else badgeCount,
                 dccWalletInfo = dccWalletInfo,
                 hasBoosterBadge = hasBoosterBadge,
                 hasDccReissuanceBadge = hasDccReissuanceBadge,

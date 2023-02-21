@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.LinearLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.net.toUri
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -78,6 +79,9 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
                     viewModel.goBack()
                 }
             }
+        }
+        viewModel.isAppEol.observe(viewLifecycleOwner) {
+            binding.toggleTravelValidityButton(!it)
         }
     }
 
@@ -210,6 +214,10 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
 
         val behavior: AppBarLayout.ScrollingViewBehavior = params.behavior as (AppBarLayout.ScrollingViewBehavior)
         behavior.overlayTop = (width / 3) + 170
+    }
+
+    private fun FragmentRecoveryCertificateDetailsBinding.toggleTravelValidityButton(visible: Boolean) {
+        startValidationCheck.isVisible = visible
     }
 
     private fun showCertificateDeletionRequest() =

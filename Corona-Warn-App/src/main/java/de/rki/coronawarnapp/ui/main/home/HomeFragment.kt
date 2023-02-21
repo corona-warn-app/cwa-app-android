@@ -8,6 +8,7 @@ import android.text.style.ImageSpan
 import android.view.Menu
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
+import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -53,12 +54,17 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.mainHeaderLogo.setCWAContentDescription(getString(R.string.accessibility_logo))
-        with(binding.toolbar) {
-            addMenuId(R.id.home_fragment_menu_id)
-            setupMenuIcons(menu)
-            setupDebugMenu(menu)
-            setupMenuItemClickListener()
-            menu.setItemContentDescription(requireContext())
+        viewModel.isEol.observe(viewLifecycleOwner) {
+            with(binding.toolbar) {
+                addMenuId(R.id.home_fragment_menu_id)
+                menu.findItem(R.id.mainSharingFragment).isVisible = !it
+                menu.findItem(R.id.settingsFragment).isVisible = !it
+                menu.findItem(R.id.mainOverviewFragment).isVisible = !it
+                setupMenuIcons(menu)
+                setupDebugMenu(menu)
+                setupMenuItemClickListener()
+                menu.setItemContentDescription(requireContext())
+            }
         }
 
         binding.recyclerView.apply {
@@ -91,10 +97,11 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout) {
         viewModel.errorEvent.observe(viewLifecycleOwner) { displayDialog { setError(it) } }
         viewModel.tracingHeaderState.observe(viewLifecycleOwner) {
             with(binding) {
-                mainTracingHeadline.contentDescription = it.getTracingContentDescription(requireContext())
-                mainTracingHeadline.text = it.getTracingDescription(requireContext())
-                mainTracingIcon.setLottieAnimation(it.getTracingAnimation(requireContext()))
-                mainTracingIcon.setLottieAnimationColor(it.getTracingTint(requireContext()))
+                mainTracing.isGone = it.first
+                mainTracingHeadline.contentDescription = it.second.getTracingContentDescription(requireContext())
+                mainTracingHeadline.text = it.second.getTracingDescription(requireContext())
+                mainTracingIcon.setLottieAnimation(it.second.getTracingAnimation(requireContext()))
+                mainTracingIcon.setLottieAnimationColor(it.second.getTracingTint(requireContext()))
             }
         }
         viewModel.showIncorrectDeviceTimeDialog.observe(viewLifecycleOwner) { showDialog ->
