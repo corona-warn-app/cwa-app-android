@@ -191,6 +191,26 @@ class MainActivityViewModelTest2 : BaseTest() {
     }
 
     @Test
+    fun `onNavigationUri - R-PCR test uri string at EOL`() {
+        every { appEol.isEol } returns flowOf(true)
+        val coronaTestQrCode = CoronaTestQRCode.RapidPCR(
+            rawQrCode = "rawQrCode",
+            hash = "hash",
+            createdAt = Instant.EPOCH
+        )
+        val uriString = "R-PCR uri string"
+        val result = CoronaTestQRCodeHandler.TestRegistrationSelection(coronaTestQrCode)
+
+        coEvery { rPcrExtractor.canHandle(uriString) } returns true
+        coEvery { rPcrExtractor.extract(uriString) } returns coronaTestQrCode
+        coEvery { coronaTestQRCodeHandler.handleQrCode(coronaTestQrCode) } returns result
+
+        createInstance().onNavigationUri(uriString)
+
+        coVerify(exactly = 0) { coronaTestQRCodeHandler.handleQrCode(coronaTestQrCode) }
+    }
+
+    @Test
     fun `onNavigationUri - RAT test uri string`() {
         val coronaTestQrCode = CoronaTestQRCode.RapidAntigen(
             rawQrCode = "rawQrCode",
@@ -211,6 +231,27 @@ class MainActivityViewModelTest2 : BaseTest() {
         }
 
         coVerify {
+            coronaTestQRCodeHandler.handleQrCode(coronaTestQrCode)
+        }
+    }
+
+    @Test
+    fun `onNavigationUri - RAT test uri string at EOL`() {
+        every { appEol.isEol } returns flowOf(true)
+        val coronaTestQrCode = CoronaTestQRCode.RapidAntigen(
+            rawQrCode = "rawQrCode",
+            hash = "hash",
+            createdAt = Instant.EPOCH
+        )
+        val uriString = "RAT uri string"
+        val result = CoronaTestQRCodeHandler.TestRegistrationSelection(coronaTestQrCode)
+
+        coEvery { raExtractor.canHandle(uriString) } returns true
+        coEvery { raExtractor.extract(uriString) } returns coronaTestQrCode
+        coEvery { coronaTestQRCodeHandler.handleQrCode(coronaTestQrCode) } returns result
+
+        createInstance().onNavigationUri(uriString)
+        coVerify(exactly = 0) {
             coronaTestQRCodeHandler.handleQrCode(coronaTestQrCode)
         }
     }

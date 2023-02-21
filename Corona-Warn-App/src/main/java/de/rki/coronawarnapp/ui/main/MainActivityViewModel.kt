@@ -51,13 +51,13 @@ class MainActivityViewModel @AssistedInject constructor(
     private val rPcrExtractor: RapidPcrQrCodeExtractor,
     private val coronaTestQRCodeHandler: CoronaTestQRCodeHandler,
     private val coronaTestRestoreHandler: CoronaTestRestoreHandler,
+    private val appEol: AppEol,
     coronaTestRepository: CoronaTestRepository,
     familyTestRepository: FamilyTestRepository,
     checkInRepository: CheckInRepository,
     personCertificatesProvider: PersonCertificatesProvider,
     valueSetRepository: ValueSetsRepository,
     tracingSettings: TracingSettings,
-    appEol: AppEol,
 ) : CWAViewModel(
     dispatcherProvider = dispatcherProvider
 ) {
@@ -162,6 +162,10 @@ class MainActivityViewModel @AssistedInject constructor(
     }
 
     fun onNavigationUri(uriString: String) = launch {
+        if (appEol.isEol.first()) {
+            Timber.d("EOL -> skip deep-links")
+            return@launch
+        }
         when {
             CheckInsFragment.canHandle(uriString) -> event.postValue(
                 MainActivityEvent.GoToCheckInsFragment(uriString)
