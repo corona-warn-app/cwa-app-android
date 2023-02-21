@@ -10,8 +10,6 @@ import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.device.ForegroundState
 import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.di.ApplicationComponent
-import io.github.classgraph.ClassGraph
-import io.kotest.matchers.collections.shouldContainAll
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.every

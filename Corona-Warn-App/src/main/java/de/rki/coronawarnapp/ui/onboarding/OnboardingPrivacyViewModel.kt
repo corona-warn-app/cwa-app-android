@@ -1,13 +1,10 @@
 package de.rki.coronawarnapp.ui.onboarding
 
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.eol.AppEol
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import javax.inject.Inject
-import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.first
 
 @HiltViewModel
