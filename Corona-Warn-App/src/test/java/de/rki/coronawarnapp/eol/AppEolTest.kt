@@ -33,16 +33,16 @@ import java.time.ZonedDateTime
 
 class AppEolTest : BaseTest() {
 
-    @MockK lateinit var eolSetting: EolSetting
     @MockK lateinit var enfClient: ENFClient
+    @MockK lateinit var eolSetting: EolSetting
     @MockK lateinit var workManager: WorkManager
     @MockK lateinit var debugLogger: DebugLogger
+    @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var alarmManager: AlarmManager
     @MockK lateinit var appShortcutsHelper: AppShortcutsHelper
     @MockK lateinit var intentFactory: AutoCheckOutIntentFactory
     @MockK lateinit var notification: ShareTestResultNotification
     @MockK lateinit var notificationManager: NotificationManagerCompat
-    @MockK lateinit var timeStamper: TimeStamper
 
     @BeforeEach
     fun setUp() {
