@@ -39,7 +39,9 @@ class DebugLoggerTest : BaseIOTest() {
     @MockK lateinit var packageManager: PackageManager
     @MockK lateinit var coronaTestCensor1: BugCensor
     @MockK lateinit var coronaTestCensor2: BugCensor
-    @MockK lateinit var entryPoint: DebugEntryPoint
+    private val entryPoint: DebugEntryPoint = object : DebugEntryPoint {
+        override fun inject(debugLogger: DebugLogger) = Unit
+    }
 
     private val testDir = File(IO_TEST_BASEDIR, this::class.simpleName!!)
     private val cacheDir = File(testDir, "cache")
@@ -71,7 +73,9 @@ class DebugLoggerTest : BaseIOTest() {
     private fun createInstance(scope: CoroutineScope) = DebugLogger(
         context = application,
         scope = scope
-    )
+    ).apply {
+        bugCensors = dagger.Lazy { setOf(coronaTestCensor1, coronaTestCensor2) }
+    }
 
     @Test
     fun `init does nothing if there is no trigger file`() = runTest2 {
