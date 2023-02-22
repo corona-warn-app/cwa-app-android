@@ -3,22 +3,17 @@ package de.rki.coronawarnapp.covidcertificate.expiration
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.test.TestData
+import de.rki.coronawarnapp.di.DiTestProvider
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.test.runTest
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.extensions.toInstant
 import java.time.Duration
 import java.time.Instant
-import javax.inject.Inject
 
 class DccExpirationCheckerTest : BaseTest() {
-    @Inject lateinit var extractor: DccQrCodeExtractor
-
-    @BeforeEach
-    fun setup() {
-    }
+    private val extractor: DccQrCodeExtractor = DiTestProvider.extractor
 
     private fun createInstance() = DccExpirationChecker()
 

@@ -1,20 +1,15 @@
 package de.rki.coronawarnapp.covidcertificate.common.certificate
 
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationQrCodeTestData
+import de.rki.coronawarnapp.di.DiTestProvider
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.test.runTest
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import javax.inject.Inject
 
 class KidExtractionTest : BaseTest() {
 
-    @Inject lateinit var extractor: DccQrCodeExtractor
-
-    @BeforeEach
-    fun setup() {
-    }
+    private val extractor: DccQrCodeExtractor = DiTestProvider.extractor
 
     @Test
     fun `extract kid from protected header`() = runTest {

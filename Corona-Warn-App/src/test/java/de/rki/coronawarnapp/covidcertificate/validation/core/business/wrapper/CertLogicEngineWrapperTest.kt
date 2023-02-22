@@ -1,13 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.validation.core.business.wrapper
 
 import dagger.Lazy
-import de.rki.coronawarnapp.bugreporting.censors.dcc.DccQrCodeCensor
-import de.rki.coronawarnapp.covidcertificate.common.certificate.DccJsonSchema
-import de.rki.coronawarnapp.covidcertificate.common.certificate.DccJsonSchemaValidator
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
-import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser
-import de.rki.coronawarnapp.covidcertificate.common.decoder.DccCoseDecoder
-import de.rki.coronawarnapp.covidcertificate.common.decoder.DccHeaderParser
 import de.rki.coronawarnapp.covidcertificate.test.TestData
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationQrCodeTestData
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationRepository
@@ -18,9 +12,7 @@ import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.DefaultValueSet
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.VaccinationValueSets
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.ValueSetsContainer
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.emptyValueSetsContainer
-import de.rki.coronawarnapp.util.encryption.aes.AesCryptography
-import de.rki.coronawarnapp.util.serialization.SerializationModule
-import de.rki.coronawarnapp.util.serialization.validation.JsonSchemaValidator
+import de.rki.coronawarnapp.di.DiTestProvider
 import dgca.verifier.app.engine.DefaultCertLogicEngine
 import dgca.verifier.app.engine.UTC_ZONE_ID
 import dgca.verifier.app.engine.data.RuleCertificateType
@@ -28,7 +20,6 @@ import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
-import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
@@ -64,23 +55,9 @@ class CertLogicEngineWrapperTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-        val dccJsonSchemaValidator = DccJsonSchemaValidator(
-            dccJsonSchema = DccJsonSchema(mockk()),
-            schemaValidator = JsonSchemaValidator(
-                SerializationModule.jacksonBaseMapper
-            )
-        )
-        extractor = DccQrCodeExtractor(
-            coseDecoder = DccCoseDecoder(AesCryptography()),
-            headerParser = DccHeaderParser(),
-            bodyParser = DccV1Parser(
-                mapper = SerializationModule.jacksonBaseMapper,
-                dccJsonSchemaValidator = dccJsonSchemaValidator,
-            ),
-            censor = DccQrCodeCensor()
-        )
+        extractor = DiTestProvider.extractor
+        engine = Lazy { DiTestProvider.engine }
 
-        engine = Lazy { DefaultCertLogicEngine() }
         coEvery { dccValidationRepository.dccCountries } returns flowOf(countryCodes.map { DccCountry(it) })
         coEvery { valueSetsRepository.latestVaccinationValueSets } returns
             flowOf(valueSet)

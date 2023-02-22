@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationTestDat
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.VaccinationCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.DefaultValueSet
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.VaccinationValueSets
+import de.rki.coronawarnapp.di.DiTestProvider
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
@@ -15,20 +16,14 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import java.time.Instant
 import java.util.Locale
-import javax.inject.Inject
 
 class VaccinationCertificateContainerTest : BaseTest() {
 
-    @Inject lateinit var vaccinationTestData: VaccinationTestData
-
-    @BeforeEach
-    fun setup() {
-    }
+    private val vaccinationTestData: VaccinationTestData = DiTestProvider.vaccinationTestData
 
     @Test
     fun `person identifier calculation`() {

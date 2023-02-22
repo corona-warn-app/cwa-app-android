@@ -3,22 +3,17 @@ package de.rki.coronawarnapp.dccticketing.core.qrcode
 import de.rki.coronawarnapp.dccticketing.core.qrcode.DccTicketingInvalidQrCodeException.ErrorCode.INIT_DATA_PARSE_ERR
 import de.rki.coronawarnapp.dccticketing.core.qrcode.DccTicketingInvalidQrCodeException.ErrorCode.INIT_DATA_PROTOCOL_INVALID
 import de.rki.coronawarnapp.dccticketing.core.qrcode.DccTicketingInvalidQrCodeException.ErrorCode.INIT_DATA_SP_EMPTY
+import de.rki.coronawarnapp.di.DiTestProvider
 import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.test.runTest
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import javax.inject.Inject
 
 class DccTicketingQrCodeExtractorTest : BaseTest() {
 
-    @Inject lateinit var extractor: DccTicketingQrCodeExtractor
-
-    @BeforeEach
-    fun setup() {
-    }
+    private val extractor = DiTestProvider.dccTicketingQrCodeExtractor
 
     @Test
     fun `happy path extraction`() = runTest {

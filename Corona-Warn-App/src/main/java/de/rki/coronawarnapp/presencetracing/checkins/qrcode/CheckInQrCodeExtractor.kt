@@ -23,7 +23,6 @@ class CheckInQrCodeExtractor @Inject constructor(
         return descriptor(rawString) != null
     }
 
-    @Suppress("BlockingMethodInNonBlockingContext")
     override suspend fun extract(rawString: String): CheckInQrCode {
         val descriptor = descriptor(rawString)
         if (descriptor == null) {

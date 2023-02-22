@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.covidcertificate.common.certificate
 
-import android.content.res.AssetManager
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser.Mode
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.HC_BASE45_DECODING_FAILED
@@ -13,10 +12,10 @@ import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidRecoveryCer
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidTestCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidVaccinationCertificateException
 import de.rki.coronawarnapp.covidcertificate.recovery.RecoveryQrCodeTestData
-import de.rki.coronawarnapp.covidcertificate.test.TestCertificateTestData
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationQrCodeTestData
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationTestData
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.VaccinationCertificateQRCode
+import de.rki.coronawarnapp.di.DiTestProvider
 import de.rki.coronawarnapp.util.encoding.Base45Decoder
 import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.assertions.throwables.shouldThrow
@@ -25,22 +24,16 @@ import io.mockk.Called
 import io.mockk.verify
 import kotlinx.coroutines.test.runTest
 import okio.internal.commonAsUtf8ToByteArray
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import java.time.Instant
-import javax.inject.Inject
 
 class DccQrCodeExtractorTest : BaseTest() {
 
-    @Inject lateinit var extractor: DccQrCodeExtractor
-    @Inject lateinit var vaccinationTestData: VaccinationTestData
-    @Inject lateinit var testTestData: TestCertificateTestData
-    @Inject lateinit var assetManager: AssetManager
-
-    @BeforeEach
-    fun setup() {
-    }
+    private val extractor = DiTestProvider.extractor
+    private val vaccinationTestData = DiTestProvider.vaccinationTestData
+    private val testTestData = DiTestProvider.testTestData
+    private val assetManager = DiTestProvider.assetManager
 
     @Test
     fun `happy path extraction`() = runTest {

@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.coronatest.qrcode.raQrCode3
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.covidcertificate.common.qrcode.DccQrCode
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationTestData
+import de.rki.coronawarnapp.di.DiTestProvider
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.CheckInQrCode
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import io.kotest.assertions.throwables.shouldThrow
@@ -18,22 +19,13 @@ import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.beInstanceOf
 import kotlinx.coroutines.test.runTest
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import javax.inject.Inject
 
 @Suppress("MaxLineLength")
 class QrCodeValidatorTest : BaseTest() {
-    @Inject
-    lateinit var testData: VaccinationTestData
 
-    @Inject
-    lateinit var qrCodeValidator: QrCodeValidator
-
-    @BeforeEach
-    fun setup() {
-    }
+    private val qrCodeValidator: QrCodeValidator = DiTestProvider.qrCodeValidator
 
     @Test
     fun `validator uses recognises DccQrCode`() = runTest {

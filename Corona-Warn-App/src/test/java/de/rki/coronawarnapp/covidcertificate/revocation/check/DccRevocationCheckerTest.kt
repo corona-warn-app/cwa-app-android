@@ -8,26 +8,21 @@ import de.rki.coronawarnapp.covidcertificate.revocation.model.CachedRevocationCh
 import de.rki.coronawarnapp.covidcertificate.revocation.model.RevocationChunk
 import de.rki.coronawarnapp.covidcertificate.revocation.model.RevocationEntryCoordinates
 import de.rki.coronawarnapp.covidcertificate.revocation.model.RevocationHashType
+import de.rki.coronawarnapp.di.DiTestProvider
 import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import okio.ByteString.Companion.decodeHex
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ArgumentsSource
 
 import testhelpers.BaseTest
-import javax.inject.Inject
 
 class DccRevocationCheckerTest : BaseTest() {
 
-    @Inject lateinit var dccQrCodeExtractor: DccQrCodeExtractor
-
-    @BeforeEach
-    fun setup() {
-    }
+    private val dccQrCodeExtractor: DccQrCodeExtractor = DiTestProvider.extractor
 
     @ParameterizedTest
     @ArgumentsSource(DccRevocationCalculationTestCaseProvider::class)
