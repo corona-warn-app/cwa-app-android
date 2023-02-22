@@ -15,6 +15,7 @@ import de.rki.coronawarnapp.covidcertificate.signature.core.DscSignatureList
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.emptyTestCertificateValueSets
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.emptyVaccinationValueSets
+import de.rki.coronawarnapp.di.DiTestProvider
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.assertions.throwables.shouldThrow
@@ -38,7 +39,6 @@ import testhelpers.BaseTest
 import testhelpers.TestDispatcherProvider
 import testhelpers.coroutines.runTest2
 import java.time.Instant
-import javax.inject.Inject
 
 class RecoveryCertificateRepositoryTest : BaseTest() {
 
@@ -48,7 +48,7 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
     @MockK lateinit var dccStateChecker: DccStateChecker
     @MockK lateinit var dccValidityMeasuresObserver: DccValidityMeasuresObserver
 
-    @Inject lateinit var qrCodeExtractor: DccQrCodeExtractor
+    private val qrCodeExtractor: DccQrCodeExtractor = DiTestProvider.extractor
 
     private var testStorage: Set<StoredRecoveryCertificateData> = emptySet()
 

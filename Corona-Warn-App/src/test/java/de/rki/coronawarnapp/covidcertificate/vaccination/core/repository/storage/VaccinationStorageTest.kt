@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage
 
 import androidx.datastore.preferences.core.stringPreferencesKey
-import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationTestData
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationTestData.Companion.personAData2Vac
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationStorage.Companion.PKEY_VACCINATION_CERT
@@ -17,15 +16,11 @@ import testhelpers.coroutines.runTest2
 import testhelpers.extensions.toComparableJsonPretty
 import testhelpers.preferences.FakeDataStore
 import java.time.Instant
-import javax.inject.Inject
 
 @Suppress("MaxLineLength")
 class VaccinationStorageTest : BaseTest() {
 
-    @Inject lateinit var testData: VaccinationTestData
-    @Inject lateinit var qrCodeExtractor: DccQrCodeExtractor
     private lateinit var dataStore: FakeDataStore
-
     private val mapper = SerializationModule.jacksonBaseMapper
 
     @BeforeEach

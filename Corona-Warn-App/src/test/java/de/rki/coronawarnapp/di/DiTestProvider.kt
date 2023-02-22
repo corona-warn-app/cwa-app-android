@@ -24,10 +24,15 @@ import de.rki.coronawarnapp.util.serialization.validation.JsonSchemaValidator
 import dgca.verifier.app.engine.DefaultAffectedFieldsDataRetriever
 import dgca.verifier.app.engine.DefaultCertLogicEngine
 import dgca.verifier.app.engine.DefaultJsonLogicValidator
+import io.mockk.every
 import io.mockk.mockk
 
 object DiTestProvider {
-    val assetManager = mockk<AssetManager>()
+    val assetManager = mockk<AssetManager>().apply {
+        every { open(any()) } answers {
+            javaClass.getResourceAsStream("jsonschema-dcc-8b5f5ee.json")!!
+        }
+    }
     val configProvider = mockk<AppConfigProvider>()
 
     private val schemaValidator = JsonSchemaValidator(SerializationModule.jacksonBaseMapper)

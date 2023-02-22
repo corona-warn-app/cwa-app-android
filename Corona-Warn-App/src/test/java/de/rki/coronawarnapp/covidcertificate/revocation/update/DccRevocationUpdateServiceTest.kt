@@ -21,6 +21,7 @@ import de.rki.coronawarnapp.covidcertificate.revocation.model.RevocationKidTypeI
 import de.rki.coronawarnapp.covidcertificate.revocation.server.DccRevocationServer
 import de.rki.coronawarnapp.covidcertificate.revocation.storage.DccRevocationRepository
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
+import de.rki.coronawarnapp.di.DiTestProvider
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -38,7 +39,6 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ArgumentsSource
 import testhelpers.BaseTest
-import javax.inject.Inject
 
 class DccRevocationUpdateServiceTest : BaseTest() {
 
@@ -46,7 +46,7 @@ class DccRevocationUpdateServiceTest : BaseTest() {
     @MockK lateinit var dccRevocationChecker: DccRevocationChecker
     @RelaxedMockK lateinit var dccRevocationRepository: DccRevocationRepository
 
-    @Inject lateinit var dccQrCodeExtractor: DccQrCodeExtractor
+    private val dccQrCodeExtractor: DccQrCodeExtractor = DiTestProvider.extractor
 
     @BeforeEach
     fun setup() {

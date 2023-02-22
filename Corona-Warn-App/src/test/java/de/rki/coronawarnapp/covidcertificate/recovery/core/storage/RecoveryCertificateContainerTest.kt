@@ -3,17 +3,17 @@ package de.rki.coronawarnapp.covidcertificate.recovery.core.storage
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser
 import de.rki.coronawarnapp.covidcertificate.recovery.RecoveryQrCodeTestData
+import de.rki.coronawarnapp.di.DiTestProvider
 import io.kotest.matchers.shouldNotBe
 import io.mockk.coVerify
 import io.mockk.spyk
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import javax.inject.Inject
 
 class RecoveryCertificateContainerTest : BaseTest() {
 
-    @Inject lateinit var extractor: DccQrCodeExtractor
+    private val extractor: DccQrCodeExtractor = DiTestProvider.extractor
     private lateinit var extractorSpy: DccQrCodeExtractor
 
     @BeforeEach

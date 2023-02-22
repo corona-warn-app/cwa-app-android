@@ -16,6 +16,7 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationStorage
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.VaccinationValueSets
+import de.rki.coronawarnapp.di.DiTestProvider
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.assertions.throwables.shouldThrow
@@ -38,7 +39,6 @@ import testhelpers.TestDispatcherProvider
 import testhelpers.coroutines.runTest2
 import timber.log.Timber
 import java.time.Instant
-import javax.inject.Inject
 
 class VaccinationCertificateRepositoryTest : BaseTest() {
 
@@ -52,9 +52,7 @@ class VaccinationCertificateRepositoryTest : BaseTest() {
     @MockK lateinit var dccValidityMeasuresObserver: DccValidityMeasuresObserver
 
     private var testStorage: Set<VaccinatedPersonData> = emptySet()
-
-    @Inject lateinit var vaccinationTestData: VaccinationTestData
-    @Inject lateinit var dccQrCodeExtractor: DccQrCodeExtractor
+    private val dccQrCodeExtractor: DccQrCodeExtractor = DiTestProvider.extractor
 
     // Few days after issued dates of person A in test data.
     private var nowUTC = Instant.parse("2021-05-13T09:25:00.000Z")

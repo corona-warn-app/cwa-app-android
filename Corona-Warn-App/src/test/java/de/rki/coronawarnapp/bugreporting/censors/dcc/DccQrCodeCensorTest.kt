@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.VaccinationDccV1
 import de.rki.coronawarnapp.covidcertificate.common.certificate.asRecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.recovery.recoveryCertificate1
 import de.rki.coronawarnapp.covidcertificate.test.TestCertificateTestData
+import de.rki.coronawarnapp.di.DiTestProvider
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldNotContain
 import io.mockk.MockKAnnotations
@@ -15,12 +16,11 @@ import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import javax.inject.Inject
 
 @Suppress("MaxLineLength")
 class DccQrCodeCensorTest : BaseTest() {
 
-    @Inject lateinit var certificateTestData: TestCertificateTestData
+    private val certificateTestData: TestCertificateTestData = DiTestProvider.testTestData
 
     private val vaccinationQrCode =
         "HC1:6BFOXN*TS0BI\$ZD.P9UOL97O4-2HH77HRM3DSPTLRR+%3.ZH9M9ESIGUBA KWML/O6HXK 0D+4O5VC9:BPCNYKMXEE1JAA/CZIK0JK1WL260X638J3-E3GG396B-43FZT-43:S0X37*ZV+FNI6HXY0ZSVILVQJF//05MVZJ5V.499TXY9KK9+OC+G9QJPNF67J6QW67KQY466PPM4MLJE+.PDB9L6Q2+PFQ5DB96PP5/P-59A%N+892 7J235II3NJ7PK7SLQMIJSBHVA7UJQWT.+S+ND%%M%331BH.IA.C8KRDL4O54O4IGUJKJGI0JAXD15IAXMFU*GSHGHD63DAOC9JU0H11+*4.\$S6ZC0JBZAB-C3QHISKE MCAOI8%M3V96-PY\$N6XOWLIBPIAYU:*JIRHUF2XZQ4H9 XJ72WG1K36VF/9BL56%E8T1OEEG%5TW5A 6YO67N6UCE:WT6BT-UMM:ABJK2TMDN1:FW-%T+\$D78NDSC3%5F61NYS-P9LOE0%J/ZAY:N5L4H-H/LH:AO3FU JHG7K46IOIMT.RE%PHLA21JRI3HTC\$AH"

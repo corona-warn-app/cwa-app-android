@@ -19,6 +19,7 @@ import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.GenericTest
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.PCRCertificateData
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.emptyTestCertificateValueSets
+import de.rki.coronawarnapp.di.DiTestProvider
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.encryption.rsa.RSAKeyPairGenerator
@@ -43,7 +44,6 @@ import testhelpers.TestDispatcherProvider
 import testhelpers.coroutines.runTest2
 import java.time.Duration
 import java.time.Instant
-import javax.inject.Inject
 
 class TestCertificateRepositoryTest : BaseTest() {
 
@@ -56,12 +56,9 @@ class TestCertificateRepositoryTest : BaseTest() {
     @MockK lateinit var dccStateChecker: DccStateChecker
     @MockK lateinit var dccValidityMeasuresObserver: DccValidityMeasuresObserver
 
-    @Inject lateinit var testData: TestCertificateTestData
-
+    private val testData: TestCertificateTestData = DiTestProvider.testTestData
     private var storageSet = mutableSetOf<BaseTestCertificateData>()
-
     private var nowUTC = Instant.parse("2021-05-13T09:25:00.000Z")
-
     private val identifier by lazy { testData.personATest1StoredData.testCertificateQrCode!!.toSHA256() }
 
     @BeforeEach

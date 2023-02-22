@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationQrCodeT
 import de.rki.coronawarnapp.covidcertificate.validation.core.business.BusinessValidation
 import de.rki.coronawarnapp.covidcertificate.validation.core.business.BusinessValidator
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
+import de.rki.coronawarnapp.di.DiTestProvider
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.serialization.validation.JsonSchemaValidator
 import io.kotest.matchers.shouldBe
@@ -23,13 +24,11 @@ import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import java.time.Instant
 import java.time.LocalDateTime
-import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
 class DccValidatorTest : BaseTest() {
 
-    @Inject lateinit var extractor: DccQrCodeExtractor
-
+    private val extractor: DccQrCodeExtractor = DiTestProvider.extractor
     @MockK lateinit var businessValidator: BusinessValidator
     @MockK lateinit var dccJsonSchemaValidator: DccJsonSchemaValidator
     @MockK lateinit var timeStamper: TimeStamper

@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCerti
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.HC_DSC_OID_MISMATCH_RC
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.HC_DSC_OID_MISMATCH_TC
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.HC_DSC_OID_MISMATCH_VC
+import de.rki.coronawarnapp.di.DiTestProvider
 import de.rki.coronawarnapp.server.protocols.internal.dgc.DscListOuterClass.DscList
 import de.rki.coronawarnapp.util.toOkioByteString
 import io.kotest.assertions.throwables.shouldNotThrow
@@ -29,13 +30,12 @@ import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import java.security.Security
 import java.time.Instant
-import javax.inject.Inject
 
 @Suppress("MaxLineLength")
 @ExperimentalCoroutinesApi
 class DscSignatureValidatorTest : BaseTest() {
 
-    @Inject lateinit var extractor: DccQrCodeExtractor
+    private val extractor: DccQrCodeExtractor = DiTestProvider.extractor
     @MockK lateinit var dscRepository: DscRepository
     @MockK lateinit var securityProvider: SecurityProvider
 

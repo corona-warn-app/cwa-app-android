@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.covidcertificate.test.TestCertificateTestData
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateStorage.Companion.PKEY_DATA_PCR
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateStorage.Companion.PKEY_DATA_RA
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateStorage.Companion.PKEY_DATA_SCANNED
+import de.rki.coronawarnapp.di.DiTestProvider
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -17,18 +18,16 @@ import testhelpers.BaseTest
 import testhelpers.extensions.toComparableJsonPretty
 import testhelpers.preferences.FakeDataStore
 import java.time.Instant
-import javax.inject.Inject
 
 @Suppress("MaxLineLength")
 class TestCertificateStorageTest : BaseTest() {
     @MockK lateinit var context: Context
     private lateinit var dataStore: FakeDataStore
-    @Inject lateinit var certificateTestData: TestCertificateTestData
+    private val certificateTestData: TestCertificateTestData = DiTestProvider.testTestData
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-
         dataStore = FakeDataStore()
     }
 

@@ -5,6 +5,7 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtract
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser
 import de.rki.coronawarnapp.covidcertificate.test.TestCertificateTestData
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.PCRCertificateData
+import de.rki.coronawarnapp.di.DiTestProvider
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
@@ -16,17 +17,15 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import java.time.Instant
-import javax.inject.Inject
 
 class TestCertificateContainerTest : BaseTest() {
 
-    @Inject lateinit var certificateTestData: TestCertificateTestData
-    @Inject lateinit var extractor: DccQrCodeExtractor
+    private val certificateTestData: TestCertificateTestData = DiTestProvider.testTestData
+    private val extractor: DccQrCodeExtractor = DiTestProvider.extractor
     private lateinit var extractorSpy: DccQrCodeExtractor
 
     @BeforeEach
     fun setup() {
-
         extractorSpy = spyk(extractor)
     }
 
