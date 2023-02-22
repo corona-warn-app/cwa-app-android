@@ -15,6 +15,7 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSe
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
 import de.rki.coronawarnapp.environment.BuildConfigWrap
 import de.rki.coronawarnapp.environment.EnvironmentSetup
+import de.rki.coronawarnapp.eol.AppEol
 import de.rki.coronawarnapp.familytest.core.repository.FamilyTestRepository
 import de.rki.coronawarnapp.main.CWASettings.Companion.DEFAULT_APP_VERSION
 import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
@@ -35,38 +36,40 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
 import timber.log.Timber
 
 @Suppress("LongParameterList")
 class MainActivityViewModel @AssistedInject constructor(
+    tracingSettings: TracingSettings,
+    checkInRepository: CheckInRepository,
     dispatcherProvider: DispatcherProvider,
-    private val environmentSetup: EnvironmentSetup,
-    private val backgroundModeStatus: BackgroundModeStatus,
+    valueSetRepository: ValueSetsRepository,
+    familyTestRepository: FamilyTestRepository,
+    coronaTestRepository: CoronaTestRepository,
     contactDiaryUiSettings: ContactDiaryUiSettings,
+    personCertificatesProvider: PersonCertificatesProvider,
+    private val appEol: AppEol,
+    private val environmentSetup: EnvironmentSetup,
+    private val rPcrExtractor: RapidPcrQrCodeExtractor,
     private val onboardingSettings: OnboardingSettings,
+    private val raExtractor: RapidAntigenQrCodeExtractor,
+    private val backgroundModeStatus: BackgroundModeStatus,
     private val traceLocationSettings: TraceLocationSettings,
     private val covidCertificateSettings: CovidCertificateSettings,
-    private val raExtractor: RapidAntigenQrCodeExtractor,
-    private val rPcrExtractor: RapidPcrQrCodeExtractor,
     private val coronaTestQRCodeHandler: CoronaTestQRCodeHandler,
     private val coronaTestRestoreHandler: CoronaTestRestoreHandler,
-    coronaTestRepository: CoronaTestRepository,
-    familyTestRepository: FamilyTestRepository,
-    checkInRepository: CheckInRepository,
-    personCertificatesProvider: PersonCertificatesProvider,
-    valueSetRepository: ValueSetsRepository,
-    tracingSettings: TracingSettings,
 ) : CWAViewModel(
     dispatcherProvider = dispatcherProvider
 ) {
 
     val isToolTipVisible: LiveData<Boolean> = combine(
         onboardingSettings.fabScannerOnboardingDone,
-        onboardingSettings.fabUqsLogVersion
-    ) { done, version ->
-        !done && version != DEFAULT_APP_VERSION && version < BuildConfigWrap.VERSION_CODE
+        onboardingSettings.fabUqsLogVersion,
+        appEol.isEol
+    ) { done, version, isEol ->
+        !isEol && !done && version != DEFAULT_APP_VERSION && version < BuildConfigWrap.VERSION_CODE
     }.asLiveData2()
+    val eolBottomNav = appEol.isEol.asLiveData2()
     val showEnvironmentHint = SingleLiveEvent<String>()
     val event = SingleLiveEvent<MainActivityEvent>()
 
@@ -84,18 +87,31 @@ class MainActivityViewModel @AssistedInject constructor(
     private val mutableIsCertificatesOnboardingDone = MutableLiveData<Boolean>()
     val isCertificatesConsentGiven: LiveData<Boolean> = mutableIsCertificatesOnboardingDone
 
-    val activeCheckIns = checkInRepository.checkInsWithinRetention
-        .map { checkins -> checkins.filter { !it.completed }.size }
-        .asLiveData2()
+    val activeCheckIns = combine(
+        checkInRepository.checkInsWithinRetention,
+        appEol.isEol,
+    ) { checkins, isEol ->
+        if (isEol) 0 else checkins.filter { !it.completed }.size
+    }.asLiveData2()
 
-    val personsBadgeCount: LiveData<Int> = personCertificatesProvider.personsBadgeCount.asLiveData2()
+    val personsBadgeCount: LiveData<Int> = combine(
+        personCertificatesProvider.personsBadgeCount,
+        appEol.isEol
+    ) { count, isEol ->
+        if (isEol) 0 else count
+    }.asLiveData2()
 
     val mainBadgeCount: LiveData<Int> = combine(
         coronaTestRepository.coronaTests,
         familyTestRepository.familyTests,
-        tracingSettings.showRiskLevelBadge
-    ) { personalTests, familyTests, showBadge ->
-        personalTests.plus(familyTests).count { it.hasBadge }.plus(if (showBadge) 1 else 0)
+        tracingSettings.showRiskLevelBadge,
+        appEol.isEol,
+    ) { personalTests, familyTests, showBadge, isEol ->
+        if (isEol) {
+            0
+        } else {
+            personalTests.plus(familyTests).count { it.hasBadge }.plus(if (showBadge) 1 else 0)
+        }
     }.asLiveData2()
 
     init {
@@ -112,9 +128,8 @@ class MainActivityViewModel @AssistedInject constructor(
             }
         }
 
-        valueSetRepository.triggerUpdateValueSet()
-
         launch {
+            if (!appEol.isEol.first()) valueSetRepository.triggerUpdateValueSet()
             if (!onboardingSettings.isBackgroundCheckDone.first()) {
                 onboardingSettings.updateBackgroundCheckDone(isDone = true)
                 if (backgroundModeStatus.isBackgroundRestricted.first()) {
@@ -140,16 +155,21 @@ class MainActivityViewModel @AssistedInject constructor(
     }
 
     private suspend fun checkForEnergyOptimizedEnabled() {
-        if (!backgroundModeStatus.isIgnoringBatteryOptimizations.first()) {
+        if (!backgroundModeStatus.isIgnoringBatteryOptimizations.first() && !appEol.isEol.first()) {
             showEnergyOptimizedEnabledForBackground.postValue(Unit)
         }
     }
 
     fun onNavigationUri(uriString: String) = launch {
+        if (appEol.isEol.first()) {
+            Timber.d("EOL -> skip deep-links")
+            return@launch
+        }
         when {
             CheckInsFragment.canHandle(uriString) -> event.postValue(
                 MainActivityEvent.GoToCheckInsFragment(uriString)
             )
+
             raExtractor.canHandle(uriString) -> raExtractor.handleCoronaTestQr(uriString = uriString)
             rPcrExtractor.canHandle(uriString) -> rPcrExtractor.handleCoronaTestQr(uriString = uriString)
         }

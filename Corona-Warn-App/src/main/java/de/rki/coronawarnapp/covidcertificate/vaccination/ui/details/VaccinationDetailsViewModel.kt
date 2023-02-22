@@ -4,9 +4,9 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationRepository
+import de.rki.coronawarnapp.eol.AppEol
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
@@ -18,6 +18,7 @@ import kotlinx.coroutines.flow.map
 import timber.log.Timber
 
 class VaccinationDetailsViewModel @AssistedInject constructor(
+    appEol: AppEol,
     @Assisted private val containerId: VaccinationCertificateContainerId,
     @Assisted private val fromScanner: Boolean,
     private val vaccinationCertificateRepository: VaccinationCertificateRepository,
@@ -36,6 +37,7 @@ class VaccinationDetailsViewModel @AssistedInject constructor(
 
     val errors = SingleLiveEvent<Throwable>()
     val events = SingleLiveEvent<VaccinationDetailsNavigation>()
+    val isAppEol = appEol.isEol.asLiveData2()
 
     fun goBack() = events.postValue(VaccinationDetailsNavigation.Back)
 
@@ -78,8 +80,3 @@ class VaccinationDetailsViewModel @AssistedInject constructor(
         ): VaccinationDetailsViewModel
     }
 }
-
-data class VaccinationDetails(
-    val certificate: VaccinationCertificate?,
-    val isImmune: Boolean = false
-)

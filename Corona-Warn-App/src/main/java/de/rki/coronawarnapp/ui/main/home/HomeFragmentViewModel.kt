@@ -20,6 +20,7 @@ import de.rki.coronawarnapp.coronatest.type.pcr.toSubmissionState
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.SubmissionStateRAT
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.toSubmissionState
+import de.rki.coronawarnapp.eol.AppEol
 import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.familytest.core.repository.FamilyTestRepository
 import de.rki.coronawarnapp.familytest.ui.homecard.FamilyTestCard
@@ -69,15 +70,15 @@ import de.rki.coronawarnapp.tracing.ui.homecards.TracingDisabledCard
 import de.rki.coronawarnapp.tracing.ui.homecards.TracingFailedCard
 import de.rki.coronawarnapp.tracing.ui.homecards.TracingProgressCard
 import de.rki.coronawarnapp.tracing.ui.homecards.TracingStateItem
-import de.rki.coronawarnapp.tracing.ui.statusbar.TracingHeaderState
 import de.rki.coronawarnapp.tracing.ui.statusbar.toHeaderState
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowErrorResetDialog
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowTracingExplanation
-import de.rki.coronawarnapp.ui.main.home.rampdown.RampDownDataProvider
 import de.rki.coronawarnapp.ui.main.home.items.CreateTraceLocationCard
+import de.rki.coronawarnapp.ui.main.home.items.EolCard
 import de.rki.coronawarnapp.ui.main.home.items.FAQCard
 import de.rki.coronawarnapp.ui.main.home.items.HomeItem
 import de.rki.coronawarnapp.ui.main.home.items.IncompatibleCard
+import de.rki.coronawarnapp.ui.main.home.rampdown.RampDownDataProvider
 import de.rki.coronawarnapp.ui.main.home.rampdown.RampDownNotice
 import de.rki.coronawarnapp.ui.presencetracing.TraceLocationPreferences
 import de.rki.coronawarnapp.util.TimeStamper
@@ -105,6 +106,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
     coronaTestRepository: CoronaTestRepository,
     combinedStatisticsProvider: CombinedStatisticsProvider,
     rampDownDataProvider: RampDownDataProvider,
+    private val appEol: AppEol,
     private val errorResetTool: EncryptionErrorResetTool,
     private val tracingRepository: TracingRepository,
     private val submissionRepository: SubmissionRepository,
@@ -118,7 +120,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
     private val localStatisticsConfigStorage: LocalStatisticsConfigStorage,
     private val recycledTestProvider: RecycledCoronaTestsProvider,
     private val riskCardDisplayInfo: RiskCardDisplayInfo,
-    private val familyTestRepository: FamilyTestRepository
+    private val familyTestRepository: FamilyTestRepository,
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     private val tracingStateProvider by lazy { tracingStateProviderFactory.create(isDetailsMode = false) }
@@ -126,6 +128,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
 
     val errorEvent = SingleLiveEvent<Throwable>()
     val events = SingleLiveEvent<HomeFragmentEvents>()
+    val isEol = appEol.isEol.asLiveData(context = dispatcherProvider.Default)
 
     init {
         tracingSettings
@@ -153,7 +156,12 @@ class HomeFragmentViewModel @AssistedInject constructor(
             .launchInViewModel()
     }
 
-    val tracingHeaderState: LiveData<TracingHeaderState> = tracingStatus.generalStatus.map { it.toHeaderState() }
+    val tracingHeaderState = combine(
+        tracingStatus.generalStatus,
+        appEol.isEol,
+    ) { generalStatus, isEol ->
+        isEol to generalStatus.toHeaderState()
+    }
         .asLiveData(dispatcherProvider.Default)
     val coronaTestErrors = coronaTestRepository.testErrorsSingleEvent
         .asLiveData(dispatcherProvider.Default)
@@ -204,23 +212,32 @@ class HomeFragmentViewModel @AssistedInject constructor(
         tracingCardItems,
         combinedStatisticsProvider.statistics,
         rampDownDataProvider.rampDownNotice,
-    ) { testsData, tracingItem, statsData, rampDownNotice ->
+        appEol.isEol,
+    ) { testsData, tracingItem, statsData, rampDownNotice, isEol ->
         mutableListOf<HomeItem>().apply {
             Timber.d("rampDownNotice=%s", rampDownNotice)
-            if (rampDownNotice?.visible == true) {
-                addRampDownCard(rampDownNotice)
+            if (!isEol) {
+                if (rampDownNotice?.visible == true) {
+                    addRampDownCard(rampDownNotice)
+                }
+                addRiskLevelCard(tracingItem)
+                addIncompatibleCard()
+                addTestCards(
+                    testsData.coronaTests.latestOf<PCRCoronaTest>(),
+                    testsData.coronaTests.latestOf<RACoronaTest>(),
+                    testsData.coronaTestParameters,
+                    testsData.familyTests
+                )
             }
-            addRiskLevelCard(tracingItem)
-            addIncompatibleCard()
-            addTestCards(
-                testsData.coronaTests.latestOf<PCRCoronaTest>(),
-                testsData.coronaTests.latestOf<RACoronaTest>(),
-                testsData.coronaTestParameters,
-                testsData.familyTests
-            )
-            addStatisticsCard(statsData)
-            addTraceLocationCard()
-            addFaqCard()
+            if (isEol) {
+                add(EolCard.Item())
+            }
+
+            addStatisticsCard(statsData, isEol)
+            if (!isEol) {
+                addTraceLocationCard()
+                addFaqCard()
+            }
         }
     }.distinctUntilChanged().asLiveData2()
 
@@ -229,6 +246,10 @@ class HomeFragmentViewModel @AssistedInject constructor(
     }
 
     fun refreshTests() = launch {
+        if (appEol.isEol.first()) {
+            Timber.d("EOL -> Skip refreshTests")
+            return@launch
+        }
         try {
             submissionRepository.refreshTest()
             familyTestRepository.refresh()
@@ -239,14 +260,19 @@ class HomeFragmentViewModel @AssistedInject constructor(
     }
 
     fun showPopUps() = launch {
+        if (appEol.isEol.first()) {
+            Timber.d("EOL -> Skip dialogs")
+            return@launch
+        }
+
         if (errorResetTool.isResetNoticeToBeShown.first()) events.postValue(ShowErrorResetDialog)
         if (!cwaSettings.wasTracingExplanationDialogShown.first()) events.postValue(
             ShowTracingExplanation(appConfigProvider.getAppConfig().maxEncounterAgeInDays)
         )
     }
 
-    fun initAppShortcuts() {
-        appShortcutsHelper.initShortcuts()
+    fun initAppShortcuts() = launch {
+        appShortcutsHelper.initShortcuts(appEol.isEol.first())
     }
 
     fun userHasAcknowledgedTheLoweredRiskLevel() = launch {
@@ -294,11 +320,12 @@ class HomeFragmentViewModel @AssistedInject constructor(
         )
     }
 
-    private fun MutableList<HomeItem>.addStatisticsCard(statsData: StatisticsData) {
+    private fun MutableList<HomeItem>.addStatisticsCard(statsData: StatisticsData, isEol: Boolean) {
         if (statsData.isDataAvailable) {
             add(
                 StatisticsHomeCard.Item(
                     data = statsData,
+                    isEol = isEol,
                     onClickListener = {
                         when (it) {
                             is AddStatsItem -> events.postValue(HomeFragmentEvents.GoToFederalStateSelection)

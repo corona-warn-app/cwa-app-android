@@ -20,6 +20,8 @@ import de.rki.coronawarnapp.test.deltaonboarding.ui.DeltaOnboardingFragment
 import de.rki.coronawarnapp.test.deltaonboarding.ui.DeltaOnboardingFragmentModule
 import de.rki.coronawarnapp.test.dsc.ui.DccStateValidationTestFragment
 import de.rki.coronawarnapp.test.dsc.ui.DccStateValidationTestModule
+import de.rki.coronawarnapp.test.eol.EolTestFragment
+import de.rki.coronawarnapp.test.eol.EolTestModule
 import de.rki.coronawarnapp.test.hometestcards.ui.HomeTestCardsFragment
 import de.rki.coronawarnapp.test.hometestcards.ui.HomeTestCardsFragmentModule
 import de.rki.coronawarnapp.test.keydownload.ui.KeyDownloadTestFragment
@@ -95,4 +97,7 @@ abstract class MainActivityTestModule {
 
     @ContributesAndroidInjector(modules = [CclTestModule::class])
     abstract fun cclTestFragment(): CclTestFragment
+
+    @ContributesAndroidInjector(modules = [EolTestModule::class])
+    abstract fun eolTestFragment(): EolTestFragment
 }

@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.DccWalletInfoCalculati
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesSettings
+import de.rki.coronawarnapp.eol.AppEol
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import kotlinx.coroutines.CoroutineScope
@@ -29,6 +30,7 @@ class DccWalletInfoUpdateTrigger @Inject constructor(
     private val personCertificateProvider: PersonCertificatesProvider,
     private val personCertificatesSettings: PersonCertificatesSettings,
     private val dccWalletInfoCalculationManager: DccWalletInfoCalculationManager,
+    private val appEol: AppEol,
 ) {
 
     init {
@@ -45,16 +47,24 @@ class DccWalletInfoUpdateTrigger @Inject constructor(
                 // delay to collect rapid changes and do only one recalculation
                 .debounce(1000L)
                 .collectLatest {
-                    runCatching {
-                        triggerNow(admissionScenarioId())
-                    }.onFailure {
-                        Timber.tag(TAG).d(it, "Failed to calculate dccWallet")
+                    if (!appEol.isEol.first()) {
+                        runCatching {
+                            triggerNow(admissionScenarioId())
+                        }.onFailure {
+                            Timber.tag(TAG).d(it, "Failed to calculate dccWallet")
+                        }
+                    } else {
+                        Timber.tag(TAG).d("EOL -> quit")
                     }
                 }
         }
     }
 
     suspend fun triggerAfterConfigChange(configurationChanged: Boolean = false) {
+        if (appEol.isEol.first()) {
+            Timber.tag(TAG).d("EOL -> quit")
+            return
+        }
         Timber.tag(TAG).d("triggerAfterConfigChange()")
         dccWalletInfoCalculationManager.triggerAfterConfigChange(
             admissionScenarioId = admissionScenarioId(),

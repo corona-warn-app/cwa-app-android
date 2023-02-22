@@ -50,7 +50,7 @@ class RecoveryCertificateCard(parent: ViewGroup) :
 
             val bookmarkIcon = if (item.certificate.isDisplayValid)
                 item.colorShade.bookmarkIcon else R.drawable.ic_bookmark
-            currentCertificateGroup.isVisible = item.isCurrentCertificate
+            currentCertificateGroup.isVisible = item.isCurrentCertificate && !item.isAppEol
             bookmark.setImageResource(bookmarkIcon)
 
             val color = when {
@@ -68,7 +68,7 @@ class RecoveryCertificateCard(parent: ViewGroup) :
                 else -> color.defaultCertificateBg
             }.also { certificateBg.setImageResource(it) }
 
-            notificationBadge.isVisible = item.certificate.hasNotificationBadge
+            notificationBadge.isVisible = item.certificate.hasNotificationBadge && !item.isAppEol
 
             certificateExpiration.displayExpirationState(item.certificate)
 
@@ -87,6 +87,7 @@ class RecoveryCertificateCard(parent: ViewGroup) :
         val isCurrentCertificate: Boolean,
         val colorShade: PersonColorShade,
         val isLoading: Boolean = false,
+        val isAppEol: Boolean = false,
         val onClick: () -> Unit,
         val onSwipeItem: (RecoveryCertificate, Int) -> Unit,
         val validateCertificate: (CertificateContainerId) -> Unit,

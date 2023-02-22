@@ -14,6 +14,7 @@ import de.rki.coronawarnapp.test.dccticketing.DccTicketingTestFragment
 import de.rki.coronawarnapp.test.debugoptions.ui.DebugOptionsFragment
 import de.rki.coronawarnapp.test.deltaonboarding.ui.DeltaOnboardingFragment
 import de.rki.coronawarnapp.test.dsc.ui.DccStateValidationTestFragment
+import de.rki.coronawarnapp.test.eol.EolTestFragment
 import de.rki.coronawarnapp.test.hometestcards.ui.HomeTestCardsFragment
 import de.rki.coronawarnapp.test.keydownload.ui.KeyDownloadTestFragment
 import de.rki.coronawarnapp.test.playground.ui.PlaygroundFragment
@@ -38,6 +39,7 @@ class TestMenuFragmentViewModel @AssistedInject constructor(
 
     val testMenuData by lazy {
         listOf(
+            EolTestFragment.MENU_ITEM,
             CclTestFragment.MENU_ITEM,
             DebugOptionsFragment.MENU_ITEM,
             SettingsCrashReportFragment.MENU_ITEM,
