@@ -1,6 +1,10 @@
 package de.rki.coronawarnapp.covidcertificate.common.certificate
 
+import android.content.res.AssetManager
+import de.rki.coronawarnapp.bugreporting.censors.dcc.DccQrCodeCensor
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser.Mode
+import de.rki.coronawarnapp.covidcertificate.common.decoder.DccCoseDecoder
+import de.rki.coronawarnapp.covidcertificate.common.decoder.DccHeaderParser
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.HC_BASE45_DECODING_FAILED
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.HC_CWT_NO_ISS
@@ -12,27 +16,58 @@ import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidRecoveryCer
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidTestCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidVaccinationCertificateException
 import de.rki.coronawarnapp.covidcertificate.recovery.RecoveryQrCodeTestData
+import de.rki.coronawarnapp.covidcertificate.test.TestCertificateTestData
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationQrCodeTestData
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationTestData
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.VaccinationCertificateQRCode
-import de.rki.coronawarnapp.di.DiTestProvider
 import de.rki.coronawarnapp.util.encoding.Base45Decoder
+import de.rki.coronawarnapp.util.encryption.aes.AesCryptography
+import de.rki.coronawarnapp.util.serialization.SerializationModule
+import de.rki.coronawarnapp.util.serialization.validation.JsonSchemaValidator
 import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.mockk.Called
+import io.mockk.every
+import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.test.runTest
 import okio.internal.commonAsUtf8ToByteArray
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import java.io.FileInputStream
+import java.nio.file.Paths
 import java.time.Instant
 
 class DccQrCodeExtractorTest : BaseTest() {
 
-    private val extractor = DiTestProvider.extractor
-    private val testTestData = DiTestProvider.testTestData
-    private val assetManager = DiTestProvider.assetManager
+    private lateinit var extractor: DccQrCodeExtractor
+    private lateinit var testTestData: TestCertificateTestData
+    private lateinit var assetManager: AssetManager
+
+    @BeforeEach
+    fun setup() {
+        assetManager = mockk<AssetManager>().apply {
+            every { open(any()) } answers {
+                FileInputStream(Paths.get("src", "main", "assets", arg(0)).toFile())
+            }
+        }
+        extractor = DccQrCodeExtractor(
+            coseDecoder = DccCoseDecoder(AesCryptography()),
+            headerParser = DccHeaderParser(),
+            bodyParser = DccV1Parser(
+                mapper = SerializationModule.jacksonBaseMapper,
+                dccJsonSchemaValidator = DccJsonSchemaValidator(
+                    dccJsonSchema = DccJsonSchema(assetManager),
+                    schemaValidator = JsonSchemaValidator(SerializationModule.jacksonBaseMapper)
+                ),
+            ),
+            censor = DccQrCodeCensor()
+        )
+
+        testTestData = TestCertificateTestData(extractor)
+    }
 
     @Test
     fun `happy path extraction`() = runTest {
