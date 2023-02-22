@@ -26,11 +26,13 @@ import dgca.verifier.app.engine.DefaultCertLogicEngine
 import dgca.verifier.app.engine.DefaultJsonLogicValidator
 import io.mockk.every
 import io.mockk.mockk
+import java.io.FileInputStream
+import java.nio.file.Paths
 
 object DiTestProvider {
     val assetManager = mockk<AssetManager>().apply {
         every { open(any()) } answers {
-            javaClass.getResourceAsStream("jsonschema-dcc-8b5f5ee.json")!!
+            FileInputStream(Paths.get("src", "main", "assets", arg(0)).toFile())
         }
     }
     val configProvider = mockk<AppConfigProvider>()
@@ -38,7 +40,7 @@ object DiTestProvider {
     private val schemaValidator = JsonSchemaValidator(SerializationModule.jacksonBaseMapper)
 
     private val dccJsonSchema = DccJsonSchema(assetManager)
-    private val dccJsonSchemaValidator = DccJsonSchemaValidator(
+    val dccJsonSchemaValidator = DccJsonSchemaValidator(
         dccJsonSchema = dccJsonSchema,
         schemaValidator = schemaValidator
     )

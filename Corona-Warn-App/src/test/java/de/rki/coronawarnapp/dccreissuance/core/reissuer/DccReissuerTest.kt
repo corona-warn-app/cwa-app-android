@@ -13,6 +13,7 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationTestDat
 import de.rki.coronawarnapp.dccreissuance.core.error.DccReissuanceException
 import de.rki.coronawarnapp.dccreissuance.core.server.DccReissuanceServer
 import de.rki.coronawarnapp.dccreissuance.core.server.data.DccReissuanceResponse
+import de.rki.coronawarnapp.di.DiTestProvider
 import de.rki.coronawarnapp.qrcode.handler.DccQrCodeHandler
 import io.kotest.assertions.throwables.shouldNotThrow
 import io.kotest.assertions.throwables.shouldNotThrowAny
@@ -28,13 +29,12 @@ import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import javax.inject.Inject
 
 class DccReissuerTest : BaseTest() {
 
     @MockK lateinit var dccReissuanceServer: DccReissuanceServer
     @MockK lateinit var dccQrCodeHandler: DccQrCodeHandler
-    @Inject lateinit var dccQrCodeExtractor: DccQrCodeExtractor
+    private val dccQrCodeExtractor: DccQrCodeExtractor = DiTestProvider.extractor
 
     private val certificateReissuance = CertificateReissuance(
         reissuanceDivision = ReissuanceDivision(

@@ -31,7 +31,6 @@ import java.time.Instant
 class DccQrCodeExtractorTest : BaseTest() {
 
     private val extractor = DiTestProvider.extractor
-    private val vaccinationTestData = DiTestProvider.vaccinationTestData
     private val testTestData = DiTestProvider.testTestData
     private val assetManager = DiTestProvider.assetManager
 
