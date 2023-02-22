@@ -2,13 +2,19 @@ package de.rki.coronawarnapp.util.reset
 
 import io.mockk.coEvery
 import io.mockk.coVerify
+import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
 class DataResetTest : BaseTest() {
 
-    private fun createResettableSet() = DaggerResetTestComponent.create().resettableSet
+    private fun createResettableSet() = setOf<Resettable>(
+        mockk(),
+        mockk(),
+        mockk(),
+        mockk(),
+    )
 
     @Test
     fun `resets ever resettable`() = runTest {

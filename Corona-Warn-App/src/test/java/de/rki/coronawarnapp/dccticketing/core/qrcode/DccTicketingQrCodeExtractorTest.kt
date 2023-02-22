@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.dccticketing.core.qrcode
 
-import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
 import de.rki.coronawarnapp.dccticketing.core.qrcode.DccTicketingInvalidQrCodeException.ErrorCode.INIT_DATA_PARSE_ERR
 import de.rki.coronawarnapp.dccticketing.core.qrcode.DccTicketingInvalidQrCodeException.ErrorCode.INIT_DATA_PROTOCOL_INVALID
 import de.rki.coronawarnapp.dccticketing.core.qrcode.DccTicketingInvalidQrCodeException.ErrorCode.INIT_DATA_SP_EMPTY
@@ -19,7 +18,6 @@ class DccTicketingQrCodeExtractorTest : BaseTest() {
 
     @BeforeEach
     fun setup() {
-        DaggerCovidCertificateTestComponent.factory().create().inject(this)
     }
 
     @Test

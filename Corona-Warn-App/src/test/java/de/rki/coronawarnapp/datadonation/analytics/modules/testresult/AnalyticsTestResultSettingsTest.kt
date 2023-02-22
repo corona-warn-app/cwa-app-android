@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.datadonation.analytics.modules.testresult
 
-import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
 import de.rki.coronawarnapp.datadonation.analytics.common.AnalyticsExposureWindow
 import de.rki.coronawarnapp.datadonation.analytics.common.AnalyticsScanInstance
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
@@ -30,7 +29,7 @@ class AnalyticsTestResultSettingsTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-        DaggerCovidCertificateTestComponent.factory().create().inject(this)
+
         pcrStorage = AnalyticsPCRTestResultSettings(mapper, dataStore)
         raStorage = AnalyticsRATestResultSettings(mapper, dataStore)
 

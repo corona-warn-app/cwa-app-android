@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.covidcertificate.validation.core
 
-import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccJsonSchemaValidator
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.signature.core.DscSignatureValidator
@@ -41,7 +40,7 @@ class DccValidatorTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-        DaggerCovidCertificateTestComponent.factory().create().inject(this)
+
         every { dccJsonSchemaValidator.isValid(any()) } returns JsonSchemaValidator.Result(emptySet())
         coEvery { businessValidator.validate(any(), any(), any()) } returns
             BusinessValidation(emptySet(), emptySet())

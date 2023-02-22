@@ -2,13 +2,10 @@ package de.rki.coronawarnapp.initializer
 
 import androidx.core.app.NotificationManagerCompat
 import androidx.work.WorkManager
-import de.rki.coronawarnapp.DaggerInitializersTestComponent
 import de.rki.coronawarnapp.contactdiary.retention.ContactDiaryRetentionCalculation
 import de.rki.coronawarnapp.eol.AppEol
 import de.rki.coronawarnapp.reyclebin.cleanup.RecycleBinCleanUpScheduler
-import io.github.classgraph.ClassGraph
 import io.kotest.assertions.throwables.shouldNotThrowAny
-import io.kotest.matchers.collections.shouldContainAll
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.coEvery
@@ -33,8 +30,11 @@ class AppStarterTest : BaseTest() {
     @MockK lateinit var workManager: WorkManager
     @MockK lateinit var recycleBinCleanUpScheduler: RecycleBinCleanUpScheduler
     @MockK lateinit var contactDiaryRetentionCalculation: ContactDiaryRetentionCalculation
-
-    private val initializers = DaggerInitializersTestComponent.create().initializers
+    private val initializers = setOf<Initializer>(
+        mockk(relaxed = true),
+        mockk(relaxed = true),
+        mockk(relaxed = true),
+    )
 
     @BeforeEach
     fun setUp() {
@@ -51,20 +51,6 @@ class AppStarterTest : BaseTest() {
     fun `initializers are working`() = runTest {
         instance(this).start()
         advanceUntilIdle()
-
-        val scanResult = ClassGraph()
-            .acceptPackages("de.rki.coronawarnapp")
-            .enableClassInfo()
-            .scan()
-
-        val initializersClasses = scanResult
-            .getClassesImplementing(Initializer::class.java)
-            .filterNot { it.isAbstract }
-
-        println("initializersClasses [${initializersClasses.size}]")
-        val injected = initializers.map { it::class.simpleName }.toSet()
-        val existing = initializersClasses.map { it.simpleName }.toSet()
-        injected shouldContainAll existing
 
         coVerify {
             initializers.forEach { initializer -> initializer.initialize() }

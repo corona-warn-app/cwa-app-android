@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.covidcertificate.revocation.calculation
 
-import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.revocation.model.RevocationHashType
@@ -22,7 +21,6 @@ class DccRevocationCalculationTest : BaseTest() {
 
     @BeforeEach
     fun setup() {
-        DaggerCovidCertificateTestComponent.factory().create().inject(this)
     }
 
     @ParameterizedTest

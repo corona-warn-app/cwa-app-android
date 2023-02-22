@@ -6,8 +6,6 @@ import android.content.Intent
 import androidx.work.WorkManager
 import androidx.work.WorkRequest
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
-import dagger.android.AndroidInjector
-import dagger.android.HasAndroidInjector
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTracker
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.TrackedExposureDetection
 import io.mockk.MockKAnnotations
@@ -38,35 +36,12 @@ class ExposureStateUpdateReceiverTest : BaseTest() {
 
     private val scope = TestScope()
 
-    class TestApp : Application(), HasAndroidInjector {
-        override fun androidInjector(): AndroidInjector<Any> {
-            // NOOP
-            return mockk()
-        }
-    }
-
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
         @Suppress("DEPRECATION")
         every { intent.getStringExtra(ExposureNotificationClient.EXTRA_TOKEN) } returns "token"
-
-        mockkObject(AppInjector)
-
         every { workManager.enqueue(any<WorkRequest>()) } answers { mockk() }
-
-        val application = mockk<TestApp>()
-        every { context.applicationContext } returns application
-
-        val broadcastReceiverInjector = AndroidInjector<Any> {
-            it as ExposureStateUpdateReceiver
-            it.exposureDetectionTracker = exposureDetectionTracker
-            it.dispatcherProvider = TestDispatcherProvider()
-            it.scope = scope
-            it.workManager = workManager
-        }
-        every { application.androidInjector() } returns broadcastReceiverInjector
-
         every { exposureDetectionTracker.finishExposureDetection(any(), any()) } just Runs
     }
 

@@ -9,7 +9,6 @@ import de.rki.coronawarnapp.coronatest.qrcode.raQrCode1
 import de.rki.coronawarnapp.coronatest.qrcode.raQrCode2
 import de.rki.coronawarnapp.coronatest.qrcode.raQrCode3
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
-import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
 import de.rki.coronawarnapp.covidcertificate.common.qrcode.DccQrCode
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationTestData
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.CheckInQrCode
@@ -34,7 +33,6 @@ class QrCodeValidatorTest : BaseTest() {
 
     @BeforeEach
     fun setup() {
-        DaggerCovidCertificateTestComponent.factory().create().inject(this)
     }
 
     @Test

@@ -3,9 +3,6 @@ package de.rki.coronawarnapp
 import androidx.work.WorkManager
 import coil.ImageLoaderFactory
 import dagger.Lazy
-import de.rki.coronawarnapp.bugreporting.loghistory.LogHistoryTree
-import de.rki.coronawarnapp.coronatest.CoronaTestRepository
-import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.initializer.AppStarter
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.device.ForegroundState
@@ -26,7 +23,6 @@ import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import timber.log.Timber
 import java.security.Security
-import javax.inject.Inject
 
 class CoronaWarnApplicationTest : BaseTest() {
 

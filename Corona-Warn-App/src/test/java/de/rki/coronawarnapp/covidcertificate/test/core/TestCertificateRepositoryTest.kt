@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.covidcertificate.test.core
 import de.rki.coronawarnapp.appconfig.CovidCertificateConfig
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
-import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode
@@ -68,8 +67,6 @@ class TestCertificateRepositoryTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-
-        DaggerCovidCertificateTestComponent.factory().create().inject(this)
 
         coEvery {
             dccStateChecker.invoke(

@@ -19,5 +19,4 @@ class EolTestViewModel @Inject constructor(
         eolSetting.setEolDateTime(dateTime.toString())
         restart.postValue(Unit)
     }
-
 }

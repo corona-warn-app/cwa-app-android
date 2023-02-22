@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.covidcertificate.common.certificate
 
-import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationQrCodeTestData
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.test.runTest
@@ -15,7 +14,6 @@ class KidExtractionTest : BaseTest() {
 
     @BeforeEach
     fun setup() {
-        DaggerCovidCertificateTestComponent.factory().create().inject(this)
     }
 
     @Test

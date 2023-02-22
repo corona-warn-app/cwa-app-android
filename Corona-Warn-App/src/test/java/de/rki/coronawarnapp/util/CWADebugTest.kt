@@ -1,9 +1,9 @@
 package de.rki.coronawarnapp.util
 
 import android.app.Application
+import de.rki.coronawarnapp.bugreporting.debuglog.DebugEntryPoint
 import de.rki.coronawarnapp.bugreporting.debuglog.DebugLogger
 import de.rki.coronawarnapp.environment.BuildConfigWrap
-import de.rki.coronawarnapp.util.di.ApplicationComponent
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -21,7 +21,7 @@ import java.io.File
 class CWADebugTest : BaseTest() {
 
     @MockK lateinit var application: Application
-    @MockK lateinit var appComponent: ApplicationComponent
+    @MockK lateinit var entryPoint: DebugEntryPoint
 
     @BeforeEach
     fun setup() {
@@ -50,15 +50,15 @@ class CWADebugTest : BaseTest() {
     fun `logging is initialized`() {
         val debugLogger = mockk<DebugLogger>().apply {
             every { init() } just Runs
-            every { setInjectionIsReady(appComponent) } just Runs
+            every { setInjectionIsReady(entryPoint) } just Runs
         }
 
         CWADebug.debugLoggerFactory = { debugLogger }
         CWADebug.init(application)
-        CWADebug.initAfterInjection(appComponent)
+        CWADebug.initAfterInjection(entryPoint)
         verifyOrder {
             debugLogger.init()
-            debugLogger.setInjectionIsReady(appComponent)
+            debugLogger.setInjectionIsReady(entryPoint)
         }
     }
 }

@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.recovery.core
 
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
-import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId
@@ -60,7 +59,6 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-        DaggerCovidCertificateTestComponent.factory().create().inject(this)
 
         every { timeStamper.nowUTC } returns nowUTC
 

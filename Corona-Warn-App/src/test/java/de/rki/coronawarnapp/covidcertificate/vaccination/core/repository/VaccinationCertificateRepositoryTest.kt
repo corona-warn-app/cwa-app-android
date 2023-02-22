@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.covidcertificate.vaccination.core.repository
 
-import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
@@ -63,8 +62,6 @@ class VaccinationCertificateRepositoryTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-
-        DaggerCovidCertificateTestComponent.factory().create().inject(this)
 
         coEvery {
             dccStateChecker(

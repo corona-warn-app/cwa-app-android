@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.covidcertificate.recovery.core.storage
 
-import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser
 import de.rki.coronawarnapp.covidcertificate.recovery.RecoveryQrCodeTestData
@@ -19,7 +18,6 @@ class RecoveryCertificateContainerTest : BaseTest() {
 
     @BeforeEach
     fun setup() {
-        DaggerCovidCertificateTestComponent.factory().create().inject(this)
         extractorSpy = spyk(extractor)
     }
 

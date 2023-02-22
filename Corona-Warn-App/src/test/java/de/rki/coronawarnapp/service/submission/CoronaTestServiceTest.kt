@@ -8,7 +8,6 @@ import de.rki.coronawarnapp.coronatest.server.VerificationKeyType
 import de.rki.coronawarnapp.coronatest.type.CoronaTestService
 import de.rki.coronawarnapp.deniability.NoiseScheduler
 import de.rki.coronawarnapp.playbook.Playbook
-import de.rki.coronawarnapp.util.di.ApplicationComponent
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -28,16 +27,11 @@ class CoronaTestServiceTest : BaseTest() {
     private val registrationToken = "asdjnskjfdniuewbheboqudnsojdff"
 
     @MockK lateinit var mockPlaybook: Playbook
-    @MockK lateinit var appComponent: ApplicationComponent
     @MockK lateinit var noiseScheduler: NoiseScheduler
 
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
-        mockkObject(AppInjector)
-        every { AppInjector.component } returns appComponent
-        every { appComponent.playbook } returns mockPlaybook
-
         coEvery {
             mockPlaybook.initialRegistration(any())
         } returns RegistrationData(

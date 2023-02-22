@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.covidcertificate.revocation.update
 
-import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
@@ -52,8 +51,6 @@ class DccRevocationUpdateServiceTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-
-        DaggerCovidCertificateTestComponent.factory().create().inject(this)
     }
 
     private val instance: DccRevocationUpdateService

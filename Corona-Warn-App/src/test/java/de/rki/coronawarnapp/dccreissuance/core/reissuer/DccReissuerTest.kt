@@ -6,7 +6,6 @@ import de.rki.coronawarnapp.ccl.dccwalletinfo.model.CertificateReissuance
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.CertificateReissuanceItem
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.ReissuanceDivision
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.SingleText
-import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
@@ -114,7 +113,7 @@ class DccReissuerTest : BaseTest() {
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
-        DaggerCovidCertificateTestComponent.factory().create().inject(this)
+
         coEvery { dccReissuanceServer.requestDccReissuance(any(), any()) } returns DccReissuanceResponse(
             dccReissuances = emptyList()
         )

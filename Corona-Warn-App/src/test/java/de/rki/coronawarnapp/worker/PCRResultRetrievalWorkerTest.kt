@@ -13,9 +13,6 @@ import de.rki.coronawarnapp.coronatest.type.pcr.execution.PCRResultRetrievalWork
 import de.rki.coronawarnapp.coronatest.type.pcr.execution.PCRResultScheduler
 import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.util.TimeStamper
-import de.rki.coronawarnapp.util.di.ApplicationComponent
-import de.rki.coronawarnapp.util.encryptionmigration.EncryptedPreferencesFactory
-import de.rki.coronawarnapp.util.encryptionmigration.EncryptionErrorResetTool
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -26,7 +23,6 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.just
 import io.mockk.mockk
-import io.mockk.mockkObject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
@@ -39,9 +35,6 @@ class PCRResultRetrievalWorkerTest : BaseTest() {
     @MockK lateinit var context: Context
     @MockK lateinit var request: WorkRequest
     @MockK lateinit var notificationHelper: GeneralNotifications
-    @MockK lateinit var appComponent: ApplicationComponent
-    @MockK lateinit var encryptedPreferencesFactory: EncryptedPreferencesFactory
-    @MockK lateinit var encryptionErrorResetTool: EncryptionErrorResetTool
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var coronaTestRepository: CoronaTestRepository
     @MockK lateinit var testResultScheduler: PCRResultScheduler
@@ -56,11 +49,6 @@ class PCRResultRetrievalWorkerTest : BaseTest() {
     fun setUp() {
         MockKAnnotations.init(this)
         every { timeStamper.nowUTC } returns currentInstant
-
-        mockkObject(AppInjector)
-        every { AppInjector.component } returns appComponent
-        every { appComponent.encryptedPreferencesFactory } returns encryptedPreferencesFactory
-        every { appComponent.errorResetTool } returns encryptionErrorResetTool
 
         coEvery { testResultScheduler.setPcrPeriodicTestPollingEnabled(enabled = any()) } just Runs
 

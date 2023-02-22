@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage
 
 import androidx.datastore.preferences.core.stringPreferencesKey
-import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationTestData
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationTestData.Companion.personAData2Vac
@@ -32,8 +31,6 @@ class VaccinationStorageTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-
-        DaggerCovidCertificateTestComponent.factory().create().inject(this)
 
         dataStore = FakeDataStore()
     }

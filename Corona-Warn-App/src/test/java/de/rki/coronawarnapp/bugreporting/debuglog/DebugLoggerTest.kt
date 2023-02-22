@@ -6,7 +6,6 @@ import dagger.Lazy
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.DebugLogTree
 import de.rki.coronawarnapp.util.CWADebug
-import de.rki.coronawarnapp.util.di.ApplicationComponent
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.kotest.matchers.string.shouldEndWith
@@ -39,9 +38,9 @@ class DebugLoggerTest : BaseIOTest() {
 
     @MockK lateinit var application: Application
     @MockK lateinit var packageManager: PackageManager
-    @MockK lateinit var component: ApplicationComponent
     @MockK lateinit var coronaTestCensor1: BugCensor
     @MockK lateinit var coronaTestCensor2: BugCensor
+    @MockK lateinit var entryPoint: DebugEntryPoint
 
     private val testDir = File(IO_TEST_BASEDIR, this::class.simpleName!!)
     private val cacheDir = File(testDir, "cache")
@@ -60,12 +59,6 @@ class DebugLoggerTest : BaseIOTest() {
 
         every { application.cacheDir } returns cacheDir
         every { application.packageManager } returns packageManager
-
-        every { component.inject(any<DebugLogger>()) } answers {
-            val logger = arg<DebugLogger>(0)
-            logger.bugCensors = Lazy { setOf(coronaTestCensor1, coronaTestCensor2) }
-        }
-
         coEvery { coronaTestCensor1.checkLog(any()) } returns null
         coEvery { coronaTestCensor2.checkLog(any()) } returns null
     }
@@ -85,7 +78,7 @@ class DebugLoggerTest : BaseIOTest() {
     fun `init does nothing if there is no trigger file`() = runTest2 {
         createInstance(scope = this).apply {
             init()
-            setInjectionIsReady(component)
+            setInjectionIsReady(entryPoint)
             isLogging.value shouldBe false
         }
         runningLog.exists() shouldBe false
@@ -102,7 +95,7 @@ class DebugLoggerTest : BaseIOTest() {
 
         val instance = createInstance(scope = this).apply {
             init()
-            setInjectionIsReady(component)
+            setInjectionIsReady(entryPoint)
             isLogging.value shouldBe true
         }
 
@@ -122,7 +115,7 @@ class DebugLoggerTest : BaseIOTest() {
 
             val instance = createInstance(scope = this).apply {
                 init()
-                setInjectionIsReady(component)
+                setInjectionIsReady(entryPoint)
                 isLogging.value shouldBe true
             }
 
@@ -141,7 +134,7 @@ class DebugLoggerTest : BaseIOTest() {
 
         val instance = createInstance(scope = this).apply {
             init()
-            setInjectionIsReady(component)
+            setInjectionIsReady(entryPoint)
             isLogging.value shouldBe false
         }
 
@@ -158,7 +151,7 @@ class DebugLoggerTest : BaseIOTest() {
 
         val instance = createInstance(scope = this).apply {
             init()
-            setInjectionIsReady(component)
+            setInjectionIsReady(entryPoint)
             isLogging.value shouldBe false
         }
 
@@ -173,7 +166,7 @@ class DebugLoggerTest : BaseIOTest() {
 
         val instance = createInstance(scope = this).apply {
             init()
-            setInjectionIsReady(component)
+            setInjectionIsReady(entryPoint)
             isLogging.value shouldBe false
         }
 
@@ -188,7 +181,7 @@ class DebugLoggerTest : BaseIOTest() {
     fun `start plants a tree and starts a logging coroutine`() = runTest2 {
         val instance = createInstance(scope = this).apply {
             init()
-            setInjectionIsReady(component)
+            setInjectionIsReady(entryPoint)
             isLogging.value shouldBe false
         }
 
@@ -205,7 +198,7 @@ class DebugLoggerTest : BaseIOTest() {
     fun `multiple start have no effect`() = runTest2 {
         val instance = createInstance(scope = this).apply {
             init()
-            setInjectionIsReady(component)
+            setInjectionIsReady(entryPoint)
             isLogging.value shouldBe false
         }
 
@@ -228,7 +221,7 @@ class DebugLoggerTest : BaseIOTest() {
     fun `stop cancels the coroutine and uproots the tree and deletes any logs`() = runTest2 {
         val instance = createInstance(scope = this).apply {
             init()
-            setInjectionIsReady(component)
+            setInjectionIsReady(entryPoint)
             isLogging.value shouldBe false
         }
 
@@ -248,7 +241,7 @@ class DebugLoggerTest : BaseIOTest() {
     fun `logwriter is setup and used`() = runTest2 {
         val instance = createInstance(scope = this).apply {
             init()
-            setInjectionIsReady(component)
+            setInjectionIsReady(entryPoint)
         }
 
         instance.start()
@@ -266,7 +259,7 @@ class DebugLoggerTest : BaseIOTest() {
     fun `low storage state is forwarded`() = runTest2 {
         val instance = createInstance(scope = this).apply {
             init()
-            setInjectionIsReady(component)
+            setInjectionIsReady(entryPoint)
         }
 
         val testCollector = instance.logState.test(startOnScope = this)
@@ -302,7 +295,7 @@ class DebugLoggerTest : BaseIOTest() {
     fun `affected text ranges are removed when censoring collisions occur`() = runTest2 {
         val instance = createInstance(scope = this).apply {
             init()
-            setInjectionIsReady(component)
+            setInjectionIsReady(entryPoint)
         }
 
         val logMsg = "Lukas says: A hot coffee is really nice!"
@@ -395,7 +388,7 @@ class DebugLoggerTest : BaseIOTest() {
 
         val instance = createInstance(scope = this).apply {
             init()
-            setInjectionIsReady(component)
+            setInjectionIsReady(entryPoint)
         }
 
         instance.start()
@@ -431,7 +424,7 @@ class DebugLoggerTest : BaseIOTest() {
 
         val instance = createInstance(scope = this).apply {
             init()
-            setInjectionIsReady(component)
+            setInjectionIsReady(entryPoint)
         }
 
         instance.start()
@@ -465,7 +458,7 @@ class DebugLoggerTest : BaseIOTest() {
 
         val instance = createInstance(scope = this).apply {
             init()
-            setInjectionIsReady(component)
+            setInjectionIsReady(entryPoint)
         }
 
         instance.start()
@@ -498,7 +491,7 @@ class DebugLoggerTest : BaseIOTest() {
 
         val instance = createInstance(scope = this).apply {
             init()
-            setInjectionIsReady(component)
+            setInjectionIsReady(entryPoint)
         }
 
         instance.start()
@@ -527,7 +520,7 @@ class DebugLoggerTest : BaseIOTest() {
 
         val instance = createInstance(scope = this).apply {
             init()
-            setInjectionIsReady(component)
+            setInjectionIsReady(entryPoint)
         }
 
         instance.start()
@@ -560,7 +553,7 @@ class DebugLoggerTest : BaseIOTest() {
 
         val instance = createInstance(scope = this).apply {
             init()
-            setInjectionIsReady(component)
+            setInjectionIsReady(entryPoint)
         }
 
         instance.start()

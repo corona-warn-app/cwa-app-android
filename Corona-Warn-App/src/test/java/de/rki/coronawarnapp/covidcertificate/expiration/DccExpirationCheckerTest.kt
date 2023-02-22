@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.covidcertificate.expiration
 
-import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.test.TestData
@@ -19,7 +18,6 @@ class DccExpirationCheckerTest : BaseTest() {
 
     @BeforeEach
     fun setup() {
-        DaggerCovidCertificateTestComponent.factory().create().inject(this)
     }
 
     private fun createInstance() = DccExpirationChecker()

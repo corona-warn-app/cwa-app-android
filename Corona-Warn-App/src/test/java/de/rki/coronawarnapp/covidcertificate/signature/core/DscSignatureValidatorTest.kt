@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.signature.core
 
 import de.rki.coronawarnapp.SecurityProvider
-import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.HC_DSC_EXPIRED
@@ -48,8 +47,6 @@ class DscSignatureValidatorTest : BaseTest() {
 
         // Add RSA algorithm in unit tests context.
         Security.addProvider(BouncyCastleProvider())
-
-        DaggerCovidCertificateTestComponent.factory().create().inject(this)
     }
 
     /**
