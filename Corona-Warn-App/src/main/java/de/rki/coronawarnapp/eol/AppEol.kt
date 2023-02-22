@@ -11,17 +11,17 @@ import de.rki.coronawarnapp.nearby.modules.tracing.disableTracingIfEnabled
 import de.rki.coronawarnapp.notification.NotificationConstants
 import de.rki.coronawarnapp.presencetracing.checkins.checkout.auto.AutoCheckOutIntentFactory
 import de.rki.coronawarnapp.tag
+import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.flow.intervalFlow
 import de.rki.coronawarnapp.util.flow.shareLatest
+import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
-import java.time.ZoneId
-import java.time.ZonedDateTime
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -30,13 +30,16 @@ import javax.inject.Singleton
  */
 
 @Singleton
+@Suppress("LongParameterList")
 class AppEol @Inject constructor(
     eolSetting: EolSetting,
     private val enfClient: ENFClient,
     private val workManager: WorkManager,
+    private val timeStamper: TimeStamper,
     private val debugLogger: DebugLogger,
     private val alarmManager: AlarmManager,
     @AppScope private val appScope: CoroutineScope,
+    private val appShortcutsHelper: AppShortcutsHelper,
     private val intentFactory: AutoCheckOutIntentFactory,
     private val notification: ShareTestResultNotification,
     private val notificationManager: NotificationManagerCompat,
@@ -45,7 +48,7 @@ class AppEol @Inject constructor(
         intervalFlow(60_000L),
         eolSetting.eolDateTime
     ) { _, dateTime ->
-        ZonedDateTime.now(ZoneId.of("CET")) >= dateTime
+        timeStamper.nowZonedDateTime >= dateTime
     }.distinctUntilChanged()
         .onEach { isEol ->
             if (isEol) {
@@ -71,6 +74,7 @@ class AppEol @Inject constructor(
                     Timber.tag(TAG).d("Disable ENF")
                     enfClient.disableTracingIfEnabled()
                 }
+                appShortcutsHelper.initShortcuts(true)
             }
         }.catch {
             Timber.tag(TAG).d(it, "EOL failed")
