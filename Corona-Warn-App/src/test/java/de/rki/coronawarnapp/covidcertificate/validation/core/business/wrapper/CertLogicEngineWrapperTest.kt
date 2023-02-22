@@ -41,7 +41,6 @@ import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.util.Locale
-import javax.inject.Inject
 
 class CertLogicEngineWrapperTest : BaseTest() {
 
@@ -66,7 +65,8 @@ class CertLogicEngineWrapperTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
         val dccJsonSchemaValidator = DccJsonSchemaValidator(
-            dccJsonSchema = DccJsonSchema(mockk()), schemaValidator = JsonSchemaValidator(
+            dccJsonSchema = DccJsonSchema(mockk()),
+            schemaValidator = JsonSchemaValidator(
                 SerializationModule.jacksonBaseMapper
             )
         )

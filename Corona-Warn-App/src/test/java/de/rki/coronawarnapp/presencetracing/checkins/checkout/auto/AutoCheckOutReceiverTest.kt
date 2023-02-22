@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.presencetracing.checkins.checkout.auto
 
-import android.app.Application
 import android.content.Context
 import android.content.Intent
 import androidx.work.WorkManager

@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.presencetracing.checkins.checkout.auto
 
-import android.app.Application
 import android.content.Context
 import android.content.Intent
 import androidx.work.WorkManager
@@ -11,17 +10,14 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
-import io.mockk.mockkObject
 import io.mockk.slot
 import io.mockk.spyk
 import io.mockk.verify
-import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import testhelpers.TestDispatcherProvider
 
 class AutoCheckOutBootRestoreReceiverTest : BaseTest() {
 
@@ -31,7 +27,6 @@ class AutoCheckOutBootRestoreReceiverTest : BaseTest() {
     @MockK private lateinit var workManager: WorkManager
 
     private lateinit var workRequestSlot: CapturingSlot<WorkRequest>
-
 
     @BeforeEach
     fun setUp() {

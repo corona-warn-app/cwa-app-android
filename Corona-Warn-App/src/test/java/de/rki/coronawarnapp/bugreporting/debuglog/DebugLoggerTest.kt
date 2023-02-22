@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.bugreporting.debuglog
 
 import android.app.Application
 import android.content.pm.PackageManager
-import dagger.Lazy
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.DebugLogTree
 import de.rki.coronawarnapp.util.CWADebug

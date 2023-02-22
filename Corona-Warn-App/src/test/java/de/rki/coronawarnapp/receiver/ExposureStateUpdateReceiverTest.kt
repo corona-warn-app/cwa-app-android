@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.receiver
 
-import android.app.Application
 import android.content.Context
 import android.content.Intent
 import androidx.work.WorkManager
@@ -14,14 +13,12 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
-import io.mockk.mockkObject
 import io.mockk.verifySequence
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.advanceUntilIdle
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import testhelpers.TestDispatcherProvider
 
 /**
  * ExposureStateUpdateReceiver test.
