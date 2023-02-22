@@ -33,7 +33,6 @@ import javax.inject.Inject
 @HiltAndroidApp
 open class CoronaWarnApplication : Application() {
 
-    @Inject lateinit var appStarter: AppStarter
     @Inject lateinit var appStarter: Lazy<AppStarter>
     @Inject lateinit var workManager: WorkManager
     @Inject lateinit var imageLoaderFactory: ImageLoaderFactory

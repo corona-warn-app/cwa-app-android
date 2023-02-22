@@ -14,7 +14,6 @@ import de.rki.coronawarnapp.test.debugoptions.ui.DebugOptionsFragment
 import de.rki.coronawarnapp.test.deltaonboarding.ui.DeltaOnboardingFragment
 import de.rki.coronawarnapp.test.dsc.ui.DccStateValidationTestFragment
 import de.rki.coronawarnapp.test.eol.EolTestFragment
-import de.rki.coronawarnapp.test.eol.EolTestFragment
 import de.rki.coronawarnapp.test.keydownload.ui.KeyDownloadTestFragment
 import de.rki.coronawarnapp.test.playground.ui.PlaygroundFragment
 import de.rki.coronawarnapp.test.presencetracing.ui.PresenceTracingTestFragment
