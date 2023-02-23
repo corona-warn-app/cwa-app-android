@@ -51,6 +51,15 @@
                 android:text="Open new debug log screen"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/new_debuglog_screen_explanation" />
+
+            <com.google.android.material.materialswitch.MaterialSwitch
+                android:id="@+id/allow_logger_eol"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Allow logger after EOL"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/show_debug_log_screen" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout

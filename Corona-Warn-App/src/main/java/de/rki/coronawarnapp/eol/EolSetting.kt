@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.eol
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import kotlinx.coroutines.flow.map
@@ -27,7 +28,18 @@ class EolSetting @Inject constructor(
         }
     }
 
+    val isLoggerAllowed = dataStore.data.map { prefs ->
+        runCatching { prefs[EOL_LOGGER_FLAG] ?: false }.getOrElse { false }
+    }
+
+    suspend fun setLoggerAllowed(flag: Boolean) {
+        dataStore.edit { prefs ->
+            prefs[EOL_LOGGER_FLAG] = flag
+        }
+    }
+
     companion object {
         private val EOL_DATE_TIME = stringPreferencesKey("EolSetting.eolDateTime")
+        private val EOL_LOGGER_FLAG = booleanPreferencesKey("EolSetting.eolLoggerAllowed")
     }
 }
