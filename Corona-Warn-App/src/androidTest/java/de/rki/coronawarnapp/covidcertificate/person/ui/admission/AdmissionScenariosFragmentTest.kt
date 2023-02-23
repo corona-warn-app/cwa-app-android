@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModelStore
 import androidx.navigation.testing.TestNavHostController
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.internal.runner.junit4.statement.UiThreadStatement
-import dagger.hilt.android.testing.BindValue
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import de.rki.coronawarnapp.R
@@ -23,7 +22,6 @@ import testhelpers.takeScreenshot
 @HiltAndroidTest
 class AdmissionScenariosFragmentTest : BaseUITest() {
 
-    @BindValue
     val factory = object : AdmissionScenariosViewModel.Factory {
         override fun create(
             admissionScenariosSharedViewModel: AdmissionScenariosSharedViewModel

@@ -7,7 +7,6 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.eol.AppEol
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
-import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -26,17 +25,6 @@ class OnboardingPrivacyFragmentTest : BaseUITest() {
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
-
-        setupMockViewModel(
-            object : OnboardingPrivacyViewModel.Factory {
-                override fun create(): OnboardingPrivacyViewModel = OnboardingPrivacyViewModel(appEol)
-            }
-        )
-    }
-
-    @After
-    fun teardown() {
-        clearAllViewModels()
     }
 
     @Test
