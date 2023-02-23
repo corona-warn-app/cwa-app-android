@@ -1,6 +1,10 @@
 package de.rki.coronawarnapp.qrcode.scanner
 
+import de.rki.coronawarnapp.appconfig.AppConfigProvider
+import de.rki.coronawarnapp.appconfig.ConfigData
+import de.rki.coronawarnapp.appconfig.PresenceTracingConfigContainer
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
+import de.rki.coronawarnapp.coronatest.qrcode.PcrQrCodeExtractor
 import de.rki.coronawarnapp.coronatest.qrcode.pcrQrCode1
 import de.rki.coronawarnapp.coronatest.qrcode.pcrQrCode2
 import de.rki.coronawarnapp.coronatest.qrcode.pcrQrCode3
@@ -8,24 +12,64 @@ import de.rki.coronawarnapp.coronatest.qrcode.raPcrCode1
 import de.rki.coronawarnapp.coronatest.qrcode.raQrCode1
 import de.rki.coronawarnapp.coronatest.qrcode.raQrCode2
 import de.rki.coronawarnapp.coronatest.qrcode.raQrCode3
+import de.rki.coronawarnapp.coronatest.qrcode.rapid.RapidAntigenQrCodeExtractor
+import de.rki.coronawarnapp.coronatest.qrcode.rapid.RapidPcrQrCodeExtractor
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.covidcertificate.common.qrcode.DccQrCode
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationTestData
 import de.rki.coronawarnapp.di.DiTestProvider
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.CheckInQrCode
+import de.rki.coronawarnapp.presencetracing.checkins.qrcode.CheckInQrCodeExtractor
+import de.rki.coronawarnapp.server.protocols.internal.v2.PresenceTracingParametersOuterClass.PresenceTracingQRCodeDescriptor
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.beInstanceOf
+import io.mockk.MockKAnnotations
+import io.mockk.every
+import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
 @Suppress("MaxLineLength")
 class QrCodeValidatorTest : BaseTest() {
 
-    private val qrCodeValidator: QrCodeValidator = DiTestProvider.qrCodeValidator
+    @MockK lateinit var appConfigProvider: AppConfigProvider
+
+    private lateinit var qrCodeValidator: QrCodeValidator
+
+    @BeforeEach
+    fun setup() {
+        MockKAnnotations.init(this)
+        every { appConfigProvider.currentConfig } returns flowOf(
+            mockk<ConfigData>().apply {
+                every { presenceTracing } returns PresenceTracingConfigContainer(
+                    qrCodeDescriptors = listOf(
+                        PresenceTracingQRCodeDescriptor.newBuilder()
+                            .setVersionGroupIndex(0)
+                            .setEncodedPayloadGroupIndex(1)
+                            .setPayloadEncoding(PresenceTracingQRCodeDescriptor.PayloadEncoding.BASE64)
+                            .setRegexPattern("https://e\\.coronawarn\\.app\\?v=(\\d+)\\#(.+)")
+                            .build()
+                    )
+                )
+            }
+        )
+
+        qrCodeValidator = QrCodeValidator(
+            dccQrCodeExtractor = DiTestProvider.extractor,
+            raExtractor = RapidAntigenQrCodeExtractor(),
+            pcrExtractor = PcrQrCodeExtractor(),
+            checkInQrCodeExtractor = CheckInQrCodeExtractor(appConfigProvider),
+            dccTicketingQrCodeExtractor = DiTestProvider.dccTicketingQrCodeExtractor,
+            rapidPcrQrCodeExtractor = RapidPcrQrCodeExtractor()
+        )
+    }
 
     @Test
     fun `validator uses recognises DccQrCode`() = runTest {
