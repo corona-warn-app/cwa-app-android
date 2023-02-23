@@ -4,8 +4,6 @@ import android.content.res.AssetManager
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.appconfig.PresenceTracingConfigContainer
-import de.rki.coronawarnapp.appconfig.internal.ConfigDataContainer
-import de.rki.coronawarnapp.appconfig.mapping.ConfigMapping
 import de.rki.coronawarnapp.bugreporting.censors.dcc.DccQrCodeCensor
 import de.rki.coronawarnapp.bugreporting.censors.dccticketing.DccTicketingJwtCensor
 import de.rki.coronawarnapp.coronatest.qrcode.PcrQrCodeExtractor
@@ -22,7 +20,7 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationTestDat
 import de.rki.coronawarnapp.dccticketing.core.qrcode.DccTicketingQrCodeExtractor
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.CheckInQrCodeExtractor
 import de.rki.coronawarnapp.qrcode.scanner.QrCodeValidator
-import de.rki.coronawarnapp.server.protocols.internal.v2.PresenceTracingParametersOuterClass
+import de.rki.coronawarnapp.server.protocols.internal.v2.PresenceTracingParametersOuterClass.PresenceTracingQRCodeDescriptor
 import de.rki.coronawarnapp.server.protocols.internal.v2.PresenceTracingParametersOuterClass.PresenceTracingQRCodeDescriptor.PayloadEncoding
 import de.rki.coronawarnapp.util.encryption.aes.AesCryptography
 import de.rki.coronawarnapp.util.serialization.SerializationModule
@@ -30,13 +28,12 @@ import de.rki.coronawarnapp.util.serialization.validation.JsonSchemaValidator
 import dgca.verifier.app.engine.DefaultAffectedFieldsDataRetriever
 import dgca.verifier.app.engine.DefaultCertLogicEngine
 import dgca.verifier.app.engine.DefaultJsonLogicValidator
+import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
 import java.io.FileInputStream
 import java.nio.file.Paths
-import java.time.Duration
-import java.time.Instant
 
 object DiTestProvider {
     private val assetManager = mockk<AssetManager>().apply {
@@ -45,27 +42,19 @@ object DiTestProvider {
         }
     }
     private val configProvider = mockk<AppConfigProvider>().apply {
-        every { currentConfig } returns flowOf(
-            ConfigDataContainer(
-                serverTime = Instant.parse("2020-11-03T05:35:16.000Z"),
-                localOffset = Duration.ZERO,
-                mappedConfig = mockk<ConfigMapping>().apply {
-                    every { isDeviceTimeCheckEnabled } returns true
-                    every { presenceTracing } returns PresenceTracingConfigContainer(
-                        qrCodeDescriptors = listOf(
-                            PresenceTracingParametersOuterClass.PresenceTracingQRCodeDescriptor.newBuilder()
-                                .setVersionGroupIndex(0)
-                                .setEncodedPayloadGroupIndex(1)
-                                .setPayloadEncoding(PayloadEncoding.BASE64)
-                                .setRegexPattern("https://e\\.coronawarn\\.app\\?v=(\\d+)\\#(.+)")
-                                .build()
-                        )
+        coEvery { currentConfig } returns flowOf(
+            mockk<ConfigData>().apply {
+                every { presenceTracing } returns PresenceTracingConfigContainer(
+                    qrCodeDescriptors = listOf(
+                        PresenceTracingQRCodeDescriptor.newBuilder()
+                            .setVersionGroupIndex(0)
+                            .setEncodedPayloadGroupIndex(1)
+                            .setPayloadEncoding(PayloadEncoding.BASE64)
+                            .setRegexPattern("https://e\\.coronawarn\\.app\\?v=(\\d+)\\#(.+)")
+                            .build()
                     )
-                },
-                identifier = "identifier",
-                configType = ConfigData.Type.FROM_SERVER,
-                cacheValidity = Duration.ofMinutes(5)
-            )
+                )
+            }
         )
     }
 
