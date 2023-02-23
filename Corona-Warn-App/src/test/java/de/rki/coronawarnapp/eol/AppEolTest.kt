@@ -53,6 +53,7 @@ class AppEolTest : BaseTest() {
         coEvery { debugLogger.stop() } just Runs
 
         every { eolSetting.eolDateTime } returns flowOf(ZonedDateTime.parse("2023-06-01T00:00:00+02:00"))
+        every { eolSetting.isLoggerAllowed } returns flowOf(false)
         every { alarmManager.cancel(any<PendingIntent>()) } just Runs
         every { workManager.cancelAllWork() } returns mockk()
         every { appShortcutsHelper.initShortcuts(any()) } returns mockk()

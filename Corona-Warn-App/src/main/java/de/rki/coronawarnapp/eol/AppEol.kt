@@ -20,6 +20,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
 import javax.inject.Inject
@@ -32,7 +33,7 @@ import javax.inject.Singleton
 @Singleton
 @Suppress("LongParameterList")
 class AppEol @Inject constructor(
-    eolSetting: EolSetting,
+    private val eolSetting: EolSetting,
     private val enfClient: ENFClient,
     private val workManager: WorkManager,
     private val timeStamper: TimeStamper,
@@ -67,8 +68,12 @@ class AppEol @Inject constructor(
                 )
                 alarmManager.cancel(intentFactory.createIntent())
 
-                Timber.tag(TAG).d("Stop logger")
-                debugLogger.stop()
+                if (!eolSetting.isLoggerAllowed.first()) {
+                    Timber.tag(TAG).d("Stop logger")
+                    debugLogger.stop()
+                } else {
+                    Timber.tag(TAG).d("Logger is allowed after EOL")
+                }
 
                 runCatching {
                     Timber.tag(TAG).d("Disable ENF")
