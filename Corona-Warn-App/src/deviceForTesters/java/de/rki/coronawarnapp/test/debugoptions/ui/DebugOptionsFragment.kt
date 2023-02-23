@@ -102,6 +102,9 @@ class DebugOptionsFragment : Fragment(R.layout.fragment_test_debugoptions), Auto
         vm.environmentStateChange.observe(viewLifecycleOwner) {
             showSnackBar("Environment changed to: $it\nForce stop & restart the app!")
         }
+
+        vm.isLoggerAllowed.observe(viewLifecycleOwner) { binding.allowLoggerEol.isChecked = it == true }
+        binding.allowLoggerEol.setOnCheckedChangeListener { _, checked -> vm.setAllowedFlag(checked) }
     }
 
     private infix fun String.styleTo(value: String) = buildSpannedString {
