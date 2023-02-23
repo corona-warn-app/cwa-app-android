@@ -1,9 +1,10 @@
-package de.rki.coronawarnapp.presencetracing.checkins.checkout.auto
+package de.rki.coronawarnapp
 
 import android.content.Context
 import android.content.Intent
 import androidx.work.WorkManager
 import androidx.work.WorkRequest
+import de.rki.coronawarnapp.presencetracing.checkins.checkout.auto.AutoCheckOutReceiver
 import io.kotest.matchers.shouldBe
 import io.mockk.CapturingSlot
 import io.mockk.MockKAnnotations
@@ -15,18 +16,18 @@ import io.mockk.spyk
 import io.mockk.verify
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
-import testhelpers.BaseTest
+import org.junit.Before
+import org.junit.Test
+import testhelpers.BaseTestInstrumentation
 
-class AutoCheckOutReceiverTest : BaseTest() {
+class AutoCheckOutReceiverTest : BaseTestInstrumentation() {
 
     @MockK private lateinit var context: Context
     @MockK private lateinit var intent: Intent
     @MockK private lateinit var workManager: WorkManager
     private lateinit var workRequestSlot: CapturingSlot<WorkRequest>
 
-    @BeforeEach
+    @Before
     fun setUp() {
         MockKAnnotations.init(this)
         workRequestSlot = slot()
@@ -34,7 +35,7 @@ class AutoCheckOutReceiverTest : BaseTest() {
     }
 
     @Test
-    fun `match our intent`() = runTest {
+    fun matchOurIntent() = runTest {
         every { intent.action } returns "de.rki.coronawarnapp.intent.action.AUTO_CHECKOUT"
         every { intent.getLongExtra("autoCheckout.checkInId", 0L) } returns 42L
         spyk(AutoCheckOutReceiver())
@@ -51,7 +52,7 @@ class AutoCheckOutReceiverTest : BaseTest() {
     }
 
     @Test
-    fun `do not match unknown intents`() = runTest {
+    fun doNotMatchUnknownIntents() = runTest {
         every { intent.action } returns "yolo"
         spyk(AutoCheckOutReceiver())
             .apply {

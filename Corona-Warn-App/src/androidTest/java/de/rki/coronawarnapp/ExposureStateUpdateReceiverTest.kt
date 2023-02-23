@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.receiver
+package de.rki.coronawarnapp
 
 import android.content.Context
 import android.content.Intent
@@ -7,6 +7,7 @@ import androidx.work.WorkRequest
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTracker
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.TrackedExposureDetection
+import de.rki.coronawarnapp.receiver.ExposureStateUpdateReceiver
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.every
@@ -16,14 +17,14 @@ import io.mockk.mockk
 import io.mockk.verifySequence
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.advanceUntilIdle
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
-import testhelpers.BaseTest
+import org.junit.Before
+import org.junit.Test
+import testhelpers.BaseTestInstrumentation
 
 /**
  * ExposureStateUpdateReceiver test.
  */
-class ExposureStateUpdateReceiverTest : BaseTest() {
+class ExposureStateUpdateReceiverTest : BaseTestInstrumentation() {
 
     @MockK private lateinit var context: Context
 
@@ -33,7 +34,7 @@ class ExposureStateUpdateReceiverTest : BaseTest() {
 
     private val scope = TestScope()
 
-    @BeforeEach
+    @Before
     fun setUp() {
         MockKAnnotations.init(this)
         @Suppress("DEPRECATION")
@@ -43,7 +44,7 @@ class ExposureStateUpdateReceiverTest : BaseTest() {
     }
 
     @Test
-    fun `updated state intent`() {
+    fun updatedStateIntent() {
         every { intent.action } returns ExposureNotificationClient.ACTION_EXPOSURE_STATE_UPDATED
         ExposureStateUpdateReceiver().onReceive(context, intent)
 
@@ -56,7 +57,7 @@ class ExposureStateUpdateReceiverTest : BaseTest() {
     }
 
     @Test
-    fun `no matches intent`() {
+    fun noMatchesIntent() {
         every { intent.action } returns ExposureNotificationClient.ACTION_EXPOSURE_NOT_FOUND
         ExposureStateUpdateReceiver().onReceive(context, intent)
 

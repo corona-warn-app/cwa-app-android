@@ -1,9 +1,10 @@
-package de.rki.coronawarnapp.presencetracing.checkins.checkout.auto
+package de.rki.coronawarnapp
 
 import android.content.Context
 import android.content.Intent
 import androidx.work.WorkManager
 import androidx.work.WorkRequest
+import de.rki.coronawarnapp.presencetracing.checkins.checkout.auto.AutoCheckOutBootRestoreReceiver
 import io.kotest.matchers.shouldBe
 import io.mockk.CapturingSlot
 import io.mockk.MockKAnnotations
@@ -15,20 +16,19 @@ import io.mockk.spyk
 import io.mockk.verify
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
-import testhelpers.BaseTest
+import org.junit.Before
+import org.junit.Test
+import testhelpers.BaseTestInstrumentation
 
-class AutoCheckOutBootRestoreReceiverTest : BaseTest() {
+class AutoCheckOutBootRestoreReceiverTest : BaseTestInstrumentation() {
 
     @MockK private lateinit var context: Context
-
     @MockK private lateinit var intent: Intent
     @MockK private lateinit var workManager: WorkManager
 
     private lateinit var workRequestSlot: CapturingSlot<WorkRequest>
 
-    @BeforeEach
+    @Before
     fun setUp() {
         MockKAnnotations.init(this)
         workRequestSlot = slot()
@@ -36,7 +36,7 @@ class AutoCheckOutBootRestoreReceiverTest : BaseTest() {
     }
 
     @Test
-    fun `match boot intent`() = runTest(UnconfinedTestDispatcher()) {
+    fun matchBootIntent() = runTest(UnconfinedTestDispatcher()) {
         every { intent.action } returns Intent.ACTION_BOOT_COMPLETED
         spyk(AutoCheckOutBootRestoreReceiver()).apply {
             every { goAsync() } returns mockk(relaxed = true)
@@ -49,7 +49,7 @@ class AutoCheckOutBootRestoreReceiverTest : BaseTest() {
     }
 
     @Test
-    fun `match app update intent`() = runTest(UnconfinedTestDispatcher()) {
+    fun matchAppUpdateIntent() = runTest(UnconfinedTestDispatcher()) {
         every { intent.action } returns Intent.ACTION_MY_PACKAGE_REPLACED
         spyk(AutoCheckOutBootRestoreReceiver()).apply {
             every { goAsync() } returns mockk(relaxed = true)
@@ -62,7 +62,7 @@ class AutoCheckOutBootRestoreReceiverTest : BaseTest() {
     }
 
     @Test
-    fun `do not match unknown intents`() = runTest(UnconfinedTestDispatcher()) {
+    fun doNotMatchUnknownIntents() = runTest(UnconfinedTestDispatcher()) {
         every { intent.action } returns "yolo"
         AutoCheckOutBootRestoreReceiver().apply {
             onReceive(context, intent)
