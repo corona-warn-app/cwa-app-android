@@ -1,43 +1,31 @@
 package de.rki.coronawarnapp.bugreporting
 
-import androidx.test.ext.junit.runners.AndroidJUnit4
+import dagger.hilt.android.testing.BindValue
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 import de.rki.coronawarnapp.bugreporting.debuglog.ui.upload.DebugLogUploadFragment
 import de.rki.coronawarnapp.bugreporting.debuglog.ui.upload.DebugLogUploadViewModel
-import de.rki.coronawarnapp.bugreporting.debuglog.upload.SnapshotUploader
-import io.mockk.MockKAnnotations
-import io.mockk.impl.annotations.MockK
-import io.mockk.spyk
-import org.junit.Before
+import io.mockk.mockk
+import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
-import testhelpers.TestDispatcherProvider
-import testhelpers.launchFragment2
 import testhelpers.launchFragmentInContainer2
 import testhelpers.takeScreenshot
 
-@RunWith(AndroidJUnit4::class)
+@HiltAndroidTest
 class DebugLogUploadFragmentTest : BaseUITest() {
 
-    @MockK lateinit var snapShotUploader: SnapshotUploader
+    @get:Rule
+    val hiltRule = HiltAndroidRule(this)
 
-    private lateinit var viewModel: DebugLogUploadViewModel
-
-    @Before
-    fun setup() {
-        MockKAnnotations.init(this, relaxed = true)
-        viewModel = spyk(
-            DebugLogUploadViewModel(
-                TestDispatcherProvider(),
-                snapShotUploader
-            )
-        )
-    }
+    @BindValue
+    @JvmField
+    val viewModel = mockk<DebugLogUploadViewModel>(relaxed = true)
 
     @Test
     fun launch_fragment() {
-        launchFragment2<DebugLogUploadFragment>()
+        launchFragmentInContainer2<DebugLogUploadFragment>()
     }
 
     @Screenshot
