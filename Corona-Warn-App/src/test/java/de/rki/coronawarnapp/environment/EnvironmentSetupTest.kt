@@ -118,12 +118,13 @@ class EnvironmentSetupTest : BaseTest() {
         EnvironmentSetup.Type.INT.rawKey shouldBe "INT"
         EnvironmentSetup.Type.WRU.rawKey shouldBe "WRU"
         EnvironmentSetup.Type.WRU_XA.rawKey shouldBe "WRU-XA"
+        EnvironmentSetup.Type.WRU_Z.rawKey shouldBe "WRU-Z"
         EnvironmentSetup.Type.WRU_XD.rawKey shouldBe "WRU-XD"
         EnvironmentSetup.Type.TESTER_MOCK.rawKey shouldBe "TESTER-MOCK"
         EnvironmentSetup.Type.LOCAL.rawKey shouldBe "LOCAL"
         EnvironmentSetup.Type.MOCK_CLOUD.rawKey shouldBe "MOCK-CLOUD"
         EnvironmentSetup.Type.MOCK_TSI_MMS.rawKey shouldBe "MOCK-TSI-MMS"
-        EnvironmentSetup.Type.values().size shouldBe 10
+        EnvironmentSetup.Type.values().size shouldBe 11
 
         EnvironmentSetup.EnvKey.USE_EUR_KEY_PKGS.rawKey shouldBe "USE_EUR_KEY_PKGS"
         EnvironmentSetup.EnvKey.SUBMISSION.rawKey shouldBe "SUBMISSION_CDN_URL"
@@ -208,6 +209,7 @@ class EnvironmentSetupTest : BaseTest() {
         private val ENVS_WITH_EUR_PKGS = listOf(
             EnvironmentSetup.Type.PRODUCTION,
             EnvironmentSetup.Type.WRU_XD,
+            EnvironmentSetup.Type.WRU_Z,
             EnvironmentSetup.Type.WRU_XA,
             EnvironmentSetup.Type.TESTER_MOCK,
             EnvironmentSetup.Type.LOCAL,
@@ -282,6 +284,19 @@ class EnvironmentSetupTest : BaseTest() {
                     "PUB_KEYS_SIGNATURE_VERIFICATION": "12345678-WRU-XD",
                     "CROWD_NOTIFIER_PUBLIC_KEY": "123_abc-WRU-XD",
                     "DCC_SERVER_URL": "https://dcc-WRU-XD"
+                },
+                "WRU-Z": {
+                    "USE_EUR_KEY_PKGS" : true,
+                    "SUBMISSION_CDN_URL": "https://submission-WRU-Z",
+                    "DOWNLOAD_CDN_URL": "https://download-WRU-Z",
+                    "VERIFICATION_CDN_URL": "https://verification-WRU-Z",
+                    "DATA_DONATION_CDN_URL": "https://datadonation-WRU-Z",
+                    "LOG_UPLOAD_SERVER_URL": "https://logupload-WRU-Z",
+                    "DCC_REISSUANCE_SERVER_URL": "https://dc_reissuance-WRU-Z",
+                    "SAFETYNET_API_KEY": "placeholder-WRU-Z",
+                    "PUB_KEYS_SIGNATURE_VERIFICATION": "12345678-WRU-Z",
+                    "CROWD_NOTIFIER_PUBLIC_KEY": "123_abc-WRU-Z",
+                    "DCC_SERVER_URL": "https://dcc-WRU-Z"
                 },
                 "WRU-XA": {
                     "USE_EUR_KEY_PKGS" : true,
