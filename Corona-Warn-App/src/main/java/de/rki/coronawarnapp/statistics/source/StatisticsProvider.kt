@@ -67,7 +67,7 @@ class StatisticsProvider @Inject constructor(
     private fun fromCache(): StatisticsData? = try {
         Timber.tag(TAG).d("fromCache()")
         val rawData = localCache.load()
-        rawData?.let { it -> parser.parse(it) }?.also {
+        rawData?.let { parser.parse(it) }?.also {
             Timber.tag(TAG).d("Parsed from cache: %s", it)
             if (!it.isDataAvailable) {
                 Timber.tag(TAG).w("RawData: %s", rawData.toHexString())
