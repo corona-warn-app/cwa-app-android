@@ -54,6 +54,8 @@ class DiaryLocationViewHolder(
                 setBackgroundResource(R.drawable.contact_diary_duration_background_selected)
                 TextViewCompat.setTextAppearance(this, R.style.body1)
             }
+            contentDescription =
+                context.getString(R.string.contact_diary_location_visit_duration_label) + text.toString()
         }
 
         durationInput.setOnClickListener {
