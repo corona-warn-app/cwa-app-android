@@ -1,10 +1,12 @@
 package de.rki.coronawarnapp.test.debugoptions.ui
 
 import de.rki.coronawarnapp.environment.EnvironmentSetup
+import de.rki.coronawarnapp.eol.EolSetting
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.TestScope
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -18,6 +20,7 @@ class DebugOptionsFragmentViewModelTest : testhelpers.BaseTest() {
 
     @MockK private lateinit var environmentSetup: EnvironmentSetup
     @MockK private lateinit var environmentSunset: EnvironmentSunset
+    @MockK private lateinit var eolSetting: EolSetting
 
     private var currentEnvironment = EnvironmentSetup.Type.DEV
 
@@ -40,13 +43,15 @@ class DebugOptionsFragmentViewModelTest : testhelpers.BaseTest() {
         every { environmentSetup.currentEnvironment = any() } answers { currentEnvironment = arg(0) }
         every { environmentSetup.currentEnvironment } answers { currentEnvironment }
         every { environmentSetup.launchEnvironment } returns null
+        every { eolSetting.isLoggerAllowed } returns flowOf(false)
     }
 
     private fun createViewModel(): DebugOptionsFragmentViewModel = DebugOptionsFragmentViewModel(
         envSetup = environmentSetup,
         dispatcherProvider = TestDispatcherProvider(),
         environmentSunset = environmentSunset,
-        appScope = TestScope()
+        appScope = TestScope(),
+        eolSetting = eolSetting,
     )
 
     @Test
