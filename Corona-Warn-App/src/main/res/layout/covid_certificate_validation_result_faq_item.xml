@@ -9,7 +9,7 @@
         style="@style/subtitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/spacing_tiny"
+        android:layout_marginHorizontal="@dimen/margin_8"
         android:focusable="true"
         android:text="@string/validation_start_faq"
         app:layout_constraintEnd_toEndOf="parent"

@@ -34,7 +34,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:fillViewport="true"
-            app:layout_constraintBottom_toTopOf="@+id/risk_details_button"
+            app:layout_constraintBottom_toTopOf="@id/risk_details_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/toolbar" />
@@ -45,10 +45,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorSurface"
-            android:paddingStart="@dimen/spacing_normal"
-            android:paddingTop="@dimen/spacing_small"
-            android:paddingEnd="@dimen/spacing_normal"
-            android:paddingBottom="@dimen/spacing_small"
+            android:paddingStart="@dimen/padding_24"
+            android:paddingTop="@dimen/padding_16"
+            android:paddingEnd="@dimen/padding_24"
+            android:paddingBottom="@dimen/padding_16"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">

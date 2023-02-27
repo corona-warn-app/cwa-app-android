@@ -112,7 +112,7 @@ class ContactDiaryAddLocationFragment : Fragment(R.layout.contact_diary_add_loca
     private fun deleteLocationConfirmationDialog() = displayDialog {
         title(R.string.contact_diary_delete_location_title)
         message(R.string.contact_diary_delete_location_message)
-        positiveButton(R.string.contact_diary_delete_location_message) {
+        positiveButton(R.string.contact_diary_delete_button_positive) {
             navArgs.selectedLocation?.let {
                 viewModel.deleteLocation(it)
             }

@@ -31,7 +31,7 @@
             style="@style/headline6"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_normal"
+            android:layout_marginTop="@dimen/margin_24"
             android:accessibilityHeading="true"
             android:text="@{countryListTitle}"
             android:visibility="@{FormatterHelper.formatVisibilityText(countryListTitle)}"
@@ -44,24 +44,23 @@
             android:id="@+id/countryList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_normal"
+            android:layout_marginTop="@dimen/margin_24"
             app:countryList="@{countryData}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/country_header_description" />
+            app:layout_constraintTop_toBottomOf="@id/country_header_description" />
 
         <TextView
             android:id="@+id/label_country_selection_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/spacing_normal"
+            android:layout_marginBottom="@dimen/margin_24"
             android:accessibilityHeading="true"
             android:text="@{countryListHint}"
             android:visibility="@{FormatterHelper.formatVisibilityText(countryListHint)}"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/countryList" />
+            app:layout_constraintTop_toBottomOf="@id/countryList" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 </layout>

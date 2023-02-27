@@ -17,8 +17,8 @@
         style="@style/subtitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/spacing_normal"
-        app:layout_constraintEnd_toStartOf="@+id/switch_view"
+        android:layout_marginEnd="@dimen/margin_24"
+        app:layout_constraintEnd_toStartOf="@id/switch_view"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Setting" />
@@ -28,13 +28,13 @@
         style="@style/body2Medium"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_mega_tiny"
-        android:layout_marginEnd="@dimen/spacing_normal"
+        android:layout_marginTop="@dimen/margin_4"
+        android:layout_marginEnd="@dimen/margin_24"
         android:accessibilityLiveRegion="assertive"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/switch_view"
+        app:layout_constraintEnd_toStartOf="@id/switch_view"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/switch_title"
+        app:layout_constraintTop_toBottomOf="@id/switch_title"
         tools:text="Active" />
 
     <com.google.android.material.materialswitch.MaterialSwitch

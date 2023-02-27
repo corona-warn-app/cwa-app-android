@@ -4,7 +4,6 @@ import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
 import de.rki.coronawarnapp.dccticketing.core.qrcode.DccTicketingInvalidQrCodeException.ErrorCode.INIT_DATA_PARSE_ERR
 import de.rki.coronawarnapp.dccticketing.core.qrcode.DccTicketingInvalidQrCodeException.ErrorCode.INIT_DATA_PROTOCOL_INVALID
 import de.rki.coronawarnapp.dccticketing.core.qrcode.DccTicketingInvalidQrCodeException.ErrorCode.INIT_DATA_SP_EMPTY
-import de.rki.coronawarnapp.dccticketing.core.qrcode.DccTicketingInvalidQrCodeException.ErrorCode.INIT_DATA_SUBJECT_EMPTY
 import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
@@ -52,7 +51,7 @@ class DccTicketingQrCodeExtractorTest : BaseTest() {
         extractor.canHandle(invalidQrCodeMissingSubject) shouldBe true
         shouldThrow<DccTicketingInvalidQrCodeException> {
             extractor.extract(invalidQrCodeMissingSubject)
-        }.errorCode shouldBe INIT_DATA_SUBJECT_EMPTY
+        }.errorCode shouldBe INIT_DATA_PARSE_ERR
     }
 
     @Test

@@ -12,7 +12,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/spacing_tiny"
+            android:layout_margin="@dimen/margin_8"
             android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -20,7 +20,7 @@
                 style="@style/Card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/spacing_tiny">
+                android:layout_margin="@dimen/margin_8">
 
                 <TextView
                     android:id="@+id/debug_container_title"
@@ -37,22 +37,22 @@
                     style="@style/body2"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_small"
+                    android:layout_marginTop="@dimen/margin_16"
                     android:layout_weight="1"
                     android:text="The debuglog option has moved. It's now available for all builds. For test builds it's started automatically on each app start."
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/debug_container_title" />
+                    app:layout_constraintTop_toBottomOf="@id/debug_container_title" />
 
                 <Button
                     android:id="@+id/show_debug_log_screen"
                     style="@style/buttonPrimary"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_tiny"
+                    android:layout_marginTop="@dimen/margin_8"
                     android:text="Open new debug log screen"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/new_debuglog_screen_explanation" />
+                    app:layout_constraintTop_toBottomOf="@id/new_debuglog_screen_explanation" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <LinearLayout
@@ -60,7 +60,7 @@
                 style="@style/Card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/spacing_tiny"
+                android:layout_margin="@dimen/margin_8"
                 android:orientation="vertical">
 
                 <TextView
@@ -75,7 +75,7 @@
                     style="@style/bodySmall"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_tiny"
+                    android:layout_marginTop="@dimen/margin_8"
                     tools:text="Download: ?" />
 
                 <TextView
@@ -83,7 +83,7 @@
                     style="@style/bodySmall"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
+                    android:layout_marginTop="@dimen/margin_4"
                     tools:text="Submission: ?" />
 
                 <TextView
@@ -91,7 +91,7 @@
                     style="@style/bodySmall"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
+                    android:layout_marginTop="@dimen/margin_4"
                     tools:text="Verification: ?" />
 
                 <TextView
@@ -99,7 +99,7 @@
                     style="@style/bodySmall"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
+                    android:layout_marginTop="@dimen/margin_4"
                     tools:text="DataDonation: ?" />
 
                 <TextView
@@ -107,7 +107,7 @@
                     style="@style/bodySmall"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
+                    android:layout_marginTop="@dimen/margin_4"
                     tools:text="LogUpload: ?" />
 
                 <TextView
@@ -115,7 +115,7 @@
                     style="@style/bodySmall"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
+                    android:layout_marginTop="@dimen/margin_4"
                     tools:text="Dcc Server Url: ?" />
 
                 <TextView
@@ -123,7 +123,7 @@
                     style="@style/bodySmall"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
+                    android:layout_marginTop="@dimen/margin_4"
                     tools:text="Dcc Reissuance Server Url: ?" />
 
                 <TextView
@@ -131,7 +131,7 @@
                     style="@style/bodySmall"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
+                    android:layout_marginTop="@dimen/margin_4"
                     tools:text="AppConfigPubKey: ?" />
 
                 <TextView
@@ -139,21 +139,21 @@
                     style="@style/bodySmall"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
+                    android:layout_marginTop="@dimen/margin_4"
                     tools:text="CrowdNotifierPubKey: ?" />
 
                 <RadioGroup
                     android:id="@+id/environment_toggle_group"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="@dimen/margin_16"
                     android:orientation="vertical" />
 
                 <TextView
                     android:id="@+id/overwritten_warning"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
+                    android:layout_marginTop="@dimen/margin_24"
                     android:text="The current environment has been overwritten by the launcher parameter"
                     android:textStyle="bold"
                     android:visibility="gone"
@@ -164,7 +164,7 @@
                     style="@style/buttonPrimary"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="@dimen/margin_8"
                     android:text="Clear launcher parameter"
                     android:visibility="gone"
                     tools:visibility="visible" />

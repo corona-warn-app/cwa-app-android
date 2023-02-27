@@ -6,7 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="@dimen/card_padding">
+        android:padding="@dimen/padding_24">
 
         <TextView
             android:id="@+id/risk_details_behavior_headline"
@@ -27,13 +27,13 @@
             android:focusable="true"
             android:text="@string/risk_details_subtitle_behavior_increased_risk"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/risk_details_behavior_headline" />
+            app:layout_constraintTop_toBottomOf="@id/risk_details_behavior_headline" />
 
         <de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorInfoRow
             android:id="@+id/line_hygiene"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_normal"
+            android:layout_marginTop="@dimen/margin_24"
             android:backgroundTint="@color/colorSemanticHighRisk"
             android:focusable="true"
             android:foregroundTint="@color/colorStableLight"
@@ -53,7 +53,7 @@
         <de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorInfoRow
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/spacing_tiny"
+            android:layout_marginTop="@dimen/margin_8"
             android:backgroundTint="@color/colorSemanticHighRisk"
             android:focusable="true"
             android:foregroundTint="@color/colorStableLight"
@@ -77,10 +77,10 @@
                 <ImageView
                     android:id="@+id/icon"
                     style="@style/icon"
-                    android:layout_width="@dimen/icon_size_risk_details_behavior"
-                    android:layout_height="@dimen/icon_size_risk_details_behavior"
+                    android:layout_width="@dimen/width_26"
+                    android:layout_height="@dimen/height_26"
                     android:layout_gravity="center"
-                    android:layout_margin="@dimen/icon_margin_risk_details_behavior"
+                    android:layout_margin="@dimen/margin_8"
                     android:focusable="false"
                     android:importantForAccessibility="no"
                     app:srcCompat="@drawable/ic_faq_information"
@@ -89,9 +89,9 @@
 
             <View
                 android:id="@+id/divider1"
-                android:layout_width="1dp"
+                android:layout_width="@dimen/width_1"
                 android:layout_height="0dp"
-                android:layout_marginHorizontal="@dimen/spacing_normal"
+                android:layout_marginHorizontal="@dimen/margin_24"
                 android:background="@color/dividerColor"
                 app:layout_constraintBottom_toTopOf="@id/risk_details_behavior_bullet_point_1_icon"
                 app:layout_constraintEnd_toEndOf="@id/erlenmeyer_icon"
@@ -103,7 +103,7 @@
                 style="@style/subtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_small"
+                android:layout_marginTop="@dimen/margin_16"
                 android:focusable="true"
                 android:text="@string/risk_details_increased_risk_faq_link_text"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -112,10 +112,10 @@
 
             <ImageView
                 android:id="@+id/risk_details_behavior_bullet_point_1_icon"
-                android:layout_width="@dimen/bullet_point_size_contact_diary"
-                android:layout_height="@dimen/bullet_point_size_contact_diary"
-                android:layout_marginStart="@dimen/spacing_small"
-                android:layout_marginTop="@dimen/spacing_mega_tiny"
+                android:layout_width="@dimen/width_8"
+                android:layout_height="@dimen/height_8"
+                android:layout_marginStart="@dimen/margin_16"
+                android:layout_marginTop="@dimen/margin_4"
                 android:importantForAccessibility="no"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/risk_details_behavior_bullet_point_1"
@@ -124,9 +124,9 @@
 
             <View
                 android:id="@+id/divider2"
-                android:layout_width="1dp"
+                android:layout_width="@dimen/width_1"
                 android:layout_height="0dp"
-                android:layout_marginHorizontal="@dimen/spacing_normal"
+                android:layout_marginHorizontal="@dimen/margin_24"
                 android:background="@color/dividerColor"
                 app:layout_constraintBottom_toTopOf="@id/risk_details_behavior_bullet_point_2_icon"
                 app:layout_constraintEnd_toEndOf="@id/risk_details_behavior_bullet_point_1_icon"
@@ -138,8 +138,8 @@
                 style="@style/subtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_medium"
-                android:layout_marginTop="@dimen/spacing_small"
+                android:layout_marginStart="@dimen/margin_32"
+                android:layout_marginTop="@dimen/margin_16"
                 android:focusable="true"
                 android:text="@string/risk_details_behavior_increased_body_1"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -148,10 +148,10 @@
 
             <ImageView
                 android:id="@+id/risk_details_behavior_bullet_point_2_icon"
-                android:layout_width="@dimen/bullet_point_size_contact_diary"
-                android:layout_height="@dimen/bullet_point_size_contact_diary"
-                android:layout_marginStart="@dimen/spacing_small"
-                android:layout_marginTop="@dimen/spacing_mega_tiny"
+                android:layout_width="@dimen/width_8"
+                android:layout_height="@dimen/height_8"
+                android:layout_marginStart="@dimen/margin_16"
+                android:layout_marginTop="@dimen/margin_4"
                 android:importantForAccessibility="no"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/risk_details_behavior_bullet_point_2"
@@ -163,11 +163,11 @@
                 style="@style/subtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_medium"
-                android:layout_marginTop="@dimen/spacing_small"
+                android:layout_marginStart="@dimen/margin_32"
+                android:layout_marginTop="@dimen/margin_16"
                 android:focusable="true"
                 android:text="@string/risk_details_behavior_increased_body_2"
-                app:layout_constraintBottom_toBottomOf="@+id/risk_details_behavior_bullet_point_2_icon"
+                app:layout_constraintBottom_toBottomOf="@id/risk_details_behavior_bullet_point_2_icon"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/risk_details_behavior_bullet_point_2_icon"
                 app:layout_constraintTop_toBottomOf="@id/risk_details_behavior_bullet_point_1"
@@ -179,7 +179,7 @@
             android:id="@+id/risk_details_behavior_bullet_point_3"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/spacing_tiny"
+            android:layout_marginTop="@dimen/margin_8"
             android:backgroundTint="@color/colorSemanticHighRisk"
             android:focusable="true"
             android:foregroundTint="@color/colorStableLight"

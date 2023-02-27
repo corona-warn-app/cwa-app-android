@@ -4,6 +4,7 @@ import androidx.annotation.StringRes
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
+import de.rki.coronawarnapp.ui.main.home.rampdown.RampDownNotice
 
 sealed class HomeFragmentEvents {
     data class ShowTracingExplanation(val maxEncounterAgeInDays: Long) : HomeFragmentEvents()
@@ -20,6 +21,7 @@ sealed class HomeFragmentEvents {
     object GoToFamilyTests : HomeFragmentEvents()
     data class GoToTestResultNegativeFragment(val identifier: TestIdentifier) : HomeFragmentEvents()
     data class GoToTestResultKeysSharedFragment(val identifier: TestIdentifier) : HomeFragmentEvents()
+    data class OpenRampDownNotice(val rampDownNotice: RampDownNotice) : HomeFragmentEvents()
 
     data class OpenIncompatibleUrl(val scanningSupported: Boolean) : HomeFragmentEvents() {
         @get:StringRes

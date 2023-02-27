@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.dccticketing.core.transaction
 
 import android.os.Parcelable
-import com.google.gson.annotations.SerializedName
+import com.fasterxml.jackson.annotation.JsonProperty
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccJWK.Purpose
 import kotlinx.parcelize.Parcelize
 
@@ -15,7 +15,7 @@ data class DccJWK(
      *
      * It is safe to assume that there is at least one entry
      */
-    @SerializedName("x5c") val x5c: List<String>,
+    @JsonProperty("x5c") val x5c: List<String>,
 
     /**
      * a base64-encoded string.
@@ -23,7 +23,7 @@ data class DccJWK(
      * The attribute can typically be treated as a regular string and there is no need to parse
      * this to a byte sequence ( Data / ByteArray ).
      */
-    @SerializedName("kid") val kid: String,
+    @JsonProperty("kid") val kid: String,
 
     /**
      * a string describing the algorithm.
@@ -31,17 +31,17 @@ data class DccJWK(
      * The attribute typically has one of the values ES256 , RS256 , or PS256. However, the data structure should allow
      * for other values.
      */
-    @SerializedName("alg") val alg: String,
+    @JsonProperty("alg") val alg: String,
 
     /** a value of either [Purpose.SIGNATURE] or [Purpose.ENCRYPTION] that indicates the purpose of the JWK (signature or encryption) */
-    @SerializedName("use") val use: Purpose,
+    @JsonProperty("use") val use: Purpose,
 ) : Parcelable {
 
     enum class Purpose {
-        @SerializedName("sig")
+        @JsonProperty("sig")
         SIGNATURE,
 
-        @SerializedName("enc")
+        @JsonProperty("enc")
         ENCRYPTION
     }
 }

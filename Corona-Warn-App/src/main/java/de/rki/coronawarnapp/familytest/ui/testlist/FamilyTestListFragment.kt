@@ -67,21 +67,25 @@ class FamilyTestListFragment : Fragment(R.layout.fragment_family_test_list), Aut
                     testIdentifier = coronaTest.identifier
                 )
             )
+
             CoronaTest.State.INVALID -> findNavController().navigate(
                 FamilyTestListFragmentDirections.actionFamilyTestListFragmentToSubmissionTestResultInvalidFragment(
                     testIdentifier = coronaTest.identifier
                 )
             )
+
             CoronaTest.State.POSITIVE -> findNavController().navigate(
                 FamilyTestListFragmentDirections.actionUniversalScannerToSubmissionTestResultKeysSharedFragment(
                     testIdentifier = coronaTest.identifier
                 )
             )
+
             CoronaTest.State.NEGATIVE -> findNavController().navigate(
                 FamilyTestListFragmentDirections.actionFamilyTestListFragmentToSubmissionTestResultNegativeFragment(
                     testIdentifier = coronaTest.identifier
                 )
             )
+
             CoronaTest.State.REDEEMED,
             CoronaTest.State.OUTDATED,
             CoronaTest.State.RECYCLED -> Unit
@@ -99,6 +103,7 @@ class FamilyTestListFragment : Fragment(R.layout.fragment_family_test_list), Aut
                     viewModel.onRemoveAllTests()
                     true
                 }
+
                 else -> false
             }
         }
@@ -109,7 +114,7 @@ class FamilyTestListFragment : Fragment(R.layout.fragment_family_test_list), Aut
             adapter = familyTestListAdapter
             layoutManager = LinearLayoutManager(requireContext())
             itemAnimator = DefaultItemAnimator()
-            addItemDecoration(TopBottomPaddingDecorator(topPadding = R.dimen.spacing_normal))
+            addItemDecoration(TopBottomPaddingDecorator(topPadding = R.dimen.standard_24))
             setupSwipe(context = requireContext())
         }
     }

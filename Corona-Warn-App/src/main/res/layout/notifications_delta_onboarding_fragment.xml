@@ -21,7 +21,7 @@
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="@dimen/spacing_small"
+        android:layout_marginBottom="@dimen/margin_16"
         app:layout_constraintBottom_toTopOf="@id/button_container"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -49,7 +49,7 @@
                 style="@style/subtitleMedium"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_normal"
+                android:layout_marginTop="@dimen/margin_24"
                 android:focusable="true"
                 android:text="@string/nm_delta_onboarding_body"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
@@ -61,7 +61,7 @@
                 style="@style/boldSubtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_normal"
+                android:layout_marginTop="@dimen/margin_24"
                 android:focusable="true"
                 android:text="@string/nm_delta_onboarding_subtitle"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
@@ -71,9 +71,9 @@
             <include
                 android:id="@+id/bulletpoint_1"
                 layout="@layout/include_bullet_point"
-                android:layout_width="@dimen/bullet_point_size"
-                android:layout_height="@dimen/bullet_point_size"
-                android:layout_marginStart="10dp"
+                android:layout_width="@dimen/bullet_point_6"
+                android:layout_height="@dimen/bullet_point_6"
+                android:layout_marginStart="@dimen/margin_10"
                 app:layout_constraintBaseline_toBaselineOf="@id/point_1"
                 app:layout_constraintStart_toEndOf="@id/guideline_start" />
 
@@ -82,8 +82,8 @@
                 style="@style/subtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_normal"
-                android:layout_marginTop="8dp"
+                android:layout_marginStart="@dimen/margin_24"
+                android:layout_marginTop="@dimen/margin_8"
                 android:focusable="true"
                 android:text="@string/nm_point_overall"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
@@ -93,9 +93,9 @@
             <include
                 android:id="@+id/bulletpoint_2"
                 layout="@layout/include_bullet_point"
-                android:layout_width="@dimen/bullet_point_size"
-                android:layout_height="@dimen/bullet_point_size"
-                android:layout_marginStart="10dp"
+                android:layout_width="@dimen/bullet_point_6"
+                android:layout_height="@dimen/bullet_point_6"
+                android:layout_marginStart="@dimen/margin_10"
                 app:layout_constraintBaseline_toBaselineOf="@id/point_2"
                 app:layout_constraintStart_toEndOf="@id/guideline_start" />
 
@@ -104,8 +104,8 @@
                 style="@style/subtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_normal"
-                android:layout_marginTop="4dp"
+                android:layout_marginStart="@dimen/margin_24"
+                android:layout_marginTop="@dimen/margin_4"
                 android:focusable="true"
                 android:text="@string/nm_point_block_screen"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
@@ -115,9 +115,9 @@
             <include
                 android:id="@+id/bulletpoint_3"
                 layout="@layout/include_bullet_point"
-                android:layout_width="@dimen/bullet_point_size"
-                android:layout_height="@dimen/bullet_point_size"
-                android:layout_marginStart="10dp"
+                android:layout_width="@dimen/bullet_point_6"
+                android:layout_height="@dimen/bullet_point_6"
+                android:layout_marginStart="@dimen/margin_10"
                 app:layout_constraintBaseline_toBaselineOf="@id/point_3"
                 app:layout_constraintStart_toEndOf="@id/guideline_start" />
 
@@ -126,8 +126,8 @@
                 style="@style/subtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_normal"
-                android:layout_marginTop="4dp"
+                android:layout_marginStart="@dimen/margin_24"
+                android:layout_marginTop="@dimen/margin_4"
                 android:focusable="true"
                 android:text="@string/nm_point_unclock_screen"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
@@ -139,7 +139,7 @@
                 style="@style/subtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="@dimen/margin_24"
                 android:focusable="true"
                 android:text="@string/nm_delta_onboarding_subtitle"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
@@ -151,14 +151,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_begin="@dimen/guideline_start" />
+                app:layout_constraintGuide_begin="@dimen/guideline_24" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline_end"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_end="@dimen/guideline_end" />
+                app:layout_constraintGuide_end="@dimen/guideline_24" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -180,8 +180,8 @@
             style="@style/buttonPrimary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/spacing_normal"
-            android:layout_marginVertical="@dimen/spacing_small"
+            android:layout_marginHorizontal="@dimen/margin_24"
+            android:layout_marginVertical="@dimen/margin_16"
             android:text="@string/nm_delta_onboarding_device_settings_button" />
 
         <Button
@@ -189,8 +189,8 @@
             style="@style/buttonPrimary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/spacing_normal"
-            android:layout_marginBottom="@dimen/spacing_small"
+            android:layout_marginHorizontal="@dimen/margin_24"
+            android:layout_marginBottom="@dimen/margin_16"
             android:text="@string/onboarding_button_next" />
     </LinearLayout>
 

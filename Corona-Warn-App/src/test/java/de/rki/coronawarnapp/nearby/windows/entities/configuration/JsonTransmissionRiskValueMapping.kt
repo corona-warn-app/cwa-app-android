@@ -1,10 +1,10 @@
 package de.rki.coronawarnapp.nearby.windows.entities.configuration
 
-import com.google.gson.annotations.SerializedName
+import com.fasterxml.jackson.annotation.JsonProperty
 
 data class JsonTransmissionRiskValueMapping(
-    @SerializedName("transmissionRiskLevel")
+    @JsonProperty("transmissionRiskLevel")
     val transmissionRiskLevel: Int,
-    @SerializedName("transmissionRiskValue")
+    @JsonProperty("transmissionRiskValue")
     val transmissionRiskValue: Double
 )

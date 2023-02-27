@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.contactdiary.storage.entity
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.google.gson.annotations.SerializedName
+import com.fasterxml.jackson.annotation.JsonProperty
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryCoronaTestEntity.TestResult.NEGATIVE
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryCoronaTestEntity.TestResult.POSITIVE
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryCoronaTestEntity.TestType.ANTIGEN
@@ -21,18 +21,18 @@ data class ContactDiaryCoronaTestEntity(
     @ColumnInfo(name = "time") val time: Instant
 ) {
     enum class TestType(val raw: String) {
-        @SerializedName("PCR")
+        @JsonProperty("PCR")
         PCR("pcr"),
 
-        @SerializedName("ANTIGEN")
+        @JsonProperty("ANTIGEN")
         ANTIGEN("antigen");
     }
 
     enum class TestResult(val raw: String) {
-        @SerializedName("POSITIVE")
+        @JsonProperty("POSITIVE")
         POSITIVE("POSITIVE"),
 
-        @SerializedName("NEGATIVE")
+        @JsonProperty("NEGATIVE")
         NEGATIVE("NEGATIVE");
     }
 }

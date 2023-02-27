@@ -23,7 +23,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.plus
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.jackson.JacksonConverterFactory
 import javax.inject.Qualifier
 import javax.inject.Singleton
 
@@ -35,11 +35,11 @@ object DiagnosisKeysModule {
     fun provideDiagnosisKeyApi(
         @DownloadCDNHttpClient client: OkHttpClient,
         @DownloadCDNServerUrl url: String,
-        gsonConverterFactory: GsonConverterFactory
+        jacksonConverterFactory: JacksonConverterFactory
     ): DiagnosisKeyApiV1 = Retrofit.Builder()
         .client(client)
         .baseUrl(url)
-        .addConverterFactory(gsonConverterFactory)
+        .addConverterFactory(jacksonConverterFactory)
         .build()
         .create(DiagnosisKeyApiV1::class.java)
 

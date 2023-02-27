@@ -12,7 +12,7 @@ import okhttp3.Cache
 import okhttp3.ConnectionSpec
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.jackson.JacksonConverterFactory
 import java.io.File
 import javax.inject.Singleton
 
@@ -34,7 +34,7 @@ class VerificationModule {
         @AppContext context: Context,
         @VerificationHttpClient client: OkHttpClient,
         @VerificationCDNServerUrl url: String,
-        gsonConverterFactory: GsonConverterFactory
+        jacksonConverterFactory: JacksonConverterFactory
     ): VerificationApiV1 {
         val cache = Cache(File(context.cacheDir, "http_verification"), DEFAULT_CACHE_SIZE)
 
@@ -45,7 +45,7 @@ class VerificationModule {
         return Retrofit.Builder()
             .client(cachingClient)
             .baseUrl(url)
-            .addConverterFactory(gsonConverterFactory)
+            .addConverterFactory(jacksonConverterFactory)
             .build()
             .create(VerificationApiV1::class.java)
     }

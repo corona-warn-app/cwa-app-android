@@ -13,15 +13,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorSemanticLowRisk"
-        android:padding="@dimen/spacing_normal"
-        android:animateLayoutChanges="true">
+        android:padding="@dimen/padding_24">
 
         <TextView
             android:id="@+id/headline"
             style="@style/headline5"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="@dimen/margin_16"
             android:accessibilityHeading="true"
             android:text="@string/risk_card_low_risk_headline"
             android:textColor="@color/colorTextPrimary1InvertedStable"
@@ -32,15 +31,15 @@
             tools:text="@string/risk_card_low_risk_headline"
             tools:textColor="@color/colorStableLight" />
 
-         <ImageView
+        <ImageView
             android:id="@+id/details_icon"
             gone="@{state.isInDetailsMode}"
-            android:layout_width="@dimen/icon_size_risk_card"
-            android:layout_height="@dimen/icon_size_risk_card"
+            android:layout_width="@dimen/width_40"
+            android:layout_height="@dimen/height_40"
             android:importantForAccessibility="no"
-            app:srcCompat="@drawable/ic_forward"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_forward"
             app:tint="@color/colorStableLight"
             tools:tint="@color/colorStableLight" />
 
@@ -48,7 +47,7 @@
             android:id="@+id/row_contact"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="@dimen/margin_16"
             android:contentDescription="@{state.getRiskContactBodyDescription(context)}"
             android:icon="@drawable/ic_risk_card_contact"
             android:text="@{state.getRiskContactBody(context)}"
@@ -108,7 +107,7 @@
             gone="@{!state.showUpdateButton}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_small"
+            android:layout_marginTop="@dimen/margin_16"
             android:text="@string/risk_card_button_update"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"

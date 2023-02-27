@@ -50,7 +50,7 @@ class VerificationApiV1Test : BaseIOTest() {
     private fun createAPI(): VerificationApiV1 {
         val httpModule = HttpModule()
         val defaultHttpClient = httpModule.defaultHttpClient()
-        val gsonConverterFactory = httpModule.provideGSONConverter()
+        val jacksonConverterFactory = httpModule.provideJacksonConverter()
 
         return VerificationModule().let {
             val downloadHttpClient = it.cdnHttpClient(
@@ -61,7 +61,7 @@ class VerificationApiV1Test : BaseIOTest() {
                 context = context,
                 client = downloadHttpClient,
                 url = serverAddress,
-                gsonConverterFactory = gsonConverterFactory
+                jacksonConverterFactory = jacksonConverterFactory
             )
         }
     }
@@ -95,7 +95,8 @@ class VerificationApiV1Test : BaseIOTest() {
             headers["cwa-fake"] shouldBe "0"
             headers["cwa-header-padding"] shouldBe "testPadding"
             path shouldBe "/version/v1/registrationToken"
-            body.readUtf8() shouldBe """
+            val utf = body.readUtf8()
+            utf shouldBe """
                 {
                     "keyType": "GUID",
                     "key": "testKey",

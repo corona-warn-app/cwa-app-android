@@ -28,6 +28,10 @@
     <color name="colorCertificateSelectorButtonStroke">#B9BABA</color>
     <color name="colorCertificateCards">#FFFFFF</color>
     <color name="colorCertificateUserSwitch">#F5F5F5</color>
+    <color name="colorRampDownCard">#FFF7CB</color>
+    <color name="colorTitleRampDownCard">#17191A</color>
+    <color name="colorTextRampDownCard">#A517191A</color>
+    <color name="colorArrowRampDownCard">#17191A4D</color>
 
     <!-- Text -->
     <color name="colorOnPrimary">#17191A</color>
@@ -127,4 +131,5 @@
     <color name="maskBadgeColor">#505968</color>
     <color name="maskBadgeTextColorRegular">#505968</color>
     <color name="maskBadgeTextColorGreenBg">#FFFFFF</color>
+    <color name="rampDownArrowColor">#8A8787</color>
 </resources>

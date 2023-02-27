@@ -8,8 +8,8 @@
     <include
         android:id="@+id/bulletpoint"
         layout="@layout/include_bullet_point"
-        android:layout_width="6dp"
-        android:layout_height="6dp"
+        android:layout_width="@dimen/bullet_point_6"
+        android:layout_height="@dimen/bullet_point_6"
         app:layout_constraintBaseline_toBaselineOf="@id/bulletpoint_text"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -18,7 +18,7 @@
         style="@style/subtitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="18dp"
+        android:layout_marginStart="@dimen/margin_16"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/bulletpoint"
         app:layout_constraintTop_toTopOf="parent"

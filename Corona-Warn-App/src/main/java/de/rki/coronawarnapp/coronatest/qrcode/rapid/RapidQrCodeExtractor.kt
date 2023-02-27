@@ -1,15 +1,15 @@
 package de.rki.coronawarnapp.coronatest.qrcode.rapid
 
+import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
 import com.google.common.io.BaseEncoding
-import com.google.gson.Gson
-import com.google.gson.annotations.SerializedName
 import de.rki.coronawarnapp.bugreporting.censors.submission.RapidQrCodeCensor
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.qrcode.InvalidQRCodeException
 import de.rki.coronawarnapp.qrcode.scanner.QrCodeExtractor
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import de.rki.coronawarnapp.util.hashing.isSha256Hash
-import de.rki.coronawarnapp.util.serialization.fromJson
 import okio.internal.commonToUtf8String
 import timber.log.Timber
 import java.time.Instant
@@ -25,12 +25,14 @@ abstract class RapidQrCodeExtractor : QrCodeExtractor<CoronaTestQRCode> {
         Timber.tag(loggingTag).v("extract(rawString=%s)", rawString)
         val payload = CleanPayload(extractData(rawString))
 
-        RapidQrCodeCensor.dataToCensor = RapidQrCodeCensor.CensorData(
-            rawString = rawString,
-            hash = payload.hash,
-            firstName = payload.firstName,
-            lastName = payload.lastName,
-            dateOfBirth = payload.dateOfBirth
+        RapidQrCodeCensor.dataToCensor.add(
+            RapidQrCodeCensor.CensorData(
+                rawString = rawString,
+                hash = payload.hash,
+                firstName = payload.firstName,
+                lastName = payload.lastName,
+                dateOfBirth = payload.dateOfBirth
+            )
         )
 
         payload.requireValidData()
@@ -61,7 +63,7 @@ abstract class RapidQrCodeExtractor : QrCodeExtractor<CoronaTestQRCode> {
         }
 
         try {
-            return Gson().fromJson(decoded)
+            return ObjectMapper().readValue(decoded)
         } catch (e: Exception) {
             Timber.tag(loggingTag).e(e)
             throw InvalidQRCodeException("Malformed payload.")
@@ -69,14 +71,14 @@ abstract class RapidQrCodeExtractor : QrCodeExtractor<CoronaTestQRCode> {
     }
 
     data class RawPayload(
-        @SerializedName("hash") val hash: String?,
-        @SerializedName("timestamp") val timestamp: Long?,
-        @SerializedName("fn") val firstName: String?,
-        @SerializedName("ln") val lastName: String?,
-        @SerializedName("dob") val dateOfBirth: String?,
-        @SerializedName("testid") val testid: String?,
-        @SerializedName("salt") val salt: String?,
-        @SerializedName("dgc") val dgc: Boolean?
+        @JsonProperty("hash") val hash: String?,
+        @JsonProperty("timestamp") val timestamp: Long?,
+        @JsonProperty("fn") val firstName: String?,
+        @JsonProperty("ln") val lastName: String?,
+        @JsonProperty("dob") val dateOfBirth: String?,
+        @JsonProperty("testid") val testid: String?,
+        @JsonProperty("salt") val salt: String?,
+        @JsonProperty("dgc") val dgc: Boolean?
     )
 
     data class CleanPayload(val raw: RawPayload) {

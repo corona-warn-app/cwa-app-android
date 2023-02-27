@@ -66,7 +66,7 @@ class DccTicketingConsentTwoFragment : Fragment(R.layout.fragment_dcc_ticketing_
 
         certificate.apply {
             adapter = certificateAdapter
-            addItemDecoration(TopBottomPaddingDecorator(topPadding = R.dimen.spacing_tiny))
+            addItemDecoration(TopBottomPaddingDecorator(topPadding = R.dimen.standard_8))
         }
 
         viewModel.events.observe2(this@DccTicketingConsentTwoFragment) {

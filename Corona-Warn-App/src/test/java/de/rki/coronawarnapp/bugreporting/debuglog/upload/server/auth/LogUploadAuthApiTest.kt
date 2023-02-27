@@ -43,7 +43,7 @@ class LogUploadAuthApiTest : BaseTest() {
     private fun createAPI(): LogUploadAuthApiV1 {
         val httpModule = HttpModule()
         val defaultHttpClient = httpModule.defaultHttpClient()
-        val gsonConverterFactory = httpModule.provideGSONConverter()
+        val jacksonConverterFactory = httpModule.provideJacksonConverter()
         val protoConverterFactory = httpModule.provideProtoConverter()
 
         val cdnHttpClient = DownloadCDNModule()
@@ -55,7 +55,7 @@ class LogUploadAuthApiTest : BaseTest() {
         return BugReportingSharedModule.logUploadAuthApi(
             client = cdnHttpClient,
             url = serverAddress,
-            gsonConverterFactory = gsonConverterFactory,
+            jacksonConverterFactory = jacksonConverterFactory,
             protoConverterFactory = protoConverterFactory
         )
     }
@@ -64,7 +64,7 @@ class LogUploadAuthApiTest : BaseTest() {
     fun `test auth`(): Unit = runTest {
         """
             {
-                expirationDate : "2020-08-20T14:00:00.000Z"
+                "expirationDate" : "2020-08-20T14:00:00.000Z"
             }
         """.toJsonResponse().apply { webServer.enqueue(this) }
 
@@ -86,7 +86,7 @@ class LogUploadAuthApiTest : BaseTest() {
     fun `server returns 500`(): Unit = runTest {
         """
             {
-                errorCode: "Nope"
+                "errorCode" : "Nope"
             }
         """.toJsonResponse().apply { webServer.enqueue(MockResponse().setResponseCode(500)) }
 

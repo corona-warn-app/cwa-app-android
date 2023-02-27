@@ -1,11 +1,11 @@
 package de.rki.coronawarnapp.datadonation.safetynet
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.CommonStatusCodes
 import com.google.android.gms.common.api.Status
 import com.google.android.gms.safetynet.SafetyNetApi
 import com.google.android.gms.safetynet.SafetyNetClient
-import com.google.gson.JsonParser
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
@@ -134,8 +134,8 @@ class SafetyNetClientWrapperTest : BaseTest() {
         runTest {
             createInstance().attest("hodl".toByteArray()).apply {
                 jwsResult shouldBe JWS_BASE64
-                header shouldBe JsonParser.parseString(JWS_HEADER)
-                body shouldBe JsonParser.parseString(JWS_BODY)
+                header shouldBe ObjectMapper().readTree(JWS_HEADER)
+                body shouldBe ObjectMapper().readTree(JWS_BODY)
                 signature shouldBe JWS_SIGNATURE_BASE64.decodeBase64()!!.toByteArray()
 
                 nonce shouldBe "AAAAAAAAAAAAAAAAAAAAAA==".decodeBase64()
@@ -152,7 +152,7 @@ class SafetyNetClientWrapperTest : BaseTest() {
         every { report.jwsResult } returns JWS_BASE64_MINIMAL
         runTest {
             createInstance().attest("hodl".toByteArray()).apply {
-                body shouldBe JsonParser.parseString(JWS_BODY_MINIMAL)
+                body shouldBe ObjectMapper().readTree(JWS_BODY_MINIMAL)
 
                 nonce shouldBe "AAAAAAAAAAAAAAAAAAAAAA==".decodeBase64()
                 apkPackageName shouldBe "de.rki.coronawarnapp.test"

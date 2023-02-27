@@ -20,6 +20,7 @@ import de.rki.coronawarnapp.profile.model.Profile
 import de.rki.coronawarnapp.ui.view.addEmojiFilter
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.toLocalDateUserTz
+import de.rki.coronawarnapp.util.ui.addTitleId
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -56,8 +57,11 @@ class ProfileCreateFragment : Fragment(R.layout.profile_create_fragment), AutoIn
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) =
         with(binding) {
-            toolbar.setNavigationOnClickListener {
-                viewModel.navigateBack()
+            toolbar.apply {
+                addTitleId(R.id.profile_create_fragment_title)
+                setNavigationOnClickListener {
+                    viewModel.navigateBack()
+                }
             }
 
             profileSaveButton.setOnClickListener {

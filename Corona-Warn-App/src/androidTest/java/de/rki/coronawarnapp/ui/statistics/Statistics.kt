@@ -28,7 +28,7 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
 import okhttp3.Cache
 import java.time.Instant
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.jackson.JacksonConverterFactory
 import timber.log.Timber
 
 object Statistics {
@@ -83,14 +83,14 @@ object Statistics {
         val cdnClient = cdnModule.cdnHttpClient(httpClient)
         val url = cdnModule.provideDownloadServerUrl(environmentSetup)
         val signatureValidation = SignatureValidation(environmentSetup)
-        val gsonFactory = GsonConverterFactory.create()
+        val jacksonFactory = JacksonConverterFactory.create()
 
         val statisticsServer = LocalStatisticsServer(
             api = {
                 StatisticsModule.localApi(
                     client = cdnClient,
                     url = url,
-                    gsonConverterFactory = gsonFactory,
+                    jacksonConverterFactory = jacksonFactory,
                     cache = cache
                 )
             },
@@ -124,14 +124,14 @@ object Statistics {
         val cdnClient = cdnModule.cdnHttpClient(httpClient)
         val url = cdnModule.provideDownloadServerUrl(environmentSetup)
         val signatureValidation = SignatureValidation(environmentSetup)
-        val gsonFactory = GsonConverterFactory.create()
+        val jacksonFactory = JacksonConverterFactory.create()
 
         val statisticsServer = StatisticsServer(
             api = {
                 StatisticsModule.api(
                     client = cdnClient,
                     url = url,
-                    gsonConverterFactory = gsonFactory,
+                    jacksonConverterFactory = jacksonFactory,
                     cache = cache
                 )
             },

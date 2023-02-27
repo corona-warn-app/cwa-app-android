@@ -10,10 +10,10 @@
         android:id="@+id/duration_container"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
+        android:layout_marginStart="@dimen/margin_16"
+        android:layout_marginEnd="@dimen/margin_16"
+        android:paddingTop="@dimen/padding_8"
+        android:paddingBottom="@dimen/padding_8"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -30,20 +30,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|end"
-            android:minWidth="70dp"
-            android:paddingTop="11dp"
-            android:paddingBottom="11dp"
-            android:paddingLeft="13dp"
-            android:paddingRight="13dp"
+            android:minWidth="@dimen/width_70"
+            android:padding="@dimen/padding_12"
             android:text="@string/duration_dialog_default_value"
-            android:background="@drawable/contact_diary_duration_background_default"/>
+            android:background="@drawable/contact_diary_duration_background_default" />
     </FrameLayout>
 
     <de.rki.coronawarnapp.contactdiary.ui.day.tabs.common.DiaryCircumstancesTextView
         android:id="@+id/circumstances"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_margin="@dimen/margin_16"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

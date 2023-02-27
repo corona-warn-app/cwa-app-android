@@ -40,7 +40,8 @@ class CovidCertificateOnboardingFragment : Fragment(R.layout.covid_certificate_o
         constructorCall = { factory, _ ->
             factory as CovidCertificateOnboardingViewModel.Factory
             factory.create(
-                dccQrCode = args.certIdentifier?.let { qrcodeSharedViewModel.dccQrCode(it) }
+                certIdentifier = args.certIdentifier,
+                qrcodeSharedViewModel
             )
         }
     )
@@ -62,7 +63,7 @@ class CovidCertificateOnboardingFragment : Fragment(R.layout.covid_certificate_o
                     navigationContentDescription = getString(R.string.accessibility_close)
                 }
             } else {
-                binding.root.updatePadding(bottom = resources.getDimensionPixelSize(R.dimen.spacing_fab_padding))
+                binding.root.updatePadding(bottom = resources.getDimensionPixelSize(R.dimen.padding_80))
             }
             toolbar.setNavigationOnClickListener { popBackStack() }
             privacyInformation.setOnClickListener { viewModel.onDataPrivacyClick() }

@@ -1,16 +1,16 @@
 package de.rki.coronawarnapp.profile.legacy
 
-import com.google.gson.annotations.SerializedName
+import com.fasterxml.jackson.annotation.JsonProperty
 import java.time.LocalDate
 
 // Deprecated("Legacy data class")
 data class RATProfile(
-    @SerializedName("firstName") val firstName: String,
-    @SerializedName("lastName") val lastName: String,
-    @SerializedName("birthDate") val birthDate: LocalDate?,
-    @SerializedName("street") val street: String,
-    @SerializedName("zipCode") val zipCode: String,
-    @SerializedName("city") val city: String,
-    @SerializedName("phone") val phone: String,
-    @SerializedName("email") val email: String,
+    @JsonProperty("firstName") val firstName: String,
+    @JsonProperty("lastName") val lastName: String,
+    @JsonProperty("birthDate") val birthDate: LocalDate?,
+    @JsonProperty("street") val street: String,
+    @JsonProperty("zipCode") val zipCode: String,
+    @JsonProperty("city") val city: String,
+    @JsonProperty("phone") val phone: String,
+    @JsonProperty("email") val email: String,
 )

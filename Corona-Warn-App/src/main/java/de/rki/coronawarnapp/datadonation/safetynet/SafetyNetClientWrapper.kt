@@ -1,11 +1,11 @@
 package de.rki.coronawarnapp.datadonation.safetynet
 
+import com.fasterxml.jackson.databind.JsonNode
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.CommonStatusCodes
 import com.google.android.gms.safetynet.SafetyNetApi
 import com.google.android.gms.safetynet.SafetyNetClient
-import com.google.gson.JsonObject
-import com.google.gson.JsonParser
 import dagger.Reusable
 import de.rki.coronawarnapp.datadonation.safetynet.SafetyNetException.Type
 import de.rki.coronawarnapp.environment.EnvironmentSetup
@@ -68,9 +68,9 @@ class SafetyNetClientWrapper @Inject constructor(
         )
     }
 
-    private fun String.decodeBase64Json(): JsonObject {
+    private fun String.decodeBase64Json(): JsonNode {
         val rawJson = decodeBase64()!!.string(Charsets.UTF_8)
-        return JsonParser.parseString(rawJson).asJsonObject
+        return ObjectMapper().readTree(rawJson)
     }
 
     private suspend fun callClient(nonce: ByteArray): SafetyNetApi.AttestationResponse =
@@ -116,24 +116,24 @@ class SafetyNetClientWrapper @Inject constructor(
 
     data class Report(
         val jwsResult: String,
-        val header: JsonObject,
-        val body: JsonObject,
+        val header: JsonNode,
+        val body: JsonNode,
         val signature: ByteArray
     ) {
-        val nonce: ByteString? = body.get("nonce")?.asString?.decodeBase64()
+        val nonce: ByteString? = body.get("nonce")?.asText()?.decodeBase64()
 
-        val apkPackageName: String? = body.get("apkPackageName")?.asString
+        val apkPackageName: String? = body.get("apkPackageName")?.asText()
 
-        val basicIntegrity: Boolean = body.get("basicIntegrity")?.asBoolean == true
-        val ctsProfileMatch = body.get("ctsProfileMatch")?.asBoolean == true
+        val basicIntegrity: Boolean = body.get("basicIntegrity")?.asBoolean() == true
+        val ctsProfileMatch = body.get("ctsProfileMatch")?.asBoolean() == true
 
-        val evaluationTypes = body.get("evaluationType")?.asString
+        val evaluationTypes = body.get("evaluationType")?.asText()
             ?.split(",")
             ?.map { it.trim() }
             ?: emptyList()
 
-        val error: String? = body.get("error")?.asString
-        val advice: String? = body.get("advice")?.asString
+        val error: String? = body.get("error")?.asText()
+        val advice: String? = body.get("advice")?.asText()
 
         override fun equals(other: Any?): Boolean {
             if (this === other) return true

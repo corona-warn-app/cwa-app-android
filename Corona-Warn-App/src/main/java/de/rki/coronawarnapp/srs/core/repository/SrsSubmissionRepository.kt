@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.appconfig.getSupportedCountries
 import de.rki.coronawarnapp.bugreporting.censors.submission.OtpCensor
+import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.srs.AnalyticsSrsKeySubmissionRepository
 import de.rki.coronawarnapp.datadonation.safetynet.AttestationContainer
 import de.rki.coronawarnapp.datadonation.safetynet.DeviceAttestation
 import de.rki.coronawarnapp.datadonation.safetynet.SafetyNetException
@@ -51,6 +52,7 @@ class SrsSubmissionRepository @Inject constructor(
     private val srsDevSettings: SrsDevSettings,
     private val androidIdProvider: AndroidIdProvider,
     private val submissionReporter: SubmissionReporter,
+    private val analyticsSrsKeySubmissionRepository: AnalyticsSrsKeySubmissionRepository
 ) {
     suspend fun submit(
         type: SrsSubmissionType,
@@ -116,6 +118,10 @@ class SrsSubmissionRepository @Inject constructor(
         submissionReporter.reportAt(timeStamper.nowUTC)
 
         srsSubmissionSettings.resetOtp()
+        analyticsSrsKeySubmissionRepository.collectSrsSubmissionAnalytics(
+            srsSubmissionType = type,
+            hasCheckIns = checkInsReport.isNotEmpty()
+        )
         Timber.tag(TAG).d("SRS submission finished successfully with result=%s!", result)
         return result
     }
@@ -158,8 +164,7 @@ class SrsSubmissionRepository @Inject constructor(
                 val errorCode = e.type.toSrsErrorType()
                 SrsSubmissionException(
                     errorCode = errorCode,
-                    errorArgs = errorCode.errorArgs(appConfig.selfReportSubmission),
-                    cause = e
+                    errorArgs = errorCode.errorArgs(appConfig.selfReportSubmission)
                 )
             }
 

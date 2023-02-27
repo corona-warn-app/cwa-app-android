@@ -1,20 +1,20 @@
 package de.rki.coronawarnapp.nearby.windows.entities.configuration
 
-import com.google.gson.annotations.SerializedName
+import com.fasterxml.jackson.annotation.JsonProperty
 
 data class DefaultRiskCalculationConfiguration(
-    @SerializedName("minutesAtAttenuationFilters")
+    @JsonProperty("minutesAtAttenuationFilters")
     val minutesAtAttenuationFilters: List<JsonMinutesAtAttenuationFilter>,
-    @SerializedName("minutesAtAttenuationWeights")
+    @JsonProperty("minutesAtAttenuationWeights")
     val minutesAtAttenuationWeights: List<JsonMinutesAtAttenuationWeight>,
-    @SerializedName("normalizedTimePerDayToRiskLevelMapping")
+    @JsonProperty("normalizedTimePerDayToRiskLevelMapping")
     val normalizedTimePerDayToRiskLevelMapping: List<JsonNormalizedTimeToRiskLevelMapping>,
-    @SerializedName("normalizedTimePerEWToRiskLevelMapping")
+    @JsonProperty("normalizedTimePerEWToRiskLevelMapping")
     val normalizedTimePerEWToRiskLevelMapping: List<JsonNormalizedTimeToRiskLevelMapping>,
-    @SerializedName("trlEncoding")
+    @JsonProperty("trlEncoding")
     val trlEncoding: JsonTrlEncoding,
-    @SerializedName("trlFilters")
+    @JsonProperty("trlFilters")
     val trlFilters: List<JsonTrlFilter>,
-    @SerializedName("transmissionRiskValueMapping")
+    @JsonProperty("transmissionRiskValueMapping")
     val transmissionRiskValueMapping: List<JsonTransmissionRiskValueMapping>
 )

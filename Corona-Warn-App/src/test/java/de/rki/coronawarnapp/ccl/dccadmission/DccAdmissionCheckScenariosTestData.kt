@@ -6,73 +6,69 @@ import de.rki.coronawarnapp.ccl.dccadmission.model.ScenarioSelection
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.SingleText
 
 val scenariosJson = """
-    {
-      "labelText": {
-        "type": "string",
-        "localizedText": {
-          "de": "Status anzeigen für folgendes Bundesland:"
-        },
-        "parameters": []
+{
+  "labelText" : {
+    "type" : "string",
+    "localizedText" : {
+      "de" : "Status anzeigen für folgendes Bundesland:"
+    },
+    "parameters" : [ ]
+  },
+  "scenarioSelection" : {
+    "titleText" : {
+      "type" : "string",
+      "localizedText" : {
+        "de" : "Ihr Bundesland"
       },
-      "scenarioSelection": {
-        "titleText": {
-          "type": "string",
-          "localizedText": {
-            "de": "Ihr Bundesland"
-          },
-          "parameters": []
+      "parameters" : [ ]
+    },
+    "items" : [ {
+      "identifier" : "DE",
+      "titleText" : {
+        "type" : "string",
+        "localizedText" : {
+          "de" : "Bundesweit"
         },
-        "items": [
-          {
-            "identifier": "DE",
-            "titleText": {
-              "type": "string",
-              "localizedText": {
-                "de": "Bundesweit"
-              },
-              "parameters": []
-            },
-            "enabled": true
-          },
-          {
-            "identifier": "BW",
-            "titleText": {
-              "type": "string",
-              "localizedText": {
-                "de": "Baden-Württemberg"
-              },
-              "parameters": []
-            },
-            "subtitleText": {
-              "type": "string",
-              "localizedText": {
-                "de": "Schön hier"
-              },
-              "parameters": []
-            },
-            "enabled": true
-          },
-          {
-            "identifier": "HE",
-            "titleText": {
-              "type": "string",
-              "localizedText": {
-                "de": "Hesse"
-              },
-              "parameters": []
-            },
-            "subtitleText": {
-              "type": "string",
-              "localizedText": {
-                "de": "Für dieses Bundesland liegen momentan keine Regeln vor"
-              },
-              "parameters": []
-            },
-            "enabled": false
-          }
-        ]
-      }
-    }
+        "parameters" : [ ]
+      },
+      "enabled" : true
+    }, {
+      "identifier" : "BW",
+      "titleText" : {
+        "type" : "string",
+        "localizedText" : {
+          "de" : "Baden-Württemberg"
+        },
+        "parameters" : [ ]
+      },
+      "subtitleText" : {
+        "type" : "string",
+        "localizedText" : {
+          "de" : "Schön hier"
+        },
+        "parameters" : [ ]
+      },
+      "enabled" : true
+    }, {
+      "identifier" : "HE",
+      "titleText" : {
+        "type" : "string",
+        "localizedText" : {
+          "de" : "Hesse"
+        },
+        "parameters" : [ ]
+      },
+      "subtitleText" : {
+        "type" : "string",
+        "localizedText" : {
+          "de" : "Für dieses Bundesland liegen momentan keine Regeln vor"
+        },
+        "parameters" : [ ]
+      },
+      "enabled" : false
+    } ]
+  }
+}
 """.trimIndent()
 
 val admissionCheckScenarios = DccAdmissionCheckScenarios(

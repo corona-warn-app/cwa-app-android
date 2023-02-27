@@ -1034,8 +1034,6 @@
     <string name="submission_test_result_subtitle">"How this works:"</string>
     <!-- XHED: Page headline for results next steps  -->
     <string name="submission_test_result_steps_added_heading">"Your PCR Test Was Added"</string>
-    <!-- YTXT: Body text for for results next steps pcr -->
-    <string name="submission_test_result_steps_added_body_pcr">"Your test has been stored in the Corona-Warn-App."</string>
     <!-- YTXT: Body text for for results next steps rat -->
     <string name="submission_test_result_steps_added_body_rat">"The test result is displayed here for 48 hours. The app also creates an entry in your contact journal."</string>
     <!-- XHED: Page headline for family results next steps PCR -->
@@ -1155,7 +1153,7 @@
     <!-- YTXT: Dispatcher text for QR code option -->
     <string name="submission_dispatcher_card_qr">"Scan QR Code"</string>
     <!-- YTXT: Body text for QR code dispatcher option -->
-    <string name="submission_dispatcher_qr_card_text">"Receive your test result and results for your family members in the app, and request your COVID test certificate."</string>
+    <string name="submission_dispatcher_qr_card_text">"Receive your test result and results for your family members and request your COVID test certificate."</string>
     <!-- XHED: Dispatcher text for test center option -->
     <string name="submission_dispatcher_card_test_center">"Find Testing Center"</string>
     <!-- YTXT: Body text for test center dispatcher option -->
@@ -1173,7 +1171,7 @@
     <!-- XHED: Page title for the positive result additional warning page-->
     <string name="submission_positive_other_warning_title">"Warn Others"</string>
     <!-- XHED: Page headline for the positive result additional warning page-->
-    <string name="submission_positive_other_warning_headline">"Please help all of us!"</string>
+    <string name="submission_positive_other_warning_headline">"You can help!"</string>
     <!-- XBUT: other warning continue button -->
     <string name="submission_accept_button">"Accept"</string>
     <!-- XACT: other warning - illustration description, explanation image -->
@@ -1332,7 +1330,7 @@
     <!-- YTXT: Body text for submission status: pending -->
     <string name="submission_status_card_body_pending">"The evaluation of your test is not yet done."</string>
     <!-- YTXT: Body text for submission status: invalid -->
-    <string name="submission_status_card_body_invalid">"Your test could not be evaluated."</string>
+    <string name="submission_status_card_body_invalid">"Your test cannot be evaluated."</string>
     <!-- YTXT: Body text for submission status: positive -->
     <string name="submission_status_card_body_positive">"You have been diagnosed positive for SARS-CoV-2."</string>
     <!-- YTXT: Body text for submission status: negative -->
@@ -1491,7 +1489,7 @@
     <!-- XHED: Explanation screen subtitle -->
     <string name="statistics_explanation_subtitle">"Explanation of Statistics"</string>
     <!-- XHED: New infections title -->
-    <string name="statistics_explanation_new_infections">"new infections"</string>
+    <string name="statistics_explanation_new_infections">"New Infections"</string>
     <!-- XHED: Explanation screen confirmed new infections title -->
     <string name="statistics_explanation_confirmed_new_infection_title">"Confirmed New Infections"</string>
     <!-- XTXT: Explanation screen confirmed new infections text -->
@@ -1549,7 +1547,7 @@
     <!-- XACT: Statistics explanation illustration description -->
     <string name="statistics_explanation_illustration_description">"Abstract picture of a smartphone with four placeholders for information"</string>
     <!-- XTXT: Statistics explanation blog text -->
-    <string name="statistics_explanation_blog">"For more details about the individual key figures, read our "<div>"blog"</div>"."</string>
+    <string name="statistics_explanation_blog">"For more details about the individual key figures, read our blog."</string>
     <!-- XTXT: Statistics explanation blog text label -->
     <string name="statistics_explanation_blog_label">"Blog."</string>
     <!-- XTXT: Explanation screen 7 days hospitalisation title -->

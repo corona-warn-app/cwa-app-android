@@ -1,18 +1,18 @@
 package de.rki.coronawarnapp.nearby.windows.entities.configuration
 
-import com.google.gson.annotations.SerializedName
+import com.fasterxml.jackson.annotation.JsonProperty
 
 data class JsonTrlEncoding(
-    @SerializedName("infectiousnessOffsetHigh")
+    @JsonProperty("infectiousnessOffsetHigh")
     val infectiousnessOffsetHigh: Int,
-    @SerializedName("infectiousnessOffsetStandard")
+    @JsonProperty("infectiousnessOffsetStandard")
     val infectiousnessOffsetStandard: Int,
-    @SerializedName("reportTypeOffsetConfirmedClinicalDiagnosis")
+    @JsonProperty("reportTypeOffsetConfirmedClinicalDiagnosis")
     val reportTypeOffsetConfirmedClinicalDiagnosis: Int,
-    @SerializedName("reportTypeOffsetConfirmedTest")
+    @JsonProperty("reportTypeOffsetConfirmedTest")
     val reportTypeOffsetConfirmedTest: Int,
-    @SerializedName("reportTypeOffsetRecursive")
+    @JsonProperty("reportTypeOffsetRecursive")
     val reportTypeOffsetRecursive: Int,
-    @SerializedName("reportTypeOffsetSelfReport")
+    @JsonProperty("reportTypeOffsetSelfReport")
     val reportTypeOffsetSelfReport: Int
 )

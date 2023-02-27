@@ -47,9 +47,9 @@ class DccValidationOpenFragment : Fragment(R.layout.covid_certificate_validation
                 adapter = validationResultAdapter
                 addItemDecoration(
                     RecylerViewPaddingDecorator(
-                        topPadding = R.dimen.spacing_small,
-                        leftPadding = R.dimen.spacing_small,
-                        rightPadding = R.dimen.spacing_small,
+                        topPadding = R.dimen.standard_16,
+                        leftPadding = R.dimen.standard_16,
+                        rightPadding = R.dimen.standard_16,
                     )
                 )
             }

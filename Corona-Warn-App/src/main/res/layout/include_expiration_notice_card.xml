@@ -7,7 +7,7 @@
     android:layout_marginHorizontal="24dp"
     android:layout_marginTop="8dp"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="@dimen/padding_16">
 
     <TextView
         android:id="@+id/expiration_date_title"
@@ -21,7 +21,7 @@
         style="@style/body2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="@dimen/margin_4"
         tools:text="Gültig bis 31.08.21, 14:12 Uhr" />
 
 </LinearLayout>

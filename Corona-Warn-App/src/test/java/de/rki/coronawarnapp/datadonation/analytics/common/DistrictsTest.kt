@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.datadonation.analytics.common
 import android.content.Context
 import android.os.Build
 import androidx.test.core.app.ApplicationProvider
-import com.google.gson.Gson
+import com.fasterxml.jackson.databind.ObjectMapper
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -32,7 +32,7 @@ class DistrictsTest : BaseTest() {
 
     fun createInstance() = Districts(
         context = context,
-        gson = Gson()
+        mapper = ObjectMapper()
     )
 
     @Test

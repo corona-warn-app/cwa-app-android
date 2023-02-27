@@ -1,5 +1,7 @@
 package de.rki.coronawarnapp.http
 
+import com.fasterxml.jackson.annotation.JsonInclude
+import com.fasterxml.jackson.databind.DeserializationFeature
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable
@@ -8,13 +10,14 @@ import de.rki.coronawarnapp.http.config.HTTPVariables
 import de.rki.coronawarnapp.http.interceptor.RetryInterceptor
 import de.rki.coronawarnapp.http.interceptor.WebSecurityVerificationInterceptor
 import de.rki.coronawarnapp.risk.TimeVariables
+import de.rki.coronawarnapp.util.serialization.SerializationModule
 import okhttp3.CipherSuite
 import okhttp3.ConnectionSpec
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.TlsVersion
 import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.jackson.JacksonConverterFactory
 import retrofit2.converter.protobuf.ProtoConverterFactory
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
@@ -47,7 +50,11 @@ class HttpModule {
 
     @Reusable
     @Provides
-    fun provideGSONConverter(): GsonConverterFactory = GsonConverterFactory.create()
+    fun provideJacksonConverter(): JacksonConverterFactory = JacksonConverterFactory.create(
+        SerializationModule.jacksonBaseMapper
+            .setSerializationInclusion(JsonInclude.Include.NON_NULL)
+            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+    )
 
     @Reusable
     @Provides

@@ -1,11 +1,10 @@
 package de.rki.coronawarnapp.util.database
 
 import androidx.room.TypeConverter
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
 import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocationId
-import de.rki.coronawarnapp.util.serialization.fromJson
 import okio.ByteString.Companion.decodeBase64
 import java.io.File
 import java.time.Instant
@@ -15,26 +14,25 @@ import java.util.UUID
 
 @Suppress("TooManyFunctions")
 class CommonConverters {
-    private val gson = Gson()
+    private val mapper = ObjectMapper()
 
     @TypeConverter
-    fun toIntList(value: String?): List<Int> {
-        val listType = object : TypeToken<List<Int?>?>() {}.type
-        return gson.fromJson(value, listType)
+    fun toIntList(value: String): List<Int> {
+        return mapper.readValue(value)
     }
 
     @TypeConverter
     fun fromIntList(list: List<Int?>?): String {
-        return gson.toJson(list)
+        return mapper.writeValueAsString(list)
     }
 
     @TypeConverter
     fun toStringList(string: String?): List<String>? =
-        string?.let { gson.fromJson(it) }
+        string?.let { mapper.readValue(it) }
 
     @TypeConverter
     fun fromStringList(strings: List<String>?): String? =
-        strings?.let { gson.toJson(it) }
+        strings?.let { mapper.writeValueAsString(it) }
 
     @TypeConverter
     fun toUUID(value: String?): UUID? = value?.let { UUID.fromString(it) }

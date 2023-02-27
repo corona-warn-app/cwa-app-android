@@ -20,7 +20,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/onboarding_header"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/header"
+            android:layout_height="@dimen/height_56"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -41,7 +41,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_begin="@dimen/guideline_back" />
+                app:layout_constraintGuide_begin="@dimen/guideline_14" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -49,7 +49,7 @@
             layout="@layout/include_onboarding"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginBottom="@dimen/spacing_small"
+            android:layout_marginBottom="@dimen/margin_16"
             app:body="@{@string/onboarding_tracing_body}"
             app:bodyCard="@{@string/onboarding_tracing_body_consent}"
             app:bodyEmphasized="@{@string/onboarding_tracing_body_emphasized}"
@@ -58,7 +58,7 @@
             app:headlineCard="@{@string/onboarding_tracing_headline_consent}"
             app:illustration="@{@drawable/ic_illustration_tracing_on}"
             app:illustrationDescription="@{@string/onboarding_tracing_illustration_description}"
-            app:layout_constraintBottom_toTopOf="@+id/onboarding_button_next"
+            app:layout_constraintBottom_toTopOf="@id/onboarding_button_next"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/onboarding_header"
@@ -71,6 +71,7 @@
             android:id="@+id/onboarding_button_next"
             style="@style/buttonPrimary"
             android:layout_width="0dp"
+            android:layout_marginVertical="@dimen/standard_16"
             android:layout_height="wrap_content"
             android:text="@string/onboarding_tracing_button_next"
             app:layout_constraintBottom_toTopOf="@id/onboarding_button_disable"
@@ -92,28 +93,28 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_begin="@dimen/guideline_top" />
+            app:layout_constraintGuide_begin="@dimen/guideline_24" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_bottom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_end="@dimen/spacing_small" />
+            app:layout_constraintGuide_end="@dimen/guideline_16" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_start"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_begin="@dimen/guideline_start" />
+            app:layout_constraintGuide_begin="@dimen/guideline_24" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_end"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_end="@dimen/guideline_end" />
+            app:layout_constraintGuide_end="@dimen/guideline_24" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

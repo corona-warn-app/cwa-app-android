@@ -4,7 +4,6 @@ import androidx.annotation.VisibleForTesting
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.node.NullNode
-import com.google.gson.Gson
 import de.rki.coronawarnapp.ccl.configuration.model.CclInputParameters
 import de.rki.coronawarnapp.ccl.configuration.model.getDefaultInputParameters
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.CclCertificate
@@ -16,7 +15,6 @@ import de.rki.coronawarnapp.ccl.dccwalletinfo.model.SystemTime
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
-import de.rki.coronawarnapp.util.serialization.BaseGson
 import de.rki.coronawarnapp.util.serialization.BaseJackson
 import kotlinx.coroutines.withContext
 import java.time.ZonedDateTime
@@ -24,7 +22,6 @@ import javax.inject.Inject
 
 class DccWalletInfoCalculation @Inject constructor(
     @BaseJackson private val mapper: ObjectMapper,
-    @BaseGson private val gson: Gson,
     private val cclJsonFunctions: CclJsonFunctions,
     private val dispatcherProvider: DispatcherProvider
 ) {
@@ -37,7 +34,6 @@ class DccWalletInfoCalculation @Inject constructor(
         invalidationRulesNode = invalidationRules.toJsonNode()
     }
 
-    @Suppress("BlockingMethodInNonBlockingContext")
     suspend fun getDccWalletInfo(
         dccList: List<CwaCovidCertificate>,
         admissionScenarioId: String = "",
@@ -102,5 +98,5 @@ class DccWalletInfoCalculation @Inject constructor(
 
     private fun DccWalletInfoInput.toJsonNode(): JsonNode = mapper.valueToTree(this)
     private fun String.toJsonNode(): JsonNode = mapper.readTree(this)
-    private fun List<DccValidationRule>.toJsonNode(): JsonNode = gson.toJson(this).toJsonNode()
+    private fun List<DccValidationRule>.toJsonNode(): JsonNode = mapper.writeValueAsString(this).toJsonNode()
 }

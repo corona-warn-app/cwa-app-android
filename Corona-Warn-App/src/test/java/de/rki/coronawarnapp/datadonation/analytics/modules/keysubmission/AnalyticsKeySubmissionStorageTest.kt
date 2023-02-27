@@ -14,14 +14,15 @@ import testhelpers.preferences.FakeDataStore
 
 class AnalyticsKeySubmissionStorageTest : BaseTest() {
     @MockK lateinit var context: Context
-    lateinit var pcrStorage: AnalyticsPCRKeySubmissionStorage
-    lateinit var raStorage: AnalyticsRAKeySubmissionStorage
+    private lateinit var pcrStorage: AnalyticsPCRKeySubmissionStorage
+    private lateinit var raStorage: AnalyticsRAKeySubmissionStorage
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-        pcrStorage = AnalyticsPCRKeySubmissionStorage(FakeDataStore())
-        raStorage = AnalyticsRAKeySubmissionStorage(FakeDataStore())
+        val dataStore = FakeDataStore()
+        pcrStorage = AnalyticsPCRKeySubmissionStorage(dataStore)
+        raStorage = AnalyticsRAKeySubmissionStorage(dataStore)
     }
 
     @AfterEach
@@ -154,5 +155,275 @@ class AnalyticsKeySubmissionStorageTest : BaseTest() {
         raStorage.updatePtHoursSinceHighRiskWarningAtTestRegistration(10)
         raStorage.ptHoursSinceHighRiskWarningAtTestRegistration.first() shouldBe 10
         pcrStorage.ptHoursSinceHighRiskWarningAtTestRegistration.first() shouldBe -1
+    }
+
+    @Test
+    fun dataMixedRatPcr() = runTest2 {
+        raStorage.updateSubmitted(true)
+        pcrStorage.updateSubmitted(true)
+        raStorage.submitted.first() shouldBe true
+        pcrStorage.submitted.first() shouldBe true
+
+        raStorage.updateSubmittedWithCheckIns(true)
+        pcrStorage.updateSubmittedWithCheckIns(true)
+        raStorage.submittedWithCheckIns.first() shouldBe true
+        pcrStorage.submittedWithCheckIns.first() shouldBe true
+
+        raStorage.updateSubmittedAfterCancel(true)
+        pcrStorage.updateSubmittedAfterCancel(true)
+        raStorage.submittedAfterCancel.first() shouldBe true
+        pcrStorage.submittedAfterCancel.first() shouldBe true
+
+        raStorage.updateSubmittedAfterSymptomFlow(true)
+        pcrStorage.updateSubmittedAfterSymptomFlow(true)
+        raStorage.submittedAfterSymptomFlow.first() shouldBe true
+        pcrStorage.submittedAfterSymptomFlow.first() shouldBe true
+
+        raStorage.updateSubmittedInBackground(true)
+        pcrStorage.updateSubmittedInBackground(true)
+        raStorage.submittedInBackground.first() shouldBe true
+        pcrStorage.submittedInBackground.first() shouldBe true
+
+        raStorage.updateSubmittedAt(2000)
+        pcrStorage.updateSubmittedAt(2000)
+        raStorage.submittedAt.first() shouldBe 2000L
+        pcrStorage.submittedAt.first() shouldBe 2000L
+
+        raStorage.updateRegisteredWithTeleTAN(true)
+        pcrStorage.updateRegisteredWithTeleTAN(true)
+        raStorage.registeredWithTeleTAN.first() shouldBe true
+        pcrStorage.registeredWithTeleTAN.first() shouldBe true
+
+        raStorage.updateAdvancedConsentGiven(true)
+        pcrStorage.updateAdvancedConsentGiven(true)
+        raStorage.advancedConsentGiven.first() shouldBe true
+        pcrStorage.advancedConsentGiven.first() shouldBe true
+
+        raStorage.updateTestRegisteredAt(1000)
+        pcrStorage.updateTestRegisteredAt(1000)
+        raStorage.testRegisteredAt.first() shouldBe 1000L
+        pcrStorage.testRegisteredAt.first() shouldBe 1000L
+
+        raStorage.updateTestResultReceivedAt(3000)
+        pcrStorage.updateTestResultReceivedAt(3000)
+        raStorage.testResultReceivedAt.first() shouldBe 3000L
+        pcrStorage.testResultReceivedAt.first() shouldBe 3000L
+
+        raStorage.updateLastSubmissionFlowScreen(3)
+        pcrStorage.updateLastSubmissionFlowScreen(3)
+        raStorage.lastSubmissionFlowScreen.first() shouldBe 3
+        pcrStorage.lastSubmissionFlowScreen.first() shouldBe 3
+
+        raStorage.updateEwDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(3)
+        pcrStorage.updateEwDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(3)
+        raStorage.ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.first() shouldBe 3
+        pcrStorage.ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.first() shouldBe 3
+
+        raStorage.updatePtDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(2)
+        pcrStorage.updatePtDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(2)
+        raStorage.ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.first() shouldBe 2
+        pcrStorage.ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.first() shouldBe 2
+
+        raStorage.updateEwHoursSinceHighRiskWarningAtTestRegistration(10)
+        pcrStorage.updateEwHoursSinceHighRiskWarningAtTestRegistration(10)
+        raStorage.ewHoursSinceHighRiskWarningAtTestRegistration.first() shouldBe 10
+        pcrStorage.ewHoursSinceHighRiskWarningAtTestRegistration.first() shouldBe 10
+
+        raStorage.updatePtHoursSinceHighRiskWarningAtTestRegistration(10)
+        pcrStorage.updatePtHoursSinceHighRiskWarningAtTestRegistration(10)
+        raStorage.ptHoursSinceHighRiskWarningAtTestRegistration.first() shouldBe 10
+        pcrStorage.ptHoursSinceHighRiskWarningAtTestRegistration.first() shouldBe 10
+    }
+
+    @Test
+    fun `dataMixedRatPcr - clear PCR does not clear RAT`() = runTest2 {
+        raStorage.updateSubmitted(true)
+        pcrStorage.updateSubmitted(true)
+        raStorage.submitted.first() shouldBe true
+        pcrStorage.submitted.first() shouldBe true
+
+        raStorage.updateSubmittedWithCheckIns(true)
+        pcrStorage.updateSubmittedWithCheckIns(true)
+        raStorage.submittedWithCheckIns.first() shouldBe true
+        pcrStorage.submittedWithCheckIns.first() shouldBe true
+
+        raStorage.updateSubmittedAfterCancel(true)
+        pcrStorage.updateSubmittedAfterCancel(true)
+        raStorage.submittedAfterCancel.first() shouldBe true
+        pcrStorage.submittedAfterCancel.first() shouldBe true
+
+        raStorage.updateSubmittedAfterSymptomFlow(true)
+        pcrStorage.updateSubmittedAfterSymptomFlow(true)
+        raStorage.submittedAfterSymptomFlow.first() shouldBe true
+        pcrStorage.submittedAfterSymptomFlow.first() shouldBe true
+
+        raStorage.updateSubmittedInBackground(true)
+        pcrStorage.updateSubmittedInBackground(true)
+        raStorage.submittedInBackground.first() shouldBe true
+        pcrStorage.submittedInBackground.first() shouldBe true
+
+        raStorage.updateSubmittedAt(2000)
+        pcrStorage.updateSubmittedAt(2000)
+        raStorage.submittedAt.first() shouldBe 2000L
+        pcrStorage.submittedAt.first() shouldBe 2000L
+
+        raStorage.updateRegisteredWithTeleTAN(true)
+        pcrStorage.updateRegisteredWithTeleTAN(true)
+        raStorage.registeredWithTeleTAN.first() shouldBe true
+        pcrStorage.registeredWithTeleTAN.first() shouldBe true
+
+        raStorage.updateAdvancedConsentGiven(true)
+        pcrStorage.updateAdvancedConsentGiven(true)
+        raStorage.advancedConsentGiven.first() shouldBe true
+        pcrStorage.advancedConsentGiven.first() shouldBe true
+
+        raStorage.updateTestRegisteredAt(1000)
+        pcrStorage.updateTestRegisteredAt(1000)
+        raStorage.testRegisteredAt.first() shouldBe 1000L
+        pcrStorage.testRegisteredAt.first() shouldBe 1000L
+
+        raStorage.updateTestResultReceivedAt(3000)
+        pcrStorage.updateTestResultReceivedAt(3000)
+        raStorage.testResultReceivedAt.first() shouldBe 3000L
+        pcrStorage.testResultReceivedAt.first() shouldBe 3000L
+
+        raStorage.updateLastSubmissionFlowScreen(3)
+        pcrStorage.updateLastSubmissionFlowScreen(3)
+        raStorage.lastSubmissionFlowScreen.first() shouldBe 3
+        pcrStorage.lastSubmissionFlowScreen.first() shouldBe 3
+
+        raStorage.updateEwDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(3)
+        pcrStorage.updateEwDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(3)
+        raStorage.ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.first() shouldBe 3
+        pcrStorage.ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.first() shouldBe 3
+
+        raStorage.updatePtDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(2)
+        pcrStorage.updatePtDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(2)
+        raStorage.ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.first() shouldBe 2
+        pcrStorage.ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.first() shouldBe 2
+
+        raStorage.updateEwHoursSinceHighRiskWarningAtTestRegistration(10)
+        pcrStorage.updateEwHoursSinceHighRiskWarningAtTestRegistration(10)
+        raStorage.ewHoursSinceHighRiskWarningAtTestRegistration.first() shouldBe 10
+        pcrStorage.ewHoursSinceHighRiskWarningAtTestRegistration.first() shouldBe 10
+
+        raStorage.updatePtHoursSinceHighRiskWarningAtTestRegistration(10)
+        pcrStorage.updatePtHoursSinceHighRiskWarningAtTestRegistration(10)
+        raStorage.ptHoursSinceHighRiskWarningAtTestRegistration.first() shouldBe 10
+        pcrStorage.ptHoursSinceHighRiskWarningAtTestRegistration.first() shouldBe 10
+
+        pcrStorage.clear()
+
+        raStorage.submitted.first() shouldBe true
+        raStorage.submittedWithCheckIns.first() shouldBe true
+        raStorage.submittedAfterCancel.first() shouldBe true
+        raStorage.submittedAfterSymptomFlow.first() shouldBe true
+        raStorage.submittedInBackground.first() shouldBe true
+        raStorage.submittedAt.first() shouldBe 2000L
+        raStorage.registeredWithTeleTAN.first() shouldBe true
+        raStorage.advancedConsentGiven.first() shouldBe true
+        raStorage.testRegisteredAt.first() shouldBe 1000L
+        raStorage.testResultReceivedAt.first() shouldBe 3000L
+        raStorage.lastSubmissionFlowScreen.first() shouldBe 3
+        raStorage.ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.first() shouldBe 3
+        raStorage.ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.first() shouldBe 2
+        raStorage.ewHoursSinceHighRiskWarningAtTestRegistration.first() shouldBe 10
+        raStorage.ptHoursSinceHighRiskWarningAtTestRegistration.first() shouldBe 10
+    }
+
+    @Test
+    fun `dataMixedRatPcr - clear RAT does clear PCR`() = runTest2 {
+        raStorage.updateSubmitted(true)
+        pcrStorage.updateSubmitted(true)
+        raStorage.submitted.first() shouldBe true
+        pcrStorage.submitted.first() shouldBe true
+
+        raStorage.updateSubmittedWithCheckIns(true)
+        pcrStorage.updateSubmittedWithCheckIns(true)
+        raStorage.submittedWithCheckIns.first() shouldBe true
+        pcrStorage.submittedWithCheckIns.first() shouldBe true
+
+        raStorage.updateSubmittedAfterCancel(true)
+        pcrStorage.updateSubmittedAfterCancel(true)
+        raStorage.submittedAfterCancel.first() shouldBe true
+        pcrStorage.submittedAfterCancel.first() shouldBe true
+
+        raStorage.updateSubmittedAfterSymptomFlow(true)
+        pcrStorage.updateSubmittedAfterSymptomFlow(true)
+        raStorage.submittedAfterSymptomFlow.first() shouldBe true
+        pcrStorage.submittedAfterSymptomFlow.first() shouldBe true
+
+        raStorage.updateSubmittedInBackground(true)
+        pcrStorage.updateSubmittedInBackground(true)
+        raStorage.submittedInBackground.first() shouldBe true
+        pcrStorage.submittedInBackground.first() shouldBe true
+
+        raStorage.updateSubmittedAt(2000)
+        pcrStorage.updateSubmittedAt(2000)
+        raStorage.submittedAt.first() shouldBe 2000L
+        pcrStorage.submittedAt.first() shouldBe 2000L
+
+        raStorage.updateRegisteredWithTeleTAN(true)
+        pcrStorage.updateRegisteredWithTeleTAN(true)
+        raStorage.registeredWithTeleTAN.first() shouldBe true
+        pcrStorage.registeredWithTeleTAN.first() shouldBe true
+
+        raStorage.updateAdvancedConsentGiven(true)
+        pcrStorage.updateAdvancedConsentGiven(true)
+        raStorage.advancedConsentGiven.first() shouldBe true
+        pcrStorage.advancedConsentGiven.first() shouldBe true
+
+        raStorage.updateTestRegisteredAt(1000)
+        pcrStorage.updateTestRegisteredAt(1000)
+        raStorage.testRegisteredAt.first() shouldBe 1000L
+        pcrStorage.testRegisteredAt.first() shouldBe 1000L
+
+        raStorage.updateTestResultReceivedAt(3000)
+        pcrStorage.updateTestResultReceivedAt(3000)
+        raStorage.testResultReceivedAt.first() shouldBe 3000L
+        pcrStorage.testResultReceivedAt.first() shouldBe 3000L
+
+        raStorage.updateLastSubmissionFlowScreen(3)
+        pcrStorage.updateLastSubmissionFlowScreen(3)
+        raStorage.lastSubmissionFlowScreen.first() shouldBe 3
+        pcrStorage.lastSubmissionFlowScreen.first() shouldBe 3
+
+        raStorage.updateEwDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(3)
+        pcrStorage.updateEwDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(3)
+        raStorage.ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.first() shouldBe 3
+        pcrStorage.ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.first() shouldBe 3
+
+        raStorage.updatePtDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(2)
+        pcrStorage.updatePtDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(2)
+        raStorage.ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.first() shouldBe 2
+        pcrStorage.ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.first() shouldBe 2
+
+        raStorage.updateEwHoursSinceHighRiskWarningAtTestRegistration(10)
+        pcrStorage.updateEwHoursSinceHighRiskWarningAtTestRegistration(10)
+        raStorage.ewHoursSinceHighRiskWarningAtTestRegistration.first() shouldBe 10
+        pcrStorage.ewHoursSinceHighRiskWarningAtTestRegistration.first() shouldBe 10
+
+        raStorage.updatePtHoursSinceHighRiskWarningAtTestRegistration(10)
+        pcrStorage.updatePtHoursSinceHighRiskWarningAtTestRegistration(10)
+        raStorage.ptHoursSinceHighRiskWarningAtTestRegistration.first() shouldBe 10
+        pcrStorage.ptHoursSinceHighRiskWarningAtTestRegistration.first() shouldBe 10
+
+        raStorage.clear()
+
+        pcrStorage.submitted.first() shouldBe true
+        pcrStorage.submittedWithCheckIns.first() shouldBe true
+        pcrStorage.submittedAfterCancel.first() shouldBe true
+        pcrStorage.submittedAfterSymptomFlow.first() shouldBe true
+        pcrStorage.submittedInBackground.first() shouldBe true
+        pcrStorage.submittedAt.first() shouldBe 2000L
+        pcrStorage.registeredWithTeleTAN.first() shouldBe true
+        pcrStorage.advancedConsentGiven.first() shouldBe true
+        pcrStorage.testRegisteredAt.first() shouldBe 1000L
+        pcrStorage.testResultReceivedAt.first() shouldBe 3000L
+        pcrStorage.lastSubmissionFlowScreen.first() shouldBe 3
+        pcrStorage.ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.first() shouldBe 3
+        pcrStorage.ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.first() shouldBe 2
+        pcrStorage.ewHoursSinceHighRiskWarningAtTestRegistration.first() shouldBe 10
+        pcrStorage.ptHoursSinceHighRiskWarningAtTestRegistration.first() shouldBe 10
     }
 }

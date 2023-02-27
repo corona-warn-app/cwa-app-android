@@ -16,26 +16,30 @@ class RapidQrCodeCensor @Inject constructor() : BugCensor {
 
     override suspend fun checkLog(message: String): CensorContainer? {
 
-        val dataToCensor = dataToCensor ?: return null
+        if (dataToCensor.isEmpty()) return null
 
         var newMessage = CensorContainer(message)
 
-        with(dataToCensor) {
-            newMessage = newMessage.censor(rawString, createReplacement(input = "ScannedRawString"))
+        dataToCensor.forEach { data ->
+            with(data) {
+                newMessage = newMessage.censor(rawString, createReplacement(input = "ScannedRawString"))
 
-            newMessage = newMessage.censor(hash, PLACEHOLDER + hash.takeLast(4))
+                newMessage = newMessage.censor(hash, PLACEHOLDER + hash.takeLast(4))
 
-            withValidName(firstName) { firstName ->
-                newMessage = newMessage.censor(firstName, createReplacement(input = "FirstName"))
+                withValidName(firstName) { firstName ->
+                    newMessage = newMessage.censor(firstName, createReplacement(input = "FirstName"))
+                    newMessage = newMessage.censor(firstName.uppercase(), createReplacement(input = "FirstName"))
+                }
+
+                withValidName(lastName) { lastName ->
+                    newMessage = newMessage.censor(lastName, createReplacement(input = "LastName"))
+                    newMessage = newMessage.censor(lastName.uppercase(), createReplacement(input = "FirstName"))
+                }
+
+                val dateOfBirthString = dateOfBirth?.format(dayOfBirthFormatter) ?: return@with
+
+                newMessage = newMessage.censor(dateOfBirthString, createReplacement(input = "DateOfBirth"))
             }
-
-            withValidName(lastName) { lastName ->
-                newMessage = newMessage.censor(lastName, createReplacement(input = "LastName"))
-            }
-
-            val dateOfBirthString = dateOfBirth?.format(dayOfBirthFormatter) ?: return@with
-
-            newMessage = newMessage.censor(dateOfBirthString, createReplacement(input = "DateOfBirth"))
         }
 
         return newMessage.nullIfEmpty()
@@ -44,7 +48,7 @@ class RapidQrCodeCensor @Inject constructor() : BugCensor {
     private fun createReplacement(input: String): String = "$PLACEHOLDER_TYPE/$input"
 
     companion object {
-        var dataToCensor: CensorData? = null
+        val dataToCensor = mutableSetOf<CensorData>()
 
         private const val PLACEHOLDER = "SHA256HASH-ENDING-WITH-"
         private const val PLACEHOLDER_TYPE = "RapidTest"

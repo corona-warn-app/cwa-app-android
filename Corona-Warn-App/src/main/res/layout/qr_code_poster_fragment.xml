@@ -107,13 +107,13 @@
             tools:ignore="SmallSp"
             tools:text="Vereinsaktivität: Jahrestreffen der deutschen SAP Anwendergruppe\nHauptstr 3, 69115 Heidelberg"
             tools:textColor="#000000"
-            tools:textSize="10sp" />
+            tools:textSize="@dimen/font_11" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.progressindicator.LinearProgressIndicator
         android:id="@+id/progress_bar"
-        android:layout_width="150dp"
+        android:layout_width="@dimen/width_150"
         android:layout_height="wrap_content"
         android:indeterminate="true"
         app:hideAnimationBehavior="inward"

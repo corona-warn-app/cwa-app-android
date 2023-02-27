@@ -20,7 +20,7 @@ class LowRiskBox(
             itemView.findViewById(R.id.box_container),
             true
         ).also {
-            it.root.elevation = resources.getDimension(R.dimen.elevation_strong)
+            it.root.elevation = resources.getDimension(R.dimen.elevation_10)
         }
     }
 

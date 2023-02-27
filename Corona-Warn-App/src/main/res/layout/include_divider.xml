@@ -21,7 +21,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="@dimen/card_divider"
+            android:layout_height="@dimen/height_1"
             android:background="@{(dividerColor != 0) ? dividerColor : @color/dividerColor}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
