@@ -31,8 +31,8 @@ class TracingFailedBox(
         item.state.apply {
             riskCardHeaderIcon.isGone = isInDetailsMode
             riskCardButtonUpdate.isGone = !showRestartButton
-            riskCardButtonUpdate.isGone = isInDetailsMode
-            riskCardHeaderIcon.isGone = isInDetailsMode
+            riskCardRowTimeFetched.setText(getTimeFetched(context))
+            riskCardRowSavedRisk.setText(getLastRiskState(context))
         }
     }
 
