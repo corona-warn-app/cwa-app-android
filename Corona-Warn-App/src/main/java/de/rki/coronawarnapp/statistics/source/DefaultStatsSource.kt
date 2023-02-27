@@ -2,12 +2,12 @@ package de.rki.coronawarnapp.statistics.source
 
 import android.content.Context
 import dagger.Reusable
-import de.rki.coronawarnapp.util.di.AppContext
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 @Reusable
 class DefaultStatsSource @Inject constructor(
-    @AppContext private val context: Context,
+    @ApplicationContext private val context: Context,
 ) {
 
     fun getDefaultStats(): ByteArray {
