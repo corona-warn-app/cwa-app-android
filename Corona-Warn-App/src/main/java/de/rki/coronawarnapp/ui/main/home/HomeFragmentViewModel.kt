@@ -173,7 +173,11 @@ class HomeFragmentViewModel @Inject constructor(
                 if (isDeviceTimeCorrect) {
                     singleLiveEvent.postValue(false)
                     wasDeviceTimeDialogShown = false
-                } else if (!wasDeviceTimeDialogShown && !cwaSettings.wasDeviceTimeIncorrectAcknowledged.first()) {
+                } else if (
+                    !wasDeviceTimeDialogShown &&
+                    !cwaSettings.wasDeviceTimeIncorrectAcknowledged.first() &&
+                    !appEol.isEol.first()
+                ) {
                     singleLiveEvent.postValue(true)
                     wasDeviceTimeDialogShown = true
                 }
