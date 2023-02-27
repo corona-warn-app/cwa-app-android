@@ -54,9 +54,9 @@ class TracingDetailsFragment : Fragment(R.layout.tracing_details_fragment_layout
             with(binding) {
                 toolbar.setBackgroundColor(it.getRiskColor(requireContext()))
                 toolbar.setTitleTextColor(it.getStableTextColor(requireContext()))
-                riskDetailsButton.isGone = it.isRiskLevelButtonGroupVisible()
-                riskDetailsButtonEnableTracing.isGone = it.isRiskDetailsEnableTracingButtonVisible()
-                riskDetailsButtonUpdate.isGone = it.isRiskDetailsUpdateButtonVisible()
+                riskDetailsButton.isGone = !it.isRiskLevelButtonGroupVisible()
+                riskDetailsButtonEnableTracing.isGone = !it.isRiskDetailsEnableTracingButtonVisible()
+                riskDetailsButtonUpdate.isGone = !it.isRiskDetailsUpdateButtonVisible()
                 riskDetailsButtonUpdate.isEnabled = it.isUpdateButtonEnabled()
                 riskDetailsButtonUpdate.text = it.getUpdateButtonText(requireContext())
                 toolbar.navigationIcon = closeIcon(it)
