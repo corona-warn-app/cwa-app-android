@@ -32,6 +32,14 @@ class IncreasedRiskBox(
             detailsIcon.isGone = isInDetailsMode
             rowTracingDays.isGone = !isInDetailsMode
             updateAction.isGone = !showUpdateButton
+            rowTimeFetched.setText(getTimeFetched(context))
+
+            rowContactLast.setText(getRiskContactLast(context))
+            rowContactLast.isGone = getRiskContactLast(context) == null
+
+            rowContact.setText(getRiskContactBody(context))
+            rowContact.contentDescription = getRiskContactBodyDescription(context)
+            rowContact.isGone = getRiskContactBody(context) == null
         }
     }
 

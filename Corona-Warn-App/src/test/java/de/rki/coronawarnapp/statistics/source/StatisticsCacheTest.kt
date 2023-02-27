@@ -2,6 +2,8 @@ package de.rki.coronawarnapp.statistics.source
 
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
+import io.mockk.every
+import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
@@ -18,10 +20,12 @@ class StatisticsCacheTest : BaseIOTest() {
     private val cacheFile = File(statisticsCacheDir, "cache_raw")
 
     private val testData = "Row, Row, Row Your Boat".encodeToByteArray()
+    @MockK lateinit var defaultStatsSource: DefaultStatsSource
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
+        every { defaultStatsSource.getDefaultStats() } returns byteArrayOf()
     }
 
     @AfterEach
@@ -30,12 +34,13 @@ class StatisticsCacheTest : BaseIOTest() {
     }
 
     fun createInstance() = StatisticsCache(
-        cacheDir = statisticsCacheDir
+        cacheDir = statisticsCacheDir,
+        defaultStatsSource = defaultStatsSource
     )
 
     @Test
     fun `empty start`() {
-        createInstance().load() shouldBe null
+        createInstance().load() shouldBe byteArrayOf()
         cacheFile.exists() shouldBe false
     }
 

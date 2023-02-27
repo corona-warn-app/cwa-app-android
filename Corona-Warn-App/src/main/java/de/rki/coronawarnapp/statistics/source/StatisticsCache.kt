@@ -9,13 +9,14 @@ import javax.inject.Singleton
 
 @Singleton
 class StatisticsCache @Inject constructor(
-    @Statistics cacheDir: File
+    @Statistics cacheDir: File,
+    private val defaultStatsSource: DefaultStatsSource
 ) : Resettable {
 
     private val cacheFile = File(cacheDir, "cache_raw")
 
     fun load(): ByteArray? = try {
-        if (cacheFile.exists()) cacheFile.readBytes() else null
+        if (cacheFile.exists()) cacheFile.readBytes() else defaultStatsSource.getDefaultStats()
     } catch (e: Exception) {
         Timber.tag(TAG).e(e, "Failed to load raw statistics from cache.")
         null

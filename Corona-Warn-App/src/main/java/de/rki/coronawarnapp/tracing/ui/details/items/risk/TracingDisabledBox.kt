@@ -30,7 +30,9 @@ class TracingDisabledBox(
     ) -> Unit = { item, _ ->
         item.state.apply {
             detailsIcon.isGone = isInDetailsMode
-            enableTracingAction.isGone = isInDetailsMode
+            enableTracingAction.isGone = !showEnableTracingButton
+            rowTimeFetched.setText(getTimeFetched(context))
+            riskCardRowSavedRisk.setText(getLastRiskState(context))
         }
     }
 

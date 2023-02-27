@@ -28,7 +28,7 @@ class LowRiskCard(
             rowContact.setText(getRiskContactBody(context))
             rowContactLast.isGone = getRiskContactLast(context) == null
             rowContactLast.setText(getRiskContactLast(context) ?: "")
-            rowDaysSinceInstallation.isGone = appInstalledForOverTwoWeeks()
+            rowDaysSinceInstallation.isGone = !isAppInstalledLessThanTwoWeeks
             rowDaysSinceInstallation.setText(getDaysSinceInstall(context))
             rowTimeFetched.setText(getTimeFetched(context))
             updateAction.isGone = !showUpdateButton
