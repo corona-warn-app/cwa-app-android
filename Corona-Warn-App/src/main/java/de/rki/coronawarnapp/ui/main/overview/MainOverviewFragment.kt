@@ -35,11 +35,6 @@ class MainOverviewFragment : Fragment(R.layout.fragment_main_overview), AutoInje
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        binding.mainOverviewContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
-    }
-
     private fun FragmentMainOverviewBinding.setExposureLoggingPeriod(maxEncounterAgeInDays: Long) {
         mainOverviewRisk.setSubtitleText(getString(R.string.main_overview_body_risk, maxEncounterAgeInDays))
     }

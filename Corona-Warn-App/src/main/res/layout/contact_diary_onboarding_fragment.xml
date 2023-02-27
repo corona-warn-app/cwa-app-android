@@ -8,12 +8,12 @@
     android:layout_height="match_parent"
     android:background="@color/colorSurface"
     android:contentDescription="@string/contact_diary_title"
-    android:focusable="true"
     tools:context="contactdiary.ui.onboarding.ContactDiaryOnboardingFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         style="@style/CWAMaterialToolbar"
+        android:focusable="true"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
