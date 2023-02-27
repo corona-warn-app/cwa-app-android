@@ -54,10 +54,10 @@ class BoosterInfoDetailsViewModel @AssistedInject constructor(
         val faqUrl: String?,
     )
 
-    @AssistedFactory
-    interface Factory : CWAViewModelFactory<BoosterInfoDetailsViewModel> {
-        fun create(
-            groupKey: String
-        ): BoosterInfoDetailsViewModel
+    interface FactoryI : CWAViewModelFactory<BoosterInfoDetailsViewModel> {
+        fun create(groupKey: String): BoosterInfoDetailsViewModel
     }
+
+    @AssistedFactory
+    interface Factory : FactoryI
 }
