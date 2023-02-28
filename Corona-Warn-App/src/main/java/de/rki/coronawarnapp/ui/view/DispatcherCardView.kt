@@ -60,4 +60,8 @@ class DispatcherCardView @JvmOverloads constructor(
             )
         }
     }
+
+    override fun setOnClickListener(l: OnClickListener?) {
+        binding.dispatcherCard.setOnClickListener(l)
+    }
 }
