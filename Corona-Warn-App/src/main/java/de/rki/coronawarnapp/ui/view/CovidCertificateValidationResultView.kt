@@ -78,11 +78,7 @@ class CovidCertificateValidationResultView @JvmOverloads constructor(
     fun offsetChange() = binding.appBarLayout.onOffsetChange { _, subtitleAlpha ->
         binding.headerImage.alpha = subtitleAlpha
     }
-
-    override fun setOnClickListener(l: OnClickListener?) {
-        binding.toolbar.setOnClickListener(l)
-    }
-
+    
     fun setNavigationOnClickListener(l: OnClickListener) {
         binding.toolbar.setNavigationOnClickListener(l)
     }
