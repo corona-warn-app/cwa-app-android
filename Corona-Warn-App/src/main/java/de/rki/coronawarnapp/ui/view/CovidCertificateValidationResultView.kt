@@ -82,4 +82,8 @@ class CovidCertificateValidationResultView @JvmOverloads constructor(
     override fun setOnClickListener(l: OnClickListener?) {
         binding.toolbar.setOnClickListener(l)
     }
+
+    fun setNavigationOnClickListener(l: OnClickListener) {
+        binding.toolbar.setNavigationOnClickListener(l)
+    }
 }

@@ -40,7 +40,7 @@ class DccValidationPassedFragment : Fragment(R.layout.covid_certificate_validati
                     ruleCount = args.validation.acceptanceRules.size
                 )
                 populateList(validationResultAdapter)
-                setOnClickListener { popBackStackTwice() }
+                setNavigationOnClickListener { popBackStackTwice() }
                 offsetChange()
             }
 
