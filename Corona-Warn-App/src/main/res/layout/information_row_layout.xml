@@ -8,6 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="true"
+        android:focusable="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -27,12 +28,12 @@
                 style="@style/subtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/margin_8"
                 android:layout_marginStart="@dimen/margin_46"
-                tools:text="@string/information_accessibility_statement"
+                android:layout_marginEnd="@dimen/margin_8"
                 app:layout_constraintEnd_toStartOf="@id/main_row_item_icon"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="@string/information_accessibility_statement" />
 
             <ImageView
                 android:id="@+id/main_row_item_icon"
@@ -40,10 +41,10 @@
                 android:layout_width="@dimen/width_18"
                 android:layout_height="@dimen/height_18"
                 android:importantForAccessibility="no"
-                tools:src="@drawable/ic_link"
                 app:layout_constraintBottom_toBottomOf="@id/main_row_item_subtitle"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/main_row_item_subtitle" />
+                app:layout_constraintTop_toTopOf="@id/main_row_item_subtitle"
+                tools:src="@drawable/ic_link" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
