@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.ui.main.overview
 
 import android.os.Bundle
 import android.view.View
-import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentMainOverviewBinding
@@ -33,11 +32,6 @@ class MainOverviewFragment : Fragment(R.layout.fragment_main_overview), AutoInje
             toolbar.setNavigationOnClickListener { popBackStack() }
             viewModel.maxEncounterAgeInDays.observe(viewLifecycleOwner) { setExposureLoggingPeriod(it) }
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        binding.mainOverviewContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
 
     private fun FragmentMainOverviewBinding.setExposureLoggingPeriod(maxEncounterAgeInDays: Long) {
