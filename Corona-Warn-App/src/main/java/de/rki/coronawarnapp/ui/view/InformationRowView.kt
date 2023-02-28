@@ -36,4 +36,8 @@ class InformationRowView @JvmOverloads constructor(
             }
         }
     }
+
+    override fun setOnClickListener(l: OnClickListener?) {
+        binding.rootLayout.setOnClickListener(l)
+    }
 }
