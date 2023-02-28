@@ -83,3 +83,4 @@ class CovidCertificateValidationResultView @JvmOverloads constructor(
         binding.toolbar.setNavigationOnClickListener(l)
     }
 }
+
