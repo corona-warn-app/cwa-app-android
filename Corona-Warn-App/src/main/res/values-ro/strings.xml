@@ -2027,5 +2027,5 @@
     <string name="fab_scanner_tip_title">"Scanner de coduri QR"</string>
     <!-- XTXT: UQS Tooltip subtitle -->
     <string name="fab_scanner_tip_subtitle">"Utilizați acest scanner pentru a scana testele, certificatele și check-inurile."</string>
-
+    <string name="home_eol_message">"Caracteristicile de avertizare ale aplicației Corona-Warn au fost oprite. Vă mulțumim pentru că ați utilizat-o. Cu ajutorul dvs., peste xx milioane de avertizări au fost transmise în timpul pandemiei. Puteți continua să utilizați certificatele dvs. existente, precum și jurnalul de contacte. Celelalte caracteristici nu mai sunt disponibile."</string>
 </resources>
