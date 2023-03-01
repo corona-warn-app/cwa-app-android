@@ -38,13 +38,13 @@
     <!-- XTXT: Title for legal information of the contact diary onboarding screen -->
     <string name="contact_diary_onboarding_privacy_information_title">"Veri İşlemeye İlişkin Notlar"</string>
     <!-- XTXT: Title for the contact diary onboarding privacy information first section -->
-    <string name="contact_diary_onboarding_privacy_information_first_section_title">"Kaydedilen tüm bilgiler üzerinde tam kontrole sahip olursunuz"</string>
+    <string name="contact_diary_onboarding_privacy_information_first_section_title"><b>"Kaydedilen tüm bilgiler üzerinde tam kontrole sahip olursunuz."</b></string>
     <!-- XTXT: Body for the contact diary onboarding privacy information first section -->
     <string name="contact_diary_onboarding_privacy_information_first_section_body_one">"Corona-Warn-App’ın bu ek işlevinin kullanımı isteğe bağlıdır ve hangi kişi ve yerleri kaydedeceğinize yalnızca siz karar verirsiniz."</string>
     <!-- XTXT: Body for the contact diary onboarding privacy information first section -->
     <string name="contact_diary_onboarding_privacy_information_first_section_body_two">"Ne RKI ne de başka herhangi bir kurum, temas günlüğüne girdiğiniz bilgilere erişebilir. Bu bilgiler, yalnızca Android akıllı telefonunuzda şifrelenmiş halde saklanır."</string>
     <!-- XTXT: Title for the contact diary onboarding privacy information second section title -->
-    <string name="contact_diary_onboarding_privacy_information_second_section_title">"Lütfen çevrenizdeki kişilerin gizliliğini koruyun"</string>
+    <string name="contact_diary_onboarding_privacy_information_second_section_title"><b>"Lütfen çevrenizdeki kişilerin gizliliğini koruyun."</b></string>
     <!-- XTXT: Body for the contact diary onboarding privacy information second section -->
     <string name="contact_diary_onboarding_privacy_information_second_section_body_one">"Lütfen temas günlüğünüzde kayıtlı olan verileri, kiminle ve nasıl paylaştığınızı tam olarak kontrol edin. Bu bilgiler, hatırlatma amaçlıdır - üçüncü taraflara yönelik değildir. Sağlık kurumu, temaslı takibi ile ilgili olarak sizden yardımınızı rica ederse, kayıtlarınızın aktarımı usule uygundur."</string>
     <!-- XTXT: Body for the contact diary onboarding privacy information second section -->
