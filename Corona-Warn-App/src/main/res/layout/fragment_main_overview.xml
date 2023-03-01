@@ -4,16 +4,15 @@
     android:id="@+id/main_overview_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorSurface"
-    android:contentDescription="@string/main_overview_accessibility_title">
+    android:background="@color/colorSurface">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         style="@style/CWAMaterialToolbar.Close"
+        android:focusable="true"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:title="@string/main_overview_title" />
@@ -21,7 +20,6 @@
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:fillViewport="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -35,6 +33,8 @@
                 android:id="@+id/main_overview_details"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:focusable="true"
+                android:accessibilityTraversalBefore="@id/toolbar"
                 android:contentDescription="@string/main_overview_illustration_description"
                 android:src="@drawable/ic_main_illustration_overview"
                 app:layout_constraintEnd_toEndOf="parent"

@@ -79,7 +79,7 @@ class CovidCertificateValidationResultView @JvmOverloads constructor(
         binding.headerImage.alpha = subtitleAlpha
     }
 
-    override fun setOnClickListener(l: OnClickListener?) {
-        binding.toolbar.setOnClickListener(l)
+    fun setNavigationOnClickListener(l: OnClickListener) {
+        binding.toolbar.setNavigationOnClickListener(l)
     }
 }
