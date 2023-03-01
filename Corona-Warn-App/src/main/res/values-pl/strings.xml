@@ -2027,5 +2027,5 @@
     <string name="fab_scanner_tip_title">"Skaner kodów QR"</string>
     <!-- XTXT: UQS Tooltip subtitle -->
     <string name="fab_scanner_tip_subtitle">"Skaner ten służy do skanowania testów, certyfikatów i zameldowań."</string>
-
+    <string name="home_eol_message">"Funkcje ostrzegawcze aplikacji Corona-Warn-App zostały wycofane. Dziękujemy za korzystanie z nich. Z Twoją pomocą podczas pandemii wysłano ponad xx milionów ostrzeżeń. Możesz nadal korzystać ze swoich certyfikatów, a także dziennika kontaktów. Pozostałe funkcje nie są już dostępne."</string>
 </resources>
