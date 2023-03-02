@@ -34,6 +34,10 @@ class SwitchRowView @JvmOverloads constructor(
         switch.isChecked = turnedOn ?: false
     }
 
+    fun setTitle(text: String?) {
+        title.text = text
+    }
+
     fun setSubtitle(text: String?) {
         subtitleView.text = text
     }
