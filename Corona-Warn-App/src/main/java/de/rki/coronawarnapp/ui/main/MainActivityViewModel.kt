@@ -132,7 +132,7 @@ class MainActivityViewModel @AssistedInject constructor(
             if (!appEol.isEol.first()) valueSetRepository.triggerUpdateValueSet()
             if (!onboardingSettings.isBackgroundCheckDone.first()) {
                 onboardingSettings.updateBackgroundCheckDone(isDone = true)
-                if (backgroundModeStatus.isBackgroundRestricted.first()) {
+                if (backgroundModeStatus.isBackgroundRestricted.first() && !appEol.isEol.first()) {
                     showBackgroundJobDisabledNotification.postValue(Unit)
                 } else {
                     checkForEnergyOptimizedEnabled()
