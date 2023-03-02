@@ -93,6 +93,7 @@
         android:id="@+id/status_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_24"
         android:layout_marginTop="@dimen/margin_16"
         android:importantForAccessibility="no"
         android:visibility="gone"
@@ -100,7 +101,7 @@
         app:layout_constraintTop_toBottomOf="@id/qr_code_card"
         app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@drawable/ic_av_timer"
-        tools:visibility="gone" />
+        tools:visibility="visible" />
 
     <TextView
         android:id="@+id/status_title"
