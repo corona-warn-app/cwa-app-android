@@ -4,17 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
+    android:background="?colorSurface"
     android:layout_height="match_parent"
     tools:context=".covidcertificate.validation.ui.validationresult.passed.DccValidationPassedFragment">
 
     <de.rki.coronawarnapp.ui.view.CovidCertificateValidationResultView
         android:id="@+id/covid_certificate_validation_result_fragments"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@id/checkAnotherCountryButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/checkAnotherCountryButton" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/checkAnotherCountryButton"
@@ -25,8 +27,8 @@
         android:layout_marginBottom="@dimen/margin_16"
         android:text="@string/validation_rules_result_valid_result_button"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/covid_certificate_validation_result_fragments"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/covid_certificate_validation_result_fragments" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
