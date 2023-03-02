@@ -126,7 +126,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/margin_16"
                 android:layout_marginTop="@dimen/margin_32"
-                android:subtitle="@string/ppa_onboarding_privacy_information_body"
+                android:subtitle="@string/ppa_settings_privacy_information_body"
                 android:title="@string/ppa_onboarding_consent_title"
                 app:bulletpointOne="@string/ppa_onboarding_privacy_information_point_consent"
                 app:bulletpointThree="@string/ppa_onboarding_privacy_information_point_sixteen"
