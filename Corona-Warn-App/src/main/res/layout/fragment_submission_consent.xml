@@ -185,10 +185,10 @@
                 android:layout_marginVertical="@dimen/margin_24"
                 android:subtitle="@string/submission_consent_your_consent_subsection_tapping_agree"
                 android:title="@string/submission_consent_your_consent_subsection_headline"
-                app:bulletpointFour="@string/submission_consent_your_consent_subsection_fourth_point"
                 app:bulletpointOne="@string/submission_consent_your_consent_subsection_first_point"
-                app:bulletpointThree="@string/submission_consent_your_consent_subsection_third_point"
                 app:bulletpointTwo="@string/submission_consent_your_consent_subsection_second_point"
+                app:bulletpointThree="@string/submission_consent_your_consent_subsection_third_point"
+                app:bulletpointFour="@string/submission_consent_your_consent_subsection_fourth_point"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/submission_consent_hint" />
