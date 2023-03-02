@@ -7,8 +7,7 @@
     android:layout_height="wrap_content"
     tools:ignore="MissingConstraints"
     tools:layout_height="wrap_content"
-    tools:layout_width="@dimen/width_300"
-    tools:showIn="@layout/home_statistics_cards_basecard_layout">
+    tools:layout_width="@dimen/width_300">
 
     <TextView
         android:id="@+id/title"
