@@ -19,7 +19,7 @@
     <!-- YTXT: Body for consent sub section your consent subtext third point  -->
     <string name="submission_consent_your_consent_subsection_third_point">"<b>Ayrıca semptomlarınızın başlangıcı hakkında bilgi verirseniz, bu veri de paylaşılacaktır.</b>"</string>
     <!-- YTXT: Body for consent sub section your consent subtext fourth point  -->
-    <string name="submission_consent_your_consent_subsection_fourth_point">"Onay beyanınızı istediğiniz zaman geri çekebilirsiniz. İlgili ayar “Testleri göster” altında yer alır. Bilgiler paylaşılmadan önce tekrar onayınız alınır."</string>
+    <string name="submission_consent_your_consent_subsection_fourth_point">"<b>Onay beyanınızı istediğiniz zaman geri çekebilirsiniz. İlgili ayar “Testleri göster” altında yer alır. Bilgiler paylaşılmadan önce tekrar onayınız alınır.</b>"</string>
     <!-- YTXT: Body for your consent screen agreement share test results -->
     <string name="submission_your_consent_agreement_share_test_results">"<b>Korona testiniz pozitif çıktıysa Uygulama test sonucunuzu, karşılaştığınız kullanıcıları yarmak için paylaşır.</b>\n\n<b>Uyarı sizinle aynı etkinlikteki ya da yerdeki kullanıcılara ve aşağıdaki ülkelerdeki Korona Uygulaması kullanıcılarına gönderilir:</b>"</string>
     <!-- YTXT: Body for your consent screen agreement share symptoms -->
@@ -38,13 +38,13 @@
     <!-- XTXT: Title for legal information of the contact diary onboarding screen -->
     <string name="contact_diary_onboarding_privacy_information_title">"Veri İşlemeye İlişkin Notlar"</string>
     <!-- XTXT: Title for the contact diary onboarding privacy information first section -->
-    <string name="contact_diary_onboarding_privacy_information_first_section_title">"Kaydedilen tüm bilgiler üzerinde tam kontrole sahip olursunuz"</string>
+    <string name="contact_diary_onboarding_privacy_information_first_section_title"><b>"Kaydedilen tüm bilgiler üzerinde tam kontrole sahip olursunuz."</b></string>
     <!-- XTXT: Body for the contact diary onboarding privacy information first section -->
     <string name="contact_diary_onboarding_privacy_information_first_section_body_one">"Corona-Warn-App’ın bu ek işlevinin kullanımı isteğe bağlıdır ve hangi kişi ve yerleri kaydedeceğinize yalnızca siz karar verirsiniz."</string>
     <!-- XTXT: Body for the contact diary onboarding privacy information first section -->
     <string name="contact_diary_onboarding_privacy_information_first_section_body_two">"Ne RKI ne de başka herhangi bir kurum, temas günlüğüne girdiğiniz bilgilere erişebilir. Bu bilgiler, yalnızca Android akıllı telefonunuzda şifrelenmiş halde saklanır."</string>
     <!-- XTXT: Title for the contact diary onboarding privacy information second section title -->
-    <string name="contact_diary_onboarding_privacy_information_second_section_title">"Lütfen çevrenizdeki kişilerin gizliliğini koruyun"</string>
+    <string name="contact_diary_onboarding_privacy_information_second_section_title"><b>"Lütfen çevrenizdeki kişilerin gizliliğini koruyun."</b></string>
     <!-- XTXT: Body for the contact diary onboarding privacy information second section -->
     <string name="contact_diary_onboarding_privacy_information_second_section_body_one">"Lütfen temas günlüğünüzde kayıtlı olan verileri, kiminle ve nasıl paylaştığınızı tam olarak kontrol edin. Bu bilgiler, hatırlatma amaçlıdır - üçüncü taraflara yönelik değildir. Sağlık kurumu, temaslı takibi ile ilgili olarak sizden yardımınızı rica ederse, kayıtlarınızın aktarımı usule uygundur."</string>
     <!-- XTXT: Body for the contact diary onboarding privacy information second section -->

@@ -33,7 +33,7 @@ class InformationFragment : Fragment(R.layout.fragment_information) {
 
         vm.isEol.observe(viewLifecycleOwner) {
             with(binding) {
-                informationTechnical.isVisible = !it
+                informationContact.isVisible = !it
                 informationDebuglog.isVisible = !it
             }
         }

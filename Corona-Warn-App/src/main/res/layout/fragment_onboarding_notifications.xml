@@ -20,19 +20,21 @@
 
     <de.rki.coronawarnapp.ui.view.OnboardingScreensView
         android:id="@+id/onboarding_notifications_view"
-        illustrationDescription="@string/onboarding_notifications_illustration_description"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/margin_16"
+        android:layout_height="0dp"
+        android:layout_marginBottom="16dp"
         android:contentDescription="@string/onboarding_notifications_accessibility_title"
         android:src="@drawable/ic_illustration_notification_on"
         android:subtitle="@string/onboarding_notifications_subtitle"
         android:title="@string/onboarding_notifications_headline"
         app:bodyNormal="@string/onboarding_notifications_body"
+        app:illustrationDescription="@string/onboarding_notifications_illustration_description"
+        app:layout_constraintBottom_toTopOf="@id/onboarding_button_next"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/onboarding_notifications_toolbar" />
-
+        app:layout_constraintTop_toBottomOf="@id/onboarding_notifications_toolbar"
+        app:layout_constraintVertical_bias="0.0" />
     <Button
         android:id="@+id/onboarding_button_next"
         style="@style/buttonPrimary"

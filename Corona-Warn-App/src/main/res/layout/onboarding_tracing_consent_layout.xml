@@ -7,8 +7,7 @@
         style="@style/cardTracing"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_24"
-        android:layout_marginEnd="@dimen/margin_24"
+        android:layout_marginHorizontal="@dimen/margin_16"
         android:focusable="true">
 
         <TextView

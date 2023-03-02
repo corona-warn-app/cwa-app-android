@@ -37,16 +37,15 @@
         android:id="@+id/certificate_subtitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_16"
+        android:layout_marginHorizontal="@dimen/margin_16"
         android:layout_marginTop="@dimen/margin_24"
-        android:layout_marginEnd="@dimen/margin_40"
-        android:maxLines="1"
         android:ellipsize="end"
+        android:maxLines="1"
         android:text="@string/person_details_certificate_title"
         android:textColor="@color/colorTextPrimary1InvertedStable"
         android:textSize="@dimen/font_20"
         app:autoSizeTextType="uniform"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/arrow_icon"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -94,6 +93,7 @@
         android:id="@+id/status_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_16"
         android:layout_marginTop="@dimen/margin_16"
         android:importantForAccessibility="no"
         android:visibility="gone"
@@ -101,7 +101,7 @@
         app:layout_constraintTop_toBottomOf="@id/qr_code_card"
         app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@drawable/ic_av_timer"
-        tools:visibility="gone" />
+        tools:visibility="visible" />
 
     <TextView
         android:id="@+id/status_title"
@@ -121,11 +121,11 @@
         android:id="@+id/certificate_badge_count"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_24"
         android:layout_marginTop="@dimen/margin_16"
         android:background="@drawable/circle_badge_count"
         android:gravity="center"
         android:textColor="@android:color/white"
-        android:layout_marginHorizontal="@dimen/margin_24"
         android:textSize="@dimen/font_12"
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"

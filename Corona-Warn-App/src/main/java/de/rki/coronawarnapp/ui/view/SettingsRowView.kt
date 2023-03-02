@@ -28,7 +28,7 @@ class SettingsRowView @JvmOverloads constructor(
 
             val titleColor = getColor(
                 R.styleable.SettingsRowView_android_textColor,
-                resources.getColor(R.color.colorTextPrimary2, resources.newTheme())
+                resources.getColor(R.color.colorOnPrimary, resources.newTheme())
             )
             binding.settingsRowHeaderTitle.setTextColor(titleColor)
 

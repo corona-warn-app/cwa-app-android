@@ -18,20 +18,25 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <de.rki.coronawarnapp.ui.view.OnboardingScreensView
-        android:id="@+id/onboarding_test_screen_view"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginBottom="@dimen/margin_16"
-        android:contentDescription="@string/onboarding_test_accessibility_title"
-        android:src="@drawable/ic_illustration_test"
-        android:subtitle="@string/onboarding_test_subtitle"
-        android:title="@string/onboarding_test_headline"
-        app:bodyNormal="@string/onboarding_test_body"
-        app:illustrationDescription="@string/onboarding_test_illustration_description"
+        app:layout_constraintBottom_toTopOf="@id/onboarding_button_next"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/onboarding_test_toolbar" />
+        app:layout_constraintTop_toBottomOf="@id/onboarding_test_toolbar">
+        <de.rki.coronawarnapp.ui.view.OnboardingScreensView
+            android:id="@+id/onboarding_test_screen_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/onboarding_test_accessibility_title"
+            android:src="@drawable/ic_illustration_test"
+            android:subtitle="@string/onboarding_test_subtitle"
+            android:title="@string/onboarding_test_headline"
+            app:bodyNormal="@string/onboarding_test_body"
+            app:illustrationDescription="@string/onboarding_test_illustration_description" />
+    </ScrollView>
 
     <Button
         android:id="@+id/onboarding_button_next"

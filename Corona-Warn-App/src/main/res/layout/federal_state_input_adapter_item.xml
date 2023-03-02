@@ -18,7 +18,7 @@
     <View
         android:layout_gravity="bottom"
         android:layout_marginStart="@dimen/margin_24"
-        android:background="?android:attr/listDivider"
+        android:background="@color/dividerColor"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_1" />
 

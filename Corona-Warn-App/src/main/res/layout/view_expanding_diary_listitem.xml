@@ -47,7 +47,7 @@
         android:id="@+id/divider"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_1"
-        android:background="?android:attr/listDivider"
+        android:background="@color/dividerColor"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
