@@ -35,7 +35,7 @@ class InformationFragment : Fragment(R.layout.fragment_information), AutoInject 
 
         vm.isEol.observe(viewLifecycleOwner) {
             with(binding) {
-                informationTechnical.isVisible = !it
+                informationContact.isVisible = !it
                 informationDebuglog.isVisible = !it
             }
         }
