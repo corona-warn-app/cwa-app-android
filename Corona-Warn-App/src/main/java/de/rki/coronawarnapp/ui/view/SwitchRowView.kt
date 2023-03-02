@@ -24,7 +24,7 @@ class SwitchRowView @JvmOverloads constructor(
         LayoutInflater.from(context).inflate(R.layout.switch_row, this, true)
 
         context.withStyledAttributes(attrs, R.styleable.SwitchRowView) {
-            val titleText = getText(R.styleable.SwitchRowView_android_title) ?: ""
+            val titleText = getText(R.styleable.SwitchRowView_title) ?: ""
             title.isVisible = titleText.isNotEmpty()
             title.text = titleText
         }
