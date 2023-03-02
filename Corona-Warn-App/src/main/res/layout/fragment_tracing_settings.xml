@@ -36,6 +36,7 @@
                 android:id="@+id/illustration"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:importantForAccessibility="no"
                 android:focusable="true"
                 android:paddingTop="@dimen/padding_16"
                 android:paddingBottom="@dimen/padding_16"
@@ -63,10 +64,10 @@
                 android:id="@+id/switch_row"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                app:title="@string/settings_tracing_title"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/information_details_header_headline"
-                app:title="@string/settings_tracing_title" />
+                app:layout_constraintTop_toBottomOf="@id/information_details_header_headline" />
 
             <View
                 android:id="@+id/divider"
@@ -92,6 +93,7 @@
                     android:id="@+id/flag_eu"
                     android:layout_width="@dimen/width_26"
                     android:layout_height="@dimen/height_26"
+                    android:importantForAccessibility="no"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/ic_country_eu" />
@@ -111,6 +113,7 @@
                     android:id="@+id/flag_ch"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/height_22"
+                    android:importantForAccessibility="no"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/interoperability_title"
                     app:srcCompat="@drawable/ic_country_ch" />

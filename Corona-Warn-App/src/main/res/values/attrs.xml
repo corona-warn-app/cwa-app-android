@@ -163,7 +163,7 @@
     </declare-styleable>
 
     <declare-styleable name="SwitchRowView">
-        <attr name="android:title" format="string" />
+        <attr name="title" format="string" />
     </declare-styleable>
 
     <item name="default_button" type="id" />

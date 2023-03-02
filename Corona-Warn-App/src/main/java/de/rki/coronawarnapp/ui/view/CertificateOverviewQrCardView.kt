@@ -137,7 +137,7 @@ class CertificateOverviewQrCardView @JvmOverloads constructor(
         }
     }
 
-    override fun setOnClickListener(l: OnClickListener?) {
+    fun setCovPassInfoClickListener(l: OnClickListener?) {
         binding.covpassInfoButton.setOnClickListener(l)
     }
 

@@ -30,6 +30,8 @@ class PersonCertificateCard(parent: ViewGroup) :
         val firstCertificate = curItem.overviewCertificates[0]
         setUIState(curItem)
 
+        qrCodeCard.setCovPassInfoClickListener { curItem.onCovPassInfoAction() }
+        qrCodeCard.setOnClickListener { curItem.onClickAction(curItem, bindingAdapterPosition) }
         itemView.apply {
             setOnClickListener { curItem.onClickAction(curItem, bindingAdapterPosition) }
             transitionName = firstCertificate.cwaCertificate.personIdentifier.groupingKey

@@ -7,7 +7,8 @@
         style="@style/Card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_24"
+        android:layout_marginHorizontal="@dimen/margin_16"
+        android:layout_marginVertical="@dimen/margin_24"
         android:backgroundTint="@color/colorCardBackgroundHighlightGray"
         android:focusable="true"
         android:textColor="@color/colorStableLight">
