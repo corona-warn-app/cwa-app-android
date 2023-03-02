@@ -2027,5 +2027,5 @@
     <string name="fab_scanner_tip_title">"QR Kod Tarayıcı"</string>
     <!-- XTXT: UQS Tooltip subtitle -->
     <string name="fab_scanner_tip_subtitle">"Testleri, sertifikaları ve check-in\'leri taramak için bu tarayıcıyı kullanın."</string>
-
+    <string name="home_eol_message">"Corona-Warn-App\'in uyarı özellikleri durduruldu. Özellikleri kullandığınız için teşekkür ederiz. Sizin yardımınızla pandemi sırasında xx milyondan fazla uyarı gönderildi. Mevcut sertifikalarınızı ve temas güncenizi kullanmaya devam edebilirsiniz. Diğer özellikler artık kullanılmamaktadır."</string>
 </resources>
