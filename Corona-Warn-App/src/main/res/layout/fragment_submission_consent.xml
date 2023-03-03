@@ -46,9 +46,9 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/include_submission_consent_intro"
-                android:layout_marginTop="@dimen/margin_24"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_24"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/submission_consent_illustration">
@@ -58,8 +58,8 @@
                     style="@style/headline6"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_24"
                     android:layout_marginHorizontal="@dimen/margin_16"
+                    android:layout_marginTop="@dimen/margin_24"
                     android:text="@string/submission_consent_call_test_result"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -70,8 +70,8 @@
                     style="@style/subtitleMedium"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_24"
                     android:layout_marginHorizontal="@dimen/margin_16"
+                    android:layout_marginTop="@dimen/margin_24"
                     android:text="@string/submission_consent_main_headline_body"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -81,8 +81,8 @@
                     android:id="@+id/submission_consent_icon_single_test"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_24"
                     android:layout_marginStart="@dimen/margin_16"
+                    android:layout_marginTop="@dimen/margin_24"
                     android:importantForAccessibility="no"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/submission_consent_call_test_result_body"
@@ -102,19 +102,19 @@
                     app:layout_constraintTop_toBottomOf="@id/submission_consent_call_test_result_body" />
 
                 <ImageView
+                    android:id="@+id/submission_star_checkmark"
                     android:layout_width="@dimen/width_32"
                     android:layout_height="@dimen/width_32"
+                    android:layout_marginStart="@dimen/margin_16"
+                    android:layout_marginTop="@dimen/margin_24"
                     android:background="@drawable/circle"
                     android:backgroundTint="@color/card_dark"
-                    android:padding="@dimen/padding_6"
-                    app:tint="@color/colorSecondary"
-                    android:id="@+id/submission_star_checkmark"
-                    android:layout_marginTop="@dimen/margin_24"
-                    android:layout_marginStart="@dimen/margin_16"
                     android:importantForAccessibility="no"
+                    android:padding="@dimen/padding_6"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/submission_consent_call_test_result_scan_test_only_once"
-                    app:srcCompat="@drawable/ic_star_checkmark" />
+                    app:srcCompat="@drawable/ic_star_checkmark"
+                    app:tint="@color/colorSecondary" />
 
                 <TextView
                     android:id="@+id/submission_star_checkmark_text"
@@ -134,8 +134,8 @@
                     style="@style/headline6"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_24"
                     android:layout_marginHorizontal="@dimen/margin_16"
+                    android:layout_marginTop="@dimen/margin_24"
                     android:text="@string/submission_consent_help_by_warning_others_headline"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -146,8 +146,8 @@
                     style="@style/subtitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_24"
                     android:layout_marginHorizontal="@dimen/margin_16"
+                    android:layout_marginTop="@dimen/margin_24"
                     android:text="@string/submission_consent_help_by_warning_others_body"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -186,12 +186,12 @@
                 android:subtitle="@string/submission_consent_your_consent_subsection_tapping_agree"
                 android:title="@string/submission_consent_your_consent_subsection_headline"
                 app:bulletpointOne="@string/submission_consent_your_consent_subsection_first_point"
-                app:bulletpointTwo="@string/submission_consent_your_consent_subsection_second_point"
                 app:bulletpointThree="@string/submission_consent_your_consent_subsection_third_point"
-                app:bulletpointFour="@string/submission_consent_your_consent_subsection_fourth_point"
+                app:bulletpointTwo="@string/submission_consent_your_consent_subsection_second_point"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/submission_consent_hint" />
+                app:layout_constraintTop_toBottomOf="@id/submission_consent_hint"
+                app:secondParagraph="@string/submission_consent_your_consent_subsection_fourth_point" />
 
             <de.rki.coronawarnapp.ui.view.BulletPointTextView
                 android:id="@+id/submission_consent_bulletpoint_one"

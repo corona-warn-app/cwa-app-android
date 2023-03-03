@@ -19,7 +19,7 @@
     <!-- YTXT: Body for consent sub section your consent subtext third point  -->
     <string name="submission_consent_your_consent_subsection_third_point" translatable="false">"<b>"If you provide additional information about the onset of your symptoms, this will also be shared."</b>"</string>
     <!-- YTXT: Body for consent sub section your consent subtext fourth point  -->
-    <string name="submission_consent_your_consent_subsection_fourth_point" translatable="false">"<b>"You can withdraw your consent at any time. The setting for this can be found under "Display Test". Before sharing your test result, you will be reminded of your consent."</b>"</string>
+    <string name="submission_consent_your_consent_subsection_fourth_point" translatable="false">"You can withdraw your consent at any time. The setting for this can be found under "Display Test". Before sharing your test result, you will be reminded of your consent."</string>
     <!-- YTXT: Body for your consent screen agreement share test results -->
     <string name="submission_your_consent_agreement_share_test_results" translatable="false">"<b>"If you have tested positive for coronavirus, the app will share your test result in order to warn other users whom you have encountered.</b>\n\n<b>This warning only affects users who were simultaneously checked in at the same event or place as you and users of coronavirus apps in the following countries:</b>"</string>
     <!-- YTXT: Body for your consent screen agreement share symptoms -->
