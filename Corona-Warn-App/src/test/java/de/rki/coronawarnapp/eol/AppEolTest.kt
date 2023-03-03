@@ -52,7 +52,7 @@ class AppEolTest : BaseTest() {
         coEvery { enfClient.disableTracingIfEnabled() } returns false
         coEvery { debugLogger.stop() } just Runs
 
-        every { eolSetting.eolDateTime } returns flowOf(ZonedDateTime.parse("2023-06-01T00:00:00+02:00"))
+        every { eolSetting.eolDateTime } returns flowOf(ZonedDateTime.parse("2023-05-01T00:00:00+02:00"))
         every { eolSetting.isLoggerAllowed } returns flowOf(false)
         every { alarmManager.cancel(any<PendingIntent>()) } just Runs
         every { workManager.cancelAllWork() } returns mockk()
@@ -80,7 +80,7 @@ class AppEolTest : BaseTest() {
 
     @Test
     fun `Eol happened`() = runTest2 {
-        every { timeStamper.nowZonedDateTime } returns ZonedDateTime.parse("2023-06-01T00:00:00+02:00")
+        every { timeStamper.nowZonedDateTime } returns ZonedDateTime.parse("2023-05-01T00:00:00+02:00")
         instance(this).isEol.first() shouldBe true
         coVerify {
             workManager.cancelAllWork()
