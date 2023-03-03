@@ -18,7 +18,7 @@ class EolSetting @Inject constructor(
         runCatching {
             ZonedDateTime.parse(prefs[EOL_DATE_TIME])
         }.getOrElse {
-            ZonedDateTime.parse("2023-06-01T00:00:00+02:00")
+            ZonedDateTime.parse("2023-05-01T00:00:00+02:00")
         }
     }
 
