@@ -19,7 +19,7 @@
     <!-- YTXT: Body for consent sub section your consent subtext third point  -->
     <string name="submission_consent_your_consent_subsection_third_point">"<b>Ayrıca semptomlarınızın başlangıcı hakkında bilgi verirseniz, bu veri de paylaşılacaktır.</b>"</string>
     <!-- YTXT: Body for consent sub section your consent subtext fourth point  -->
-    <string name="submission_consent_your_consent_subsection_fourth_point">"<b>Onay beyanınızı istediğiniz zaman geri çekebilirsiniz. İlgili ayar “Testleri göster” altında yer alır. Bilgiler paylaşılmadan önce tekrar onayınız alınır.</b>"</string>
+    <string name="submission_consent_your_consent_subsection_fourth_point">"Onay beyanınızı istediğiniz zaman geri çekebilirsiniz. İlgili ayar “Testleri göster” altında yer alır. Bilgiler paylaşılmadan önce tekrar onayınız alınır."</string>
     <!-- YTXT: Body for your consent screen agreement share test results -->
     <string name="submission_your_consent_agreement_share_test_results">"<b>Korona testiniz pozitif çıktıysa Uygulama test sonucunuzu, karşılaştığınız kullanıcıları yarmak için paylaşır.</b>\n\n<b>Uyarı sizinle aynı etkinlikteki ya da yerdeki kullanıcılara ve aşağıdaki ülkelerdeki Korona Uygulaması kullanıcılarına gönderilir:</b>"</string>
     <!-- YTXT: Body for your consent screen agreement share symptoms -->
