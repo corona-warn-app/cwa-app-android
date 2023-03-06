@@ -20,7 +20,7 @@
     <!-- YTXT: Body for consent sub section your consent subtext third point  -->
     <string name="submission_consent_your_consent_subsection_third_point">"<b>Wenn Sie zusätzlich Angaben zum Beginn Ihrer Symptome machen, werden auch diese geteilt.</b>"</string>
     <!-- YTXT: Body for consent sub section your consent subtext fourth point  -->
-    <string name="submission_consent_your_consent_subsection_fourth_point">"<b>Sie können Ihr Einverständnis jederzeit zurücknehmen. Die Einstellung hierfür finden Sie unter „Test anzeigen“. Vor dem Teilen werden Sie nochmal auf Ihr Einverständnis hingewiesen.</b>"</string>
+    <string name="submission_consent_your_consent_subsection_fourth_point">"Sie können Ihr Einverständnis jederzeit zurücknehmen. Die Einstellung hierfür finden Sie unter „Test anzeigen“. Vor dem Teilen werden Sie nochmal auf Ihr Einverständnis hingewiesen."</string>
     <!-- YTXT: Body for your consent screen agreement share test results -->
     <string name="submission_your_consent_agreement_share_test_results">"<b>Wenn Sie positiv auf Corona getestet wurden, teilt die App Ihr Testergebnis, um Nutzer, denen Sie begegnet sind, zu warnen.</b>\n\n<b>Die Warnung betrifft Nutzer, die zeitgleich am selben Event oder Ort wie Sie eingecheckt waren und Nutzer der Corona-Apps der folgenden Länder:</b>"</string>
     <!-- YTXT: Body for your consent screen agreement share symptoms -->

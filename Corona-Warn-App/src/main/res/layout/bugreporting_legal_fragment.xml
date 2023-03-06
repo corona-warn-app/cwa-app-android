@@ -91,6 +91,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/margin_24"
                     android:layout_marginTop="@dimen/margin_24"
+                    android:paddingBottom="@dimen/padding_16"
                     android:accessibilityHeading="true"
                     android:focusable="true"
                     android:text="@string/debugging_debuglog_legal_privacy_card_second_section"
