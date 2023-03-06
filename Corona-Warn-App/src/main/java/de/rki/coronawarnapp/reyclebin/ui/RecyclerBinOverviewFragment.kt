@@ -48,6 +48,11 @@ class RecyclerBinOverviewFragment : Fragment(R.layout.recycler_bin_overview_frag
             binding.emptyListInfoContainer.isVisible = it.isEmpty()
             recyclerBinAdapter.update(it)
             binding.toolbar.menu.findItem(R.id.menu_remove_all)?.isEnabled = it.isNotEmpty()
+            if (it.isEmpty()) {
+                binding.recyclerBinList.contentDescription = getText(R.string.recycler_bin_empty_label)
+            } else {
+                binding.recyclerBinList.contentDescription = getText(R.string.recycler_bin_title)
+            }
         }
 
         viewModel.events.observe(viewLifecycleOwner) { handleRecyclerEvent(it) }
@@ -77,6 +82,7 @@ class RecyclerBinOverviewFragment : Fragment(R.layout.recycler_bin_overview_frag
             viewModel.onRemoveAllItemsClicked()
             true
         }
+
         else -> false
     }
 }
