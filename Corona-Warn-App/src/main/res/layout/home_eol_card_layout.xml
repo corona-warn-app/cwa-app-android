@@ -17,6 +17,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:contentDescription="@string/onboarding_illustration_description"
         app:srcCompat="@drawable/ic_illustration_together" />
 
     <TextView
