@@ -113,9 +113,12 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
                 positiveButton(R.string.errors_generic_button_positive)
             }
 
-            OpenCovPassInfo -> findNavController().navigate(
-                PersonOverviewFragmentDirections.actionPersonOverviewFragmentToCovPassInfoFragment()
-            )
+            OpenCovPassInfo -> {
+                setupAxisTransition()
+                findNavController().navigate(
+                    PersonOverviewFragmentDirections.actionPersonOverviewFragmentToCovPassInfoFragment()
+                )
+            }
 
             OpenAdmissionScenarioScreen -> {
                 setupHoldTransition()
