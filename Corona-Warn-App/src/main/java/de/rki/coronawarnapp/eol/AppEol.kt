@@ -4,6 +4,7 @@ import android.app.AlarmManager
 import androidx.core.app.NotificationManagerCompat
 import androidx.work.WorkManager
 import de.rki.coronawarnapp.bugreporting.debuglog.DebugLogger
+import de.rki.coronawarnapp.ccl.dccwalletinfo.storage.DccWalletInfoRepository
 import de.rki.coronawarnapp.coronatest.notification.ShareTestResultNotification
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.nearby.ENFClient
@@ -44,6 +45,7 @@ class AppEol @Inject constructor(
     private val intentFactory: AutoCheckOutIntentFactory,
     private val notification: ShareTestResultNotification,
     private val notificationManager: NotificationManagerCompat,
+    private val dccWalletInfoRepository: DccWalletInfoRepository,
 ) {
     val isEol = combine(
         intervalFlow(60_000L),
@@ -80,6 +82,9 @@ class AppEol @Inject constructor(
                     enfClient.disableTracingIfEnabled()
                 }
                 appShortcutsHelper.initShortcuts(true)
+
+                Timber.tag(TAG).d("Reset DccWalletInfos")
+                dccWalletInfoRepository.reset()
             }
         }.catch {
             Timber.tag(TAG).d(it, "EOL failed")

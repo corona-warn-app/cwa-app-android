@@ -5,6 +5,7 @@ import android.app.PendingIntent
 import androidx.core.app.NotificationManagerCompat
 import androidx.work.WorkManager
 import de.rki.coronawarnapp.bugreporting.debuglog.DebugLogger
+import de.rki.coronawarnapp.ccl.dccwalletinfo.storage.DccWalletInfoRepository
 import de.rki.coronawarnapp.coronatest.notification.ShareTestResultNotification
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.nearby.modules.tracing.disableTracingIfEnabled
@@ -43,6 +44,7 @@ class AppEolTest : BaseTest() {
     @MockK lateinit var intentFactory: AutoCheckOutIntentFactory
     @MockK lateinit var notification: ShareTestResultNotification
     @MockK lateinit var notificationManager: NotificationManagerCompat
+    @MockK lateinit var dccWalletInfoRepository: DccWalletInfoRepository
 
     @BeforeEach
     fun setUp() {
@@ -51,6 +53,7 @@ class AppEolTest : BaseTest() {
 
         coEvery { enfClient.disableTracingIfEnabled() } returns false
         coEvery { debugLogger.stop() } just Runs
+        coEvery { dccWalletInfoRepository.reset() } just Runs
 
         every { eolSetting.eolDateTime } returns flowOf(ZonedDateTime.parse("2023-05-01T00:00:00+02:00"))
         every { eolSetting.isLoggerAllowed } returns flowOf(false)
@@ -75,6 +78,7 @@ class AppEolTest : BaseTest() {
             appShortcutsHelper.initShortcuts(any())
             debugLogger.stop()
             enfClient.disableTracingIfEnabled()
+            dccWalletInfoRepository.reset()
         }
     }
 
@@ -91,6 +95,7 @@ class AppEolTest : BaseTest() {
             appShortcutsHelper.initShortcuts(any())
             debugLogger.stop()
             enfClient.disableTracingIfEnabled()
+            dccWalletInfoRepository.reset()
         }
     }
 
@@ -113,6 +118,7 @@ class AppEolTest : BaseTest() {
         alarmManager = alarmManager,
         intentFactory = intentFactory,
         appShortcutsHelper = appShortcutsHelper,
-        notificationManager = notificationManager
+        notificationManager = notificationManager,
+        dccWalletInfoRepository = dccWalletInfoRepository,
     )
 }
