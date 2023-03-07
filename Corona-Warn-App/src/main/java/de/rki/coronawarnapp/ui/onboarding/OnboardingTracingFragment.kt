@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
@@ -28,9 +30,15 @@ class OnboardingTracingFragment : Fragment(R.layout.fragment_onboarding_tracing)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        vm.countryList.observe(viewLifecycleOwner) {
-            binding.countryList.setCountryList(it)
+        vm.countryList.observe(viewLifecycleOwner) { countries ->
+            binding.countryListHeader.isGone = countries.isEmpty()
+            binding.countryList.isGone = countries.isEmpty()
+            binding.countryList.setCountryList(countries)
+
+            binding.noCountriesHeader.isVisible = countries.isEmpty()
+            binding.noCountriesBody.isVisible = countries.isEmpty()
         }
+
         vm.saveInteroperabilityUsed()
         binding.apply {
             onboardingButtonNext.setOnClickListener { vm.onActivateTracingClicked() }

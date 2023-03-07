@@ -5,6 +5,7 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.view.View
+import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
@@ -27,13 +28,11 @@ class InteroperabilityConfigurationFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        vm.countryList.observe(viewLifecycleOwner) {
-            binding.interoperabilityConfigurationCountryList.setCountryList(it)
-            if (it.isEmpty()) {
-                binding.noCountriesRiskdetailsInfoview.isVisible = false
-                binding.interoperabilityConfigurationCountryList.isVisible = false
-                binding.noCountriesRiskdetailsInfoview.isVisible = true
-            }
+        vm.countryList.observe(viewLifecycleOwner) { countries ->
+            binding.countriesList.setCountryList(countries)
+            binding.countriesList.isGone = countries.isEmpty()
+            binding.countriesHeader.isGone = countries.isEmpty()
+            binding.noCountriesRiskdetailsInfoview.isVisible = countries.isEmpty()
         }
 
         vm.saveInteroperabilityUsed()
