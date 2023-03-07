@@ -17,7 +17,8 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import javax.inject.Inject
 
-class OnboardingDeltaInteroperabilityFragment : Fragment(R.layout.fragment_onboarding_delta_interoperability), AutoInject {
+class OnboardingDeltaInteroperabilityFragment :
+    Fragment(R.layout.fragment_onboarding_delta_interoperability), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val vm: OnboardingDeltaInteroperabilityFragmentViewModel by cwaViewModels { viewModelFactory }
