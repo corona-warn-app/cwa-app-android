@@ -47,7 +47,7 @@ class CoronaTestStorage @Inject constructor(
                 emptySet()
             } else {
                 mapper.readValue<Set<PCRCoronaTest>>(value).onEach {
-                    Timber.tag(TAG).v("PCR loaded: %s", it)
+                    Timber.tag(TAG).v("PCR loaded")
                     requireNotNull(it.identifier)
                     requireNotNull(it.type) { "PCR type should not be null, Jackson footgun." }
                 }
@@ -61,7 +61,7 @@ class CoronaTestStorage @Inject constructor(
                 emptySet()
             } else {
                 mapper.readValue<Set<RACoronaTest>>(value).onEach {
-                    Timber.tag(TAG).v("RA loaded: %s", it)
+                    Timber.tag(TAG).v("RA loaded")
                     requireNotNull(it.identifier)
                     requireNotNull(it.type) { "RA type should not be null, Jackson footgun." }
                 }
