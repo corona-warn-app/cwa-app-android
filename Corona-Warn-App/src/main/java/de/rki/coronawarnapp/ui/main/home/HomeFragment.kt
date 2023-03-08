@@ -173,7 +173,9 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
     }
 
     private fun setupDebugMenu(menu: Menu) {
-        menu.findItem(R.id.test_nav_graph).isVisible = CWADebug.isDeviceForTestersBuild
+        if (CWADebug.isDeviceForTestersBuild) {
+            menu.add(Menu.NONE, R.id.test_nav_graph, menu.size() + 1, "Test Menu")
+        }
     }
 
     private fun MaterialToolbar.setupMenuItemClickListener() {
