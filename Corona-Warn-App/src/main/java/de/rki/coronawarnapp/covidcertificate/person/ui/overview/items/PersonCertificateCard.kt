@@ -50,6 +50,7 @@ class PersonCertificateCard(parent: ViewGroup) :
         val onClickAction: (Item, Int) -> Unit,
         val onCovPassInfoAction: () -> Unit,
         val onCertificateSelected: (certificateSelection: CertificateSelection) -> Unit,
+        val isEol: Boolean = false,
     ) : PersonCertificatesItem, HasPayloadDiffer {
         override val stableId: Long =
             overviewCertificates[0].cwaCertificate.personIdentifier.hashCode().toLong()

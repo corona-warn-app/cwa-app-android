@@ -30,6 +30,7 @@ import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCert
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateWrapper
+import de.rki.coronawarnapp.eol.AppEol
 import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -46,18 +47,19 @@ import kotlinx.coroutines.flow.update
 
 @Suppress("LongParameterList")
 class PersonOverviewViewModel @AssistedInject constructor(
+    appEol: AppEol,
     dispatcherProvider: DispatcherProvider,
-    certificatesProvider: PersonCertificatesProvider,
     dccAdmissionTileProvider: AdmissionTileProvider,
-    @Assisted private val admissionScenariosSharedViewModel: AdmissionScenariosSharedViewModel,
-    @Assisted private val savedState: SavedStateHandle,
-    @AppScope private val appScope: CoroutineScope,
-    @BaseJackson private val mapper: ObjectMapper,
-    private val testCertificateRepository: TestCertificateRepository,
+    certificatesProvider: PersonCertificatesProvider,
     private val format: CclTextFormatter,
-    private val admissionCheckScenariosCalculation: DccAdmissionCheckScenariosCalculation,
     private val migrationCheck: MigrationCheck,
+    @BaseJackson private val mapper: ObjectMapper,
+    @AppScope private val appScope: CoroutineScope,
+    @Assisted private val savedState: SavedStateHandle,
     private val onboardingSettings: OnboardingSettings,
+    private val testCertificateRepository: TestCertificateRepository,
+    private val admissionCheckScenariosCalculation: DccAdmissionCheckScenariosCalculation,
+    @Assisted private val admissionScenariosSharedViewModel: AdmissionScenariosSharedViewModel,
 ) : CWAViewModel(dispatcherProvider) {
 
     private val selectedCertificates = MutableStateFlow(
@@ -75,11 +77,13 @@ class PersonOverviewViewModel @AssistedInject constructor(
     val uiState: LiveData<UiState> = combine<Set<PersonCertificates>,
         Set<TestCertificateWrapper>,
         Map<String, CertificateSelection>,
+        Boolean,
         UiState>(
         certificatesProvider.personCertificates,
         testCertificateRepository.certificates,
-        selectedCertificates
-    ) { persons, tcWrappers, selections ->
+        selectedCertificates,
+        appEol.isEol,
+    ) { persons, tcWrappers, selections, isEol ->
 
         if (migrationCheck.shouldShowMigrationInfo(persons)) {
             events.postValue(ShowMigrationInfoDialog)
@@ -87,7 +91,7 @@ class PersonOverviewViewModel @AssistedInject constructor(
 
         UiState.Done(
             mutableListOf<PersonCertificatesItem>().apply {
-                addPersonItems(persons, tcWrappers, selections)
+                addPersonItems(persons, tcWrappers, selections, isEol)
             }
         )
     }.onStart { emit(UiState.Loading) }.asLiveData2()
@@ -100,13 +104,15 @@ class PersonOverviewViewModel @AssistedInject constructor(
         persons: Set<PersonCertificates>,
         tcWrappers: Set<TestCertificateWrapper>,
         selections: Map<String, CertificateSelection>,
+        isEol: Boolean,
     ) {
         addPendingCards(tcWrappers)
-        addAll(persons.toCertificatesCard(selections))
+        addAll(persons.toCertificatesCard(selections, isEol = isEol))
     }
 
     private suspend fun Set<PersonCertificates>.toCertificatesCard(
-        selections: Map<String, CertificateSelection>
+        selections: Map<String, CertificateSelection>,
+        isEol: Boolean,
     ) = this
         .filterNotPending()
         .filterNot { it.certificates.isEmpty() }
@@ -150,7 +156,8 @@ class PersonOverviewViewModel @AssistedInject constructor(
                             savedState[SELECTIONS_KEY] = it
                         }
                     }
-                }
+                },
+                isEol = isEol,
             )
         }
 
