@@ -16,17 +16,17 @@
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar_layout"
             android:layout_width="match_parent"
-            app:contentScrim="@drawable/top_app_bar_shape"
-            android:layout_height="wrap_content"
+            android:layout_height="248dp"
             android:background="@drawable/covid_certificate_validation_gradient"
             android:nestedScrollingEnabled="true"
+            app:contentScrim="@drawable/top_app_bar_shape"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
             app:titleEnabled="false">
 
             <ImageView
                 android:id="@+id/header_image"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:importantForAccessibility="no"
                 android:scaleType="centerCrop"
                 app:layout_collapseMode="parallax"
