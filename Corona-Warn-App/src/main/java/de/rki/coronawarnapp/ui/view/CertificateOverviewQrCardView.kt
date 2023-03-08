@@ -89,7 +89,7 @@ class CertificateOverviewQrCardView @JvmOverloads constructor(
             statusBadge.text = item.admission.text
             val state = item.admission.state
             statusBadge.visibility = when {
-                state == null -> INVISIBLE
+                state == null -> if (item.isEol) GONE else INVISIBLE
                 state.visible -> if (item.admission.text.isNotEmpty()) VISIBLE else GONE
                 else -> GONE
             }
@@ -103,7 +103,7 @@ class CertificateOverviewQrCardView @JvmOverloads constructor(
         with(binding) {
             val state = item.mask.state
             maskBadge.visibility = when {
-                state == null -> INVISIBLE
+                state == null -> if (item.isEol) GONE else INVISIBLE
                 state.visible -> if (item.mask.text.isNotEmpty()) VISIBLE else GONE
                 else -> GONE
             }
