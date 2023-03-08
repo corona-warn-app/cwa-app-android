@@ -48,6 +48,7 @@ fun PersonOverviewItemBinding.setUIState(
         setVisibility(valid)
         bindButtonToggleGroup(secondCertificate, thirdCertificate, firstCertificate, item)
         setOnClickListener { item.onCovPassInfoAction }
+        checkBarrierMargin()
     }
 
     when (firstCertificate.cwaCertificate.displayedState()) {
@@ -70,7 +71,6 @@ fun PersonOverviewItemBinding.setUIState(
         else -> updateExpirationViews()
     }
 }
-
 private fun PersonOverviewItemBinding.updateExpirationViews(
     badgeCount: Int = 1,
     verticalBias: Float = 0f,
