@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/onboarding_tracing_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -59,64 +60,54 @@
                 app:secondSection="@string/interoperability_onboarding_second_section"
                 app:thirdSection="@string/interoperability_onboarding_randomid_download_free" />
 
-            <TextView
-                android:id="@+id/country_header_description"
-                style="@style/headline6"
+            <LinearLayout
+                android:id="@+id/country_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_24"
-                android:layout_marginTop="@dimen/margin_24"
-                android:layout_marginEnd="@dimen/margin_24"
-                android:accessibilityHeading="true"
-                android:text="@string/interoperability_onboarding_list_title"
+                android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/interoperability_section" />
+                app:layout_constraintTop_toBottomOf="@id/interoperability_section">
+                <TextView
+                    android:id="@+id/country_list_header"
+                    style="@style/headline6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_24"
+                    android:layout_marginTop="@dimen/margin_24"
+                    android:layout_marginEnd="@dimen/margin_24"
+                    android:accessibilityHeading="true"
+                    android:text="@string/interoperability_onboarding_list_title" />
 
-            <de.rki.coronawarnapp.ui.view.CountryListView
-                android:id="@+id/country_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_24"
-                android:layout_marginTop="@dimen/margin_24"
-                android:layout_marginEnd="@dimen/margin_24"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/country_header_description" />
+                <de.rki.coronawarnapp.ui.view.CountryListView
+                    android:id="@+id/country_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_24"
+                    android:layout_marginTop="@dimen/margin_24"
+                    android:layout_marginEnd="@dimen/margin_24" />
 
-            <TextView
-                android:id="@+id/participating_countries_headline"
-                style="@style/headline5"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/margin_24"
-                android:layout_marginTop="@dimen/margin_24"
-                android:focusable="false"
-                android:text="@string/interoperability_onboarding_list_title_failrequest"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/interoperability_section" />
+                <TextView
+                    android:id="@+id/no_countries_header"
+                    style="@style/headline5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/margin_24"
+                    android:layout_marginTop="@dimen/margin_24"
+                    android:focusable="false"
+                    android:text="@string/interoperability_onboarding_list_title_failrequest" />
 
+                <TextView
+                    android:id="@+id/no_countries_body"
+                    style="@style/body1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/margin_24"
+                    android:layout_marginTop="@dimen/margin_24"
+                    android:focusable="true"
+                    android:text="@string/interoperability_onboarding_list_subtitle_failrequest" />
 
-            <TextView
-                android:id="@+id/participating_countries_body"
-                style="@style/body1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/margin_24"
-                android:layout_marginTop="@dimen/margin_24"
-                android:focusable="true"
-                android:text="@string/interoperability_onboarding_list_subtitle_failrequest"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/participating_countries_headline" />
-
-            <androidx.constraintlayout.widget.Group
-                android:id="@+id/no_countries_group"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                app:constraint_referenced_ids="participating_countries_body, participating_countries_headline" />
+            </LinearLayout>
 
             <de.rki.coronawarnapp.ui.view.TracingStatusView
                 android:id="@+id/tracing_status_location_section"
@@ -127,7 +118,7 @@
                 android:title="@string/onboarding_tracing_location_headline"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/country_list"
+                app:layout_constraintTop_toBottomOf="@id/country_container"
                 app:tracingStatusBody="@string/onboarding_tracing_location_body" />
 
             <de.rki.coronawarnapp.ui.view.AgeWarningView

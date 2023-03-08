@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.ui.onboarding
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
 import android.view.View
+import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -26,20 +27,18 @@ class OnboardingDeltaInteroperabilityFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        vm.countryList.observe(viewLifecycleOwner) {
-            binding.deltaInteroperabilityCountryList.setCountryList(it)
-            if (it.isEmpty()) {
-                binding.countryListGroup.isVisible = false
-                binding.noCountriesGroup.isVisible = true
-            }
+        vm.countryList.observe(viewLifecycleOwner) { countries ->
+            binding.countryListHeader.isGone = countries.isEmpty()
+            binding.countryList.isGone = countries.isEmpty()
+            binding.countryList.setCountryList(countries)
+
+            binding.noCountriesHeader.isVisible = countries.isEmpty()
+            binding.noCountriesBody.isVisible = countries.isEmpty()
         }
         vm.saveInteroperabilityUsed()
 
-        binding.onboardingDeltaExpandedTermsTextLink
-            .convertToHyperlink(getString(R.string.information_terms_html_path))
-        binding.onboardingDeltaExpandedTermsTextLink
-            .movementMethod = LinkMovementMethod.getInstance()
-
+        binding.onboardingDeltaExpandedTermsTextLink.convertToHyperlink(getString(R.string.information_terms_html_path))
+        binding.onboardingDeltaExpandedTermsTextLink.movementMethod = LinkMovementMethod.getInstance()
         binding.onboardingDeltaExpandedTermsTextLink.setOnClickListener {
             findNavController().navigate(
                 OnboardingDeltaInteroperabilityFragmentDirections
