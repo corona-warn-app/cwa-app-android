@@ -153,4 +153,8 @@ class CertificateOverviewQrCardView @JvmOverloads constructor(
         PersonCertificateCard.Item.CertificateSelection.SECOND -> R.id.second_certificate_button
         PersonCertificateCard.Item.CertificateSelection.THIRD -> R.id.third_certificate_button
     }
+
+    fun checkBarrierMargin() {
+        binding.badgesBarrier.setDpMargin(if (binding.maskBadge.isGone && binding.statusBadge.isGone) 0 else 8)
+    }
 }
