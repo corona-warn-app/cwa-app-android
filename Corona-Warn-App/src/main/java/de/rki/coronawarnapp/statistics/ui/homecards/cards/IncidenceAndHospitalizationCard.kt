@@ -9,7 +9,6 @@ import de.rki.coronawarnapp.statistics.ui.homecards.StatisticsCardAdapter
 import de.rki.coronawarnapp.statistics.util.formatStatisticalValue
 import de.rki.coronawarnapp.statistics.util.getContentDescriptionForTrends
 import de.rki.coronawarnapp.statistics.util.getLocalizedSpannableString
-import de.rki.coronawarnapp.util.StringBuilderExtension.appendWithLineBreak
 import de.rki.coronawarnapp.util.StringBuilderExtension.appendWithTrailingSpace
 import de.rki.coronawarnapp.util.formatter.getPrimaryLabel
 import de.rki.coronawarnapp.util.formatter.getSecondaryLabel
@@ -98,8 +97,8 @@ class IncidenceAndHospitalizationCard(parent: ViewGroup) :
     ): StringBuilder {
         return StringBuilder()
             .appendWithTrailingSpace(context.getString(R.string.accessibility_statistics_card_announcement))
-            .appendWithLineBreak(context.getString(R.string.statistics_explanation_seven_day_incidence_title))
-            .appendWithLineBreak(context.getString(R.string.statistics_seven_day_hospitalization_nationwide_text))
+            .appendWithTrailingSpace(context.getString(R.string.statistics_explanation_seven_day_incidence_title))
+            .appendWithTrailingSpace(context.getString(R.string.statistics_seven_day_hospitalization_nationwide_text))
             .appendWithTrailingSpace(item.getPrimaryLabel(context))
             .appendWithTrailingSpace(
                 formatStatisticalValue(
@@ -109,8 +108,8 @@ class IncidenceAndHospitalizationCard(parent: ViewGroup) :
                 )
             )
             .appendWithTrailingSpace(context.getString(R.string.statistics_card_incidence_value_description))
-            .appendWithLineBreak(getContentDescriptionForTrends(context, sevenDayIncidence.trend))
-            .appendWithLineBreak(context.getString(R.string.statistics_seven_day_hospitalization_card_title))
+            .appendWithTrailingSpace(getContentDescriptionForTrends(context, sevenDayIncidence.trend))
+            .appendWithTrailingSpace(context.getString(R.string.statistics_seven_day_hospitalization_card_title))
             .appendWithTrailingSpace(
                 getSecondaryLabel(context, Instant.ofEpochSecond(sevenDayIncidenceSecondary.updatedAt))
             )
@@ -121,7 +120,7 @@ class IncidenceAndHospitalizationCard(parent: ViewGroup) :
                     sevenDayIncidenceSecondary.decimals
                 )
             )
-            .appendWithLineBreak(getContentDescriptionForTrends(context, sevenDayIncidenceSecondary.trend))
-            .append(context.getString(R.string.accessibility_statistics_card_navigation_information))
+            .appendWithTrailingSpace(getContentDescriptionForTrends(context, sevenDayIncidenceSecondary.trend))
+            .appendWithTrailingSpace(context.getString(R.string.accessibility_statistics_card_navigation_information))
     }
 }

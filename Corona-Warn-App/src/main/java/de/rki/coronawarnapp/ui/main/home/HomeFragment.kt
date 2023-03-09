@@ -7,7 +7,6 @@ import android.text.SpannableString
 import android.text.style.ImageSpan
 import android.view.Menu
 import android.view.View
-import android.view.accessibility.AccessibilityEvent
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -144,7 +143,6 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         super.onResume()
         viewModel.refreshTests()
         viewModel.initAppShortcuts()
-        binding.container.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
 
     private fun menuIconWithText(drawable: Drawable?, title: CharSequence): CharSequence {
