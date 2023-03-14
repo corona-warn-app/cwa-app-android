@@ -32,11 +32,11 @@
     <TextView
         android:id="@+id/eol_link"
         style="@style/subtitleMedium"
-        android:textColor="@color/colorSecondary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/margin_24"
         android:layout_marginBottom="@dimen/margin_24"
         android:lineSpacingExtra="5sp"
-        android:text="@string/home_eol_link" />
+        android:text="@string/home_eol_link"
+        android:textColor="@color/colorSecondary" />
 </LinearLayout>
