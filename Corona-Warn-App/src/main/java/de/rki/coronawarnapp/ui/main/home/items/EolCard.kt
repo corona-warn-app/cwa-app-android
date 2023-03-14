@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.ui.main.home.items
 
+import android.graphics.Paint
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.HomeEolCardLayoutBinding
@@ -18,9 +19,15 @@ class EolCard(parent: ViewGroup) :
     override val onBindData: HomeEolCardLayoutBinding.(
         item: Item,
         payloads: List<Any>
-    ) -> Unit = { _, _ -> }
+    ) -> Unit = { item, payloads ->
+        val curItem = payloads.filterIsInstance<Item>().lastOrNull() ?: item
+        eolLink.paintFlags = eolLink.paintFlags or Paint.UNDERLINE_TEXT_FLAG
+        eolLink.setOnClickListener {
+            curItem.openEolLink()
+        }
+    }
 
-    class Item : HomeItem {
+    data class Item(val openEolLink: () -> Unit) : HomeItem {
         override val stableId: Long
             get() = Item::class.hashCode().toLong()
     }

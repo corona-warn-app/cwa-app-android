@@ -21,7 +21,6 @@
         app:srcCompat="@drawable/ic_illustration_together" />
 
     <TextView
-        android:id="@+id/main_card_content_body"
         style="@style/subtitleMedium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -29,4 +28,15 @@
         android:layout_marginBottom="@dimen/margin_24"
         android:lineSpacingExtra="5sp"
         android:text="@string/home_eol_message" />
+
+    <TextView
+        android:id="@+id/eol_link"
+        style="@style/subtitleMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_24"
+        android:layout_marginBottom="@dimen/margin_24"
+        android:lineSpacingExtra="5sp"
+        android:text="@string/confirmed_status_faq_text"
+        android:textColor="@color/colorSecondary" />
 </LinearLayout>

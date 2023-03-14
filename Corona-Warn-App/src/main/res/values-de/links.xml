@@ -62,4 +62,5 @@
     <!-- XTXT: Home Menu Button - URL to social media section of the community page -->
     <string name="home_menu_social_media_url">"https://www.coronawarn.app/de/community/#socialmedia"</string>
     <string name="srs_faq_url">https://www.coronawarn.app/de/faq/results/#warn_without_tan</string>
+    <string name="eol_faq_url">https://www.coronawarn.app/de/faq/#ramp_down</string>
 </resources>

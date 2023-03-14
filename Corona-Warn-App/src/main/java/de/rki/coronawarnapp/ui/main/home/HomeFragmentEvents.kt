@@ -19,6 +19,8 @@ sealed class HomeFragmentEvents {
     object GoToSubmissionDispatcher : HomeFragmentEvents()
     object OpenFAQUrl : HomeFragmentEvents()
     object GoToFamilyTests : HomeFragmentEvents()
+    object OpenEolLink : HomeFragmentEvents()
+
     data class GoToTestResultNegativeFragment(val identifier: TestIdentifier) : HomeFragmentEvents()
     data class GoToTestResultKeysSharedFragment(val identifier: TestIdentifier) : HomeFragmentEvents()
     data class OpenRampDownNotice(val rampDownNotice: RampDownNotice) : HomeFragmentEvents()
