@@ -37,6 +37,6 @@
         android:layout_marginHorizontal="@dimen/margin_24"
         android:layout_marginBottom="@dimen/margin_24"
         android:lineSpacingExtra="5sp"
-        android:text="@string/home_eol_link"
+        android:text="@string/confirmed_status_faq_text"
         android:textColor="@color/colorSecondary" />
 </LinearLayout>
