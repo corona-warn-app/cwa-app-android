@@ -307,6 +307,8 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
                     HomeFragmentDirections.actionMainFragmentToRampdownNoticeFragment(event.rampDownNotice)
                 )
             }
+
+            HomeFragmentEvents.OpenEolLink -> openUrl(getString(R.string.eol_faq_url))
         }
     }
 

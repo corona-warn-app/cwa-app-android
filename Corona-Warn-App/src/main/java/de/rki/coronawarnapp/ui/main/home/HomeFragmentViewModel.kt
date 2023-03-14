@@ -234,7 +234,11 @@ class HomeFragmentViewModel @AssistedInject constructor(
                 )
             }
             if (isEol) {
-                add(EolCard.Item())
+                add(
+                    EolCard.Item {
+                        events.postValue(HomeFragmentEvents.OpenEolLink)
+                    }
+                )
             }
 
             addStatisticsCard(statsData, isEol)

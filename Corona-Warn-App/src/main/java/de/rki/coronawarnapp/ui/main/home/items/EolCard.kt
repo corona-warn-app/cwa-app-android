@@ -18,9 +18,14 @@ class EolCard(parent: ViewGroup) :
     override val onBindData: HomeEolCardLayoutBinding.(
         item: Item,
         payloads: List<Any>
-    ) -> Unit = { _, _ -> }
+    ) -> Unit = { item, payloads ->
+        val curItem = payloads.filterIsInstance<Item>().lastOrNull() ?: item
+        eolLink.setOnClickListener {
+            curItem.openEolLink()
+        }
+    }
 
-    class Item : HomeItem {
+    data class Item(val openEolLink: () -> Unit) : HomeItem {
         override val stableId: Long
             get() = Item::class.hashCode().toLong()
     }
