@@ -29,6 +29,7 @@ class IncreasedRiskCard(
             rowContactLast.isGone = getRiskContactLast(context) == null
             rowContactLast.setText(getRiskContactLast(context))
             rowTimeFetched.setText(getTimeFetched(context))
+            updateAction.isGone = !showUpdateButton
         }
         itemView.setOnClickListener { item.onCardClick(item) }
         updateAction.setOnClickListener { item.onUpdateClick(item) }
