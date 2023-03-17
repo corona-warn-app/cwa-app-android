@@ -80,6 +80,7 @@ class BehaviorInfoRow @JvmOverloads constructor(
     }
 
     fun infoButtonCallback(function: () -> Unit) {
+        infoButton.isGone = false
         infoButton.setOnClickListener {
             function()
         }
