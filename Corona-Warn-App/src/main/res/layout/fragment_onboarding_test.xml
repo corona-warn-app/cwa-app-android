@@ -43,7 +43,7 @@
         style="@style/buttonPrimary"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_16"
+        android:layout_marginVertical="@dimen/margin_16"
         android:layout_marginHorizontal="@dimen/margin_24"
         android:text="@string/onboarding_button_next"
         app:layout_constraintBottom_toBottomOf="parent"
