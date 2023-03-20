@@ -36,8 +36,10 @@ class StatisticsHomeCard(
 
     override var savedStateKey: String? = null
 
+    private val fontScale = context.resources.configuration.fontScale
+
     private val statisticsLayoutManager: StatisticsLayoutManager by lazy {
-        StatisticsLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        StatisticsLayoutManager(context, LinearLayoutManager.HORIZONTAL, false, fontScale)
     }
 
     private val statisticsCardAdapter by lazy { StatisticsCardAdapter() }
