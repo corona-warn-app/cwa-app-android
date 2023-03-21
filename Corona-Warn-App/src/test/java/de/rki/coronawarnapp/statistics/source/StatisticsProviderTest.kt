@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.statistics.source
 
+import de.rki.coronawarnapp.eol.AppEol
 import de.rki.coronawarnapp.statistics.StatisticsData
 import de.rki.coronawarnapp.util.device.ForegroundState
 import io.kotest.matchers.shouldBe
@@ -13,6 +14,7 @@ import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
 import org.junit.jupiter.api.BeforeEach
@@ -29,6 +31,7 @@ class StatisticsProviderTest : BaseTest() {
     @MockK lateinit var parser: StatisticsParser
     @MockK lateinit var foregroundState: ForegroundState
     @MockK lateinit var statisticsData: StatisticsData
+    @MockK lateinit var appEol: AppEol
 
     private val testData = "ABC".encodeToByteArray()
 
@@ -45,6 +48,7 @@ class StatisticsProviderTest : BaseTest() {
         every { parser.parse(testData) } returns statisticsData
         every { foregroundState.isInForeground } returns testForegroundState
         every { statisticsData.isDataAvailable } returns true
+        every { appEol.isEol } returns flowOf(false)
 
         localCache.apply {
             var testLocalCache: ByteArray? = null
@@ -59,7 +63,8 @@ class StatisticsProviderTest : BaseTest() {
         localCache = localCache,
         parser = parser,
         foregroundState = foregroundState,
-        dispatcherProvider = scope.asDispatcherProvider()
+        dispatcherProvider = scope.asDispatcherProvider(),
+        appEol = appEol
     )
 
     @Test
