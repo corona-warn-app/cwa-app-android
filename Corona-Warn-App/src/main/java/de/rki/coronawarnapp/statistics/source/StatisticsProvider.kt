@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.statistics.source
 
+import de.rki.coronawarnapp.eol.AppEol
 import de.rki.coronawarnapp.statistics.StatisticsData
 import de.rki.coronawarnapp.util.HashExtensions.toHexString
 import de.rki.coronawarnapp.util.coroutine.AppScope
@@ -10,6 +11,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
@@ -24,7 +26,8 @@ class StatisticsProvider @Inject constructor(
     private val localCache: StatisticsCache,
     private val parser: StatisticsParser,
     foregroundState: ForegroundState,
-    dispatcherProvider: DispatcherProvider
+    dispatcherProvider: DispatcherProvider,
+    appEol: AppEol
 ) {
 
     private val statisticsData = HotDataFlow(
@@ -36,16 +39,21 @@ class StatisticsProvider @Inject constructor(
             replayExpirationMillis = 0
         )
     ) {
-        try {
-            val cachedValues = fromCache()
-            if (cachedValues == null) {
-                triggerUpdate()
+        if (!appEol.isEol.first()) {
+            try {
+                val cachedValues = fromCache()
+                if (cachedValues == null) {
+                    triggerUpdate()
+                    StatisticsData.DEFAULT
+                } else {
+                    cachedValues
+                }
+            } catch (e: Exception) {
+                Timber.tag(TAG).e(e, "Failed to get data from server.")
                 StatisticsData.DEFAULT
-            } else {
-                cachedValues
             }
-        } catch (e: Exception) {
-            Timber.tag(TAG).e(e, "Failed to get data from server.")
+        } else {
+            Timber.tag(TAG).e( "Canceled statistics update, app is in EOL mode.")
             StatisticsData.DEFAULT
         }
     }
@@ -55,12 +63,12 @@ class StatisticsProvider @Inject constructor(
     init {
         foregroundState.isInForeground
             .onEach {
-                if (it) {
+                if (it && !appEol.isEol.first()) {
                     Timber.tag(TAG).d("App moved to foreground triggering statistics update.")
                     triggerUpdate()
                 }
             }
-            .catch { Timber.tag(TAG).e("Failed to trigger statistics update.") }
+            .catch { Timber.tag(TAG).e("Failed to trigger statistics update or EOL has started.") }
             .launchIn(scope)
     }
 
