@@ -53,7 +53,7 @@ class StatisticsProvider @Inject constructor(
                 StatisticsData.DEFAULT
             }
         } else {
-            Timber.tag(TAG).e( "Canceled statistics update, app is in EOL mode.")
+            Timber.tag(TAG).e("Canceled statistics update, app is in EOL mode.")
             StatisticsData.DEFAULT
         }
     }
