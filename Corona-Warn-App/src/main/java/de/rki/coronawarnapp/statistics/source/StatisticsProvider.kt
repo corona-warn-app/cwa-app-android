@@ -39,23 +39,19 @@ class StatisticsProvider @Inject constructor(
             replayExpirationMillis = 0
         )
     ) {
-        if (!appEol.isEol.first()) {
-            try {
-                val cachedValues = fromCache()
-                if (cachedValues == null) {
+        fromCache()
+            ?: if (!appEol.isEol.first()) {
+                try {
                     triggerUpdate()
                     StatisticsData.DEFAULT
-                } else {
-                    cachedValues
+                } catch (e: Exception) {
+                    Timber.tag(TAG).e(e, "Failed to get data from server.")
+                    StatisticsData.DEFAULT
                 }
-            } catch (e: Exception) {
-                Timber.tag(TAG).e(e, "Failed to get data from server.")
+            } else {
+                Timber.tag(TAG).e("Canceled statistics update, app is in EOL mode.")
                 StatisticsData.DEFAULT
             }
-        } else {
-            Timber.tag(TAG).e("Canceled statistics update, app is in EOL mode.")
-            StatisticsData.DEFAULT
-        }
     }
 
     val current: Flow<StatisticsData> = statisticsData.data
