@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.coronatest.TestRegistrationRequest
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.tan.CoronaTestTAN
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
+import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
 import de.rki.coronawarnapp.reyclebin.coronatest.request.RestoreRecycledTestRequest
 import de.rki.coronawarnapp.submission.SubmissionRepository
@@ -69,7 +70,10 @@ class SubmissionDeletionWarningViewModel @AssistedInject constructor(
                 if (test != null) {
                     recycledCoronaTestsProvider.recycleCoronaTest(test.identifier)
                     recycledCoronaTestsProvider.restoreCoronaTest(request.identifier)
-                    if (request.openResult) restoreCertificates(test, request) else routeToScreen.postValue(
+                    val restoredTest = submissionRepository.hasActiveTest(request.identifier, request.type).first()
+                    if (request.openResult && restoredTest != null) {
+                        restoreCertificates(restoredTest, request)
+                    } else routeToScreen.postValue(
                         DuplicateWarningEvent.Back
                     )
                 } else {
@@ -92,7 +96,7 @@ class SubmissionDeletionWarningViewModel @AssistedInject constructor(
         }
     }
 
-    private fun restoreCertificates(test: BaseCoronaTest, request: TestRegistrationRequest) {
+    private fun restoreCertificates(test: PersonalCoronaTest, request: TestRegistrationRequest) {
         when {
             test.isPositive -> routeToScreen.postValue(
                 DuplicateWarningEvent.Direction(
@@ -103,6 +107,7 @@ class SubmissionDeletionWarningViewModel @AssistedInject constructor(
                         )
                 )
             )
+
             test.isNegative -> when (test.type) {
                 BaseCoronaTest.Type.PCR,
                 BaseCoronaTest.Type.RAPID_ANTIGEN -> routeToScreen.postValue(
@@ -115,6 +120,7 @@ class SubmissionDeletionWarningViewModel @AssistedInject constructor(
                     )
                 )
             }
+
             test.isPending -> routeToScreen.postValue(
                 DuplicateWarningEvent.Direction(
                     SubmissionDeletionWarningFragmentDirections
