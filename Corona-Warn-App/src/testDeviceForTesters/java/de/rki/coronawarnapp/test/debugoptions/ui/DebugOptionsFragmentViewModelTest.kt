@@ -46,7 +46,7 @@ class DebugOptionsFragmentViewModelTest : testhelpers.BaseTest() {
         every { environmentSetup.currentEnvironment } answers { currentEnvironment }
         every { environmentSetup.launchEnvironment } returns null
         every { eolSetting.isLoggerAllowed } returns flowOf(false)
-        every { eol.isEol } returns  flowOf(false)
+        every { eol.isEol } returns flowOf(false)
     }
 
     private fun createViewModel(): DebugOptionsFragmentViewModel = DebugOptionsFragmentViewModel(
