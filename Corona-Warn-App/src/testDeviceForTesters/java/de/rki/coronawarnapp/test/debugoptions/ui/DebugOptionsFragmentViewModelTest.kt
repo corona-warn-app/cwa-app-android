@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.test.debugoptions.ui
 
 import de.rki.coronawarnapp.environment.EnvironmentSetup
+import de.rki.coronawarnapp.eol.AppEol
 import de.rki.coronawarnapp.eol.EolSetting
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -21,6 +22,7 @@ class DebugOptionsFragmentViewModelTest : testhelpers.BaseTest() {
     @MockK private lateinit var environmentSetup: EnvironmentSetup
     @MockK private lateinit var environmentSunset: EnvironmentSunset
     @MockK private lateinit var eolSetting: EolSetting
+    @MockK private lateinit var eol: AppEol
 
     private var currentEnvironment = EnvironmentSetup.Type.DEV
 
@@ -44,6 +46,7 @@ class DebugOptionsFragmentViewModelTest : testhelpers.BaseTest() {
         every { environmentSetup.currentEnvironment } answers { currentEnvironment }
         every { environmentSetup.launchEnvironment } returns null
         every { eolSetting.isLoggerAllowed } returns flowOf(false)
+        every { eol.isEol } returns  flowOf(false)
     }
 
     private fun createViewModel(): DebugOptionsFragmentViewModel = DebugOptionsFragmentViewModel(
@@ -52,6 +55,7 @@ class DebugOptionsFragmentViewModelTest : testhelpers.BaseTest() {
         environmentSunset = environmentSunset,
         appScope = TestScope(),
         eolSetting = eolSetting,
+        eol = eol
     )
 
     @Test
