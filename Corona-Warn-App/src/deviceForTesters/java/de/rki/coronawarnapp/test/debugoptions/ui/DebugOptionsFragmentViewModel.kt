@@ -5,6 +5,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.environment.EnvironmentSetup.Type.Companion.toEnvironmentType
+import de.rki.coronawarnapp.eol.AppEol
 import de.rki.coronawarnapp.eol.EolSetting
 import de.rki.coronawarnapp.test.debugoptions.ui.EnvironmentState.Companion.toEnvironmentState
 import de.rki.coronawarnapp.util.coroutine.AppScope
@@ -14,11 +15,13 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 class DebugOptionsFragmentViewModel @AssistedInject constructor(
     private val envSetup: EnvironmentSetup,
     private val eolSetting: EolSetting,
+    private val eol: AppEol,
     dispatcherProvider: DispatcherProvider,
     private val environmentSunset: EnvironmentSunset,
     @AppScope private val appScope: CoroutineScope,
@@ -52,7 +55,9 @@ class DebugOptionsFragmentViewModel @AssistedInject constructor(
     }
 
     private fun cleanCachedData() = appScope.launch {
-        environmentSunset.reset()
+        if (!eol.isEol.first()) {
+            environmentSunset.reset()
+        }
     }
 
     @AssistedFactory
