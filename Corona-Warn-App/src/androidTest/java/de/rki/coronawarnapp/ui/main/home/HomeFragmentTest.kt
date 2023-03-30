@@ -43,6 +43,7 @@ import testhelpers.recyclerScrollTo
 import testhelpers.setViewVisibility
 import testhelpers.takeScreenshot
 import timber.log.Timber
+import java.util.Locale
 
 @RunWith(AndroidJUnit4::class)
 class HomeFragmentTest : BaseUITest() {
@@ -400,13 +401,22 @@ class HomeFragmentTest : BaseUITest() {
     private fun homeFragmentItemsLiveData(
         tracingStateItem: TracingStateItem = HomeData.Tracing.LOW_RISK_ITEM_WITH_ENCOUNTERS,
         submissionTestResultItems: List<TestResultItem> = listOf(HomeData.Submission.TEST_UNREGISTERED_ITEM),
-        showRampDownNotice: Boolean = false
+        showRampDownNotice: Boolean = true
     ): LiveData<List<HomeItem>> =
         MutableLiveData(
             mutableListOf<HomeItem>().apply {
 
                 if (showRampDownNotice) {
-                    add(getRampDownNotice())
+                    val germanTitle = "Acthung!"
+                    val englishTitle = "Important!"
+                    val germanSubtitle =
+                        "Es wird nur noch bis zum 30. April 2023 möglich sein, andere Personen über die Corona-Warn-App zu warnen!"
+                    val englishSubtitle =
+                        "You will only be able to warn others through the Crorona-Warn-App until April 30, 2023"
+                    when (Locale.getDefault().displayLanguage) {
+                        "de" -> add(getRampDownNotice(germanTitle, germanSubtitle))
+                        else -> add(getRampDownNotice(englishTitle, englishSubtitle))
+                    }
                 }
 
                 val hideTracingState = submissionTestResultItems.any {
@@ -428,12 +438,12 @@ class HomeFragmentTest : BaseUITest() {
             }
         )
 
-    private fun getRampDownNotice() = RampDownNoticeCard.Item(
+    private fun getRampDownNotice(title: String, subtitle: String) = RampDownNoticeCard.Item(
         onClickAction = {},
         rampDownNotice = RampDownNotice(
             visible = true,
-            title = "Betriebsende",
-            subtitle = "Der Betrieb der Corona-Warn-App wird am xx.xx.xxxx eingestellt.",
+            title = title,
+            subtitle = subtitle,
             description = "",
             faqUrl = null
         )
