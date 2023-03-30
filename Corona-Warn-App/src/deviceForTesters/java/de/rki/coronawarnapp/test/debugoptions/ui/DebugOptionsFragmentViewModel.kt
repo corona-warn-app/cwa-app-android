@@ -39,7 +39,7 @@ class DebugOptionsFragmentViewModel @AssistedInject constructor(
                 environmentStateFlow.value = it
                 environmentStateChange.postValue(it)
             }
-        cleanCachedData()
+        cleanCachedDataIfNotEol()
     }
 
     fun selectEnvironmentType(type: String) {
@@ -47,14 +47,14 @@ class DebugOptionsFragmentViewModel @AssistedInject constructor(
         envSetup.toEnvironmentState().let {
             environmentStateFlow.value = it
         }
-        cleanCachedData()
+        cleanCachedDataIfNotEol()
     }
 
     fun setAllowedFlag(flag: Boolean) = launch {
         eolSetting.setLoggerAllowed(flag)
     }
 
-    private fun cleanCachedData() = appScope.launch {
+    private fun cleanCachedDataIfNotEol() = appScope.launch {
         if (!eol.isEol.first()) {
             environmentSunset.reset()
         }
