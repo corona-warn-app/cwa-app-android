@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.ui.onboarding
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.environment.BuildConfigWrap
-import de.rki.coronawarnapp.eol.AppEol
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -13,8 +12,7 @@ import kotlinx.coroutines.flow.first
 
 class OnboardingLoadingViewModel @AssistedInject constructor(
     private val cwaSettings: CWASettings,
-    private val onboardingSettings: OnboardingSettings,
-    private val appEol: AppEol
+    private val onboardingSettings: OnboardingSettings
 ) : CWAViewModel() {
 
     val navigationEvents = SingleLiveEvent<OnboardingFragmentEvents>()
@@ -23,12 +21,6 @@ class OnboardingLoadingViewModel @AssistedInject constructor(
         when {
             !onboardingSettings.isOnboarded() -> {
                 navigationEvents.postValue(OnboardingFragmentEvents.ShowOnboarding)
-            }
-
-            !cwaSettings.wasInteroperabilityShownAtLeastOnce.first() -> {
-                if (!appEol.isEol.first()) {
-                    navigationEvents.postValue(OnboardingFragmentEvents.ShowInteropDeltaOnboarding)
-                }
             }
 
             cwaSettings.lastChangelogVersion.first() / 10000 < BuildConfigWrap.VERSION_CODE / 10000 -> {
