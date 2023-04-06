@@ -21,6 +21,7 @@
         app:srcCompat="@drawable/ic_illustration_together" />
 
     <TextView
+        android:id="@+id/eol_text"
         style="@style/subtitleMedium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
