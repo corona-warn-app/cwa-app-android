@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.ui.main.home.items
 
 import android.graphics.Paint
+import android.text.method.LinkMovementMethod
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.HomeEolCardLayoutBinding
@@ -25,6 +26,7 @@ class EolCard(parent: ViewGroup) :
         eolLink.setOnClickListener {
             curItem.openEolLink()
         }
+        eolText.movementMethod = LinkMovementMethod.getInstance()
     }
 
     data class Item(val openEolLink: () -> Unit) : HomeItem {
