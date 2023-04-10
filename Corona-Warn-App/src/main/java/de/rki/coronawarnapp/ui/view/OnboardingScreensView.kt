@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.ui.view
 
 import android.content.Context
+import android.text.method.LinkMovementMethod
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.appcompat.content.res.AppCompatResources.getDrawable
@@ -66,6 +67,7 @@ class OnboardingScreensView @JvmOverloads constructor(
             if (bodyHtmlText.isNotEmpty()) {
                 binding.onboardingScreensBody.isGone = bodyHtmlText.isEmpty()
                 binding.onboardingScreensBody.text = bodyHtmlText
+                binding.onboardingScreensBody.movementMethod = LinkMovementMethod.getInstance()
             }
         }
     }
