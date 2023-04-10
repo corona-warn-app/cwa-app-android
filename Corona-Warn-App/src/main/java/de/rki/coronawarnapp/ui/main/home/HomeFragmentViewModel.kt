@@ -161,10 +161,14 @@ class HomeFragmentViewModel @AssistedInject constructor(
         appEol.isEol,
     ) { generalStatus, isEol ->
         isEol to generalStatus.toHeaderState()
-    }
-        .asLiveData(dispatcherProvider.Default)
-    val coronaTestErrors = coronaTestRepository.testErrorsSingleEvent
-        .asLiveData(dispatcherProvider.Default)
+    }.asLiveData(dispatcherProvider.Default)
+
+    val coronaTestErrors = combine(
+        coronaTestRepository.testErrorsSingleEvent,
+        appEol.isEol
+    ) { testErrorEvent, isEol ->
+        isEol to testErrorEvent
+    }.asLiveData(dispatcherProvider.Default)
 
     val showIncorrectDeviceTimeDialog by lazy {
         var wasDeviceTimeDialogShown = false
