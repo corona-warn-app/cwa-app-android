@@ -2,12 +2,12 @@ package de.rki.coronawarnapp.tracing.ui.details.items.risk
 
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
+import androidx.core.view.isGone
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TracingContentLowViewBinding
 import de.rki.coronawarnapp.tracing.states.LowRisk
 import de.rki.coronawarnapp.tracing.ui.details.TracingDetailsAdapter
 import de.rki.coronawarnapp.tracing.ui.details.items.risk.LowRiskBox.Item
-import de.rki.coronawarnapp.util.ui.setGone
 
 class LowRiskBox(
     parent: ViewGroup,
@@ -28,9 +28,17 @@ class LowRiskBox(
         item: Item,
         payloads: List<Any>
     ) -> Unit = { item, _ ->
-        state = item.state
-        updateAction.setGone(item.state.isInDetailsMode)
-        detailsIcon.setGone(item.state.isInDetailsMode)
+        item.state.apply {
+            detailsIcon.isGone = isInDetailsMode
+            rowContact.contentDescription = getRiskContactBodyDescription(context)
+            rowContact.setText(getRiskContactBody(context))
+            rowContactLast.isGone = getRiskContactLast(context) == null
+            rowContactLast.setText(getRiskContactLast(context) ?: "")
+            rowDaysSinceInstallation.isGone = !isAppInstalledLessThanTwoWeeks
+            rowDaysSinceInstallation.setText(getDaysSinceInstall(context))
+            rowTimeFetched.setText(getTimeFetched(context))
+            updateAction.isGone = !showUpdateButton
+        }
     }
 
     data class Item(

@@ -145,14 +145,19 @@
                 app:layout_constraintStart_toEndOf="@id/request_green_certificate_proof_icon"
                 app:layout_constraintTop_toTopOf="@id/request_green_certificate_proof_icon" />
 
-            <include
-                android:id="@+id/privacy_card"
-                layout="@layout/fragment_request_green_certificate_privacy"
-                android:layout_width="0dp"
+            <de.rki.coronawarnapp.ui.view.BulletPointDataPrivacyView
+                android:id="@+id/request_certificate_data_privacy"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_16"
-                android:layout_marginTop="@dimen/margin_32"
-                android:layout_marginEnd="@dimen/margin_16"
+                android:layout_marginHorizontal="@dimen/margin_16"
+                android:layout_marginTop="@dimen/margin_36"
+                android:title="@string/request_green_certificate_privacy_title"
+                app:bulletpointFive="@string/request_green_certificate_privacy_section_5"
+                app:bulletpointFour="@string/request_green_certificate_privacy_section_4"
+                app:bulletpointOne="@string/request_green_certificate_privacy_section_1"
+                app:bulletpointThree="@string/request_green_certificate_privacy_section_3"
+                app:bulletpointTwo="@string/request_green_certificate_privacy_section_2"
+                app:extraPcrBulletpoint="@string/request_green_certificate_privacy_pcr_extra_section"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/request_green_certificate_proof_text" />
@@ -169,7 +174,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/privacy_card"
+                app:layout_constraintTop_toBottomOf="@id/request_certificate_data_privacy"
                 app:titleText="@string/request_green_certificate_privacy_information" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

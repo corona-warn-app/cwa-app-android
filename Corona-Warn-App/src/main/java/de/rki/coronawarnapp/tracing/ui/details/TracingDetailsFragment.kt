@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.tracing.ui.details
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
+import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -13,7 +14,6 @@ import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.mutateDrawable
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -46,24 +46,34 @@ class TracingDetailsFragment : Fragment(R.layout.tracing_details_fragment_layout
             adapter = detailsAdapter
         }
 
-        vm.detailsItems.observe2(this) {
+        vm.detailsItems.observe(viewLifecycleOwner) {
             detailsAdapter.update(it)
         }
 
-        vm.buttonStates.observe2(this) {
-            binding.tracingDetailsState = it
-            binding.toolbar.navigationIcon = closeIcon(it)
+        vm.buttonStates.observe(viewLifecycleOwner) {
+            with(binding) {
+                toolbar.setBackgroundColor(it.getRiskColor(requireContext()))
+                toolbar.setTitleTextColor(it.getStableTextColor(requireContext()))
+                riskDetailsButton.isGone = !it.isRiskLevelButtonGroupVisible()
+                riskDetailsButtonEnableTracing.isGone = !it.isRiskDetailsEnableTracingButtonVisible()
+                riskDetailsButtonUpdate.isGone = !it.isRiskDetailsUpdateButtonVisible()
+                riskDetailsButtonUpdate.isEnabled = it.isUpdateButtonEnabled()
+                riskDetailsButtonUpdate.text = it.getUpdateButtonText(requireContext())
+                toolbar.navigationIcon = closeIcon(it)
+            }
         }
 
-        vm.routeToScreen.observe2(this) {
+        vm.routeToScreen.observe(viewLifecycleOwner) {
             when (it) {
                 is TracingDetailsNavigationEvents.NavigateToSurveyConsentFragment -> findNavController().navigate(
                     TracingDetailsFragmentDirections.actionRiskDetailsFragmentToSurveyConsentFragment(it.type)
                 )
+
                 is TracingDetailsNavigationEvents.NavigateToSurveyUrlInBrowser -> openUrl(it.url)
                 TracingDetailsNavigationEvents.NavigateToHomeRules -> findNavController().navigate(
                     TracingDetailsFragmentDirections.actionRiskDetailsFragmentToHomeRules()
                 )
+
                 TracingDetailsNavigationEvents.NavigateToHygieneRules -> findNavController().navigate(
                     TracingDetailsFragmentDirections.actionRiskDetailsFragmentToHygieneRules()
                 )

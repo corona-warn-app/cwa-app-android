@@ -123,138 +123,30 @@
                 app:layout_constraintStart_toEndOf="@id/check_in_warning_image"
                 app:layout_constraintTop_toTopOf="@id/check_in_stay_image" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/check_in_onboarding_card_container"
-                style="@style/cardTracing"
+            <de.rki.coronawarnapp.ui.view.BulletPointDataPrivacyView
+                android:id="@+id/check_in_data_privacy"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/margin_12"
+                android:title="@string/trace_location_onboarding_card_title"
+                android:subtitle="@string/trace_location_onboarding_body_intro"
+                app:bulletpointOne="@string/trace_location_onboarding_body_consent2"
+                app:bulletpointTwo="@string/trace_location_onboarding_body_consent4"
+                app:bulletpointThree="@string/trace_location_onboarding_body_consent5"
+                app:secondParagraph="@string/trace_location_onboarding_body_consent6"
                 android:layout_marginTop="@dimen/margin_24"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/check_in_onboarding_stay">
-
-                <TextView
-                    android:id="@+id/check_in_onboarding_card_title"
-                    style="@style/headline6"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/trace_location_onboarding_card_title"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/check_in_onboarding_card_subtitle"
-                    style="@style/subtitle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_4"
-                    android:text="@string/trace_location_onboarding_body_intro"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/check_in_onboarding_card_title" />
-
-                <ImageView
-                    android:id="@+id/check_in_onboarding_bulletpoint1"
-                    android:layout_width="@dimen/width_88"
-                    android:layout_height="@dimen/height_8"
-                    android:layout_marginTop="@dimen/margin_24"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/check_in_onboarding_card_subtitle"
-                    app:srcCompat="@drawable/bullet_point" />
-
-                <TextView
-                    android:id="@+id/check_in_onboarding_body2"
-                    style="@style/boldSubtitle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_16"
-                    android:layout_marginTop="@dimen/margin_16"
-                    android:focusable="true"
-                    android:text="@string/trace_location_onboarding_body_consent2"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/check_in_onboarding_bulletpoint1"
-                    app:layout_constraintTop_toBottomOf="@id/check_in_onboarding_card_subtitle" />
-
-                <TextView
-                    android:id="@+id/check_in_onboarding_body3"
-                    style="@style/subtitle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_16"
-                    android:layout_marginTop="@dimen/margin_4"
-                    android:focusable="true"
-                    android:text="@string/trace_location_onboarding_body_consent3"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/check_in_onboarding_bulletpoint1"
-                    app:layout_constraintTop_toBottomOf="@id/check_in_onboarding_body2" />
-
-                <ImageView
-                    android:id="@+id/check_in_onboarding_bulletpoint2"
-                    android:layout_width="@dimen/width_8"
-                    android:layout_height="@dimen/height_8"
-                    android:layout_marginTop="@dimen/margin_24"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/check_in_onboarding_body3"
-                    app:srcCompat="@drawable/bullet_point" />
-
-                <TextView
-                    android:id="@+id/check_in_onboarding_body4"
-                    style="@style/boldSubtitle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_16"
-                    android:layout_marginTop="@dimen/margin_16"
-                    android:focusable="true"
-                    android:text="@string/trace_location_onboarding_body_consent4"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/check_in_onboarding_bulletpoint2"
-                    app:layout_constraintTop_toBottomOf="@id/check_in_onboarding_body3" />
-
-                <ImageView
-                    android:id="@+id/check_in_onboarding_bulletpoint3"
-                    android:layout_width="@dimen/width_8"
-                    android:layout_height="@dimen/height_8"
-                    android:layout_marginTop="@dimen/margin_24"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/check_in_onboarding_body4"
-                    app:srcCompat="@drawable/bullet_point" />
-
-                <TextView
-                    android:id="@+id/check_in_onboarding_body5"
-                    style="@style/boldSubtitle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_16"
-                    android:layout_marginTop="@dimen/margin_16"
-                    android:focusable="true"
-                    android:text="@string/trace_location_onboarding_body_consent5"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/check_in_onboarding_bulletpoint3"
-                    app:layout_constraintTop_toBottomOf="@id/check_in_onboarding_body4" />
-
-                <TextView
-                    android:id="@+id/check_in_onboarding_body6"
-                    style="@style/subtitle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_8"
-                    android:focusable="true"
-                    android:text="@string/trace_location_onboarding_body_consent6"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/check_in_onboarding_body5" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/check_in_onboarding_stay" />
 
             <de.rki.coronawarnapp.ui.view.MoreInformationView
                 android:id="@+id/check_in_onboarding_privacy"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/margin_24"
+                android:layout_marginHorizontal="@dimen/margin_16"
                 android:layout_marginTop="@dimen/margin_32"
                 android:focusable="true"
-                app:layout_constraintTop_toBottomOf="@id/check_in_onboarding_card_container"
+                app:layout_constraintTop_toBottomOf="@id/check_in_data_privacy"
                 app:titleText="@string/contact_diary_onboarding_legal_information" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

@@ -10,7 +10,6 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSettingsNotificationsBinding
 import de.rki.coronawarnapp.util.ExternalActionHelper.openAppNotificationSettings
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.toResolvingString
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -35,7 +34,7 @@ class NotificationSettingsFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
-            viewModel.notificationSettingsState.observe2(this@NotificationSettingsFragment) {
+            viewModel.notificationSettingsState.observe(viewLifecycleOwner) {
                 informationDetailsHeaderIllustration.apply {
                     setImageResource(it.getNotificationsImage())
                     contentDescription = it.getNotificationsIllustrationText(requireContext())

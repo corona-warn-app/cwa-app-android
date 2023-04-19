@@ -203,7 +203,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/height_1"
                         android:layout_marginVertical="@dimen/margin_16"
-                        android:background="?android:attr/listDivider" />
+                        android:background="@color/dividerColor" />
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/confirm_checkin_settings_card_checkout_time_row"

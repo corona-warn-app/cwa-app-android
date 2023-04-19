@@ -42,7 +42,7 @@
         android:layout_width="0dp"
         android:layout_height="@dimen/height_1"
         android:layout_marginStart="@dimen/margin_32"
-        android:background="?android:attr/listDivider"
+        android:background="@color/dividerColor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

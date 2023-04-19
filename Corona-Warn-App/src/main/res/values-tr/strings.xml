@@ -2027,5 +2027,5 @@
     <string name="fab_scanner_tip_title">"QR Kod Tarayıcı"</string>
     <!-- XTXT: UQS Tooltip subtitle -->
     <string name="fab_scanner_tip_subtitle">"Testleri, sertifikaları ve check-in\'leri taramak için bu tarayıcıyı kullanın."</string>
-
+    <string name="home_eol_message">"Corona-Warn-App\'i kullandığınız için teşekkür ederiz. Pandemi sırasında Corona-Warn-App kullanıcıları yaklaşık 9 milyon kez COVID-19 tanılarını paylaştı. Bu pozitif test sonuçlarının paylaşılması sayesinde kullanıcılar, aksi takdirde haberdar olamayacakları yüksek enfeksiyon riski hakkında hızlıca uyarıldı. Uyarılan kullanıcıların çoğuna da daha sonra COVID-19 tanısı kondu. Desteğiniz sayesinde Corona-Warn-App bir erken uyarı sistemi olarak amacını yerine getirdi ve enfeksiyon zincirlerinin kırılmasına yardımcı oldu.\n\nCorona-Warn-App\'in geliştirilmesi 1 Haziran 2023 tarihi itibarıyla durdurulacak. Temas güncenizin yanı sıra uygulamada zaten kaydettiğiniz sertifikalara erişmeye devam edebilirsiniz. Diğer işlevler artık kullanılmayacaktır.\n\nÇeşitli risk durumları hakkında uyarılar almak istiyorsanız önerimiz: "<a href="https://www.bbk.bund.de/DE/Warnung-Vorsorge/Warn-App-NINA/NINA-Download/nina-download_node.html">"Almanya Federal Sivil Koruma ve Afet Yardımı Dairesi (BBK) tarafından sunulan NINA uyarı uygulaması"</a>" (harici bağlantı)."</string>
 </resources>

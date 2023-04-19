@@ -30,6 +30,8 @@ class PersonCertificateCard(parent: ViewGroup) :
         val firstCertificate = curItem.overviewCertificates[0]
         setUIState(curItem)
 
+        qrCodeCard.setCovPassInfoClickListener { curItem.onCovPassInfoAction() }
+        qrCodeCard.setOnClickListener { curItem.onClickAction(curItem, bindingAdapterPosition) }
         itemView.apply {
             setOnClickListener { curItem.onClickAction(curItem, bindingAdapterPosition) }
             transitionName = firstCertificate.cwaCertificate.personIdentifier.groupingKey
@@ -48,6 +50,7 @@ class PersonCertificateCard(parent: ViewGroup) :
         val onClickAction: (Item, Int) -> Unit,
         val onCovPassInfoAction: () -> Unit,
         val onCertificateSelected: (certificateSelection: CertificateSelection) -> Unit,
+        val isEol: Boolean = false,
     ) : PersonCertificatesItem, HasPayloadDiffer {
         override val stableId: Long =
             overviewCertificates[0].cwaCertificate.personIdentifier.hashCode().toLong()

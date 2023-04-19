@@ -11,6 +11,7 @@
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         style="@style/CWAMaterialToolbar.Close"
+        android:focusable="true"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
@@ -49,11 +50,12 @@
                 style="@style/subtitleMedium"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_24"
                 android:layout_marginTop="@dimen/margin_24"
                 android:focusable="true"
                 android:text="@string/nm_delta_onboarding_body"
-                app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                app:layout_constraintStart_toStartOf="@id/guideline_start"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/illustration" />
 
             <TextView
@@ -61,104 +63,59 @@
                 style="@style/boldSubtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_24"
                 android:layout_marginTop="@dimen/margin_24"
                 android:focusable="true"
                 android:text="@string/nm_delta_onboarding_subtitle"
-                app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                app:layout_constraintStart_toStartOf="@id/guideline_start"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/body" />
 
-            <include
-                android:id="@+id/bulletpoint_1"
-                layout="@layout/include_bullet_point"
-                android:layout_width="@dimen/bullet_point_6"
-                android:layout_height="@dimen/bullet_point_6"
-                android:layout_marginStart="@dimen/margin_10"
-                app:layout_constraintBaseline_toBaselineOf="@id/point_1"
-                app:layout_constraintStart_toEndOf="@id/guideline_start" />
-
-            <TextView
-                android:id="@+id/point_1"
-                style="@style/subtitle"
-                android:layout_width="0dp"
+            <de.rki.coronawarnapp.ui.view.BulletPointTextView
+                android:id="@+id/delta_bulletpoint_one"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_24"
+                android:layout_marginHorizontal="@dimen/margin_24"
                 android:layout_marginTop="@dimen/margin_8"
-                android:focusable="true"
-                android:text="@string/nm_point_overall"
-                app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                app:layout_constraintStart_toEndOf="@id/guideline_start"
+                android:description="@string/nm_point_overall"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/subtitle" />
 
-            <include
-                android:id="@+id/bulletpoint_2"
-                layout="@layout/include_bullet_point"
-                android:layout_width="@dimen/bullet_point_6"
-                android:layout_height="@dimen/bullet_point_6"
-                android:layout_marginStart="@dimen/margin_10"
-                app:layout_constraintBaseline_toBaselineOf="@id/point_2"
-                app:layout_constraintStart_toEndOf="@id/guideline_start" />
+            <de.rki.coronawarnapp.ui.view.BulletPointTextView
+                android:id="@+id/delta_bulletpoint_two"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_24"
+                android:layout_marginTop="@dimen/margin_4"
+                android:description="@string/nm_point_block_screen"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/delta_bulletpoint_one" />
 
-            <TextView
-                android:id="@+id/point_2"
-                style="@style/subtitle"
-                android:layout_width="0dp"
+            <de.rki.coronawarnapp.ui.view.BulletPointTextView
+                android:id="@+id/delta_bulletpoint_three"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_24"
                 android:layout_marginTop="@dimen/margin_4"
-                android:focusable="true"
-                android:text="@string/nm_point_block_screen"
-                app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                app:layout_constraintStart_toEndOf="@id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@id/point_1" />
-
-            <include
-                android:id="@+id/bulletpoint_3"
-                layout="@layout/include_bullet_point"
-                android:layout_width="@dimen/bullet_point_6"
-                android:layout_height="@dimen/bullet_point_6"
-                android:layout_marginStart="@dimen/margin_10"
-                app:layout_constraintBaseline_toBaselineOf="@id/point_3"
-                app:layout_constraintStart_toEndOf="@id/guideline_start" />
-
-            <TextView
-                android:id="@+id/point_3"
-                style="@style/subtitle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_24"
-                android:layout_marginTop="@dimen/margin_4"
-                android:focusable="true"
-                android:text="@string/nm_point_unclock_screen"
-                app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                app:layout_constraintStart_toEndOf="@id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@id/point_2" />
+                android:description="@string/nm_point_unclock_screen"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/delta_bulletpoint_two" />
 
             <TextView
                 android:id="@+id/faq"
                 style="@style/subtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_24"
                 android:layout_marginTop="@dimen/margin_24"
                 android:focusable="true"
                 android:text="@string/nm_delta_onboarding_subtitle"
-                app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                app:layout_constraintStart_toStartOf="@id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@id/point_3" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline_start"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_begin="@dimen/guideline_24" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline_end"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_end="@dimen/guideline_24" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/delta_bulletpoint_three" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

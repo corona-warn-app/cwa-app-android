@@ -53,14 +53,18 @@
                 android:layout_marginTop="@dimen/margin_16"
                 android:text="@string/debugging_debuglog_intro_explanation_section_two" />
 
-            <include
+            <de.rki.coronawarnapp.ui.view.BulletPointDataPrivacyView
                 android:id="@+id/debug_log_privacy_card"
-                layout="@layout/include_debuglog_privacy_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/margin_12"
-                android:layout_marginVertical="@dimen/margin_24"
-                android:focusable="true" />
+                android:layout_margin="@dimen/margin_24"
+                android:focusable="true"
+                app:bulletpointThree="@string/debug_log_privacy_card_container_section_three"
+                app:bulletpointFour="@string/debug_log_privacy_card_container_section_four"
+                app:bulletpointFive="@string/debug_log_privacy_card_container_section_five"
+                android:title="@string/debugging_debuglog_privacy_card_title"
+                app:bulletpointOne="@string/debug_log_privacy_card_section_body_one"
+                app:bulletpointTwo="@string/debug_log_privacy_card_container_section_two" />
 
             <de.rki.coronawarnapp.ui.view.MoreInformationView
                 android:id="@+id/debug_log_history_container"

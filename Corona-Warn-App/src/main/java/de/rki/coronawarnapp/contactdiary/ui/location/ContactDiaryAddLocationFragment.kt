@@ -14,7 +14,6 @@ import de.rki.coronawarnapp.databinding.ContactDiaryAddLocationFragmentBinding
 import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.setTextOnTextInput
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -99,12 +98,12 @@ class ContactDiaryAddLocationFragment : Fragment(R.layout.contact_diary_add_loca
             }
         }
 
-        viewModel.shouldClose.observe2(this) {
+        viewModel.shouldClose.observe(viewLifecycleOwner) {
             binding.root.hideKeyboard()
             popBackStack()
         }
 
-        viewModel.isValid.observe2(this) {
+        viewModel.isValid.observe(viewLifecycleOwner) {
             binding.locationSaveButton.isEnabled = it
         }
     }

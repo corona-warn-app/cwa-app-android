@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/bulletpoint"
+            android:layout_width="@dimen/bullet_point_6"
+            android:layout_height="@dimen/bullet_point_6"
+            android:baseline="@dimen/line_spacing_8"
+            app:layout_constraintBaseline_toBaselineOf="@id/bulletpoint_text"
+            android:importantForAccessibility="no"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/bullet_point" />
+
+        <TextView
+            android:id="@+id/bulletpoint_text"
+            style="@style/subtitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_16"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/bulletpoint"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="bullet point content" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</merge>

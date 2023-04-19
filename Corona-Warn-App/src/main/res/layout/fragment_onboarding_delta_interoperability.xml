@@ -1,109 +1,199 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/onboarding_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorSurface"
+    android:fillViewport="true">
 
-    <data>
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/onboarding_delta_toolbar"
+        style="@style/CWAMaterialToolbar.BackArrow"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <variable
-            name="countryData"
-            type="java.util.List&lt;de.rki.coronawarnapp.ui.Country&gt;" />
-    </data>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/onboarding_container"
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/delta_interoperability_scroll_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorSurface"
-        android:fillViewport="true">
+        android:layout_height="0dp"
+        android:layout_marginBottom="@dimen/margin_16"
+        app:layout_constraintBottom_toTopOf="@id/onboarding_button_next"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/onboarding_delta_toolbar">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/onboarding_header"
+            android:id="@+id/delta_interoperability_container"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/height_56"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_height="match_parent">
 
-            <include
-                android:id="@+id/onboarding_button_back"
-                layout="@layout/include_button_icon"
-                android:layout_width="wrap_content"
+            <ImageView
+                android:id="@+id/delta_interoperability_illustration"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:icon="@{@drawable/ic_close}"
-                app:iconDescription="@{@string/accessibility_close}"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="@id/guideline_back"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/interoperability_eu_illustration_description"
+                android:scaleType="fitXY"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_illustration_interoperability" />
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline_back"
-                android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/delta_interoperability_headline"
+                style="@style/headline4"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_24"
+                android:layout_marginTop="@dimen/margin_16"
+                android:accessibilityHeading="true"
+                android:text="@string/interoperability_onboarding_delta_title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/delta_interoperability_illustration" />
+
+            <de.rki.coronawarnapp.ui.view.InteroperabilityOnboardingView
+                android:id="@+id/delta_interoperability_view_section"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:firstSection="@string/interoperability_onboarding_delta_subtitle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/delta_interoperability_headline"
+                app:secondSection="@string/interoperability_onboarding_randomid_download_free" />
+
+            <LinearLayout
+                android:id="@+id/country_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:orientation="vertical"
-                app:layout_constraintGuide_begin="@dimen/guideline_14" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/delta_interoperability_view_section">
+
+                <TextView
+                    android:id="@+id/country_list_header"
+                    style="@style/headline6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_24"
+                    android:layout_marginTop="@dimen/margin_24"
+                    android:layout_marginEnd="@dimen/margin_24"
+                    android:accessibilityHeading="true"
+                    android:text="@string/interoperability_onboarding_list_title" />
+
+                <de.rki.coronawarnapp.ui.view.CountryListView
+                    android:id="@+id/country_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/margin_24"
+                    android:layout_marginTop="@dimen/margin_16" />
+
+                <TextView
+                    android:id="@+id/no_countries_header"
+                    style="@style/headline5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/margin_24"
+                    android:layout_marginTop="@dimen/margin_24"
+                    android:focusable="false"
+                    android:text="@string/interoperability_onboarding_list_title_failrequest" />
+
+                <TextView
+                    android:id="@+id/no_countries_body"
+                    style="@style/body1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/margin_24"
+                    android:layout_marginTop="@dimen/margin_24"
+                    android:focusable="true"
+                    android:text="@string/interoperability_onboarding_list_subtitle_failrequest" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/interoperability_footer_title"
+                style="@style/headline6"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_24"
+                android:accessibilityHeading="true"
+                android:text="@string/interoperability_onboarding_delta_footerTitle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/country_container" />
+
+            <TextView
+                android:id="@+id/interoperability_footer_description"
+                style="@style/subtitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_24"
+                android:layout_marginTop="@dimen/margin_24"
+                android:text="@string/interoperability_onboarding_delta_footerDescription"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/interoperability_footer_title" />
+
+
+            <TextView
+                android:id="@+id/onboarding_delta_expanded_terms_text_part_1"
+                style="@style/subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_24"
+                android:layout_marginTop="@dimen/margin_24"
+                android:paddingVertical="@dimen/padding_8"
+                android:text="@string/interoperability_onboarding_delta_expanded_terms_text_part_1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/interoperability_footer_description" />
+
+            <TextView
+                android:id="@+id/onboarding_delta_expanded_terms_text_link"
+                style="@style/subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_24"
+                android:clickable="true"
+                android:focusable="true"
+                android:linksClickable="true"
+                android:paddingVertical="@dimen/padding_8"
+                android:text="@string/interoperability_onboarding_delta_terms_link"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/onboarding_delta_expanded_terms_text_part_1" />
+
+            <TextView
+                android:id="@+id/onboarding_delta_expanded_terms_text_part_2"
+                style="@style/subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_24"
+                android:paddingVertical="@dimen/padding_8"
+                android:text="@string/interoperability_onboarding_delta_expanded_terms_text_part_2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/onboarding_delta_expanded_terms_text_link" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+    </androidx.core.widget.NestedScrollView>
 
-        <include
-            android:id="@+id/onboarding_include"
-            layout="@layout/include_interoperability"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginBottom="@dimen/margin_16"
-            android:focusable="false"
-            app:countryData="@{countryData}"
-            app:countryListTitle="@{@string/interoperability_onboarding_list_title}"
-            app:firstSection="@{@string/interoperability_onboarding_delta_subtitle}"
-            app:footerDescription="@{@string/interoperability_onboarding_delta_footerDescription}"
-            app:footerTitle="@{@string/interoperability_onboarding_delta_footerTitle}"
-            app:isOnboarding="@{false}"
-            app:isRiskdetection="@{false}"
-            app:layout_constraintBottom_toTopOf="@+id/onboarding_button_next"
-            app:layout_constraintEnd_toEndOf="@id/guideline_end"
-            app:layout_constraintStart_toStartOf="@id/guideline_start"
-            app:layout_constraintTop_toBottomOf="@+id/guideline_top"
-            app:secondSection="@{@string/interoperability_onboarding_randomid_download_free}"
-            app:showFooter="@{true}"
-            app:title="@{@string/interoperability_onboarding_delta_title}" />
+    <Button
+        android:id="@+id/onboarding_button_next"
+        style="@style/buttonPrimary"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_24"
+        android:layout_marginBottom="@dimen/margin_16"
+        android:text="@string/onboarding_button_next"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-        <Button
-            android:id="@+id/onboarding_button_next"
-            style="@style/buttonPrimary"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/onboarding_button_next"
-            app:layout_constraintBottom_toBottomOf="@id/guideline_bottom"
-            app:layout_constraintEnd_toEndOf="@id/guideline_end"
-            app:layout_constraintStart_toStartOf="@id/guideline_start" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline_top"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_begin="@dimen/guideline_64" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline_bottom"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_end="@dimen/guideline_16" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline_start"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_begin="@dimen/guideline_24" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline_end"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_end="@dimen/guideline_24" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+</androidx.constraintlayout.widget.ConstraintLayout>

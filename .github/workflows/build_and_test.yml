@@ -326,7 +326,7 @@ jobs:
             --environment-variables clearPackageData=true \
             --test-targets "notAnnotation testhelpers.Screenshot" \
             --timeout 20m \
-            --device-ids blueline \
+            --device-ids dreamlte \
             --os-version-ids 28 \
             --locales de_DE \
             --orientations portrait \
@@ -341,7 +341,7 @@ jobs:
         if: always()
         run: |
           sudo pip install -U crcmod
-          sudo gsutil -m cp -R -U gs://${GOOGLE_PROJECT_ID}-circleci-android/${{ env.BUCKETDIR }}/blueline* firebase-results
+          sudo gsutil -m cp -R -U gs://${GOOGLE_PROJECT_ID}-circleci-android/${{ env.BUCKETDIR }}/dreamlte* firebase-results
 
       - name: Archive Test Result
         uses: actions/upload-artifact@v3

@@ -1,118 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorSemanticLowRisk"
+    android:padding="@dimen/padding_24">
 
-    <data>
-        <variable
-            name="state"
-            type="de.rki.coronawarnapp.tracing.states.LowRisk" />
-    </data>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/headline"
+        style="@style/headline5"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@color/colorSemanticLowRisk"
-        android:padding="@dimen/padding_24">
+        android:layout_marginEnd="@dimen/margin_16"
+        android:accessibilityHeading="true"
+        android:text="@string/risk_card_low_risk_headline"
+        android:textColor="@color/colorTextPrimary1InvertedStable"
+        app:layout_constraintEnd_toStartOf="@id/details_icon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_goneMarginEnd="0dp"
+        tools:text="@string/risk_card_low_risk_headline"
+        tools:textColor="@color/colorStableLight" />
 
-        <TextView
-            android:id="@+id/headline"
-            style="@style/headline5"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/margin_16"
-            android:accessibilityHeading="true"
-            android:text="@string/risk_card_low_risk_headline"
-            android:textColor="@color/colorTextPrimary1InvertedStable"
-            app:layout_constraintEnd_toStartOf="@id/details_icon"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_goneMarginEnd="0dp"
-            tools:text="@string/risk_card_low_risk_headline"
-            tools:textColor="@color/colorStableLight" />
+    <ImageView
+        android:id="@+id/details_icon"
+        android:layout_width="@dimen/width_40"
+        android:layout_height="@dimen/height_40"
+        android:importantForAccessibility="no"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_forward"
+        app:tint="@color/colorStableLight"
+        tools:tint="@color/colorStableLight" />
 
-        <ImageView
-            android:id="@+id/details_icon"
-            gone="@{state.isInDetailsMode}"
-            android:layout_width="@dimen/width_40"
-            android:layout_height="@dimen/height_40"
-            android:importantForAccessibility="no"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_forward"
-            app:tint="@color/colorStableLight"
-            tools:tint="@color/colorStableLight" />
+    <de.rki.coronawarnapp.ui.view.TracingCardInfoRow
+        android:id="@+id/row_contact"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_16"
+        android:icon="@drawable/ic_risk_card_contact"
+        android:textColor="@color/colorTextPrimary1InvertedStable"
+        app:compatIconTint="@color/colorStableLight"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/headline"
+        tools:text="@plurals/risk_card_low_risk_encounter_days_body" />
 
-        <de.rki.coronawarnapp.ui.view.TracingCardInfoRow
-            android:id="@+id/row_contact"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_16"
-            android:contentDescription="@{state.getRiskContactBodyDescription(context)}"
-            android:icon="@drawable/ic_risk_card_contact"
-            android:text="@{state.getRiskContactBody(context)}"
-            android:textColor="@color/colorTextPrimary1InvertedStable"
-            app:compatIconTint="@color/colorStableLight"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/headline"
-            tools:text="@plurals/risk_card_low_risk_encounter_days_body" />
+    <de.rki.coronawarnapp.ui.view.TracingCardInfoRow
+        android:id="@+id/row_contact_last"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:icon="@drawable/ic_risk_card_calendar"
+        android:textColor="@color/colorTextPrimary1InvertedStable"
+        android:visibility="gone"
+        app:compatIconTint="@color/colorStableLight"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/row_contact"
+        tools:text="@string/risk_card_low_risk_most_recent_body_encounters_on_more_than_one_day" />
 
-        <de.rki.coronawarnapp.ui.view.TracingCardInfoRow
-            android:id="@+id/row_contact_last"
-            gone="@{state.getRiskContactLast(context) == null}"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:icon="@drawable/ic_risk_card_calendar"
-            android:text="@{state.getRiskContactLast(context) ?? ``}"
-            android:textColor="@color/colorTextPrimary1InvertedStable"
-            android:visibility="gone"
-            app:compatIconTint="@color/colorStableLight"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/row_contact"
-            tools:text="@string/risk_card_low_risk_most_recent_body_encounters_on_more_than_one_day" />
+    <de.rki.coronawarnapp.ui.view.TracingCardInfoRow
+        android:id="@+id/row_days_since_installation"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:icon="@drawable/ic_download"
+        android:textColor="@color/colorTextPrimary1InvertedStable"
+        android:visibility="gone"
+        app:compatIconTint="@color/colorStableLight"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/row_contact_last"
+        tools:text="@string/risk_card_body_days_since_installation" />
 
-        <de.rki.coronawarnapp.ui.view.TracingCardInfoRow
-            android:id="@+id/row_days_since_installation"
-            gone="@{!state.appInstalledForOverTwoWeeks()}"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:icon="@drawable/ic_download"
-            android:text="@{state.getDaysSinceInstall(context)}"
-            android:textColor="@color/colorTextPrimary1InvertedStable"
-            android:visibility="gone"
-            app:compatIconTint="@color/colorStableLight"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/row_contact_last"
-            tools:text="@string/risk_card_body_days_since_installation" />
+    <de.rki.coronawarnapp.ui.view.TracingCardInfoRow
+        android:id="@+id/row_time_fetched"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:icon="@drawable/ic_risk_card_time_fetched"
+        android:textColor="@color/colorTextPrimary1InvertedStable"
+        app:compatIconTint="@color/colorStableLight"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/row_days_since_installation"
+        tools:text="@string/risk_card_body_not_yet_fetched" />
 
-        <de.rki.coronawarnapp.ui.view.TracingCardInfoRow
-            android:id="@+id/row_time_fetched"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:icon="@drawable/ic_risk_card_time_fetched"
-            android:text="@{state.getTimeFetched(context)}"
-            android:textColor="@color/colorTextPrimary1InvertedStable"
-            app:compatIconTint="@color/colorStableLight"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/row_days_since_installation"
-            tools:text="@string/risk_card_body_not_yet_fetched" />
+    <Button
+        android:id="@+id/update_action"
+        style="@style/buttonLight"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_16"
+        android:text="@string/risk_card_button_update"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/row_time_fetched" />
 
-        <Button
-            android:id="@+id/update_action"
-            style="@style/buttonLight"
-            gone="@{!state.showUpdateButton}"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_16"
-            android:text="@string/risk_card_button_update"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/row_time_fetched" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+</androidx.constraintlayout.widget.ConstraintLayout>

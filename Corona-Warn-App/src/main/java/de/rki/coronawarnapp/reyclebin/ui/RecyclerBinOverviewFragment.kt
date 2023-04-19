@@ -15,7 +15,6 @@ import de.rki.coronawarnapp.reyclebin.ui.dialog.restoreTestDialog
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.list.setupSwipe
 import de.rki.coronawarnapp.util.lists.diffutil.update
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -45,13 +44,18 @@ class RecyclerBinOverviewFragment : Fragment(R.layout.recycler_bin_overview_frag
             }
         }
 
-        viewModel.listItems.observe2(this) {
+        viewModel.listItems.observe(viewLifecycleOwner) {
             binding.emptyListInfoContainer.isVisible = it.isEmpty()
             recyclerBinAdapter.update(it)
             binding.toolbar.menu.findItem(R.id.menu_remove_all)?.isEnabled = it.isNotEmpty()
+            if (it.isEmpty()) {
+                binding.recyclerBinList.contentDescription = getText(R.string.recycler_bin_empty_label)
+            } else {
+                binding.recyclerBinList.contentDescription = getText(R.string.recycler_bin_title)
+            }
         }
 
-        viewModel.events.observe2(this) { handleRecyclerEvent(it) }
+        viewModel.events.observe(viewLifecycleOwner) { handleRecyclerEvent(it) }
     }
 
     private fun handleRecyclerEvent(event: RecyclerBinEvent): Unit = when (event) {
@@ -78,6 +82,7 @@ class RecyclerBinOverviewFragment : Fragment(R.layout.recycler_bin_overview_frag
             viewModel.onRemoveAllItemsClicked()
             true
         }
+
         else -> false
     }
 }

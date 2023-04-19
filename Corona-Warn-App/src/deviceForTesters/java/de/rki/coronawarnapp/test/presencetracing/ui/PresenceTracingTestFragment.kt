@@ -19,7 +19,6 @@ import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
 import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -44,19 +43,19 @@ class PresenceTracingTestFragment : Fragment(R.layout.fragment_test_presence_tra
             viewModel.runRiskCalculationPerCheckInDay()
         }
 
-        viewModel.presenceTracingWarningTaskResult.observe2(this) {
+        viewModel.presenceTracingWarningTaskResult.observe(viewLifecycleOwner) {
             binding.tracingWarningTaskResult.text = it
         }
 
-        viewModel.checkInRiskPerDayText.observe2(this) {
+        viewModel.checkInRiskPerDayText.observe(viewLifecycleOwner) {
             binding.riskCalculationResultText.text = it
         }
 
-        viewModel.taskRunTime.observe2(this) {
+        viewModel.taskRunTime.observe(viewLifecycleOwner) {
             binding.taskRunTime.text = "Task finished in ${it}ms"
         }
 
-        viewModel.riskCalculationRuntime.observe2(this) {
+        viewModel.riskCalculationRuntime.observe(viewLifecycleOwner) {
             binding.riskCalculationRuntimeText.text = "Risk calculation runtime in millis: $it"
         }
 

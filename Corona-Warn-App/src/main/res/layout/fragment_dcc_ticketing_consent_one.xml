@@ -135,167 +135,63 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/subject" />
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/privacy_card"
-                    style="@style/GreyCard"
+                <de.rki.coronawarnapp.ui.view.BulletPointDataPrivacyView
+                    android:id="@+id/dcc_ticketing_data_privacy"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_12"
+                    android:layout_marginHorizontal="@dimen/margin_12"
                     android:layout_marginTop="@dimen/margin_32"
-                    android:layout_marginEnd="@dimen/margin_12"
+                    android:subtitle="@string/dcc_ticketing_consent_one_legal_body"
+                    android:title="@string/dcc_ticketing_consent_one_legal_title"
+                    app:bulletpointOne="@string/dcc_ticketing_consent_one_legal_point_1"
+                    app:bulletpointTwo="@string/dcc_ticketing_consent_one_legal_point_2"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/body">
+                    app:layout_constraintTop_toBottomOf="@id/body" />
 
-                    <TextView
-                        android:id="@+id/legal_title"
-                        style="@style/headline6"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="@dimen/margin_24"
-                        android:layout_marginTop="@dimen/margin_24"
-                        android:text="@string/dcc_ticketing_consent_one_legal_title"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/legal_body"
-                        style="@style/subtitle"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="@dimen/margin_24"
-                        android:layout_marginTop="@dimen/margin_24"
-                        android:text="@string/dcc_ticketing_consent_one_legal_body"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/legal_title" />
-
-                    <include
-                        android:id="@+id/legal_bulletpoint_one"
-                        layout="@layout/include_bullet_point"
-                        android:layout_width="@dimen/bullet_point_6"
-                        android:layout_height="@dimen/bullet_point_6"
-                        app:layout_constraintBaseline_toBaselineOf="@id/legal_first_bulletpoint_text"
-                        app:layout_constraintStart_toStartOf="@id/legal_body" />
-
-                    <TextView
-                        android:id="@+id/legal_first_bulletpoint_text"
-                        style="@style/subtitle"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="@dimen/margin_24"
-                        android:layout_marginTop="@dimen/margin_24"
-                        android:text="@string/dcc_ticketing_consent_one_legal_point_1"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/legal_bulletpoint_one"
-                        app:layout_constraintTop_toBottomOf="@id/legal_body" />
-
-                    <include
-                        android:id="@+id/legal_bulletpoint_two"
-                        layout="@layout/include_bullet_point"
-                        android:layout_width="@dimen/bullet_point_6"
-                        android:layout_height="@dimen/bullet_point_6"
-                        app:layout_constraintBaseline_toBaselineOf="@id/legal_second_bulletpoint_text"
-                        app:layout_constraintStart_toStartOf="@id/legal_bulletpoint_one" />
-
-                    <TextView
-                        android:id="@+id/legal_second_bulletpoint_text"
-                        style="@style/subtitle"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_16"
-                        android:layout_marginEnd="@dimen/margin_24"
-                        android:layout_marginBottom="@dimen/margin_32"
-                        android:text="@string/dcc_ticketing_consent_one_legal_point_2"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="@id/legal_first_bulletpoint_text"
-                        app:layout_constraintTop_toBottomOf="@id/legal_first_bulletpoint_text" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <include
-                    android:id="@+id/bulletpoint_one"
-                    layout="@layout/include_bullet_point"
-                    android:layout_width="@dimen/bullet_point_6"
-                    android:layout_height="@dimen/bullet_point_6"
-                    android:layout_marginStart="@dimen/margin_32"
-                    app:layout_constraintBaseline_toBaselineOf="@id/first_bulletpoint_text"
-                    app:layout_constraintStart_toStartOf="parent" />
-
-                <TextView
-                    android:id="@+id/first_bulletpoint_text"
-                    style="@style/subtitle"
-                    android:layout_width="0dp"
+                <de.rki.coronawarnapp.ui.view.BulletPointTextView
+                    android:id="@+id/dcc_ticketing_bulletpoint_one"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_24"
                     android:layout_marginTop="@dimen/margin_32"
-                    android:layout_marginEnd="@dimen/margin_32"
-                    android:text="@string/dcc_ticketing_consent_one_point_1"
+                    android:layout_marginHorizontal="@dimen/margin_32"
+                    android:description="@string/dcc_ticketing_consent_one_point_1"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/bulletpoint_one"
-                    app:layout_constraintTop_toBottomOf="@id/privacy_card" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/dcc_ticketing_data_privacy" />
 
-                <include
-                    android:id="@+id/bulletpoint_two"
-                    layout="@layout/include_bullet_point"
-                    android:layout_width="@dimen/bullet_point_6"
-                    android:layout_height="@dimen/bullet_point_6"
-                    app:layout_constraintBaseline_toBaselineOf="@id/second_bulletpoint_text"
-                    app:layout_constraintStart_toStartOf="@id/bulletpoint_one" />
-
-                <TextView
-                    android:id="@+id/second_bulletpoint_text"
-                    style="@style/subtitle"
-                    android:layout_width="0dp"
+                <de.rki.coronawarnapp.ui.view.BulletPointTextView
+                    android:id="@+id/dcc_ticketing_bulletpoint_two"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_16"
-                    android:layout_marginEnd="@dimen/margin_32"
-                    android:text="@string/dcc_ticketing_consent_one_point_2"
+                    android:layout_marginHorizontal="@dimen/margin_32"
+                    android:description="@string/dcc_ticketing_consent_one_point_2"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/first_bulletpoint_text"
-                    app:layout_constraintTop_toBottomOf="@id/first_bulletpoint_text" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/dcc_ticketing_bulletpoint_one" />
 
-                <include
-                    android:id="@+id/bulletpoint_three"
-                    layout="@layout/include_bullet_point"
-                    android:layout_width="@dimen/bullet_point_6"
-                    android:layout_height="@dimen/bullet_point_6"
-                    app:layout_constraintBaseline_toBaselineOf="@id/third_bulletpoint_text"
-                    app:layout_constraintStart_toStartOf="@id/bulletpoint_one" />
-
-                <TextView
-                    android:id="@+id/third_bulletpoint_text"
-                    style="@style/subtitle"
-                    android:layout_width="0dp"
+                <de.rki.coronawarnapp.ui.view.BulletPointTextView
+                    android:id="@+id/dcc_ticketing_bulletpoint_three"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_16"
-                    android:layout_marginEnd="@dimen/margin_32"
-                    android:text="@string/dcc_ticketing_consent_one_point_3"
+                    android:layout_marginHorizontal="@dimen/margin_32"
+                    android:description="@string/dcc_ticketing_consent_one_point_3"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/first_bulletpoint_text"
-                    app:layout_constraintTop_toBottomOf="@id/second_bulletpoint_text" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/dcc_ticketing_bulletpoint_two" />
 
-                <include
-                    android:id="@+id/bulletpoint_four"
-                    layout="@layout/include_bullet_point"
-                    android:layout_width="@dimen/bullet_point_6"
-                    android:layout_height="@dimen/bullet_point_6"
-                    app:layout_constraintBaseline_toBaselineOf="@id/forth_bulletpoint_text"
-                    app:layout_constraintStart_toStartOf="@id/bulletpoint_one" />
-
-                <TextView
-                    android:id="@+id/forth_bulletpoint_text"
-                    style="@style/subtitle"
-                    android:layout_width="0dp"
+                <de.rki.coronawarnapp.ui.view.BulletPointTextView
+                    android:id="@+id/dcc_ticketing_bulletpoint_four"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_16"
-                    android:layout_marginEnd="@dimen/margin_32"
-                    android:text="@string/dcc_ticketing_consent_one_point_4"
+                    android:layout_marginHorizontal="@dimen/margin_32"
+                    android:description="@string/dcc_ticketing_consent_one_point_4"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/first_bulletpoint_text"
-                    app:layout_constraintTop_toBottomOf="@id/third_bulletpoint_text" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/dcc_ticketing_bulletpoint_three" />
 
                 <de.rki.coronawarnapp.ui.view.MoreInformationView
                     android:id="@+id/privacy_information"
@@ -308,7 +204,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@id/body"
                     app:layout_constraintStart_toStartOf="@id/body"
-                    app:layout_constraintTop_toBottomOf="@id/forth_bulletpoint_text"
+                    app:layout_constraintTop_toBottomOf="@id/dcc_ticketing_bulletpoint_four"
                     app:titleText="@string/dcc_ticketing_consent_one_data_protection" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>

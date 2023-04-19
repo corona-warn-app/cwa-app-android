@@ -8,11 +8,10 @@
     android:background="@color/colorSurface"
     tools:context=".dccticketing.ui.validationresult.DccTicketingValidationResultFragment">
 
-    <include
+    <de.rki.coronawarnapp.ui.view.CovidCertificateValidationResultView
         android:id="@+id/validation_result_fragments"
-        layout="@layout/covid_certificate_validation_result_fragments"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@id/button_done"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

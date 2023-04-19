@@ -38,6 +38,23 @@ class ContactDiaryRetentionCalculation @Inject constructor(
         return list.filter { entity -> isOutOfRetention(entity.date) }
     }
 
+    suspend fun clearOutdatedEntries() {
+        clearObsoleteContactDiaryLocationVisits()
+        Timber.d("Obsolete contact diary location visits cleaned up")
+
+        clearObsoleteContactDiaryPersonEncounters()
+        Timber.d("Obsolete contact diary person encounters cleaned up")
+
+        clearObsoleteRiskPerDate()
+        Timber.d("Obsolete Aggregated Risk Per Date Results cleaned up")
+
+        clearObsoleteCoronaTests()
+        Timber.d("Obsolete Contact Diary Corona Tests cleaned up")
+
+        clearObsoleteSubmissions()
+        Timber.d("Obsolete Contact Diary Submissions cleaned up")
+    }
+
     suspend fun clearObsoleteContactDiaryLocationVisits() {
         val list = repository.locationVisits.first()
         Timber.d("Contact Diary Location Visits total count: ${list.size}")

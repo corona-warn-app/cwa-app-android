@@ -1,655 +1,632 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorSurface"
+    android:orientation="vertical"
+    tools:context=".datadonation.analytics.ui.PpaMoreInfoFragment">
 
-    <LinearLayout
-        android:id="@+id/container"
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/onboarding_ppa_toolbar"
+        style="@style/CWAMaterialToolbar.Close"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorSurface"
-        android:orientation="vertical"
-        tools:context=".datadonation.analytics.ui.PpaMoreInfoFragment">
+        android:clipToPadding="false"
+        android:paddingHorizontal="@dimen/padding_24"
+        android:paddingBottom="@dimen/padding_32"
+        android:scrollbarStyle="outsideOverlay">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/header"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/height_56">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <include
-                android:id="@+id/button_back"
-                layout="@layout/include_button_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:focusable="true"
-                app:icon="@{@drawable/ic_close}"
-                app:iconDescription="@{@string/accessibility_back}"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="@id/guideline_back"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline_back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_begin="@dimen/guideline_14" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:paddingHorizontal="@dimen/padding_24"
-            android:paddingBottom="@dimen/padding_32"
-            android:scrollbarStyle="outsideOverlay">
-
-            <LinearLayout
+            <TextView
+                android:id="@+id/onboarding_headline"
+                style="@style/headline4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_12"
+                android:contentDescription="@string/onboarding_ppa_more_info_headline"
+                android:focusable="true"
+                android:text="@string/onboarding_ppa_more_info_headline" />
+
+            <LinearLayout
+                android:id="@+id/legal_layout"
+                style="@style/cardTracing"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_48"
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/onboarding_headline"
-                    style="@style/headline4"
+                    android:id="@+id/legal_title"
+                    style="@style/headline6"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_12"
-                    android:contentDescription="@string/onboarding_ppa_more_info_headline"
+                    android:layout_marginEnd="@dimen/margin_16"
+                    android:contentDescription="@string/ppa_onboarding_more_info_title"
                     android:focusable="true"
-                    android:text="@string/onboarding_ppa_more_info_headline" />
-
-                <LinearLayout
-                    android:id="@+id/legal_layout"
-                    style="@style/cardTracing"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_48"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/legal_title"
-                        style="@style/headline6"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/margin_16"
-                        android:contentDescription="@string/ppa_onboarding_more_info_title"
-                        android:focusable="true"
-                        android:text="@string/ppa_onboarding_more_info_title" />
-
-                    <TextView
-                        android:id="@+id/legal_body"
-                        style="@style/body1"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_24"
-                        android:focusable="true"
-                        android:text="@string/ppa_onboarding_more_info_body" />
-
-                </LinearLayout>
+                    android:text="@string/ppa_onboarding_more_info_title" />
 
                 <TextView
-                    android:id="@+id/data_processing_title"
-                    style="@style/subtitleBoldSixteen"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_48"
-                    android:contentDescription="@string/onboarding_ppa_more_info_data_processing_title"
-                    android:focusable="true"
-                    android:text="@string/onboarding_ppa_more_info_data_processing_title" />
-
-                <TextView
-                    android:id="@+id/data_processing_body"
-                    style="@style/body1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_16"
-                    android:contentDescription="@string/onboarding_ppa_more_info_data_processing_body"
-                    android:focusable="true"
-                    android:text="@string/onboarding_ppa_more_info_data_processing_body" />
-
-                <TableLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_16">
-
-                    <TableRow android:layout_marginTop="@dimen/margin_16">
-
-                        <ImageView
-                            android:id="@+id/data_processing_point_1"
-                            android:layout_width="@dimen/bullet_point_6"
-                            android:layout_height="@dimen/bullet_point_6"
-                            android:layout_marginTop="@dimen/margin_8"
-                            android:importantForAccessibility="no"
-                            app:srcCompat="@drawable/bullet_point" />
-
-                        <TextView
-                            android:id="@+id/data_processing_point_1_text"
-                            style="@style/subtitle"
-                            android:layout_marginStart="@dimen/margin_12"
-                            android:layout_weight="1"
-                            android:focusable="true"
-                            android:text="@string/onboarding_ppa_more_info_data_processing_point_1_text" />
-                    </TableRow>
-
-                    <TableRow android:layout_marginTop="@dimen/margin_16">
-                        <ImageView
-                            android:id="@+id/data_processing_point_2"
-                            android:layout_width="@dimen/bullet_point_6"
-                            android:layout_height="@dimen/bullet_point_6"
-                            android:layout_marginTop="@dimen/margin_8"
-                            android:importantForAccessibility="no"
-                            app:srcCompat="@drawable/bullet_point" />
-
-                        <TextView
-                            android:id="@+id/data_processing_point_2_text"
-                            style="@style/subtitle"
-                            android:layout_marginStart="@dimen/margin_12"
-                            android:layout_weight="1"
-                            android:focusable="true"
-                            android:text="@string/onboarding_ppa_more_info_data_processing_point_2_text" />
-
-                    </TableRow>
-
-                    <TableRow android:layout_marginTop="@dimen/margin_16">
-
-                        <ImageView
-                            android:id="@+id/data_processing_point_3"
-                            android:layout_width="@dimen/bullet_point_6"
-                            android:layout_height="@dimen/bullet_point_6"
-                            android:layout_marginTop="@dimen/margin_8"
-                            android:importantForAccessibility="no"
-                            app:srcCompat="@drawable/bullet_point" />
-
-                        <TextView
-                            android:id="@+id/data_processing_point_3_text"
-                            style="@style/subtitle"
-                            android:layout_marginStart="@dimen/margin_12"
-                            android:layout_weight="1"
-                            android:focusable="true"
-                            android:text="@string/onboarding_ppa_more_info_data_processing_point_3_text" />
-                    </TableRow>
-
-                    <TableRow android:layout_marginTop="@dimen/margin_16">
-
-                        <ImageView
-                            android:id="@+id/data_processing_point_4"
-                            android:layout_width="@dimen/bullet_point_6"
-                            android:layout_height="@dimen/bullet_point_6"
-                            android:layout_marginTop="@dimen/margin_8"
-                            android:importantForAccessibility="no"
-                            app:srcCompat="@drawable/bullet_point" />
-
-                        <TextView
-                            android:id="@+id/data_processing_point_4_text"
-                            style="@style/subtitle"
-                            android:layout_marginStart="@dimen/margin_12"
-                            android:layout_weight="1"
-                            android:focusable="true"
-                            android:text="@string/onboarding_ppa_more_info_data_processing_point_4_text" />
-
-                    </TableRow>
-                </TableLayout>
-
-                <TextView
-                    android:id="@+id/rki_data_title"
-                    style="@style/subtitleBoldSixteen"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_48"
-                    android:contentDescription="@string/onboarding_ppa_more_info_rki_data_title"
-                    android:focusable="true"
-                    android:text="@string/onboarding_ppa_more_info_rki_data_title" />
-
-                <TableLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_16">
-
-                    <TableRow android:layout_marginTop="@dimen/margin_16">
-
-                        <ImageView
-                            android:id="@+id/rki_data_point_1"
-                            android:layout_width="@dimen/bullet_point_6"
-                            android:layout_height="@dimen/bullet_point_6"
-                            android:layout_marginTop="@dimen/margin_8"
-                            android:importantForAccessibility="no"
-                            app:srcCompat="@drawable/bullet_point" />
-
-                        <TextView
-                            android:id="@+id/rki_data_point_1_text"
-                            style="@style/subtitle"
-                            android:layout_marginStart="@dimen/margin_12"
-                            android:layout_weight="1"
-                            android:focusable="true"
-                            android:text="@string/onboarding_ppa_more_info_rki_data_point_1_text" />
-
-                    </TableRow>
-
-                    <TableRow android:layout_marginTop="@dimen/margin_16">
-
-                        <ImageView
-                            android:id="@+id/rki_data_point_2"
-                            android:layout_width="@dimen/bullet_point_6"
-                            android:layout_height="@dimen/bullet_point_6"
-                            android:layout_marginTop="@dimen/margin_8"
-                            android:importantForAccessibility="no"
-                            app:srcCompat="@drawable/bullet_point" />
-
-                        <TextView
-                            android:id="@+id/rki_data_point_2_text"
-                            style="@style/subtitle"
-                            android:layout_marginStart="@dimen/margin_12"
-                            android:layout_weight="1"
-                            android:focusable="true"
-                            android:text="@string/onboarding_ppa_more_info_rki_data_point_2_text" />
-
-                    </TableRow>
-
-                    <TableRow android:layout_marginTop="@dimen/margin_16">
-
-                        <ImageView
-                            android:id="@+id/rki_data_point_3"
-                            android:layout_width="@dimen/bullet_point_6"
-                            android:layout_height="@dimen/bullet_point_6"
-                            android:layout_marginTop="@dimen/margin_8"
-                            android:importantForAccessibility="no"
-                            app:srcCompat="@drawable/bullet_point" />
-
-                        <TextView
-                            android:id="@+id/rki_data_point_3_text"
-                            style="@style/subtitle"
-                            android:layout_marginStart="@dimen/margin_12"
-                            android:layout_weight="1"
-                            android:focusable="true"
-                            android:text="@string/onboarding_ppa_more_info_rki_data_point_3_text" />
-
-                    </TableRow>
-
-                    <TableRow android:layout_marginTop="@dimen/margin_16">
-
-                        <ImageView
-                            android:id="@+id/rki_data_point_4"
-                            android:layout_width="@dimen/bullet_point_6"
-                            android:layout_height="@dimen/bullet_point_6"
-                            android:layout_marginTop="@dimen/margin_8"
-                            android:importantForAccessibility="no"
-                            app:srcCompat="@drawable/bullet_point" />
-
-                        <TextView
-                            android:id="@+id/rki_data_point_4_text"
-                            style="@style/subtitle"
-                            android:layout_marginStart="@dimen/margin_12"
-                            android:layout_weight="1"
-                            android:focusable="true"
-                            android:text="@string/onboarding_ppa_more_info_rki_data_point_4_text" />
-
-                    </TableRow>
-                </TableLayout>
-
-                <TextView
-                    android:id="@+id/rki_data_body_1"
+                    android:id="@+id/legal_body"
                     style="@style/body1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_24"
-                    android:contentDescription="@string/onboarding_ppa_more_info_rki_data_body_1"
                     android:focusable="true"
-                    android:text="@string/onboarding_ppa_more_info_rki_data_body_1" />
-
-                <TableLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_16">
-
-                    <TableRow android:layout_marginTop="@dimen/margin_16">
-
-                        <ImageView
-                            android:id="@+id/rki_data_point_5"
-                            android:layout_width="@dimen/bullet_point_6"
-                            android:layout_height="@dimen/bullet_point_6"
-                            android:layout_marginTop="@dimen/margin_8"
-                            android:importantForAccessibility="no"
-                            app:srcCompat="@drawable/bullet_point" />
-
-                        <TextView
-                            android:id="@+id/rki_data_point_5_text"
-                            style="@style/subtitle"
-                            android:layout_marginStart="@dimen/margin_12"
-                            android:layout_weight="1"
-                            android:focusable="true"
-                            android:text="@string/onboarding_ppa_more_info_rki_data_point_5_text" />
-
-                    </TableRow>
-
-                    <TableRow android:layout_marginTop="@dimen/margin_16">
-
-                        <ImageView
-                            android:id="@+id/rki_data_point_6"
-                            android:layout_width="@dimen/bullet_point_6"
-                            android:layout_height="@dimen/bullet_point_6"
-                            android:layout_marginTop="@dimen/margin_8"
-                            android:importantForAccessibility="no"
-                            app:srcCompat="@drawable/bullet_point" />
-
-                        <TextView
-                            android:id="@+id/rki_data_point_6_text"
-                            style="@style/subtitle"
-                            android:layout_marginStart="@dimen/margin_12"
-                            android:layout_weight="1"
-                            android:focusable="true"
-                            android:text="@string/onboarding_ppa_more_info_rki_data_point_6_text" />
-
-                    </TableRow>
-
-                    <TableRow android:layout_marginTop="@dimen/margin_16">
-
-                        <ImageView
-                            android:id="@+id/rki_data_point_7"
-                            android:layout_width="@dimen/bullet_point_6"
-                            android:layout_height="@dimen/bullet_point_6"
-                            android:layout_marginTop="@dimen/margin_8"
-                            android:importantForAccessibility="no"
-                            app:srcCompat="@drawable/bullet_point" />
-
-                        <TextView
-                            android:id="@+id/rki_data_point_7_text"
-                            style="@style/subtitle"
-                            android:layout_marginStart="@dimen/margin_12"
-                            android:layout_weight="1"
-                            android:focusable="true"
-                            android:text="@string/onboarding_ppa_more_info_rki_data_point_7_text" />
-                    </TableRow>
-
-                    <TableRow android:layout_marginTop="@dimen/margin_16">
-
-                        <ImageView
-                            android:id="@+id/rki_data_point_8"
-                            android:layout_width="@dimen/bullet_point_6"
-                            android:layout_height="@dimen/bullet_point_6"
-                            android:layout_marginTop="@dimen/margin_8"
-                            android:importantForAccessibility="no"
-                            app:srcCompat="@drawable/bullet_point" />
-
-                        <TextView
-                            android:id="@+id/rki_data_point_8_text"
-                            style="@style/subtitle"
-                            android:layout_marginStart="@dimen/margin_12"
-                            android:layout_weight="1"
-                            android:focusable="true"
-                            android:text="@string/onboarding_ppa_more_info_rki_data_point_8_text" />
-
-                    </TableRow>
-
-                    <TableRow android:layout_marginTop="@dimen/margin_16">
-
-                        <ImageView
-                            android:id="@+id/rki_data_point_9"
-                            android:layout_width="@dimen/bullet_point_6"
-                            android:layout_height="@dimen/bullet_point_6"
-                            android:layout_marginTop="@dimen/margin_8"
-                            android:importantForAccessibility="no"
-                            app:srcCompat="@drawable/bullet_point" />
-
-                        <TextView
-                            android:id="@+id/rki_data_point_9_text"
-                            style="@style/subtitle"
-                            android:layout_marginStart="@dimen/margin_12"
-                            android:layout_weight="1"
-                            android:focusable="true"
-                            android:text="@string/onboarding_ppa_more_info_rki_data_point_9_text" />
-
-                    </TableRow>
-
-                </TableLayout>
-
-                <TextView
-                    android:id="@+id/rki_data_body_2"
-                    style="@style/body1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_24"
-                    android:contentDescription="@string/onboarding_ppa_more_info_rki_data_body_2"
-                    android:focusable="true"
-                    android:text="@string/onboarding_ppa_more_info_rki_data_body_2" />
-
-                <TableLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_16">
-
-                    <TableRow android:layout_marginTop="@dimen/margin_16">
-
-                        <ImageView
-                            android:id="@+id/rki_data_point_10"
-                            android:layout_width="@dimen/bullet_point_6"
-                            android:layout_height="@dimen/bullet_point_6"
-                            android:layout_marginTop="@dimen/margin_8"
-                            android:importantForAccessibility="no"
-                            app:srcCompat="@drawable/bullet_point" />
-
-                        <TextView
-                            android:id="@+id/rki_data_point_10_text"
-                            style="@style/subtitle"
-                            android:layout_marginStart="@dimen/margin_12"
-                            android:layout_weight="1"
-                            android:focusable="true"
-                            android:text="@string/onboarding_ppa_more_info_rki_data_point_10_text" />
-
-                    </TableRow>
-
-                    <TableRow android:layout_marginTop="@dimen/margin_16">
-
-                        <ImageView
-                            android:id="@+id/rki_data_point_11"
-                            android:layout_width="@dimen/bullet_point_6"
-                            android:layout_height="@dimen/bullet_point_6"
-                            android:layout_marginTop="@dimen/margin_8"
-                            android:importantForAccessibility="no"
-                            app:srcCompat="@drawable/bullet_point" />
-
-                        <TextView
-                            android:id="@+id/rki_data_point_11_text"
-                            style="@style/subtitle"
-                            android:layout_marginStart="@dimen/margin_12"
-                            android:layout_weight="1"
-                            android:focusable="true"
-                            android:text="@string/onboarding_ppa_more_info_rki_data_point_11_text" />
-
-                    </TableRow>
-
-                    <TableRow android:layout_marginTop="@dimen/margin_16">
-
-                        <ImageView
-                            android:id="@+id/rki_data_point_12"
-                            android:layout_width="@dimen/bullet_point_6"
-                            android:layout_height="@dimen/bullet_point_6"
-                            android:layout_marginTop="@dimen/margin_8"
-                            android:importantForAccessibility="no"
-                            app:srcCompat="@drawable/bullet_point" />
-
-                        <TextView
-                            android:id="@+id/rki_data_point_12_text"
-                            style="@style/subtitle"
-                            android:layout_marginStart="@dimen/margin_12"
-                            android:layout_weight="1"
-                            android:focusable="true"
-                            android:text="@string/onboarding_ppa_more_info_rki_data_point_12_text" />
-
-                    </TableRow>
-
-                    <TableRow android:layout_marginTop="@dimen/margin_16">
-
-                        <ImageView
-                            android:id="@+id/rki_data_point_13"
-                            android:layout_width="@dimen/bullet_point_6"
-                            android:layout_height="@dimen/bullet_point_6"
-                            android:layout_marginTop="@dimen/margin_8"
-                            android:importantForAccessibility="no"
-                            app:srcCompat="@drawable/bullet_point" />
-
-                        <TextView
-                            android:id="@+id/rki_data_point_13_text"
-                            style="@style/subtitle"
-                            android:layout_marginStart="@dimen/margin_12"
-                            android:layout_weight="1"
-                            android:focusable="true"
-                            android:text="@string/onboarding_ppa_more_info_rki_data_point_13_text" />
-
-                    </TableRow>
-
-                    <TableRow android:layout_marginTop="@dimen/margin_16">
-
-                        <ImageView
-                            android:id="@+id/rki_data_point_14"
-                            android:layout_width="@dimen/bullet_point_6"
-                            android:layout_height="@dimen/bullet_point_6"
-                            android:layout_marginTop="@dimen/margin_8"
-                            android:importantForAccessibility="no"
-                            app:srcCompat="@drawable/bullet_point" />
-
-                        <TextView
-                            android:id="@+id/rki_data_point_14_text"
-                            style="@style/subtitle"
-                            android:layout_marginStart="@dimen/margin_12"
-                            android:layout_weight="1"
-                            android:focusable="true"
-                            android:text="@string/onboarding_ppa_more_info_rki_data_point_14_text" />
-
-                    </TableRow>
-
-                    <TableRow android:layout_marginTop="@dimen/margin_16">
-
-                        <ImageView
-                            android:id="@+id/rki_data_point_15"
-                            android:layout_width="@dimen/bullet_point_6"
-                            android:layout_height="@dimen/bullet_point_6"
-                            android:layout_marginTop="@dimen/margin_8"
-                            android:importantForAccessibility="no"
-                            app:srcCompat="@drawable/bullet_point" />
-
-                        <TextView
-                            android:id="@+id/rki_data_point_15_text"
-                            style="@style/subtitle"
-                            android:layout_marginStart="@dimen/margin_12"
-                            android:layout_weight="1"
-                            android:focusable="true"
-                            android:text="@string/onboarding_ppa_more_info_rki_data_point_15_text" />
-
-                    </TableRow>
-
-                    <TableRow android:layout_marginTop="@dimen/margin_16">
-
-                        <ImageView
-                            android:id="@+id/rki_data_point_16"
-                            android:layout_width="@dimen/bullet_point_6"
-                            android:layout_height="@dimen/bullet_point_6"
-                            android:layout_marginTop="@dimen/margin_8"
-                            android:importantForAccessibility="no"
-                            app:srcCompat="@drawable/bullet_point" />
-
-                        <TextView
-                            android:id="@+id/rki_data_point_16_text"
-                            style="@style/subtitle"
-                            android:layout_marginStart="@dimen/margin_12"
-                            android:layout_weight="1"
-                            android:focusable="true"
-                            android:text="@string/onboarding_ppa_more_info_rki_data_point_16_text" />
-
-                    </TableRow>
-
-                </TableLayout>
-
-                <TextView
-                    android:id="@+id/other_info_body"
-                    style="@style/body1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_24"
-                    android:contentDescription="@string/onboarding_ppa_more_info_other_info_body"
-                    android:focusable="true"
-                    android:text="@string/onboarding_ppa_more_info_other_info_body" />
-
-                <TableLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_16">
-
-                    <TableRow android:layout_marginTop="@dimen/margin_16">
-
-                        <ImageView
-                            android:id="@+id/other_info_point_1"
-                            android:layout_width="@dimen/bullet_point_6"
-                            android:layout_height="@dimen/bullet_point_6"
-                            android:layout_marginTop="@dimen/margin_8"
-                            android:importantForAccessibility="no"
-                            app:srcCompat="@drawable/bullet_point" />
-
-                        <TextView
-                            android:id="@+id/other_info_point_1_text"
-                            style="@style/subtitle"
-                            android:layout_marginStart="@dimen/margin_12"
-                            android:layout_weight="1"
-                            android:focusable="true"
-                            android:text="@string/onboarding_ppa_more_info_other_info_point_1_text" />
-                    </TableRow>
-
-                    <TableRow android:layout_marginTop="@dimen/margin_16">
-
-                        <ImageView
-                            android:id="@+id/other_info_point_3"
-                            android:layout_width="@dimen/bullet_point_6"
-                            android:layout_height="@dimen/bullet_point_6"
-                            android:layout_marginTop="@dimen/margin_8"
-                            android:importantForAccessibility="no"
-                            app:srcCompat="@drawable/bullet_point" />
-
-                        <TextView
-                            android:id="@+id/other_info_point_3_text"
-                            style="@style/subtitle"
-                            android:layout_marginStart="@dimen/margin_12"
-                            android:layout_weight="1"
-                            android:focusable="true"
-                            android:text="@string/onboarding_ppa_more_info_other_info_point_2_text" />
-
-                    </TableRow>
-
-                    <TableRow android:layout_marginTop="@dimen/margin_16">
-
-                        <ImageView
-                            android:id="@+id/other_info_point_4"
-                            android:layout_width="@dimen/bullet_point_6"
-                            android:layout_height="@dimen/bullet_point_6"
-                            android:layout_marginTop="@dimen/margin_8"
-                            android:importantForAccessibility="no"
-                            app:srcCompat="@drawable/bullet_point" />
-
-                        <TextView
-                            android:id="@+id/other_info_point_4_text"
-                            style="@style/subtitle"
-                            android:layout_marginStart="@dimen/margin_12"
-                            android:layout_weight="1"
-                            android:focusable="true"
-                            android:text="@string/onboarding_ppa_more_info_other_info_point_3_text" />
-
-                    </TableRow>
-
-                </TableLayout>
-
-                <TextView
-                    android:id="@+id/much_privacy_body"
-                    style="@style/body1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_32"
-                    android:contentDescription="@string/onboarding_ppa_more_info_much_privacy_body"
-                    android:focusable="true"
-                    android:text="@string/onboarding_ppa_more_info_much_privacy_body" />
+                    android:text="@string/ppa_onboarding_more_info_body" />
 
             </LinearLayout>
 
-        </ScrollView>
+            <TextView
+                android:id="@+id/data_processing_title"
+                style="@style/subtitleBoldSixteen"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_48"
+                android:contentDescription="@string/onboarding_ppa_more_info_data_processing_title"
+                android:focusable="true"
+                android:text="@string/onboarding_ppa_more_info_data_processing_title" />
 
-    </LinearLayout>
-</layout>
+            <TextView
+                android:id="@+id/data_processing_body"
+                style="@style/body1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_16"
+                android:contentDescription="@string/onboarding_ppa_more_info_data_processing_body"
+                android:focusable="true"
+                android:text="@string/onboarding_ppa_more_info_data_processing_body" />
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_16">
+
+                <TableRow android:layout_marginTop="@dimen/margin_16">
+
+                    <ImageView
+                        android:id="@+id/data_processing_point_1"
+                        android:layout_width="@dimen/bullet_point_6"
+                        android:layout_height="@dimen/bullet_point_6"
+                        android:layout_marginTop="@dimen/margin_8"
+                        android:importantForAccessibility="no"
+                        app:srcCompat="@drawable/bullet_point" />
+
+                    <TextView
+                        android:id="@+id/data_processing_point_1_text"
+                        style="@style/subtitle"
+                        android:layout_marginStart="@dimen/margin_12"
+                        android:layout_weight="1"
+                        android:focusable="true"
+                        android:text="@string/onboarding_ppa_more_info_data_processing_point_1_text" />
+                </TableRow>
+
+                <TableRow android:layout_marginTop="@dimen/margin_16">
+                    <ImageView
+                        android:id="@+id/data_processing_point_2"
+                        android:layout_width="@dimen/bullet_point_6"
+                        android:layout_height="@dimen/bullet_point_6"
+                        android:layout_marginTop="@dimen/margin_8"
+                        android:importantForAccessibility="no"
+                        app:srcCompat="@drawable/bullet_point" />
+
+                    <TextView
+                        android:id="@+id/data_processing_point_2_text"
+                        style="@style/subtitle"
+                        android:layout_marginStart="@dimen/margin_12"
+                        android:layout_weight="1"
+                        android:focusable="true"
+                        android:text="@string/onboarding_ppa_more_info_data_processing_point_2_text" />
+
+                </TableRow>
+
+                <TableRow android:layout_marginTop="@dimen/margin_16">
+
+                    <ImageView
+                        android:id="@+id/data_processing_point_3"
+                        android:layout_width="@dimen/bullet_point_6"
+                        android:layout_height="@dimen/bullet_point_6"
+                        android:layout_marginTop="@dimen/margin_8"
+                        android:importantForAccessibility="no"
+                        app:srcCompat="@drawable/bullet_point" />
+
+                    <TextView
+                        android:id="@+id/data_processing_point_3_text"
+                        style="@style/subtitle"
+                        android:layout_marginStart="@dimen/margin_12"
+                        android:layout_weight="1"
+                        android:focusable="true"
+                        android:text="@string/onboarding_ppa_more_info_data_processing_point_3_text" />
+                </TableRow>
+
+                <TableRow android:layout_marginTop="@dimen/margin_16">
+
+                    <ImageView
+                        android:id="@+id/data_processing_point_4"
+                        android:layout_width="@dimen/bullet_point_6"
+                        android:layout_height="@dimen/bullet_point_6"
+                        android:layout_marginTop="@dimen/margin_8"
+                        android:importantForAccessibility="no"
+                        app:srcCompat="@drawable/bullet_point" />
+
+                    <TextView
+                        android:id="@+id/data_processing_point_4_text"
+                        style="@style/subtitle"
+                        android:layout_marginStart="@dimen/margin_12"
+                        android:layout_weight="1"
+                        android:focusable="true"
+                        android:text="@string/onboarding_ppa_more_info_data_processing_point_4_text" />
+
+                </TableRow>
+            </TableLayout>
+
+            <TextView
+                android:id="@+id/rki_data_title"
+                style="@style/subtitleBoldSixteen"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_48"
+                android:contentDescription="@string/onboarding_ppa_more_info_rki_data_title"
+                android:focusable="true"
+                android:text="@string/onboarding_ppa_more_info_rki_data_title" />
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_16">
+
+                <TableRow android:layout_marginTop="@dimen/margin_16">
+
+                    <ImageView
+                        android:id="@+id/rki_data_point_1"
+                        android:layout_width="@dimen/bullet_point_6"
+                        android:layout_height="@dimen/bullet_point_6"
+                        android:layout_marginTop="@dimen/margin_8"
+                        android:importantForAccessibility="no"
+                        app:srcCompat="@drawable/bullet_point" />
+
+                    <TextView
+                        android:id="@+id/rki_data_point_1_text"
+                        style="@style/subtitle"
+                        android:layout_marginStart="@dimen/margin_12"
+                        android:layout_weight="1"
+                        android:focusable="true"
+                        android:text="@string/onboarding_ppa_more_info_rki_data_point_1_text" />
+
+                </TableRow>
+
+                <TableRow android:layout_marginTop="@dimen/margin_16">
+
+                    <ImageView
+                        android:id="@+id/rki_data_point_2"
+                        android:layout_width="@dimen/bullet_point_6"
+                        android:layout_height="@dimen/bullet_point_6"
+                        android:layout_marginTop="@dimen/margin_8"
+                        android:importantForAccessibility="no"
+                        app:srcCompat="@drawable/bullet_point" />
+
+                    <TextView
+                        android:id="@+id/rki_data_point_2_text"
+                        style="@style/subtitle"
+                        android:layout_marginStart="@dimen/margin_12"
+                        android:layout_weight="1"
+                        android:focusable="true"
+                        android:text="@string/onboarding_ppa_more_info_rki_data_point_2_text" />
+
+                </TableRow>
+
+                <TableRow android:layout_marginTop="@dimen/margin_16">
+
+                    <ImageView
+                        android:id="@+id/rki_data_point_3"
+                        android:layout_width="@dimen/bullet_point_6"
+                        android:layout_height="@dimen/bullet_point_6"
+                        android:layout_marginTop="@dimen/margin_8"
+                        android:importantForAccessibility="no"
+                        app:srcCompat="@drawable/bullet_point" />
+
+                    <TextView
+                        android:id="@+id/rki_data_point_3_text"
+                        style="@style/subtitle"
+                        android:layout_marginStart="@dimen/margin_12"
+                        android:layout_weight="1"
+                        android:focusable="true"
+                        android:text="@string/onboarding_ppa_more_info_rki_data_point_3_text" />
+
+                </TableRow>
+
+                <TableRow android:layout_marginTop="@dimen/margin_16">
+
+                    <ImageView
+                        android:id="@+id/rki_data_point_4"
+                        android:layout_width="@dimen/bullet_point_6"
+                        android:layout_height="@dimen/bullet_point_6"
+                        android:layout_marginTop="@dimen/margin_8"
+                        android:importantForAccessibility="no"
+                        app:srcCompat="@drawable/bullet_point" />
+
+                    <TextView
+                        android:id="@+id/rki_data_point_4_text"
+                        style="@style/subtitle"
+                        android:layout_marginStart="@dimen/margin_12"
+                        android:layout_weight="1"
+                        android:focusable="true"
+                        android:text="@string/onboarding_ppa_more_info_rki_data_point_4_text" />
+
+                </TableRow>
+            </TableLayout>
+
+            <TextView
+                android:id="@+id/rki_data_body_1"
+                style="@style/body1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_24"
+                android:contentDescription="@string/onboarding_ppa_more_info_rki_data_body_1"
+                android:focusable="true"
+                android:text="@string/onboarding_ppa_more_info_rki_data_body_1" />
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_16">
+
+                <TableRow android:layout_marginTop="@dimen/margin_16">
+
+                    <ImageView
+                        android:id="@+id/rki_data_point_5"
+                        android:layout_width="@dimen/bullet_point_6"
+                        android:layout_height="@dimen/bullet_point_6"
+                        android:layout_marginTop="@dimen/margin_8"
+                        android:importantForAccessibility="no"
+                        app:srcCompat="@drawable/bullet_point" />
+
+                    <TextView
+                        android:id="@+id/rki_data_point_5_text"
+                        style="@style/subtitle"
+                        android:layout_marginStart="@dimen/margin_12"
+                        android:layout_weight="1"
+                        android:focusable="true"
+                        android:text="@string/onboarding_ppa_more_info_rki_data_point_5_text" />
+
+                </TableRow>
+
+                <TableRow android:layout_marginTop="@dimen/margin_16">
+
+                    <ImageView
+                        android:id="@+id/rki_data_point_6"
+                        android:layout_width="@dimen/bullet_point_6"
+                        android:layout_height="@dimen/bullet_point_6"
+                        android:layout_marginTop="@dimen/margin_8"
+                        android:importantForAccessibility="no"
+                        app:srcCompat="@drawable/bullet_point" />
+
+                    <TextView
+                        android:id="@+id/rki_data_point_6_text"
+                        style="@style/subtitle"
+                        android:layout_marginStart="@dimen/margin_12"
+                        android:layout_weight="1"
+                        android:focusable="true"
+                        android:text="@string/onboarding_ppa_more_info_rki_data_point_6_text" />
+
+                </TableRow>
+
+                <TableRow android:layout_marginTop="@dimen/margin_16">
+
+                    <ImageView
+                        android:id="@+id/rki_data_point_7"
+                        android:layout_width="@dimen/bullet_point_6"
+                        android:layout_height="@dimen/bullet_point_6"
+                        android:layout_marginTop="@dimen/margin_8"
+                        android:importantForAccessibility="no"
+                        app:srcCompat="@drawable/bullet_point" />
+
+                    <TextView
+                        android:id="@+id/rki_data_point_7_text"
+                        style="@style/subtitle"
+                        android:layout_marginStart="@dimen/margin_12"
+                        android:layout_weight="1"
+                        android:focusable="true"
+                        android:text="@string/onboarding_ppa_more_info_rki_data_point_7_text" />
+                </TableRow>
+
+                <TableRow android:layout_marginTop="@dimen/margin_16">
+
+                    <ImageView
+                        android:id="@+id/rki_data_point_8"
+                        android:layout_width="@dimen/bullet_point_6"
+                        android:layout_height="@dimen/bullet_point_6"
+                        android:layout_marginTop="@dimen/margin_8"
+                        android:importantForAccessibility="no"
+                        app:srcCompat="@drawable/bullet_point" />
+
+                    <TextView
+                        android:id="@+id/rki_data_point_8_text"
+                        style="@style/subtitle"
+                        android:layout_marginStart="@dimen/margin_12"
+                        android:layout_weight="1"
+                        android:focusable="true"
+                        android:text="@string/onboarding_ppa_more_info_rki_data_point_8_text" />
+
+                </TableRow>
+
+                <TableRow android:layout_marginTop="@dimen/margin_16">
+
+                    <ImageView
+                        android:id="@+id/rki_data_point_9"
+                        android:layout_width="@dimen/bullet_point_6"
+                        android:layout_height="@dimen/bullet_point_6"
+                        android:layout_marginTop="@dimen/margin_8"
+                        android:importantForAccessibility="no"
+                        app:srcCompat="@drawable/bullet_point" />
+
+                    <TextView
+                        android:id="@+id/rki_data_point_9_text"
+                        style="@style/subtitle"
+                        android:layout_marginStart="@dimen/margin_12"
+                        android:layout_weight="1"
+                        android:focusable="true"
+                        android:text="@string/onboarding_ppa_more_info_rki_data_point_9_text" />
+
+                </TableRow>
+
+            </TableLayout>
+
+            <TextView
+                android:id="@+id/rki_data_body_2"
+                style="@style/body1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_24"
+                android:contentDescription="@string/onboarding_ppa_more_info_rki_data_body_2"
+                android:focusable="true"
+                android:text="@string/onboarding_ppa_more_info_rki_data_body_2" />
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_16">
+
+                <TableRow android:layout_marginTop="@dimen/margin_16">
+
+                    <ImageView
+                        android:id="@+id/rki_data_point_10"
+                        android:layout_width="@dimen/bullet_point_6"
+                        android:layout_height="@dimen/bullet_point_6"
+                        android:layout_marginTop="@dimen/margin_8"
+                        android:importantForAccessibility="no"
+                        app:srcCompat="@drawable/bullet_point" />
+
+                    <TextView
+                        android:id="@+id/rki_data_point_10_text"
+                        style="@style/subtitle"
+                        android:layout_marginStart="@dimen/margin_12"
+                        android:layout_weight="1"
+                        android:focusable="true"
+                        android:text="@string/onboarding_ppa_more_info_rki_data_point_10_text" />
+
+                </TableRow>
+
+                <TableRow android:layout_marginTop="@dimen/margin_16">
+
+                    <ImageView
+                        android:id="@+id/rki_data_point_11"
+                        android:layout_width="@dimen/bullet_point_6"
+                        android:layout_height="@dimen/bullet_point_6"
+                        android:layout_marginTop="@dimen/margin_8"
+                        android:importantForAccessibility="no"
+                        app:srcCompat="@drawable/bullet_point" />
+
+                    <TextView
+                        android:id="@+id/rki_data_point_11_text"
+                        style="@style/subtitle"
+                        android:layout_marginStart="@dimen/margin_12"
+                        android:layout_weight="1"
+                        android:focusable="true"
+                        android:text="@string/onboarding_ppa_more_info_rki_data_point_11_text" />
+
+                </TableRow>
+
+                <TableRow android:layout_marginTop="@dimen/margin_16">
+
+                    <ImageView
+                        android:id="@+id/rki_data_point_12"
+                        android:layout_width="@dimen/bullet_point_6"
+                        android:layout_height="@dimen/bullet_point_6"
+                        android:layout_marginTop="@dimen/margin_8"
+                        android:importantForAccessibility="no"
+                        app:srcCompat="@drawable/bullet_point" />
+
+                    <TextView
+                        android:id="@+id/rki_data_point_12_text"
+                        style="@style/subtitle"
+                        android:layout_marginStart="@dimen/margin_12"
+                        android:layout_weight="1"
+                        android:focusable="true"
+                        android:text="@string/onboarding_ppa_more_info_rki_data_point_12_text" />
+
+                </TableRow>
+
+                <TableRow android:layout_marginTop="@dimen/margin_16">
+
+                    <ImageView
+                        android:id="@+id/rki_data_point_13"
+                        android:layout_width="@dimen/bullet_point_6"
+                        android:layout_height="@dimen/bullet_point_6"
+                        android:layout_marginTop="@dimen/margin_8"
+                        android:importantForAccessibility="no"
+                        app:srcCompat="@drawable/bullet_point" />
+
+                    <TextView
+                        android:id="@+id/rki_data_point_13_text"
+                        style="@style/subtitle"
+                        android:layout_marginStart="@dimen/margin_12"
+                        android:layout_weight="1"
+                        android:focusable="true"
+                        android:text="@string/onboarding_ppa_more_info_rki_data_point_13_text" />
+
+                </TableRow>
+
+                <TableRow android:layout_marginTop="@dimen/margin_16">
+
+                    <ImageView
+                        android:id="@+id/rki_data_point_14"
+                        android:layout_width="@dimen/bullet_point_6"
+                        android:layout_height="@dimen/bullet_point_6"
+                        android:layout_marginTop="@dimen/margin_8"
+                        android:importantForAccessibility="no"
+                        app:srcCompat="@drawable/bullet_point" />
+
+                    <TextView
+                        android:id="@+id/rki_data_point_14_text"
+                        style="@style/subtitle"
+                        android:layout_marginStart="@dimen/margin_12"
+                        android:layout_weight="1"
+                        android:focusable="true"
+                        android:text="@string/onboarding_ppa_more_info_rki_data_point_14_text" />
+
+                </TableRow>
+
+                <TableRow android:layout_marginTop="@dimen/margin_16">
+
+                    <ImageView
+                        android:id="@+id/rki_data_point_15"
+                        android:layout_width="@dimen/bullet_point_6"
+                        android:layout_height="@dimen/bullet_point_6"
+                        android:layout_marginTop="@dimen/margin_8"
+                        android:importantForAccessibility="no"
+                        app:srcCompat="@drawable/bullet_point" />
+
+                    <TextView
+                        android:id="@+id/rki_data_point_15_text"
+                        style="@style/subtitle"
+                        android:layout_marginStart="@dimen/margin_12"
+                        android:layout_weight="1"
+                        android:focusable="true"
+                        android:text="@string/onboarding_ppa_more_info_rki_data_point_15_text" />
+
+                </TableRow>
+
+                <TableRow android:layout_marginTop="@dimen/margin_16">
+
+                    <ImageView
+                        android:id="@+id/rki_data_point_16"
+                        android:layout_width="@dimen/bullet_point_6"
+                        android:layout_height="@dimen/bullet_point_6"
+                        android:layout_marginTop="@dimen/margin_8"
+                        android:importantForAccessibility="no"
+                        app:srcCompat="@drawable/bullet_point" />
+
+                    <TextView
+                        android:id="@+id/rki_data_point_16_text"
+                        style="@style/subtitle"
+                        android:layout_marginStart="@dimen/margin_12"
+                        android:layout_weight="1"
+                        android:focusable="true"
+                        android:text="@string/onboarding_ppa_more_info_rki_data_point_16_text" />
+
+                </TableRow>
+
+            </TableLayout>
+
+            <TextView
+                android:id="@+id/other_info_body"
+                style="@style/body1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_24"
+                android:contentDescription="@string/onboarding_ppa_more_info_other_info_body"
+                android:focusable="true"
+                android:text="@string/onboarding_ppa_more_info_other_info_body" />
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_16">
+
+                <TableRow android:layout_marginTop="@dimen/margin_16">
+
+                    <ImageView
+                        android:id="@+id/other_info_point_1"
+                        android:layout_width="@dimen/bullet_point_6"
+                        android:layout_height="@dimen/bullet_point_6"
+                        android:layout_marginTop="@dimen/margin_8"
+                        android:importantForAccessibility="no"
+                        app:srcCompat="@drawable/bullet_point" />
+
+                    <TextView
+                        android:id="@+id/other_info_point_1_text"
+                        style="@style/subtitle"
+                        android:layout_marginStart="@dimen/margin_12"
+                        android:layout_weight="1"
+                        android:focusable="true"
+                        android:text="@string/onboarding_ppa_more_info_other_info_point_1_text" />
+                </TableRow>
+
+                <TableRow android:layout_marginTop="@dimen/margin_16">
+
+                    <ImageView
+                        android:id="@+id/other_info_point_3"
+                        android:layout_width="@dimen/bullet_point_6"
+                        android:layout_height="@dimen/bullet_point_6"
+                        android:layout_marginTop="@dimen/margin_8"
+                        android:importantForAccessibility="no"
+                        app:srcCompat="@drawable/bullet_point" />
+
+                    <TextView
+                        android:id="@+id/other_info_point_3_text"
+                        style="@style/subtitle"
+                        android:layout_marginStart="@dimen/margin_12"
+                        android:layout_weight="1"
+                        android:focusable="true"
+                        android:text="@string/onboarding_ppa_more_info_other_info_point_2_text" />
+
+                </TableRow>
+
+                <TableRow android:layout_marginTop="@dimen/margin_16">
+
+                    <ImageView
+                        android:id="@+id/other_info_point_4"
+                        android:layout_width="@dimen/bullet_point_6"
+                        android:layout_height="@dimen/bullet_point_6"
+                        android:layout_marginTop="@dimen/margin_8"
+                        android:importantForAccessibility="no"
+                        app:srcCompat="@drawable/bullet_point" />
+
+                    <TextView
+                        android:id="@+id/other_info_point_4_text"
+                        style="@style/subtitle"
+                        android:layout_marginStart="@dimen/margin_12"
+                        android:layout_weight="1"
+                        android:focusable="true"
+                        android:text="@string/onboarding_ppa_more_info_other_info_point_3_text" />
+
+                </TableRow>
+
+            </TableLayout>
+
+            <TextView
+                android:id="@+id/much_privacy_body"
+                style="@style/body1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_32"
+                android:contentDescription="@string/onboarding_ppa_more_info_much_privacy_body"
+                android:focusable="true"
+                android:text="@string/onboarding_ppa_more_info_much_privacy_body" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

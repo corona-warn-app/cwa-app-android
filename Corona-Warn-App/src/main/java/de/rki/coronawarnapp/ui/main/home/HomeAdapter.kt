@@ -29,6 +29,7 @@ import de.rki.coronawarnapp.tracing.ui.homecards.TracingDisabledCard
 import de.rki.coronawarnapp.tracing.ui.homecards.TracingFailedCard
 import de.rki.coronawarnapp.tracing.ui.homecards.TracingProgressCard
 import de.rki.coronawarnapp.ui.main.home.items.CreateTraceLocationCard
+import de.rki.coronawarnapp.ui.main.home.items.EolCard
 import de.rki.coronawarnapp.ui.main.home.items.FAQCard
 import de.rki.coronawarnapp.ui.main.home.items.HomeItem
 import de.rki.coronawarnapp.ui.main.home.items.IncompatibleCard
@@ -80,6 +81,7 @@ class HomeAdapter :
                 TypedVHCreatorMod({ data[it] is RegisterTestCard.Item }) { RegisterTestCard(it) },
                 TypedVHCreatorMod({ data[it] is StatisticsHomeCard.Item }) { StatisticsHomeCard(it) },
                 TypedVHCreatorMod({ data[it] is RampDownNoticeCard.Item }) { RampDownNoticeCard(it) },
+                TypedVHCreatorMod({ data[it] is EolCard.Item }) { EolCard(it) },
                 SavedStateMod<HomeItemVH<HomeItem, ViewBinding>>() // For statistics card scroll position
             )
         )

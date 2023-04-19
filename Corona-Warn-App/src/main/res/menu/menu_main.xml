@@ -35,10 +35,4 @@
         android:id="@+id/mainOverviewFragment"
         android:icon="@drawable/ic_menu_overview"
         android:title="@string/menu_help" />
-
-    <item
-        android:id="@+id/test_nav_graph"
-        android:title="Test Menu"
-        android:visible="false"
-        tools:ignore="HardcodedText" />
 </menu>

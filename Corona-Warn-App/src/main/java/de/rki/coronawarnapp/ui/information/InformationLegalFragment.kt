@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentInformationLegalBinding
 import de.rki.coronawarnapp.util.convertToHyperlink
+import de.rki.coronawarnapp.util.formatter.formatVisibilityLanguageBased
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 
@@ -22,15 +23,19 @@ class InformationLegalFragment : Fragment(R.layout.fragment_information_legal) {
         super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
         setUpContactFormLinks()
+        with(binding) {
+            informationLegalContactForm.visibility = formatVisibilityLanguageBased(true)
+            informationLegalContactFormNonEnDe.visibility = formatVisibilityLanguageBased(false)
+        }
     }
 
     /**
      * Make the links clickable and convert to hyperlink
      */
     private fun setUpContactFormLinks() {
-        binding.informationLegalContactForm.informationLegalContactForm
+        binding.informationLegalContactForm
             .convertToHyperlink(getString(R.string.information_legal_subtitle_contact_url))
-        binding.informationLegalContactForm.informationLegalContactFormNonEnDe
+        binding.informationLegalContactFormNonEnDe
             .movementMethod = LinkMovementMethod.getInstance()
     }
 

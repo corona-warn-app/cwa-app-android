@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
@@ -11,9 +13,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentInformationBinding
 import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
-import de.rki.coronawarnapp.util.ui.setGone
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -33,17 +33,24 @@ class InformationFragment : Fragment(R.layout.fragment_information), AutoInject 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        vm.currentENFVersion.observe2(this) {
+        vm.isEol.observe(viewLifecycleOwner) {
+            with(binding) {
+                informationContact.isVisible = !it
+                informationDebuglog.isVisible = !it
+            }
+        }
+
+        vm.currentENFVersion.observe(viewLifecycleOwner) {
             binding.informationEnfVersion.apply {
-                setGone(it == null)
+                isGone = it == null
                 text = it
             }
         }
-        vm.appVersion.observe2(this) {
+        vm.appVersion.observe(viewLifecycleOwner) {
             binding.informationVersion.text = it
         }
 
-        vm.cclConfigVersion.observe2(this) {
+        vm.cclConfigVersion.observe(viewLifecycleOwner) {
             binding.cclVersion.text = it
         }
 
@@ -64,40 +71,40 @@ class InformationFragment : Fragment(R.layout.fragment_information), AutoInject 
     }
 
     private fun setButtonOnClickListener() {
-        binding.informationAbout.mainRow.setOnClickListener {
+        binding.informationAbout.setOnClickListener {
             findNavController().navigate(
                 InformationFragmentDirections.actionInformationFragmentToInformationAboutFragment()
             )
         }
-        binding.informationPrivacy.mainRow.setOnClickListener {
+        binding.informationPrivacy.setOnClickListener {
             findNavController().navigate(
                 InformationFragmentDirections.actionInformationFragmentToInformationPrivacyFragment()
             )
         }
-        binding.informationTerms.mainRow.setOnClickListener {
+        binding.informationTerms.setOnClickListener {
             findNavController().navigate(
                 InformationFragmentDirections.actionInformationFragmentToInformationTermsFragment()
             )
         }
-        binding.informationAccessibilityStatement.mainRow.setOnClickListener {
+        binding.informationAccessibilityStatement.setOnClickListener {
             openUrl(getString(R.string.accessibility_statement_link))
         }
-        binding.informationContact.mainRow.setOnClickListener {
+        binding.informationContact.setOnClickListener {
             findNavController().navigate(
                 InformationFragmentDirections.actionInformationFragmentToInformationContactFragment()
             )
         }
-        binding.informationLegal.mainRow.setOnClickListener {
+        binding.informationLegal.setOnClickListener {
             findNavController().navigate(
                 InformationFragmentDirections.actionInformationFragmentToInformationLegalFragment()
             )
         }
-        binding.informationTechnical.mainRow.setOnClickListener {
+        binding.informationTechnical.setOnClickListener {
             findNavController().navigate(
                 InformationFragmentDirections.actionInformationFragmentToInformationTechnicalFragment()
             )
         }
-        binding.informationDebuglog.mainRow.setOnClickListener {
+        binding.informationDebuglog.setOnClickListener {
             findNavController().navigate(
                 InformationFragmentDirections.actionInformationFragmentToDebuglogFragment()
             )
@@ -105,7 +112,7 @@ class InformationFragment : Fragment(R.layout.fragment_information), AutoInject 
         binding.informationHeader.setNavigationOnClickListener {
             popBackStack()
         }
-        binding.informationRelease.mainRow.setOnClickListener {
+        binding.informationRelease.setOnClickListener {
             findNavController().navigate(
                 InformationFragmentDirections.actionInformationFragmentToNewReleaseInfoFragment(true)
             )

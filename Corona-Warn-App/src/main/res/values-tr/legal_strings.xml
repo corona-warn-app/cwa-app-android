@@ -27,7 +27,7 @@
     <!-- YTXT: Body for your consent screen agreement share symptoms with additional hint for test result-->
     <string name="submission_your_consent_agreement_share_symptoms_2">"<b>Hızlı test durumunda sadece Korona Uyarı Uygulamasının kullanıcıları uyarılır. Semptomlarınızın başladığına ilişkin ek bilgiler verirseniz bu veriler de paylaşılır.</b>\n\nYukarıdaki “Diğer Kullanıcıları Uyarın” seçeneğini devre dışı bırakarak, verdiğiniz rıza beyanını geri alabilirsiniz. Bunun ardından test sonucunuz size görüntülenir.</string>
     <!-- YTXT: Body for keys submission no consent text first part-->
-    <string name="submission_no_consent_your_consent_subsection_body_first_part">"„Kabul ediyorum“ seçeneğine dokunarak aşağıdakileri onaylarsınız:"</string>
+    <string name="submission_no_consent_your_consent_subsection_body_first_part">"„Kabul et“ seçeneğine dokunarak aşağıdakileri onaylarsınız:"</string>
     <!-- YTXT: Body for keys submission no consent text second part-->
     <string name="submission_no_consent_your_consent_subsection_body_second_part">"<b>Uygulama test sonucunuzu, karşılaştığınız kullanıcıları uyarmak için paylaşır. Bu yukarıda belirtilen ülkelerdeki Korona Uygulamasının kullanıcıları ve aynı zamanda aynı etkinlikte ya da yerde bulunduğunuz kullanıcılar için geçerlidir. Hızlı test durumunda sadece Korona Uyarı Uygulamasının kullanıcıları uyarılır. Semptomlarınızın başladığına ilişkin ek bilgiler verirseniz bu veriler de paylaşılır.</b>"</string>
     <!-- YTXT: Body for keys submission no consent text third part-->
@@ -38,13 +38,13 @@
     <!-- XTXT: Title for legal information of the contact diary onboarding screen -->
     <string name="contact_diary_onboarding_privacy_information_title">"Veri İşlemeye İlişkin Notlar"</string>
     <!-- XTXT: Title for the contact diary onboarding privacy information first section -->
-    <string name="contact_diary_onboarding_privacy_information_first_section_title">"Kaydedilen tüm bilgiler üzerinde tam kontrole sahip olursunuz"</string>
+    <string name="contact_diary_onboarding_privacy_information_first_section_title"><b>"Kaydedilen tüm bilgiler üzerinde tam kontrole sahip olursunuz."</b></string>
     <!-- XTXT: Body for the contact diary onboarding privacy information first section -->
     <string name="contact_diary_onboarding_privacy_information_first_section_body_one">"Corona-Warn-App’ın bu ek işlevinin kullanımı isteğe bağlıdır ve hangi kişi ve yerleri kaydedeceğinize yalnızca siz karar verirsiniz."</string>
     <!-- XTXT: Body for the contact diary onboarding privacy information first section -->
     <string name="contact_diary_onboarding_privacy_information_first_section_body_two">"Ne RKI ne de başka herhangi bir kurum, temas günlüğüne girdiğiniz bilgilere erişebilir. Bu bilgiler, yalnızca Android akıllı telefonunuzda şifrelenmiş halde saklanır."</string>
     <!-- XTXT: Title for the contact diary onboarding privacy information second section title -->
-    <string name="contact_diary_onboarding_privacy_information_second_section_title">"Lütfen çevrenizdeki kişilerin gizliliğini koruyun"</string>
+    <string name="contact_diary_onboarding_privacy_information_second_section_title"><b>"Lütfen çevrenizdeki kişilerin gizliliğini koruyun."</b></string>
     <!-- XTXT: Body for the contact diary onboarding privacy information second section -->
     <string name="contact_diary_onboarding_privacy_information_second_section_body_one">"Lütfen temas günlüğünüzde kayıtlı olan verileri, kiminle ve nasıl paylaştığınızı tam olarak kontrol edin. Bu bilgiler, hatırlatma amaçlıdır - üçüncü taraflara yönelik değildir. Sağlık kurumu, temaslı takibi ile ilgili olarak sizden yardımınızı rica ederse, kayıtlarınızın aktarımı usule uygundur."</string>
     <!-- XTXT: Body for the contact diary onboarding privacy information second section -->
@@ -116,13 +116,9 @@
     <!-- XTXT: Subtitle for privacy card -->
     <string name="trace_location_privacy_card_subtitle_text">"“Devam”a tıklarsanız, konuklarınız için bir QR kodu oluşturabilirsiniz."</string>
     <!-- XTXT: First bulletpoint title for privacy card -->
-    <string name="trace_location_privacy_card_first_bulletpoint_title_text">"Olay veya konumla ilgili verileriniz, yazdırılabilir biçimde bir QR kodunda kaydedilecektir."</string>
-    <!-- XTXT: First bulletpoint subtitle for privacy card -->
-    <string name="trace_location_privacy_card_fist_bulletpoint_subtitle_text">"Daha sonra konuklarınız, Uygulama ile QR kodu tarayabilir."</string>
+    <string name="trace_location_privacy_card_first_bulletpoint_title_text"><b>Olay veya konumla ilgili verileriniz, yazdırılabilir biçimde bir QR kodunda kaydedilecektir.</b>\nDaha sonra konuklarınız, Uygulama ile QR kodu tarayabilir.</string>
     <!-- XTXT: Second bulleptoint title for privacy card -->
-    <string name="trace_location_privacy_card_second_bulletpoint_title_text">"Lütfen olayınızın veya konumunuzun adı, kategorisi ve saati ve kalış süresi ile ilgili olarak mümkün olduğunca kesin bilgi sağlayın."</string>
-    <!-- XTXT: Second vulletpoint subtitle for privacy card -->
-    <string name="trace_location_pricacy_card_second_bulletpoint_subtitle_text">"Verdiğinizi bilgiler ne kadar kesin olursa, konuklarınız da o kadar güvenilir bir biçimde uyarılabilir."</string>
+    <string name="trace_location_privacy_card_second_bulletpoint_title_text"><b>Lütfen olayınızın veya konumunuzun adı, kategorisi ve saati ve kalış süresi ile ilgili olarak mümkün olduğunca kesin bilgi sağlayın.</b>\nVerdiğinizi bilgiler ne kadar kesin olursa, konuklarınız da o kadar güvenilir bir biçimde uyarılabilir.</string>
     <!-- XTXT: Third bulletpoint text for privacy card -->
     <string name="trace_location_privacy_card_third_bulletpoint_text">"Lütfen tüm konuklarınızın QR kodu, mesafe ve hijyen kuralları çerçevesinde (en az 1,5 metre) tarayabilmesi için gerekli ortamı sağlayın."</string>
     <!-- XTXT: Fourth bulletpoint text for privacy card -->
@@ -134,13 +130,11 @@
     <!-- YMSG: Onboarding trace location bullet points introduction -->
     <string name="trace_location_onboarding_body_intro">“Kabul ediyorum”a tıklayarak aşağıdaki adımlara onay vermiş olursunuz:</string>
     <!-- YMSG: Onboarding trace location bullet points -->
-    <string name="trace_location_onboarding_body_consent2">Uygulama, 16 gün boyunca hangi olaylarda veya konumlarda giriş denetimi yaptırdığınızı hatırlar.</string>
+    <string name="trace_location_onboarding_body_consent2"><b>Uygulama, 16 gün boyunca hangi olaylarda veya konumlarda giriş denetimi yaptırdığınızı hatırlar.</b>\nBir giriş denetimi sırasında QR kodu taradığınızda, akıllı telefonunuzda olay veya konum için bir veri girişi oluşturulur.</string>
     <!-- YMSG: Onboarding trace location bullet points -->
-    <string name="trace_location_onboarding_body_consent3">Bir giriş denetimi sırasında QR kodu taradığınızda, akıllı telefonunuzda olay veya konum için bir veri girişi oluşturulur.</string>
+    <string name="trace_location_onboarding_body_consent4"><b>Sizinle birlikte giriş denetimi yapan bir kullanıcının daha sonraki testi pozitif çıkarsa ve kendisi bir uyarı tetiklerse, akıllı telefonunuz testi pozitif çıkan bu kullanıcıdan rastgele kimlik numaraları almamış olsa bile, olay kimliği üzerinden otomatik olarak uyarılırsınız.</b></string>
     <!-- YMSG: Onboarding trace location bullet points -->
-    <string name="trace_location_onboarding_body_consent4">Sizinle birlikte giriş denetimi yapan bir kullanıcının daha sonraki testi pozitif çıkarsa ve kendisi bir uyarı tetiklerse, akıllı telefonunuz testi pozitif çıkan bu kullanıcıdan rastgele kimlik numaraları almamış olsa bile, olay kimliği üzerinden otomatik olarak uyarılırsınız.</string>
-    <!-- YMSG: Onboarding trace location bullet points -->
-    <string name="trace_location_onboarding_body_consent5">Eğer kendiniz daha sonra bir uyarıyı tetiklerseniz, “Giriş denetimlerim” altında girilen bir olay veya konumda sizinle eş zamanlı giriş yapmış olan diğer tüm kullanıcılar, olay kimliği üzerinden otomatik olarak uyarılacaktır.</string>
+    <string name="trace_location_onboarding_body_consent5"><b>Eğer kendiniz daha sonra bir uyarıyı tetiklerseniz, “Giriş denetimlerim” altında girilen bir olay veya konumda sizinle eş zamanlı giriş yapmış olan diğer tüm kullanıcılar, olay kimliği üzerinden otomatik olarak uyarılacaktır.</b></string>
     <!-- YMSG: Onboarding trace location bullet points -->
     <string name="trace_location_onboarding_body_consent6">“Giriş denetimlerim” altındaki bir giriş denetimini istediğiniz zaman silebilirsiniz.  Bu durumda akıllı telefonunuz yalnızca, bir riskli karşılaşmada testi pozitif çıkan bir kullanıcının rastgele kimlik numaralarını alırsa uyarılırsınız.</string>
 

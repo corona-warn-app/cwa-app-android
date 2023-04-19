@@ -17,7 +17,6 @@ import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.addTitleId
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -33,7 +32,7 @@ class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispa
         super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
 
-        viewModel.routeToScreen.observe2(this) {
+        viewModel.routeToScreen.observe(viewLifecycleOwner) {
             when (it) {
                 is SubmissionNavigationEvents.NavigateToMainActivity ->
                     findNavController().popBackStack()
@@ -80,7 +79,7 @@ class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispa
             }
         }
 
-        viewModel.srsError.observe2(this) {
+        viewModel.srsError.observe(viewLifecycleOwner) {
             displayDialog {
                 setError(it)
                 positiveButton(android.R.string.ok)

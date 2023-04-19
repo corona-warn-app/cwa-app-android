@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.tracing.ui.details.items.risk
 
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
+import androidx.core.view.isGone
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TracingContentProgressViewBinding
 import de.rki.coronawarnapp.tracing.states.RiskCalculationInProgress
@@ -27,8 +28,16 @@ class TracingProgressBox(
         item: Item,
         payloads: List<Any>
     ) -> Unit = { item, _ ->
-        itemView.setBackgroundColor(item.state.getContainerColor(context))
-        state = item.state
+        item.state.apply {
+            headline.text = getProgressCardHeadline(context)
+            headline.setTextColor(getStableTextColor(context))
+            itemView.setBackgroundColor(getContainerColor(context))
+            detailsIcon.setColorFilter(getStableIconColor(context))
+            detailsIcon.isGone = isInDetailsMode
+            progressIndicator.setIndicatorColor(getStableIconColor(context))
+            bodyText.text = getProgressCardBody(context)
+            bodyText.setTextColor(getStableTextColor(context))
+        }
     }
 
     data class Item(

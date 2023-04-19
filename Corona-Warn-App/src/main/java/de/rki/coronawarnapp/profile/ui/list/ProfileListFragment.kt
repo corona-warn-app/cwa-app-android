@@ -14,7 +14,6 @@ import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.onScroll
 import de.rki.coronawarnapp.util.ui.addTitleId
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -54,7 +53,7 @@ class ProfileListFragment : Fragment(R.layout.profile_list_fragment), AutoInject
             viewModel.onCreateProfileClicked()
         }
 
-        viewModel.profiles.observe2(this) {
+        viewModel.profiles.observe(viewLifecycleOwner) {
             profilesListAdapter.update(it)
             binding.apply {
                 recyclerView.isGone = it.isEmpty()
@@ -62,7 +61,7 @@ class ProfileListFragment : Fragment(R.layout.profile_list_fragment), AutoInject
             }
         }
 
-        viewModel.events.observe2(this) {
+        viewModel.events.observe(viewLifecycleOwner) {
             when (it) {
                 ProfileListEvent.NavigateToAddProfile -> {
                     findNavController().navigate(

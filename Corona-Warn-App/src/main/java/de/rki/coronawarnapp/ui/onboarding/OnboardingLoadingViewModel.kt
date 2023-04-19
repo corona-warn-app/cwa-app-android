@@ -22,12 +22,11 @@ class OnboardingLoadingViewModel @AssistedInject constructor(
             !onboardingSettings.isOnboarded() -> {
                 navigationEvents.postValue(OnboardingFragmentEvents.ShowOnboarding)
             }
-            !cwaSettings.wasInteroperabilityShownAtLeastOnce.first() -> {
-                navigationEvents.postValue(OnboardingFragmentEvents.ShowInteropDeltaOnboarding)
-            }
+
             cwaSettings.lastChangelogVersion.first() / 10000 < BuildConfigWrap.VERSION_CODE / 10000 -> {
                 navigationEvents.postValue(OnboardingFragmentEvents.ShowNewReleaseFragment)
             }
+
             else -> {
                 navigationEvents.postValue(OnboardingFragmentEvents.OnboardingDone)
             }

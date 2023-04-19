@@ -1,181 +1,178 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/onboarding_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorSurface"
+    android:contentDescription="@string/onboarding_onboarding_accessibility_title"
+    android:fillViewport="true"
+    tools:context="de.rki.coronawarnapp.ui.onboarding.OnboardingFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/onboarding_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorSurface"
-        android:contentDescription="@string/onboarding_onboarding_accessibility_title"
-        android:fillViewport="true"
-        tools:context="de.rki.coronawarnapp.ui.onboarding.OnboardingFragment">
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="@dimen/margin_16"
+        app:layout_constraintBottom_toTopOf="@id/onboarding_button_next"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <ScrollView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginBottom="@dimen/margin_16"
-            app:layout_constraintBottom_toTopOf="@id/onboarding_button_next"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="@dimen/padding_32">
-
-                <ImageView
-                    android:id="@+id/onboarding_illustration"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:adjustViewBounds="true"
-                    android:contentDescription="@string/onboarding_illustration_description"
-                    android:focusable="true"
-                    android:scaleType="fitXY"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_illustration_together" />
-
-                <TextView
-                    android:id="@+id/onboarding_headline"
-                    style="@style/headline4"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/margin_24"
-                    android:layout_marginTop="@dimen/margin_24"
-                    android:accessibilityHeading="true"
-                    android:focusable="true"
-                    android:text="@string/onboarding_headline"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/onboarding_illustration"
-                    tools:text="@string/onboarding_headline" />
-
-                <TextView
-                    android:id="@+id/onboarding_body_1"
-                    style="@style/subtitle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/margin_24"
-                    android:layout_marginTop="@dimen/margin_24"
-                    android:focusable="true"
-                    android:text="@string/onboarding_body_1"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/onboarding_headline"
-                    tools:text="@string/onboarding_body_1" />
-
-                <TextView
-                    android:id="@+id/onboarding_body_2"
-                    style="@style/subtitle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/margin_24"
-                    android:layout_marginTop="@dimen/margin_24"
-                    android:autoLink="web|email"
-                    android:focusable="true"
-                    android:text="@string/onboarding_body_2"
-                    android:textColorLink="@color/colorTextTint"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/onboarding_body_1"
-                    tools:text="@string/onboarding_body_2" />
-
-                <TextView
-                    android:id="@+id/onboarding_body_3"
-                    style="@style/subtitle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/margin_24"
-                    android:layout_marginTop="@dimen/margin_24"
-                    android:autoLink="web|email"
-                    android:focusable="true"
-                    android:text="@string/onboarding_body_3"
-                    android:textColorLink="@color/colorTextTint"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/onboarding_body_2"
-                    tools:text="@string/onboarding_body_3" />
-
-                <TextView
-                    android:id="@+id/onboarding_body_4"
-                    style="@style/subtitle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/margin_24"
-                    android:layout_marginTop="@dimen/margin_24"
-                    android:autoLink="web|email"
-                    android:focusable="true"
-                    android:text="@string/onboarding_body_4"
-                    android:textColorLink="@color/colorTextTint"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/onboarding_body_3"
-                    tools:text="@string/onboarding_body_4" />
-
-                <TextView
-                    android:id="@+id/onboarding_body_5"
-                    style="@style/subtitle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/margin_24"
-                    android:layout_marginTop="@dimen/margin_24"
-                    android:focusable="true"
-                    android:text="@string/onboarding_body_5"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/onboarding_body_4"
-                    tools:text="@string/onboarding_body_5" />
-
-                <TextView
-                    android:id="@+id/onboarding_body_6"
-                    style="@style/subtitle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/margin_24"
-                    android:layout_marginTop="@dimen/margin_24"
-                    android:focusable="true"
-                    android:text="@string/onboarding_body_6"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/onboarding_body_5"
-                    tools:text="@string/onboarding_body_6" />
-
-                <TextView
-                    android:id="@+id/onboarding_easy_language"
-                    style="@style/subtitle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/margin_24"
-                    android:layout_marginTop="@dimen/margin_24"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:linksClickable="true"
-                    android:text="@string/onboarding_tracing_easy_language_explanation"
-                    android:textColorLink="@color/colorTextTint"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/onboarding_body_6"
-                    tools:text="@string/onboarding_tracing_easy_language_explanation" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </ScrollView>
-
-        <Button
-            android:id="@+id/onboarding_button_next"
-            style="@style/buttonPrimary"
-            android:layout_width="0dp"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/margin_24"
-            android:layout_marginBottom="@dimen/margin_16"
-            android:text="@string/onboarding_button_start"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:paddingBottom="@dimen/padding_32">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+            <ImageView
+                android:id="@+id/onboarding_illustration"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/onboarding_illustration_description"
+                android:focusable="true"
+                android:scaleType="fitXY"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_illustration_together" />
+
+            <TextView
+                android:id="@+id/onboarding_headline"
+                style="@style/headline4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_24"
+                android:layout_marginTop="@dimen/margin_24"
+                android:accessibilityHeading="true"
+                android:focusable="true"
+                android:text="@string/onboarding_headline"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/onboarding_illustration"
+                tools:text="@string/onboarding_headline" />
+
+            <TextView
+                android:id="@+id/onboarding_body_1"
+                style="@style/subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_24"
+                android:layout_marginTop="@dimen/margin_24"
+                android:focusable="true"
+                android:text="@string/onboarding_body_1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/onboarding_headline"
+                tools:text="@string/onboarding_body_1" />
+
+            <TextView
+                android:id="@+id/onboarding_body_2"
+                style="@style/subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_24"
+                android:layout_marginTop="@dimen/margin_24"
+                android:autoLink="web|email"
+                android:focusable="true"
+                android:text="@string/onboarding_body_2"
+                android:textColorLink="@color/colorTextTint"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/onboarding_body_1"
+                tools:text="@string/onboarding_body_2" />
+
+            <TextView
+                android:id="@+id/onboarding_body_3"
+                style="@style/subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_24"
+                android:layout_marginTop="@dimen/margin_24"
+                android:autoLink="web|email"
+                android:focusable="true"
+                android:text="@string/onboarding_body_3"
+                android:textColorLink="@color/colorTextTint"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/onboarding_body_2"
+                tools:text="@string/onboarding_body_3" />
+
+            <TextView
+                android:id="@+id/onboarding_body_4"
+                style="@style/subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_24"
+                android:layout_marginTop="@dimen/margin_24"
+                android:autoLink="web|email"
+                android:focusable="true"
+                android:text="@string/onboarding_body_4"
+                android:textColorLink="@color/colorTextTint"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/onboarding_body_3"
+                tools:text="@string/onboarding_body_4" />
+
+            <TextView
+                android:id="@+id/onboarding_body_5"
+                style="@style/subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_24"
+                android:layout_marginTop="@dimen/margin_24"
+                android:focusable="true"
+                android:text="@string/onboarding_body_5"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/onboarding_body_4"
+                tools:text="@string/onboarding_body_5" />
+
+            <TextView
+                android:id="@+id/onboarding_body_6"
+                style="@style/subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_24"
+                android:layout_marginTop="@dimen/margin_24"
+                android:focusable="true"
+                android:text="@string/onboarding_body_6"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/onboarding_body_5"
+                tools:text="@string/onboarding_body_6" />
+
+            <TextView
+                android:id="@+id/onboarding_easy_language"
+                style="@style/subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_24"
+                android:layout_marginTop="@dimen/margin_24"
+                android:clickable="true"
+                android:focusable="true"
+                android:linksClickable="true"
+                android:text="@string/onboarding_tracing_easy_language_explanation"
+                android:textColorLink="@color/colorTextTint"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/onboarding_body_6"
+                tools:text="@string/onboarding_tracing_easy_language_explanation" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+    <Button
+        android:id="@+id/onboarding_button_next"
+        style="@style/buttonPrimary"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_24"
+        android:layout_marginBottom="@dimen/margin_16"
+        android:text="@string/onboarding_button_start"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

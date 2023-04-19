@@ -1,70 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/padding_24">
 
-    <data>
-        <variable
-            name="state"
-            type="de.rki.coronawarnapp.tracing.states.RiskCalculationInProgress" />
-    </data>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/headline"
+        style="@style/headline5"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:padding="@dimen/padding_24">
+        android:layout_marginEnd="@dimen/margin_16"
+        android:accessibilityHeading="true"
+        app:layout_constraintEnd_toStartOf="@id/details_icon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_goneMarginEnd="0dp"
+        tools:text="Daten werden herunter geladen" />
 
-        <TextView
-            android:id="@+id/headline"
-            style="@style/headline5"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/margin_16"
-            android:accessibilityHeading="true"
-            android:text="@{state.getProgressCardHeadline(context)}"
-            android:textColor="@{state.getStableTextColor(context)}"
-            app:layout_constraintEnd_toStartOf="@id/details_icon"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_goneMarginEnd="0dp"
-            tools:text="Daten werden herunter geladen" />
+    <ImageView
+        android:id="@+id/details_icon"
+        android:layout_width="@dimen/width_40"
+        android:layout_height="@dimen/height_40"
+        android:importantForAccessibility="no"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_forward" />
 
-        <ImageView
-            android:id="@+id/details_icon"
-            gone="@{state.isInDetailsMode}"
-            android:layout_width="@dimen/width_40"
-            android:layout_height="@dimen/height_40"
-            android:importantForAccessibility="no"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_forward"
-            app:tint="@{state.getStableIconColor(context)}" />
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/progress_indicator"
+        android:layout_width="@dimen/width_36"
+        android:layout_height="@dimen/height_36"
+        android:indeterminate="true"
+        app:layout_constraintBottom_toBottomOf="@id/body_text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/body_text"
+        app:showAnimationBehavior="inward" />
 
-        <com.google.android.material.progressindicator.CircularProgressIndicator
-            android:id="@+id/progress_indicator"
-            android:layout_width="@dimen/width_36"
-            android:layout_height="@dimen/height_36"
-            android:indeterminate="true"
-            app:indicatorColor="@{state.getStableIconColor(context)}"
-            app:layout_constraintBottom_toBottomOf="@id/body_text"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/body_text"
-            app:showAnimationBehavior="inward" />
+    <TextView
+        android:id="@+id/body_text"
+        style="@style/subtitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_16"
+        android:layout_marginTop="@dimen/margin_16"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/progress_indicator"
+        app:layout_constraintTop_toBottomOf="@id/headline"
+        tools:text="@string/risk_card_progress_download_body" />
 
-        <TextView
-            android:id="@+id/body_text"
-            style="@style/subtitle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_16"
-            android:layout_marginTop="@dimen/margin_16"
-            android:text="@{state.getProgressCardBody(context)}"
-            android:textColor="@{state.getStableTextColor(context)}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/progress_indicator"
-            app:layout_constraintTop_toBottomOf="@id/headline"
-            tools:text="@string/risk_card_progress_download_body" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+</androidx.constraintlayout.widget.ConstraintLayout>

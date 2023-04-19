@@ -36,6 +36,7 @@ import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationRepository
+import de.rki.coronawarnapp.eol.AppEol
 import de.rki.coronawarnapp.reyclebin.covidcertificate.RecycledCertificatesProvider
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -52,6 +53,7 @@ import timber.log.Timber
 @Suppress("LongParameterList")
 class PersonDetailsViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
+    appEol: AppEol,
     private val personCertificatesProvider: PersonCertificatesProvider,
     private val personCertificatesSettings: PersonCertificatesSettings,
     private val dccValidationRepository: DccValidationRepository,
@@ -75,12 +77,18 @@ class PersonDetailsViewModel @AssistedInject constructor(
 
     val uiState: LiveData<UiState> = combine(
         personCertificatesFlow,
-        loadingButtonState
-    ) { personSpecificCertificates, isLoading ->
-        createUiState(personSpecificCertificates, isLoading)
+        loadingButtonState,
+        appEol.isEol
+    ) { personSpecificCertificates, isLoading, isAppEol ->
+        createUiState(personSpecificCertificates, isLoading, isAppEol)
     }.asLiveData2()
 
-    private suspend fun createUiState(personCertificates: PersonCertificates, isLoading: Boolean): UiState {
+    @Suppress("NestedBlockDepth")
+    private suspend fun createUiState(
+        personCertificates: PersonCertificates,
+        isLoading: Boolean,
+        isAppEol: Boolean
+    ): UiState {
         val priorityCertificate = personCertificates.highestPriorityCertificate
         if (priorityCertificate == null) {
             events.postValue(Back)
@@ -97,25 +105,28 @@ class PersonDetailsViewModel @AssistedInject constructor(
         colorShadeData.postValue(color)
 
         val certificateItems = mutableListOf<CertificateItem>()
-        personCertificates.dccWalletInfo?.let { info ->
-            // 1. Mask state tile
-            val maskState = info.maskState
-            if (maskState?.visible == true) {
-                certificateItems.add(maskStateItem(maskState, color))
+
+        if (!isAppEol) {
+            personCertificates.dccWalletInfo?.let { info ->
+                // 1. Mask state tile
+                val maskState = info.maskState
+                if (maskState?.visible == true) {
+                    certificateItems.add(maskStateItem(maskState, color))
+                }
+                // 2. Admission state tile
+                if (info.admissionState.visible)
+                    certificateItems.add(admissionStateItem(info.admissionState, personCertificates, color))
+                // 3. Dcc reissuance tile
+                if (info.hasReissuance) info.certificateReissuance?.reissuanceDivision?.let { division ->
+                    certificateItems.add(dccReissuanceItem(division, personCertificates))
+                }
+                // 4. Booster notification tile
+                if (info.boosterNotification.visible)
+                    certificateItems.add(boosterItem(info.boosterNotification, personCertificates))
+                // 5.Vaccination state tile
+                if (info.vaccinationState.visible)
+                    certificateItems.add(vaccinationInfoItem(info.vaccinationState))
             }
-            // 2. Admission state tile
-            if (info.admissionState.visible)
-                certificateItems.add(admissionStateItem(info.admissionState, personCertificates, color))
-            // 3. Dcc reissuance tile
-            if (info.hasReissuance) info.certificateReissuance?.reissuanceDivision?.let { division ->
-                certificateItems.add(dccReissuanceItem(division, personCertificates))
-            }
-            // 4. Booster notification tile
-            if (info.boosterNotification.visible)
-                certificateItems.add(boosterItem(info.boosterNotification, personCertificates))
-            // 5.Vaccination state tile
-            if (info.vaccinationState.visible)
-                certificateItems.add(vaccinationInfoItem(info.vaccinationState))
         }
 
         // Person details tile
@@ -130,6 +141,7 @@ class PersonDetailsViewModel @AssistedInject constructor(
                     certificate = cwaCert,
                     priorityCertificate = priorityCertificate,
                     isLoading = isLoading,
+                    isAppEol = isAppEol,
                     colorShade = color,
                 )
             }
@@ -145,18 +157,19 @@ class PersonDetailsViewModel @AssistedInject constructor(
         certificate: CwaCovidCertificate,
         priorityCertificate: CwaCovidCertificate,
         isLoading: Boolean,
+        isAppEol: Boolean,
         colorShade: PersonColorShade,
     ) {
         val isCurrentCertificate = certificate.containerId == priorityCertificate.containerId
         when (certificate) {
             is TestCertificate -> add(
-                tcItem(certificate, isCurrentCertificate, isLoading, colorShade)
+                tcItem(certificate, isCurrentCertificate, isLoading, isAppEol, colorShade)
             )
             is VaccinationCertificate -> add(
-                vcItem(certificate, isCurrentCertificate, isLoading, colorShade)
+                vcItem(certificate, isCurrentCertificate, isLoading, isAppEol, colorShade)
             )
             is RecoveryCertificate -> add(
-                rcItem(certificate, isCurrentCertificate, isLoading, colorShade)
+                rcItem(certificate, isCurrentCertificate, isLoading, isAppEol, colorShade)
             )
         }
     }
@@ -243,12 +256,14 @@ class PersonDetailsViewModel @AssistedInject constructor(
         certificate: RecoveryCertificate,
         isCurrentCertificate: Boolean,
         isLoading: Boolean,
+        isAppEol: Boolean,
         colorShade: PersonColorShade,
     ) = RecoveryCertificateCard.Item(
         certificate = certificate,
         isCurrentCertificate = isCurrentCertificate,
         colorShade = colorShade,
         isLoading = isLoading,
+        isAppEol = isAppEol,
         validateCertificate = { onValidateCertificate(it) },
         onClick = {
             events.postValue(
@@ -271,12 +286,14 @@ class PersonDetailsViewModel @AssistedInject constructor(
         certificate: VaccinationCertificate,
         isCurrentCertificate: Boolean,
         isLoading: Boolean,
+        isAppEol: Boolean,
         colorShade: PersonColorShade,
     ) = VaccinationCertificateCard.Item(
         certificate = certificate,
         isCurrentCertificate = isCurrentCertificate,
         colorShade = colorShade,
         isLoading = isLoading,
+        isAppEol = isAppEol,
         validateCertificate = { onValidateCertificate(it) },
         onClick = {
             events.postValue(
@@ -295,12 +312,14 @@ class PersonDetailsViewModel @AssistedInject constructor(
         certificate: TestCertificate,
         isCurrentCertificate: Boolean,
         isLoading: Boolean,
+        isAppEol: Boolean,
         colorShade: PersonColorShade,
     ) = TestCertificateCard.Item(
         certificate = certificate,
         isCurrentCertificate = isCurrentCertificate,
         colorShade = colorShade,
         isLoading = isLoading,
+        isAppEol = isAppEol,
         validateCertificate = { onValidateCertificate(it) },
         onClick = {
             events.postValue(

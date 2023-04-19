@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@id/privacy_card"
+            style="@style/GreyCard"
+            android:padding="@dimen/padding_16"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/bulletpoint_data_privacy_title"
+                style="@style/headline5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="@string/vaccination_privacy_card_title_text" />
+
+            <TextView
+                android:id="@+id/bulletpoint_data_privacy_subtitle"
+                style="@style/subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_24"
+                android:accessibilityHeading="true"
+                android:focusable="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/bulletpoint_data_privacy_title"
+                tools:text="@string/contact_diary_onboarding_privacy_information_first_section_title" />
+
+            <de.rki.coronawarnapp.ui.view.BulletPointTextView
+                android:id="@+id/bulletpoint_text_one"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_24"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/bulletpoint_data_privacy_subtitle"
+                tools:description="@string/vaccination_privacy_card_first_bulletpoint_title_text" />
+
+            <de.rki.coronawarnapp.ui.view.BulletPointTextView
+                android:id="@+id/bulletpoint_text_two"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_24"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/bulletpoint_text_one"
+                tools:description="@string/vaccination_privacy_card_second_bulletpoint_title_text" />
+
+            <de.rki.coronawarnapp.ui.view.BulletPointTextView
+                android:id="@+id/extra_pcr_bulletpoint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:layout_marginTop="@dimen/margin_24"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/bulletpoint_text_two"
+                tools:description="@string/request_green_certificate_privacy_pcr_extra_section" />
+
+            <TextView
+                android:id="@+id/mid_section_paragraph"
+                style="@style/subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_24"
+                android:accessibilityHeading="true"
+                android:focusable="true"
+                tools:text="@string/contact_diary_onboarding_privacy_information_second_section_title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/extra_pcr_bulletpoint" />
+
+            <de.rki.coronawarnapp.ui.view.BulletPointTextView
+                android:id="@+id/bulletpoint_text_three"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_24"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/mid_section_paragraph"
+                tools:description="@string/vaccination_privacy_card_third_bulletpoint_title_text" />
+
+            <TextView
+                android:id="@+id/second_paragraph"
+                style="@style/subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_24"
+                android:accessibilityHeading="true"
+                android:focusable="true"
+                tools:text="@string/trace_location_onboarding_body_consent6"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/bulletpoint_text_three" />
+
+            <de.rki.coronawarnapp.ui.view.BulletPointTextView
+                android:id="@+id/bulletpoint_text_four"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_24"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/second_paragraph"
+                tools:description="@string/vaccination_privacy_card_fourth_bulletpoint_title_text" />
+
+            <de.rki.coronawarnapp.ui.view.BulletPointTextView
+                android:id="@+id/bulletpoint_text_five"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_24"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/bulletpoint_text_four"
+                tools:description="@string/request_green_certificate_privacy_section_5" />
+
+            <de.rki.coronawarnapp.ui.view.BulletPointTextView
+                android:id="@+id/bulletpoint_text_six"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_24"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/bulletpoint_text_five"
+                tools:description="@string/srs_submission_consent_first_bulletpoint_text" />
+
+            <de.rki.coronawarnapp.ui.view.BulletPointTextView
+                android:id="@+id/bulletpoint_text_seven"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_24"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/bulletpoint_text_six"
+                tools:description="@string/srs_submission_consent_fourth_bulletpoint_text" />
+
+            <de.rki.coronawarnapp.ui.view.BulletPointTextView
+                android:id="@+id/bulletpoint_text_eight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_24"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/bulletpoint_text_seven"
+                tools:description="@string/srs_submission_consent_fifth_bulletpoint_text" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</merge>

@@ -14,9 +14,7 @@ import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.addTitleId
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
-import de.rki.coronawarnapp.util.ui.setGone
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
@@ -39,10 +37,10 @@ class TraceLocationWarnTanFragment : Fragment(R.layout.trace_location_organizer_
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.state.observe2(this) {
+        viewModel.state.observe(viewLifecycleOwner) {
             binding.apply {
                 tanButtonEnter.isActive = it.isTanValid
-                tanContent.submissionTanCharacterError.setGone(it.areCharactersCorrect)
+                tanContent.submissionTanCharacterError.isGone = it.areCharactersCorrect
                 if (it.isCorrectLength) {
                     tanContent.submissionTanError.isGone = it.isTanValid
                 } else {
@@ -67,7 +65,7 @@ class TraceLocationWarnTanFragment : Fragment(R.layout.trace_location_organizer_
             toolbar.addTitleId(R.id.trace_location_organizer_warn_tan_fragment_title_id)
         }
 
-        viewModel.registrationState.observe2(this) {
+        viewModel.registrationState.observe(viewLifecycleOwner) {
             binding.tanButtonEnter.isLoading = it == ApiRequestState.STARTED
             if (ApiRequestState.SUCCESS == it) {
                 findNavController().navigate(
@@ -77,7 +75,7 @@ class TraceLocationWarnTanFragment : Fragment(R.layout.trace_location_organizer_
             }
         }
 
-        viewModel.registrationError.observe2(this) { displayDialog { setError(it) } }
+        viewModel.registrationError.observe(viewLifecycleOwner) { displayDialog { setError(it) } }
     }
 
     override fun onResume() {

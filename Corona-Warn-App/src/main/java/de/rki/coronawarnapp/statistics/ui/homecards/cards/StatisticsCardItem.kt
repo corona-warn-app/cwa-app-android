@@ -27,6 +27,7 @@ data class AddLocalStatisticsCardItem(
 
 data class LinkCardItem(
     val linkStats: LinkStatsItem,
+    val isEol: Boolean,
     val onClickListener: (StatsItem) -> Unit,
     val openLink: (String) -> Unit,
 ) : StatisticsCardItem() {

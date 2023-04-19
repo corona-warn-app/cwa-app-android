@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.statistics
 
 import com.google.common.collect.Ordering
+import de.rki.coronawarnapp.eol.AppEol
 import de.rki.coronawarnapp.statistics.local.source.LocalStatisticsProvider
 import de.rki.coronawarnapp.statistics.source.StatisticsProvider
 import de.rki.coronawarnapp.util.network.NetworkStateProvider
@@ -15,12 +16,14 @@ class CombinedStatisticsProvider @Inject constructor(
     statisticsProvider: StatisticsProvider,
     localStatisticsProvider: LocalStatisticsProvider,
     networkStateProvider: NetworkStateProvider,
+    appEol: AppEol
 ) {
     val statistics = combine(
         statisticsProvider.current,
         localStatisticsProvider.current,
-        networkStateProvider.networkState.map { it.isInternetAvailable }.distinctUntilChanged()
-    ) { statsData, localStatsData, isInternetAvailable ->
+        networkStateProvider.networkState.map { it.isInternetAvailable }.distinctUntilChanged(),
+        appEol.isEol,
+    ) { statsData, localStatsData, isInternetAvailable, isEol ->
         val cardIdSequence = statsData.cardIdSequence
         val ordering = Ordering.explicit(cardIdSequence.toList())
         val stats = localStatsData.items.plus(statsData.items)
@@ -36,6 +39,8 @@ class CombinedStatisticsProvider @Inject constructor(
                 isInternetAvailable = isInternetAvailable
             )
         )
-        statsData.copy(items = addStatsItems + stats)
+        val items = addStatsItems + stats
+        val filteredStats = if (isEol) items.filterIsInstance<PandemicRadarStats>() else items
+        statsData.copy(items = filteredStats.toSet())
     }
 }

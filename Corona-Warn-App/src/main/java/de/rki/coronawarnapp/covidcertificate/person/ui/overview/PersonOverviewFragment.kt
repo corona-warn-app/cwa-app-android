@@ -14,8 +14,6 @@ import com.google.android.material.transition.MaterialSharedAxis
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.person.ui.admission.AdmissionScenariosSharedViewModel
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.PersonDetailsFragmentArgs
-import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.AdmissionTileProvider
-import de.rki.coronawarnapp.databinding.AdmissionScenarioTileBinding
 import de.rki.coronawarnapp.databinding.PersonOverviewFragmentBinding
 import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
@@ -53,11 +51,22 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
         }
         viewModel.uiState.observe(viewLifecycleOwner) { binding.bindViews(it) }
         viewModel.events.observe(viewLifecycleOwner) { onNavEvent(it) }
-        viewModel.admissionTile.observe(viewLifecycleOwner) { binding.admissionContainer.bindAdmissionTile(it) }
-        viewModel.isExportAllTooltipVisible.observe(viewLifecycleOwner) { visible ->
-            binding.exportTooltip.root.isVisible = visible
+        viewModel.admissionTile.observe(viewLifecycleOwner) {
+            with(binding) {
+                admissionContainer.apply {
+                    isVisible = it.visible
+                    setOnClickListener { viewModel.openAdmissionScenarioScreen() }
+                }
+
+                admissionTileTitle.text = it.title.ifEmpty { getString(R.string.ccl_admission_state_tile_title) }
+                admissionTileSubtitle.text =
+                    it.subtitle.ifEmpty { getString(R.string.ccl_admission_state_tile_subtitle) }
+            }
         }
-        binding.exportTooltip.close.setOnClickListener { viewModel.dismissExportAllToolTip() }
+        viewModel.isExportAllTooltipVisible.observe(viewLifecycleOwner) { visible ->
+            binding.exportTooltip.isVisible = visible
+        }
+        binding.close.setOnClickListener { viewModel.dismissExportAllToolTip() }
     }
 
     private fun onNavEvent(event: PersonOverviewFragmentEvents) {
@@ -104,14 +113,17 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
                 positiveButton(R.string.errors_generic_button_positive)
             }
 
-            OpenCovPassInfo -> findNavController().navigate(
-                PersonOverviewFragmentDirections.actionPersonOverviewFragmentToCovPassInfoFragment()
-            )
+            OpenCovPassInfo -> {
+                setupAxisTransition()
+                findNavController().navigate(
+                    PersonOverviewFragmentDirections.actionPersonOverviewFragmentToCovPassInfoFragment()
+                )
+            }
 
             OpenAdmissionScenarioScreen -> {
                 setupHoldTransition()
                 val navigatorExtras = FragmentNavigatorExtras(
-                    binding.admissionContainer.root to binding.admissionContainer.root.transitionName
+                    binding.admissionContainer to binding.admissionContainer.transitionName
                 )
                 findNavController().navigate(
                     R.id.action_personOverviewFragment_to_admissionScenariosFragment,
@@ -183,18 +195,6 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
         adapter = personOverviewAdapter
         addItemDecoration(TopBottomPaddingDecorator(topPadding = R.dimen.standard_8))
         itemAnimator = DefaultItemAnimator()
-    }
-
-    private fun AdmissionScenarioTileBinding.bindAdmissionTile(
-        tile: AdmissionTileProvider.AdmissionTile
-    ) {
-        admissionTile.apply {
-            isVisible = tile.visible
-            setOnClickListener { viewModel.openAdmissionScenarioScreen() }
-        }
-
-        admissionTileTitle.text = tile.title.ifEmpty { getString(R.string.ccl_admission_state_tile_title) }
-        admissionTileSubtitle.text = tile.subtitle.ifEmpty { getString(R.string.ccl_admission_state_tile_subtitle) }
     }
 
     companion object {

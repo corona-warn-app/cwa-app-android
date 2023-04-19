@@ -8,6 +8,7 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.BuildConfig
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.ccl.configuration.storage.CclConfigurationRepository
+import de.rki.coronawarnapp.eol.AppEol
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.nearby.modules.version.ENFVersion
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -22,6 +23,7 @@ import kotlinx.coroutines.flow.map
 class InformationFragmentViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     enfClient: ENFClient,
+    appEol: AppEol,
     @AppContext private val context: Context,
     cclConfigurationRepository: CclConfigurationRepository,
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
@@ -52,6 +54,8 @@ class InformationFragmentViewModel @AssistedInject constructor(
         }
         emit(enfVersion)
     }.asLiveData(context = dispatcherProvider.Default)
+
+    val isEol = appEol.isEol.asLiveData(context = dispatcherProvider.Default)
 
     val appVersion = flowOf(
         context.getString(R.string.information_version).format(BuildConfig.VERSION_NAME)

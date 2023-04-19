@@ -36,8 +36,10 @@ class StatisticsHomeCard(
 
     override var savedStateKey: String? = null
 
+    private val fontScale = context.resources.configuration.fontScale
+
     private val statisticsLayoutManager: StatisticsLayoutManager by lazy {
-        StatisticsLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        StatisticsLayoutManager(context, LinearLayoutManager.HORIZONTAL, false, fontScale)
     }
 
     private val statisticsCardAdapter by lazy { StatisticsCardAdapter() }
@@ -85,7 +87,7 @@ class StatisticsHomeCard(
                 is GlobalStatsItem -> GlobalStatisticsCardItem(it, curItem.onClickListener)
                 is AddStatsItem -> AddLocalStatisticsCardItem(it, curItem.onClickListener)
                 is LocalStatsItem -> LocalStatisticsCardItem(it, curItem.onClickListener, curItem.onRemoveListener)
-                is LinkStatsItem -> LinkCardItem(it, curItem.onClickListener, curItem.openLink)
+                is LinkStatsItem -> LinkCardItem(it, curItem.isEol, curItem.onClickListener, curItem.openLink)
             }
         }.let {
             statisticsCardAdapter.update(it)
@@ -123,6 +125,7 @@ class StatisticsHomeCard(
         val onClickListener: (StatsItem) -> Unit,
         val onRemoveListener: (LocalStatsItem) -> Unit = {},
         val openLink: (String) -> Unit = {},
+        val isEol: Boolean = false,
     ) : HomeItem, HasPayloadDiffer {
 
         override val stableId: Long = Item::class.java.name.hashCode().toLong()

@@ -32,7 +32,7 @@ class DetailsLowRiskBox(
         item: Item,
         payloads: List<Any>
     ) -> Unit = { item, _ ->
-        info = item
+        riskDetailsInformationBody.text = item.getRiskDetailsRiskLevelBody(context)
         // Low risk, but matched risk item? More info! Don't worry!
         if (item.matchedRiskCount > 0) {
             riskDetailsInformationLowriskBodyUrl.visibility = View.VISIBLE

@@ -14,7 +14,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="UnusedAttribute">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -36,9 +37,14 @@
                 style="@style/headline6"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_16"
                 android:layout_marginTop="@dimen/margin_18"
-                app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                app:layout_constraintStart_toStartOf="@id/guideline_start"
+                android:hyphenationFrequency="full"
+                android:letterSpacing="0.01"
+                android:lineHeight="23sp"
+                android:textSize="@dimen/font_20"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/ramp_down_notice_illustration"
                 tools:text="Der Betrieb wird am xx.xx.xxxx eingestellt" />
 
@@ -47,9 +53,15 @@
                 style="@style/subtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_16"
                 android:layout_marginTop="@dimen/margin_12"
-                app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                app:layout_constraintStart_toStartOf="@id/guideline_start"
+                android:hyphenationFrequency="full"
+                android:letterSpacing="0.01"
+                android:lineHeight="24sp"
+                android:lineSpacingExtra="5sp"
+                android:textSize="@dimen/font_16"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/ramp_down_notice_subtitle"
                 tools:text="Sie erhalten dann keine Warnungen mehr" />
 
@@ -58,15 +70,18 @@
                 style="@style/subtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_16"
                 android:layout_marginTop="@dimen/margin_12"
+                android:letterSpacing="0.01"
+                android:lineHeight="24sp"
+                android:lineSpacingExtra="5sp"
                 android:text="@string/confirmed_status_faq_text"
+                android:textSize="16sp"
                 android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                app:layout_constraintStart_toStartOf="@id/guideline_start"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/ramp_down_notice_longtext"
                 tools:visibility="visible" />
-
-            <include layout="@layout/merge_guidelines_side" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

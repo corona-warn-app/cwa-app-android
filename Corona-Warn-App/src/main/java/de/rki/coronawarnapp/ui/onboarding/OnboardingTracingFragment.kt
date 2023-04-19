@@ -4,13 +4,14 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentOnboardingTracingBinding
 import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -29,16 +30,22 @@ class OnboardingTracingFragment : Fragment(R.layout.fragment_onboarding_tracing)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        vm.countryList.observe2(this) {
-            binding.countryData = it
+        vm.countryList.observe(viewLifecycleOwner) { countries ->
+            binding.countryListHeader.isGone = countries.isEmpty()
+            binding.countryList.isGone = countries.isEmpty()
+            binding.countryList.setCountryList(countries)
+
+            binding.noCountriesHeader.isVisible = countries.isEmpty()
+            binding.noCountriesBody.isVisible = countries.isEmpty()
         }
+
         vm.saveInteroperabilityUsed()
         binding.apply {
             onboardingButtonNext.setOnClickListener { vm.onActivateTracingClicked() }
             onboardingButtonDisable.setOnClickListener { vm.showCancelDialog() }
-            onboardingButtonBack.buttonIcon.setOnClickListener { vm.onBackButtonPress() }
+            onboardingTracingToolbar.setNavigationOnClickListener { vm.onBackButtonPress() }
         }
-        vm.routeToScreen.observe2(this) {
+        vm.routeToScreen.observe(viewLifecycleOwner) {
             when (it) {
                 is OnboardingNavigationEvents.NavigateToOnboardingTest -> navigateToOnboardingTestFragment()
                 is OnboardingNavigationEvents.ShowCancelDialog ->
@@ -57,10 +64,10 @@ class OnboardingTracingFragment : Fragment(R.layout.fragment_onboarding_tracing)
                 else -> Unit
             }
         }
-        vm.permissionRequestEvent.observe2(this) { permissionRequest ->
+        vm.permissionRequestEvent.observe(viewLifecycleOwner) { permissionRequest ->
             permissionRequest.invoke(requireActivity())
         }
-        vm.ensErrorEvents.observe2(this) { error -> displayDialog { setError(error) } }
+        vm.ensErrorEvents.observe(viewLifecycleOwner) { error -> displayDialog { setError(error) } }
     }
 
     override fun onResume() {

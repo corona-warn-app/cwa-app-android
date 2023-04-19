@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.test.keydownload.ui
 
 import android.text.format.Formatter
 import android.view.ViewGroup
+import androidx.core.view.isGone
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestKeydownloadAdapterLineBinding
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo
@@ -9,7 +10,6 @@ import de.rki.coronawarnapp.ui.lists.BaseAdapter
 import de.rki.coronawarnapp.util.lists.BindableVH
 import de.rki.coronawarnapp.util.lists.diffutil.AsyncDiffUtilAdapter
 import de.rki.coronawarnapp.util.lists.diffutil.AsyncDiffer
-import de.rki.coronawarnapp.util.ui.setGone
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 
@@ -63,9 +63,9 @@ class KeyFileDownloadAdapter(
                 CachedKeyInfo.Type.LOCATION_HOUR -> "${item.info.day} ${item.info.hour!!.hour}:00"
             }
             creationData.text = item.info.createdAt.atZone(ZoneOffset.UTC).format(DOWNLOAD_TIME_FORMATTER)
-            creationLabel.setGone(!item.info.isDownloadComplete)
-            creationData.setGone(!item.info.isDownloadComplete)
-            progressIndicator.setGone(item.info.isDownloadComplete)
+            creationLabel.isGone = !item.info.isDownloadComplete
+            creationData.isGone = !item.info.isDownloadComplete
+            progressIndicator.isGone = item.info.isDownloadComplete
         }
     }
 

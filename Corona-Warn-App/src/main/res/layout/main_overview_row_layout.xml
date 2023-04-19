@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/main_overview_row"
+            style="@style/rowOverview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/main_overview_icon"
+                android:layout_width="@dimen/width_40"
+                android:layout_height="@dimen/height_40"
+                android:importantForAccessibility="no"
+                app:layout_constraintBottom_toBottomOf="@id/main_overview_row_subtitle"
+                app:layout_constraintStart_toStartOf="@id/guideline_icon"
+                app:layout_constraintTop_toTopOf="@id/main_overview_row_subtitle"
+                tools:src="@drawable/ic_main_overview_circle"
+                tools:tint="@color/colorSemanticHighRisk" />
+
+            <TextView
+                android:id="@+id/main_overview_row_subtitle"
+                style="@style/subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/guideline_body"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="@string/main_overview_subtitle_increased_risk" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline_body"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="@dimen/guideline_72" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="@dimen/guideline_14" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</merge>

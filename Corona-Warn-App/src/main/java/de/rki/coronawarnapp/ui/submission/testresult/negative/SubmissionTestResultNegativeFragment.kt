@@ -24,7 +24,6 @@ import de.rki.coronawarnapp.ui.submission.testresult.negative.SubmissionTestResu
 import de.rki.coronawarnapp.ui.submission.testresult.negative.SubmissionTestResultNegativeViewModel.CertificateState
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.toLocalDateTimeUserTz
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -55,7 +54,7 @@ class SubmissionTestResultNegativeFragment : Fragment(R.layout.fragment_submissi
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backCallback)
         bindViewsClicks()
-        viewModel.testResult.observe2(this) { uiState -> bindTestResultViews(uiState) }
+        viewModel.testResult.observe(viewLifecycleOwner) { uiState -> bindTestResultViews(uiState) }
         viewModel.events.observe(viewLifecycleOwner) { onNavEvent(it) }
         viewModel.certificate.observe(viewLifecycleOwner) { certificate -> bindCertificateViews(certificate) }
     }
@@ -93,9 +92,14 @@ class SubmissionTestResultNegativeFragment : Fragment(R.layout.fragment_submissi
     ) {
         when (coronaTest.type) {
             BaseCoronaTest.Type.PCR -> {
-                testResultStepsTestAdded.setEntryTitle(
-                    getText(R.string.submission_family_test_result_steps_added_pcr_heading)
-                )
+                when (coronaTest) {
+                    is FamilyCoronaTest -> testResultStepsTestAdded.setEntryTitle(
+                        getText(R.string.submission_family_test_result_steps_added_pcr_heading)
+                    )
+                    is PersonalCoronaTest -> testResultStepsTestAdded.setEntryTitle(
+                        getText(R.string.submission_test_result_steps_added_heading)
+                    )
+                }
 
                 testResultStepsNegativeResult.setEntryText(
                     getText(R.string.submission_test_result_negative_steps_negative_body)

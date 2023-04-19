@@ -26,7 +26,7 @@ fun <T : Any> Flow<T>.shareLatest(
 ) = onStart {
     if (tag != null) Timber.tag(tag).v("shareLatest(...) start")
 }.onEach {
-    if (tag != null) Timber.tag(tag).v("shareLatest(...) emission: %s", it)
+    if (tag != null) Timber.tag(tag).v("shareLatest(...) emission")
 }.onCompletion {
     if (tag != null) Timber.tag(tag).v("shareLatest(...) completed.")
 }.catch {

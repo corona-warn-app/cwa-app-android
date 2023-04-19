@@ -8,7 +8,6 @@ import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentOnboardingPrivacyBinding
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -28,16 +27,23 @@ class OnboardingPrivacyFragment : Fragment(R.layout.fragment_onboarding_privacy)
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
             onboardingButtonNext.setOnClickListener { vm.onNextButtonClick() }
-            onboardingButtonBack.buttonIcon.setOnClickListener { vm.onBackButtonClick() }
+            onboardingPrivacyToolbar.setNavigationOnClickListener { vm.onBackButtonClick() }
+            privacyView.getOnboardingHtmlText()
         }
-        vm.routeToScreen.observe2(this) {
+        vm.routeToScreen.observe(viewLifecycleOwner) {
             when (it) {
                 is OnboardingNavigationEvents.NavigateToOnboardingTracing ->
                     findNavController().navigate(
                         OnboardingPrivacyFragmentDirections
                             .actionOnboardingPrivacyFragmentToOnboardingTracingFragment()
                     )
+
                 is OnboardingNavigationEvents.NavigateToOnboardingFragment -> popBackStack()
+
+                is OnboardingNavigationEvents.NavigateToMainActivity -> {
+                    (requireActivity() as OnboardingActivity).completeOnboarding()
+                }
+
                 else -> Unit
             }
         }

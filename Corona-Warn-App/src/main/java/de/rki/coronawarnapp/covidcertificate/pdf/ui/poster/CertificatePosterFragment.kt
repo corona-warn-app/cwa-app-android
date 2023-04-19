@@ -15,7 +15,6 @@ import de.rki.coronawarnapp.covidcertificate.pdf.ui.setupWebView
 import de.rki.coronawarnapp.databinding.CertificatePosterFragmentBinding
 import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -66,16 +65,16 @@ class CertificatePosterFragment : Fragment(R.layout.certificate_poster_fragment)
             }
         }
 
-        viewModel.sharingIntent.observe2(this) { provider ->
+        viewModel.sharingIntent.observe(viewLifecycleOwner) { provider ->
             provider.intent(requireActivity()).also { startActivity(it) }
         }
 
-        viewModel.error.observe2(this) {
+        viewModel.error.observe(viewLifecycleOwner) {
             binding.progressLayout.isVisible = false
             displayDialog { setError(it) }
         }
 
-        viewModel.uiState.observe2(this) { state ->
+        viewModel.uiState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is Done -> {
                     binding.progressLayout.isVisible = false

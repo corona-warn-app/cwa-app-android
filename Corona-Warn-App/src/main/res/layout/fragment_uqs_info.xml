@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorSurface"
-    android:contentDescription="@string/pdf_export_info_title"
     tools:context="de.rki.coronawarnapp.covidcertificate.pdf.ui.CertificatePdfExportInfoFragment">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -36,7 +35,7 @@
                     android:id="@+id/header_image"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:importantForAccessibility="no"
+                    android:contentDescription="@string/qr_code_info_screen_title"
                     android:scaleType="centerCrop"
                     app:layout_collapseMode="parallax"
                     app:srcCompat="@drawable/ic_qr_code_info" />

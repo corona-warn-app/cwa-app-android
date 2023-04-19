@@ -2,12 +2,12 @@ package de.rki.coronawarnapp.tracing.ui.details.items.risk
 
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
+import androidx.core.view.isGone
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TracingContentDisabledViewBinding
 import de.rki.coronawarnapp.tracing.states.TracingDisabled
 import de.rki.coronawarnapp.tracing.ui.details.TracingDetailsAdapter
 import de.rki.coronawarnapp.tracing.ui.details.items.risk.TracingDisabledBox.Item
-import de.rki.coronawarnapp.util.ui.setGone
 
 class TracingDisabledBox(
     parent: ViewGroup,
@@ -28,9 +28,12 @@ class TracingDisabledBox(
         item: Item,
         payloads: List<Any>
     ) -> Unit = { item, _ ->
-        state = item.state
-        enableTracingAction.setGone(item.state.isInDetailsMode)
-        detailsIcon.setGone(item.state.isInDetailsMode)
+        item.state.apply {
+            detailsIcon.isGone = isInDetailsMode
+            enableTracingAction.isGone = !showEnableTracingButton
+            rowTimeFetched.setText(getTimeFetched(context))
+            riskCardRowSavedRisk.setText(getLastRiskState(context))
+        }
     }
 
     data class Item(

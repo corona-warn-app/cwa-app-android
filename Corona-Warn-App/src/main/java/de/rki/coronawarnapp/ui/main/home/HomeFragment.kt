@@ -7,7 +7,7 @@ import android.text.SpannableString
 import android.text.style.ImageSpan
 import android.view.Menu
 import android.view.View
-import android.view.accessibility.AccessibilityEvent
+import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.onNavDestinationSelected
@@ -28,8 +28,10 @@ import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.addMenuId
 import de.rki.coronawarnapp.util.ui.findNestedGraph
-import de.rki.coronawarnapp.util.ui.observe2
+import de.rki.coronawarnapp.util.ui.setCWAContentDescription
 import de.rki.coronawarnapp.util.ui.setItemContentDescription
+import de.rki.coronawarnapp.util.ui.setLottieAnimation
+import de.rki.coronawarnapp.util.ui.setLottieAnimationColor
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -56,12 +58,20 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
     private val homeAdapter = HomeAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        binding.mainHeaderLogo.setCWAContentDescription(getString(R.string.accessibility_logo))
         with(binding.toolbar) {
             addMenuId(R.id.home_fragment_menu_id)
             setupMenuIcons(menu)
             setupDebugMenu(menu)
             setupMenuItemClickListener()
             menu.setItemContentDescription(requireContext())
+        }
+        viewModel.isEol.observe(viewLifecycleOwner) {
+            binding.toolbar.menu.apply {
+                findItem(R.id.mainSharingFragment).isVisible = !it
+                findItem(R.id.settingsFragment).isVisible = !it
+                findItem(R.id.mainOverviewFragment).isVisible = !it
+            }
         }
 
         binding.recyclerView.apply {
@@ -89,11 +99,19 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         }
 
         viewModel.showPopUps()
-        viewModel.events.observe2(this) { event -> navigate(event) }
-        viewModel.homeItems.observe2(this) { homeAdapter.update(it) }
-        viewModel.errorEvent.observe2(this) { displayDialog { setError(it) } }
-        viewModel.tracingHeaderState.observe2(this) { binding.tracingHeader = it }
-        viewModel.showIncorrectDeviceTimeDialog.observe2(this) { showDialog ->
+        viewModel.events.observe(viewLifecycleOwner) { event -> navigate(event) }
+        viewModel.homeItems.observe(viewLifecycleOwner) { homeAdapter.update(it) }
+        viewModel.errorEvent.observe(viewLifecycleOwner) { displayDialog { setError(it) } }
+        viewModel.tracingHeaderState.observe(viewLifecycleOwner) {
+            with(binding) {
+                mainTracing.isGone = it.first
+                mainTracingHeadline.contentDescription = it.second.getTracingContentDescription(requireContext())
+                mainTracingHeadline.text = it.second.getTracingDescription(requireContext())
+                mainTracingIcon.setLottieAnimation(it.second.getTracingAnimation(requireContext()))
+                mainTracingIcon.setLottieAnimationColor(it.second.getTracingTint(requireContext()))
+            }
+        }
+        viewModel.showIncorrectDeviceTimeDialog.observe(viewLifecycleOwner) { showDialog ->
             if (showDialog) displayDialog {
                 title(R.string.device_time_incorrect_dialog_headline)
                 message(R.string.device_time_incorrect_dialog_body)
@@ -102,20 +120,22 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
                 }
             }
         }
-        viewModel.coronaTestErrors.observe2(this) { tests ->
-            tests.forEach { test ->
-                displayDialog {
-                    val testName = when (test.type) {
-                        BaseCoronaTest.Type.PCR -> R.string.ag_homescreen_card_pcr_title
-                        BaseCoronaTest.Type.RAPID_ANTIGEN -> R.string.ag_homescreen_card_rapidtest_title
+        viewModel.coronaTestErrors.observe(viewLifecycleOwner) { tests ->
+            tests.second.forEach { test ->
+                if (!tests.first) {
+                    displayDialog {
+                        val testName = when (test.type) {
+                            BaseCoronaTest.Type.PCR -> R.string.ag_homescreen_card_pcr_title
+                            BaseCoronaTest.Type.RAPID_ANTIGEN -> R.string.ag_homescreen_card_rapidtest_title
+                        }
+                        title(getString(testName) + " " + getString(R.string.errors_generic_headline_short))
+                        setError(test.lastError)
                     }
-                    title(getString(testName) + " " + getString(R.string.errors_generic_headline_short))
-                    setError(test.lastError)
                 }
             }
         }
 
-        viewModel.markTestBadgesAsSeen.observe2(this) {
+        viewModel.markTestBadgesAsSeen.observe(viewLifecycleOwner) {
             Timber.tag(TAG).d("markTestBadgesAsSeen=${it.size}")
         }
         viewModel.markRiskBadgeAsSeen()
@@ -125,7 +145,6 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         super.onResume()
         viewModel.refreshTests()
         viewModel.initAppShortcuts()
-        binding.container.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
 
     private fun menuIconWithText(drawable: Drawable?, title: CharSequence): CharSequence {
@@ -154,7 +173,9 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
     }
 
     private fun setupDebugMenu(menu: Menu) {
-        menu.findItem(R.id.test_nav_graph).isVisible = CWADebug.isDeviceForTestersBuild
+        if (CWADebug.isDeviceForTestersBuild) {
+            menu.add(Menu.NONE, R.id.test_nav_graph, menu.size() + 1, "Test Menu")
+        }
     }
 
     private fun MaterialToolbar.setupMenuItemClickListener() {
@@ -288,6 +309,8 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
                     HomeFragmentDirections.actionMainFragmentToRampdownNoticeFragment(event.rampDownNotice)
                 )
             }
+
+            HomeFragmentEvents.OpenEolLink -> openUrl(getString(R.string.eol_faq_url))
         }
     }
 

@@ -17,6 +17,7 @@ import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CovidTestC
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificateCard
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
+import de.rki.coronawarnapp.eol.AppEol
 import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe
@@ -52,6 +53,7 @@ class PersonOverviewViewModelTest : BaseTest() {
     @MockK lateinit var admissionTileProvider: AdmissionTileProvider
     @MockK lateinit var migrationCheck: MigrationCheck
     @MockK lateinit var onboardingSettings: OnboardingSettings
+    @MockK lateinit var appEol: AppEol
     private val mapper = SerializationModule.jacksonBaseMapper
 
     @BeforeEach
@@ -82,6 +84,7 @@ class PersonOverviewViewModelTest : BaseTest() {
         )
         coEvery { admissionScenariosSharedViewModel.setAdmissionScenarios(any()) } just Runs
         every { onboardingSettings.exportAllOnboardingDone } returns flowOf(true)
+        coEvery { appEol.isEol } returns flowOf(false)
     }
 
     @Test
@@ -326,6 +329,7 @@ class PersonOverviewViewModelTest : BaseTest() {
             migrationCheck = migrationCheck,
             onboardingSettings = onboardingSettings,
             savedState = SavedStateHandle(),
-            mapper = mapper
+            mapper = mapper,
+            appEol = appEol,
         )
 }

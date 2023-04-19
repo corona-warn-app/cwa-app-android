@@ -8,11 +8,10 @@ import android.widget.LinearLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.net.toUri
 import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import coil.loadAny
 import com.google.android.material.appbar.AppBarLayout
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.common.certificate.getValidQrCode
@@ -27,8 +26,6 @@ import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
-import de.rki.coronawarnapp.util.bindValidityViews
-import de.rki.coronawarnapp.util.coil.loadingView
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.expendedImageResource
 import de.rki.coronawarnapp.util.getEuropaStarsTint
@@ -89,6 +86,10 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
                 }
             }
         }
+
+        viewModel.isAppEol.observe(viewLifecycleOwner) {
+            binding.toggleTravelValidityButton(!it)
+        }
     }
 
     private fun FragmentTestCertificateDetailsBinding.onCertificateReady(
@@ -115,10 +116,12 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
         certificateIssuer.text = certificate.certificateIssuer
         certificateId.text = certificate.uniqueCertificateIdentifier
         val localDateTime = certificate.headerExpiresAt.toLocalDateTimeUserTz()
-        expirationNotice.expirationDate.text = getString(
-            R.string.expiration_date,
-            localDateTime.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)),
-            localDateTime.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
+        expirationNotice.setText(
+            getString(
+                R.string.expiration_date,
+                localDateTime.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)),
+                localDateTime.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
+            )
         )
 
         expandedImage.setImageResource(certificate.expendedImageResource(args.colorShade))
@@ -157,11 +160,8 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
         }
 
         qrCodeCard.apply {
-            image.loadAny(certificate.getValidQrCode(showBlocked = true)) {
-                crossfade(true)
-                loadingView(image, progressBar)
-            }
-            image.setOnClickListener { viewModel.openFullScreen() }
+            val request = certificate.getValidQrCode(showBlocked = true)
+            setQrImage(request) { viewModel.openFullScreen() }
         }
     }
 
@@ -172,7 +172,7 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
 
     private fun FragmentTestCertificateDetailsBinding.onError(error: Throwable) {
         startValidationCheck.isLoading = false
-        qrCodeCard.progressBar.hide()
+        qrCodeCard.hideProgressBar()
         if (error is DccValidationException && error.errorCode == DccValidationException.ErrorCode.NO_NETWORK) {
             dccValidationNoInternetDialog()
         } else {
@@ -191,12 +191,13 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
                     )
                 } else popBackStack()
             }
+
             is TestCertificateDetailsNavigation.FullQrCode -> findNavController().navigate(
                 R.id.action_global_qrCodeFullScreenFragment,
                 QrCodeFullScreenFragmentArgs(event.qrCode).toBundle(),
-                null,
-                FragmentNavigatorExtras(qrCodeCard.image to qrCodeCard.image.transitionName)
+                null
             )
+
             is TestCertificateDetailsNavigation.ValidationStart -> {
                 startValidationCheck.isLoading = false
                 findNavController().navigate(
@@ -204,12 +205,14 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
                         .actionTestCertificateDetailsFragmentToValidationStartFragment(event.containerId)
                 )
             }
+
             is TestCertificateDetailsNavigation.Export -> {
                 findNavController().navigate(
                     TestCertificateDetailsFragmentDirections
                         .actionTestCertificateDetailsFragmentToCertificatePdfExportInfoFragment(event.containerId)
                 )
             }
+
             TestCertificateDetailsNavigation.OpenCovPassInfo ->
                 findNavController().navigate(
                     TestCertificateDetailsFragmentDirections
@@ -229,13 +232,19 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
                     showCertificateDeletionRequest()
                     true
                 }
+
                 R.id.menu_covid_certificate_export -> {
                     viewModel.onExport()
                     true
                 }
+
                 else -> false
             }
         }
+    }
+
+    private fun FragmentTestCertificateDetailsBinding.toggleTravelValidityButton(visible: Boolean) {
+        startValidationCheck.isVisible = visible
     }
 
     private fun setToolbarOverlay() {

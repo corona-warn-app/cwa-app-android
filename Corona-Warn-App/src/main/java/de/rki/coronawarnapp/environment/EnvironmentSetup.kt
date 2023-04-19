@@ -48,6 +48,7 @@ class EnvironmentSetup @Inject constructor(
         INT("INT"),
         DEV("DEV"),
         WRU("WRU"),
+        WRU_Z("WRU-Z"),
         WRU_XA("WRU-XA"), // (aka ACME),
         WRU_XD("WRU-XD"), // (aka Germany)
         TESTER_MOCK("TESTER-MOCK"), // (aka Germany)

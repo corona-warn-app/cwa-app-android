@@ -12,6 +12,7 @@
         android:layout_marginHorizontal="@dimen/margin_8"
         android:layout_marginTop="@dimen/margin_8"
         android:focusable="true"
+        android:letterSpacing="0.01"
         android:text="@string/validation_rules_result_valid_result_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
